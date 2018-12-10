@@ -43,6 +43,41 @@ export async function updateRule(params) {
   });
 }
 
+
+export async function queryDist(params) {
+  return request(`/api/dist?${stringify(params)}`);
+}
+
+export async function removeDist(params) {
+  return request('/api/dist', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addDist(params) {
+  return request('/api/dist', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function updateDist(params) {
+  return request('/api/dist', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'update',
+    },
+  });
+}
+
 export async function fakeSubmitForm(params) {
   return request('/api/forms', {
     method: 'POST',

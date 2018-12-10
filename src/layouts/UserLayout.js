@@ -5,7 +5,7 @@ import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+import logo from '../assets/lanyan-logo-circle.svg';
 
 const links = [
   {
@@ -36,7 +36,6 @@ class UserLayout extends React.PureComponent {
   render() {
     const { children } = this.props;
     return (
-      // @TODO <DocumentTitle title={this.getPageTitle()}>
       <div className={styles.container}>
         <div className={styles.lang}>
           <SelectLang />
@@ -46,7 +45,7 @@ class UserLayout extends React.PureComponent {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <span className={styles.title}>蓝焰表具管理系统</span>
               </Link>
             </div>
           </div>

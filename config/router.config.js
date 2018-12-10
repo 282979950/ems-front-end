@@ -43,6 +43,18 @@ export default [
       },
       // forms
       {
+        path: '/system',
+        icon: 'home',
+        name: 'system',
+        routes: [
+          {
+            path: '/system/dist',
+            name: 'dist',
+            component: './System/Dist',
+          }
+        ],
+      },
+      {
         path: '/form',
         icon: 'form',
         name: 'form',

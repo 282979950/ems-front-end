@@ -1,6 +1,6 @@
 @import '~antd/lib/style/themes/default.less';
 
-@nav-header-height: @layout-header-height;
+@nav-header-height: 48px;
 
 .logo {
   height: @nav-header-height;
@@ -36,7 +36,6 @@
     top: 0;
     left: 0;
     :global(.ant-menu-root) {
-      overflow-y: auto;
       height: ~'calc(100vh - @{nav-header-height})';
     }
   }
