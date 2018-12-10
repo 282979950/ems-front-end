@@ -45,7 +45,7 @@ export async function updateRule(params) {
 
 
 export async function queryDist(params) {
-  return request(`/api/dist?${stringify(params)}`);
+  return request(`/api/dist/listData.do?${stringify(params)}`);
 }
 
 export async function removeDist(params) {

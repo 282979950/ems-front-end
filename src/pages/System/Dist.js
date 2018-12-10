@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {
   Row,
   Col,
@@ -14,8 +13,6 @@ import {
   DatePicker,
   Modal,
   message,
-  Badge,
-  Divider,
   Steps,
   Radio,
 } from 'antd';
@@ -33,9 +30,7 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['关闭', '运行中', '已上线', '异常'];
-
+const debug = console.log;
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -288,73 +283,31 @@ class Dist extends PureComponent {
 
   columns = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
+      title: '区域名称',
+      dataIndex: 'distName',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '区域编码',
+      dataIndex: 'distCode',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      // mark to display a total number
-      needTotal: true,
+      title: '区域类别',
+      dataIndex: 'distCategoryName',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      filters: [
-        {
-          text: status[0],
-          value: 0,
-        },
-        {
-          text: status[1],
-          value: 1,
-        },
-        {
-          text: status[2],
-          value: 2,
-        },
-        {
-          text: status[3],
-          value: 3,
-        },
-      ],
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
+      title: '区域地址',
+      dataIndex: 'distAddress',
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-    },
-    {
-      title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </Fragment>
-      ),
-    },
+      title: '父级区域',
+      dataIndex: 'distParentName'
+    }
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'dist/fetch',
-      payload: {
-        currentPage: 1,
-        pageSize: 10
-      }
+      type: 'dist/fetch'
     });
   }
 
@@ -610,6 +563,13 @@ class Dist extends PureComponent {
       dist: { data },
       loading,
     } = this.props;
+    const tableData = {
+      list: data,
+      pagination: {
+        currentPage: 1,
+        pageSize: 10
+      }
+    };
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
 
     const parentMethods = {
@@ -633,7 +593,7 @@ class Dist extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
-              data={data}
+              data={tableData}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

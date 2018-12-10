@@ -120,11 +120,5 @@
     "hooks": {
       "pre-commit": "npm run lint-staged"
     }
-  },
-  "proxy": {
-    "/api/dist": {
-      "target": "localhost:8080",
-      "changeOrigin": true
-    }
   }
 }
