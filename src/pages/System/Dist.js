@@ -30,7 +30,6 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const debug = console.log;
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -563,13 +562,6 @@ class Dist extends PureComponent {
       dist: { data },
       loading,
     } = this.props;
-    const tableData = {
-      list: data,
-      pagination: {
-        currentPage: 1,
-        pageSize: 10
-      }
-    };
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
 
     const parentMethods = {
@@ -593,7 +585,7 @@ class Dist extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
-              data={tableData}
+              data={data}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

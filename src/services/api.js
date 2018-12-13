@@ -44,8 +44,8 @@ export async function updateRule(params) {
 }
 
 
-export async function queryDist(params) {
-  return request(`/api/dist/listData.do?${stringify(params)}`);
+export async function queryDist() {
+  return request('/api/dist/listData.do');
 }
 
 export async function removeDist(params) {
@@ -139,14 +139,7 @@ export async function updateFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    body: params,
-  });
-}
-
-export async function fakeRegister(params) {
-  return request('/api/register', {
+  return request('/api/login', {
     method: 'POST',
     body: params,
   });
@@ -154,8 +147,4 @@ export async function fakeRegister(params) {
 
 export async function queryNotices() {
   return request('/api/notices');
-}
-
-export async function getFakeCaptcha(mobile) {
-  return request(`/api/captcha?mobile=${mobile}`);
 }

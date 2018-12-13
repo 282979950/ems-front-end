@@ -5,9 +5,7 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', component: './User/Login' },
-      { path: '/user/register', component: './User/Register' },
-      { path: '/user/register-result', component: './User/RegisterResult' },
+      { path: '/user/login', component: './User/Login' }
     ],
   },
   // app
@@ -15,7 +13,7 @@ export default [
     path: '/',
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
-    authority: ['admin', 'user'],
+    authority: 'visit',
     routes: [
       // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
@@ -23,6 +21,7 @@ export default [
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
+        authority: 'visit',
         routes: [
           {
             path: '/dashboard/analysis',
@@ -46,11 +45,13 @@ export default [
         path: '/system',
         icon: 'home',
         name: 'system',
+        authority: 'sys:visit',
         routes: [
           {
             path: '/system/dist',
             name: 'dist',
             component: './System/Dist',
+            authority: 'sys:dist:visit',
           }
         ],
       },
