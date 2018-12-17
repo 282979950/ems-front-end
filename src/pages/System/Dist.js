@@ -14,7 +14,7 @@ import {
   Steps,
   Radio,
 } from 'antd';
-import StandardTable from '@/components/StandardTable';
+import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Dist.less';
@@ -463,10 +463,10 @@ class Dist extends PureComponent {
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" icon="search">
                 查询
               </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset} icon="sync">
                 重置
               </Button>
             </span>
@@ -506,7 +506,7 @@ class Dist extends PureComponent {
               <Button icon="edit" disabled={selectedRows.length !== 1}>编辑</Button>
               <Button icon="delete" disabled={selectedRows.length === 0}>删除</Button>
             </div>
-            <StandardTable
+            <TreeTable
               selectedRows={selectedRows}
               loading={loading}
               data={data}
@@ -514,6 +514,7 @@ class Dist extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               size='small'
+              rowKey='distId'
             />
           </div>
         </Card>

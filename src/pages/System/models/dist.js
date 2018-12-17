@@ -4,10 +4,7 @@ export default {
   namespace: 'dist',
 
   state: {
-    data: {
-      list: [],
-      pagination: {},
-    },
+    data: [],
   },
 
   effects: {
@@ -48,7 +45,7 @@ export default {
     save(state, action) {
       return {
         ...state,
-        data: action.payload,
+        data: [action.payload],
       };
     },
   },
