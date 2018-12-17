@@ -1,5 +1,4 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { stringify } from 'qs';
@@ -28,10 +27,6 @@ const checkStatus = response => {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
-    description: errortext,
-  });
   const error = new Error(errortext);
   error.name = response.status;
   error.response = response;
@@ -146,7 +141,7 @@ export default function request(url, option) {
         return;
       }
       if (status <= 504 && status >= 500) {
-        router.push('/exception/500');
+        router.push('/user/login');
         return;
       }
       if (status >= 404 && status < 422) {

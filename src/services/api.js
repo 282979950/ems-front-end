@@ -145,6 +145,12 @@ export async function fakeAccountLogin(params) {
   });
 }
 
+export async function fakeAccountLogout() {
+  return request('/api/logout', {
+    method: 'POST'
+  });
+}
+
 export async function queryNotices() {
   return request('/api/notices');
 }

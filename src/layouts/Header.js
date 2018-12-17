@@ -64,7 +64,7 @@ class HeaderView extends PureComponent {
       router.push('/exception/trigger');
       return;
     }
-    if (key === 'userinfo') {
+    if (key === 'userInfo') {
       router.push('/account/settings/base');
       return;
     }

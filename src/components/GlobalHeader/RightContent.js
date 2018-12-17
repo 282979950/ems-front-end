@@ -6,6 +6,7 @@ import groupBy from 'lodash/groupBy';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
+import avatarImg from "../../assets/lanyan-logo-rect.svg";
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -76,7 +77,7 @@ export default class GlobalHeaderRight extends PureComponent {
           <Icon type="user" />
           <FormattedMessage id="menu.account.center" defaultMessage="account center" />
         </Menu.Item>
-        <Menu.Item key="userinfo">
+        <Menu.Item key="userInfo">
           <Icon type="setting" />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
         </Menu.Item>
@@ -172,7 +173,7 @@ export default class GlobalHeaderRight extends PureComponent {
               <Avatar
                 size="small"
                 className={styles.avatar}
-                src={currentUser.avatar}
+                src={avatarImg}
                 alt="avatar"
               />
               <span className={styles.name}>{currentUser.name}</span>
