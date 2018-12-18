@@ -20,8 +20,7 @@ class TreeTable extends PureComponent {
 
     this.state = {
       selectedRowKeys: [],
-      needTotalList,
-      defaultExpandAllRows: true
+      needTotalList
     };
   }
 
@@ -64,7 +63,7 @@ class TreeTable extends PureComponent {
   };
 
   render() {
-    const { selectedRowKeys, defaultExpandAllRows } = this.state;
+    const { selectedRowKeys } = this.state;
     const { data , rowKey, ...rest } = this.props;
 
     const rowSelection = {
@@ -74,7 +73,6 @@ class TreeTable extends PureComponent {
         disabled: record.disabled,
       }),
     };
-
     return (
       <div className={styles.treeTable}>
         <Table
@@ -82,7 +80,7 @@ class TreeTable extends PureComponent {
           rowSelection={rowSelection}
           dataSource={data}
           pagination={false}
-          defaultExpandAllRows={defaultExpandAllRows}
+          defaultExpandAllRows
           onChange={this.handleTableChange}
           {...rest}
         />

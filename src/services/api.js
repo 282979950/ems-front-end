@@ -78,6 +78,43 @@ export async function updateDist(params) {
   });
 }
 
+export async function queryDict(params) {
+  if (params) {
+    return request(`/api/dic/dictByType.do?${stringify(params)}`);
+  }
+  return request('/api/dic/listData.do');
+}
+
+export async function removeDict(params) {
+  return request('/api/dic', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addDict(params) {
+  return request('/api/dic', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function updateDict(params) {
+  return request('/api/dic', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'update',
+    },
+  });
+}
+
 export async function fakeSubmitForm(params) {
   return request('/api/forms', {
     method: 'POST',

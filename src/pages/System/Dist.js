@@ -13,6 +13,7 @@ import {
   message,
   Steps,
   Radio,
+  TreeSelect
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -29,7 +30,7 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible, distTypeOptions, data} = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -37,18 +38,71 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+  const loadTreeData = (data0 = []) => {
+    const treeData = JSON.parse(JSON.stringify(data0));
+    function convert(data1 = []) {
+      data1.forEach((item) => {
+        item.key = item.distName;
+        item.value = item.distId;
+        item.title = item.distName;
+        if (item.children) {
+          convert(item.children);
+        }
+      });
+    }
+    convert(treeData);
+    return treeData;
+  };
   return (
     <Modal
       destroyOnClose
-      title="新建规则"
+      title="新建区域"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          dists: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
-        })(<Input placeholder="请输入" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域名称">
+        {form.getFieldDecorator('distName', {
+          rules: [{
+            required: true,
+            message: '区域名称不能为空！',
+          }, {
+            max: 20,
+            message: '区域名称不能超过20个字',
+          }],
+        })(<Input />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域编码">
+        {form.getFieldDecorator('distCode', {
+          rules: [{
+            max: 20,
+            message: '区域编码不能超过20个字'
+          }],
+        })(<Input />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域类别">
+        {form.getFieldDecorator('distCategory', {
+          rules: [{
+            required: true,
+            message: '区域类别不能为空！'
+          }],
+        })(<Select style={{ width: '100%' }}>{distTypeOptions.map((option) => <Option value={option.dictValue}>{option.dictKey}</Option>)}</Select>)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="区域地址">
+        {form.getFieldDecorator('distAddress', {
+          rules: [{
+            max: 50,
+            message: '区域地址不能超过50个字！'
+          }],
+        })(<Input />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级区域">
+        {form.getFieldDecorator('distParentId', {
+          rules: [{
+            required: true,
+            message: '父级区域不能为空！'
+          }],
+        })(<TreeSelect style={{ width: '100%' }} treeData={loadTreeData(data)} treeDefaultExpandAll />)}
       </FormItem>
     </Modal>
   );
@@ -263,8 +317,9 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ dist, loading }) => ({
+@connect(({ dist, dic, loading }) => ({
   dist,
+  dic,
   loading: loading.models.dist,
 }))
 @Form.create()
@@ -305,6 +360,12 @@ class Dist extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'dist/fetch'
+    });
+    dispatch({
+      type: 'dic/fetch',
+      payload: {
+        category: 'dist_type'
+      }
     });
   }
 
@@ -484,6 +545,7 @@ class Dist extends PureComponent {
   render() {
     const {
       dist: { data },
+      dic : { dicData },
       loading,
     } = this.props;
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
@@ -518,7 +580,7 @@ class Dist extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} distTypeOptions={dicData} data={data} />
         {stepFormValues && Object.keys(stepFormValues).length ? (
           <UpdateForm
             {...updateMethods}
