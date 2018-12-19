@@ -67,12 +67,11 @@ export async function addDist(params) {
   });
 }
 
-export async function updateDist(params) {
-  return request('/api/dist', {
+export async function editDist(params) {
+  return request('/api/dist/edit.do', {
     method: 'POST',
     body: {
-      ...params,
-      method: 'update',
+      ...params
     },
   });
 }

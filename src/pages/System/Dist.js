@@ -169,15 +169,20 @@ class Dist extends PureComponent {
   };
 
   handleEdit = fields => {
+    this.handleEditModalVisible();
     const { dispatch } = this.props;
     dispatch({
       type: 'dist/edit',
-      payload: {
-        fields
-      },
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('编辑成功');
+          dispatch({
+            type: 'dist/fetch'
+          });
+        }
+      }
     });
-    message.success('编辑成功');
-    this.handleEditModalVisible();
   };
 
   renderForm() {
@@ -246,7 +251,7 @@ class Dist extends PureComponent {
         />
         {selectedRows.length === 1 ? (
           <DistEditForm
-            handleAdd={this.handleEdit}
+            handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
             distTypeOptions={dicData}
