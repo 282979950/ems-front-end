@@ -152,15 +152,20 @@ class Dist extends PureComponent {
   };
 
   handleAdd = fields => {
+    this.handleAddModalVisible();
     const { dispatch } = this.props;
     dispatch({
       type: 'dist/add',
-      payload: {
-        fields
-      },
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('新增成功');
+          dispatch({
+            type: 'dist/fetch'
+          });
+        }
+      }
     });
-    message.success('新增成功');
-    this.handleModalVisible();
   };
 
   handleEdit = fields => {
@@ -172,7 +177,7 @@ class Dist extends PureComponent {
       },
     });
     message.success('编辑成功');
-    this.handleModalVisible();
+    this.handleEditModalVisible();
   };
 
   renderForm() {

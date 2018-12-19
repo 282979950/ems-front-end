@@ -8,20 +8,17 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryDist, payload);
       yield put({
         type: 'save',
         payload: response,
       });
-    },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(addDist, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
       if (callback) callback();
+    },
+    *add({ payload, callback }, { call }) {
+      const response = yield call(addDist, payload);
+      if (callback) callback(response);
     },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removeDist, payload);

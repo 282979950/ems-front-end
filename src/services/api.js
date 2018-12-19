@@ -59,11 +59,10 @@ export async function removeDist(params) {
 }
 
 export async function addDist(params) {
-  return request('/api/dist', {
+  return request('/api/dist/add.do', {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
     },
   });
 }
