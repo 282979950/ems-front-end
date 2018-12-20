@@ -48,12 +48,11 @@ export async function queryDist() {
   return request('/api/dist/listData.do');
 }
 
-export async function removeDist(params) {
-  return request('/api/dist', {
+export async function deleteDist(params) {
+  return request('/api/dist/delete.do', {
     method: 'POST',
     body: {
-      ...params,
-      method: 'delete',
+      ...params
     },
   });
 }
@@ -88,7 +87,6 @@ export async function removeDict(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'delete',
     },
   });
 }

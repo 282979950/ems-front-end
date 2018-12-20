@@ -1,4 +1,4 @@
-import { queryDist, removeDist, addDist, editDist } from '@/services/api';
+import { queryDist, deleteDist, addDist, editDist } from '@/services/api';
 
 export default {
   namespace: 'dist',
@@ -20,8 +20,8 @@ export default {
       const response = yield call(addDist, payload);
       if (callback) callback(response);
     },
-    *remove({ payload, callback }, { call }) {
-      const response = yield call(removeDist, payload);
+    *delete({ payload, callback }, { call }) {
+      const response = yield call(deleteDist, payload);
       if (callback) callback(response);
     },
     *edit({ payload, callback }, { call }) {

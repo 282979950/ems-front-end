@@ -8,6 +8,7 @@ import {
   Input,
   Button,
   message,
+  Modal
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -19,6 +20,8 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
+
+const { confirm } = Modal;
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ dist, dic, loading }) => ({
@@ -185,6 +188,45 @@ class Dist extends PureComponent {
     });
   };
 
+  handleSelectedRowsReset = () => {
+    this.setState({
+      selectedRows: []
+    });
+  };
+
+  showDeleteConfirm = (selectedRows) => {
+    const { dispatch } = this.props;
+    const _ = this;
+    confirm({
+      title: '删除区域',
+      content: `确认删除选中的${selectedRows.length}个区域？`,
+      onOk() {
+        const ids = [];
+        selectedRows.forEach(row => {
+          ids.push(row.distId);
+        });
+        dispatch({
+          type: 'dist/delete',
+          payload: {
+            ids
+          },
+          callback: (response) => {
+            if (response.status === 0) {
+              message.success(response.message);
+              _.handleSelectedRowsReset();
+              dispatch({
+                type: 'dist/fetch'
+              });
+            } else {
+              message.error(response.message);
+            }
+          }
+        });
+      },
+      onCancel() {},
+    });
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -228,7 +270,7 @@ class Dist extends PureComponent {
             <div className={styles.DistOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
-              <Button icon="delete" disabled={selectedRows.length === 0}>删除</Button>
+              <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
             </div>
             <TreeTable
               selectedRows={selectedRows}

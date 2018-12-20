@@ -89,7 +89,9 @@ export default function request(url, option) {
         'Content-Type': 'application/x-www-form-urlencoded',
         ...newOptions.headers,
       };
-      newOptions.body = stringify(newOptions.body);
+      newOptions.body = stringify(newOptions.body, {
+        arrayFormat: 'brackets'
+      });
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
