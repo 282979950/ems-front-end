@@ -75,6 +75,15 @@ export async function editDist(params) {
   });
 }
 
+export async function searchDist(params) {
+  return request('/api/dist/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function queryDict(params) {
   if (params) {
     return request(`/api/dic/dictByType.do?${stringify(params)}`);

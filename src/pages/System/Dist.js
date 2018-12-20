@@ -118,26 +118,17 @@ class Dist extends PureComponent {
     });
   };
 
-  handleSearch = e => {
-    e.preventDefault();
-
+  handleSearch = () => {
     const { dispatch, form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
-
       this.setState({
-        formValues: values,
+        formValues: fieldsValue,
       });
-
       dispatch({
-        type: 'dist/fetch',
-        payload: values,
+        type: 'dist/search',
+        payload: fieldsValue,
       });
     });
   };
@@ -232,20 +223,20 @@ class Dist extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     return (
-      <Form onSubmit={this.handleSearch} layout="inline">
+      <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('name')(<Input placeholder="区域名称" />)}
+            {getFieldDecorator('distName')(<Input placeholder="区域名称" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('status')(<Input placeholder="区域编码" />)}
+            {getFieldDecorator('distCode')(<Input placeholder="区域编码" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit" icon="search">
+              <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
               </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset} icon="sync">
+              <Button icon="sync" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
                 重置
               </Button>
             </span>

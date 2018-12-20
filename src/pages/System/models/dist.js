@@ -1,4 +1,4 @@
-import { queryDist, deleteDist, addDist, editDist } from '@/services/api';
+import { queryDist, deleteDist, addDist, editDist, searchDist } from '@/services/api';
 
 export default {
   namespace: 'dist',
@@ -28,13 +28,21 @@ export default {
       const response = yield call(editDist, payload);
       if (callback) callback(response);
     },
+    *search({ payload, callback }, { call, put }) {
+      const response = yield call(searchDist, payload);
+      yield put({
+        type: 'save',
+        payload: response.data,
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
     save(state, action) {
       return {
         ...state,
-        data: [action.payload],
+        data: action.payload instanceof Array ? action.payload : [action.payload],
       };
     },
   },
