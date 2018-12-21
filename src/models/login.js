@@ -43,7 +43,7 @@ export default {
 
     *logout(payload, { call, put }) {
       const response = yield call(fakeAccountLogout, payload);
-      if (response.status === true) {
+      if (response.status === 0) {
         yield put({
           type: 'changeLoginStatus',
           payload: {

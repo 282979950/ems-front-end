@@ -59,7 +59,7 @@ const cachedSave = (response, hashcode) => {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, option) {
+export function request(url, option) {
   const options = {
     expirys: isAntdPro(),
     ...option,
@@ -150,4 +150,20 @@ export default function request(url, option) {
         router.push('/exception/404');
       }
     });
+}
+
+export function handleRequestException(response) {
+  const { status } = response;
+  switch (status) {
+    case 1:
+      break;
+    case 2:
+      router.push('/user/login');
+      break;
+    case 3:
+      router.push('/exception/403');
+      break;
+    default:
+      break;
+  }
 }

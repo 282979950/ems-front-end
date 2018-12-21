@@ -1,4 +1,5 @@
 import { queryDist, deleteDist, addDist, editDist, searchDist } from '@/services/api';
+import { handleRequestException } from '../../../utils/request';
 
 export default {
   namespace: 'dist',
@@ -10,11 +11,15 @@ export default {
   effects: {
     *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryDist, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
+      if (response.status === 0) {
+        yield put({
+          type: 'save',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
     },
     *add({ payload, callback }, { call }) {
       const response = yield call(addDist, payload);
@@ -42,7 +47,7 @@ export default {
     save(state, action) {
       return {
         ...state,
-        data: action.payload instanceof Array ? action.payload : [action.payload],
+        data: action.payload
       };
     },
   },
