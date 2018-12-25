@@ -82,6 +82,7 @@ class TreeTable extends PureComponent {
           pagination={false}
           defaultExpandAllRows
           onChange={this.handleTableChange}
+          size='small'
           {...rest}
         />
       </div>

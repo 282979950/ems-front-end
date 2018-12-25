@@ -1,386 +1,117 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {
   Row,
   Col,
   Card,
   Form,
   Input,
-  Select,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
   message,
-  Badge,
-  Divider,
-  Steps,
-  Radio,
+  Modal
 } from 'antd';
-import StandardTable from '@/components/StandardTable';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import StandardTable from '../../components/StandardTable';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper';
+import DescriptionList from '../../components/DescriptionList';
 import styles from './Dist.less';
+import EmpAddForm from './components/EmpAddForm';
+import EmpEditForm from './components/EmpEditForm';
 
-const FormItem = Form.Item;
-const { Step } = Steps;
-const { TextArea } = Input;
-const { Option } = Select;
-const RadioGroup = Radio.Group;
 const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['关闭', '运行中', '已上线', '异常'];
 
-const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      destroyOnClose
-      title="新建规则"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-    </Modal>
-  );
-});
-
-@Form.create()
-class UpdateForm extends PureComponent {
-  static defaultProps = {
-    handleUpdate: () => {},
-    handleUpdateModalVisible: () => {},
-    values: {},
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      formVals: {
-        name: props.values.name,
-        desc: props.values.desc,
-        key: props.values.key,
-        target: '0',
-        template: '0',
-        type: '1',
-        time: '',
-        frequency: 'month',
-      },
-      currentStep: 0,
-    };
-
-    this.formLayout = {
-      labelCol: { span: 7 },
-      wrapperCol: { span: 13 },
-    };
-  }
-
-  handleNext = currentStep => {
-    const { form, handleUpdate } = this.props;
-    const { formVals: oldValue } = this.state;
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      const formVals = { ...oldValue, ...fieldsValue };
-      this.setState(
-        {
-          formVals,
-        },
-        () => {
-          if (currentStep < 2) {
-            this.forward();
-          } else {
-            handleUpdate(formVals);
-          }
-        }
-      );
-    });
-  };
-
-  backward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep - 1,
-    });
-  };
-
-  forward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep + 1,
-    });
-  };
-
-  renderContent = (currentStep, formVals) => {
-    const { form } = this.props;
-    if (currentStep === 1) {
-      return [
-        <FormItem key="target" {...this.formLayout} label="监控对象">
-          {form.getFieldDecorator('target', {
-            initialValue: formVals.target,
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="0">表一</Option>
-              <Option value="1">表二</Option>
-            </Select>
-          )}
-        </FormItem>,
-        <FormItem key="template" {...this.formLayout} label="规则模板">
-          {form.getFieldDecorator('template', {
-            initialValue: formVals.template,
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="0">规则模板一</Option>
-              <Option value="1">规则模板二</Option>
-            </Select>
-          )}
-        </FormItem>,
-        <FormItem key="type" {...this.formLayout} label="规则类型">
-          {form.getFieldDecorator('type', {
-            initialValue: formVals.type,
-          })(
-            <RadioGroup>
-              <Radio value="0">强</Radio>
-              <Radio value="1">弱</Radio>
-            </RadioGroup>
-          )}
-        </FormItem>,
-      ];
-    }
-    if (currentStep === 2) {
-      return [
-        <FormItem key="time" {...this.formLayout} label="开始时间">
-          {form.getFieldDecorator('time', {
-            rules: [{ required: true, message: '请选择开始时间！' }],
-          })(
-            <DatePicker
-              style={{ width: '100%' }}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder="选择开始时间"
-            />
-          )}
-        </FormItem>,
-        <FormItem key="frequency" {...this.formLayout} label="调度周期">
-          {form.getFieldDecorator('frequency', {
-            initialValue: formVals.frequency,
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="month">月</Option>
-              <Option value="week">周</Option>
-            </Select>
-          )}
-        </FormItem>,
-      ];
-    }
-    return [
-      <FormItem key="name" {...this.formLayout} label="规则名称">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入规则名称！' }],
-          initialValue: formVals.name,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>,
-      <FormItem key="desc" {...this.formLayout} label="规则描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
-          initialValue: formVals.desc,
-        })(<TextArea rows={4} placeholder="请输入至少五个字符" />)}
-      </FormItem>,
-    ];
-  };
-
-  renderFooter = currentStep => {
-    const { handleUpdateModalVisible, values } = this.props;
-    if (currentStep === 1) {
-      return [
-        <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
-          上一步
-        </Button>,
-        <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-          取消
-        </Button>,
-        <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
-          下一步
-        </Button>,
-      ];
-    }
-    if (currentStep === 2) {
-      return [
-        <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
-          上一步
-        </Button>,
-        <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-          取消
-        </Button>,
-        <Button key="submit" type="primary" onClick={() => this.handleNext(currentStep)}>
-          完成
-        </Button>,
-      ];
-    }
-    return [
-      <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-        取消
-      </Button>,
-      <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
-        下一步
-      </Button>,
-    ];
-  };
-
-  render() {
-    const { updateModalVisible, handleUpdateModalVisible, values } = this.props;
-    const { currentStep, formVals } = this.state;
-
-    return (
-      <Modal
-        width={640}
-        bodyStyle={{ padding: '32px 40px 48px' }}
-        destroyOnClose
-        title="规则配置"
-        visible={updateModalVisible}
-        footer={this.renderFooter(currentStep)}
-        onCancel={() => handleUpdateModalVisible(false, values)}
-        afterClose={() => handleUpdateModalVisible()}
-      >
-        <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
-          <Step title="基本信息" />
-          <Step title="配置规则属性" />
-          <Step title="设定调度周期" />
-        </Steps>
-        {this.renderContent(currentStep, formVals)}
-      </Modal>
-    );
-  }
-}
-
-/* eslint react/no-multi-comp:0 */
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+const { confirm } = Modal;
+const { Description } = DescriptionList;
+@connect(({ emp, dic, loading }) => ({
+  emp,
+  dic,
+  loading: loading.models.emp,
 }))
 @Form.create()
-class Emp extends PureComponent {
+class Dist extends PureComponent {
   state = {
-    modalVisible: false,
-    updateModalVisible: false,
-    expandForm: false,
+    addModalVisible: false,
+    editModalVisible: false,
     selectedRows: [],
     formValues: {},
-    stepFormValues: {},
+    pageNum: 1,
+    pageSize: 10,
   };
 
   columns = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
+      title: '员工工号',
+      dataIndex: 'empNumber',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '员工姓名',
+      dataIndex: 'empName',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      // mark to display a total number
-      needTotal: true,
+      title: '员工角色',
+      dataIndex: 'roleName',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      filters: [
-        {
-          text: status[0],
-          value: 0,
-        },
-        {
-          text: status[1],
-          value: 1,
-        },
-        {
-          text: status[2],
-          value: 2,
-        },
-        {
-          text: status[3],
-          value: 3,
-        },
-      ],
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
+      title: '所属机构',
+      dataIndex: 'orgName',
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      title: '所属区域',
+      dataIndex: 'distName'
     },
     {
-      title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </Fragment>
-      ),
+      title: '登录名',
+      dataIndex: 'empLoginName',
     },
+    {
+      title: '邮箱',
+      dataIndex: 'empEmail',
+    },
+    {
+      title: '电话',
+      dataIndex: 'empPhone',
+    },
+    {
+      title: '手机',
+      dataIndex: 'empMobile',
+    },
+    {
+      title: '地址',
+      dataIndex: 'empAddress'
+    },
+    {
+      title: '员工类型',
+      dataIndex: 'empTypeName',
+    },
+    {
+      title: '负责区域',
+      dataIndex: 'empManagementDistId',
+    },
+    {
+      title: '登录标记',
+      dataIndex: 'empLoginFlagName',
+    }
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
     dispatch({
-      type: 'rule/fetch',
+      type: 'emp/fetch',
+      payload: {
+        pageNum,
+        pageSize
+      }
+    });
+    dispatch({
+      type: 'dic/fetch',
+      payload: {
+        category: 'dist_type'
+      }
     });
   }
-
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
-  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -389,40 +120,9 @@ class Emp extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'dist/fetch',
       payload: {},
     });
-  };
-
-  toggleForm = () => {
-    const { expandForm } = this.state;
-    this.setState({
-      expandForm: !expandForm,
-    });
-  };
-
-  handleMenuClick = e => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            key: selectedRows.map(row => row.key),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
   };
 
   handleSelectRows = rows => {
@@ -431,104 +131,143 @@ class Emp extends PureComponent {
     });
   };
 
-  handleSearch = e => {
-    e.preventDefault();
-
+  handleSearch = () => {
     const { dispatch, form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
-
       this.setState({
-        formValues: values,
+        formValues: fieldsValue,
       });
-
       dispatch({
-        type: 'rule/fetch',
-        payload: values,
+        type: 'dist/search',
+        payload: fieldsValue,
       });
     });
   };
 
-  handleModalVisible = flag => {
+  handleAddModalVisible = flag => {
     this.setState({
-      modalVisible: !!flag,
+      addModalVisible: !!flag
     });
   };
 
-  handleUpdateModalVisible = (flag, record) => {
+  handleEditModalVisible = flag => {
     this.setState({
-      updateModalVisible: !!flag,
-      stepFormValues: record || {},
+      editModalVisible: !!flag,
     });
   };
 
   handleAdd = fields => {
+    this.handleAddModalVisible();
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/add',
-      payload: {
-        desc: fields.desc,
-      },
+      type: 'dist/add',
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('新增成功');
+          dispatch({
+            type: 'dist/fetch'
+          });
+        }
+      }
     });
-
-    message.success('添加成功');
-    this.handleModalVisible();
   };
 
-  handleUpdate = fields => {
+  handleEdit = fields => {
+    this.handleEditModalVisible();
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/update',
-      payload: {
-        name: fields.name,
-        desc: fields.desc,
-        key: fields.key,
-      },
+      type: 'dist/edit',
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('编辑成功');
+          dispatch({
+            type: 'dist/fetch'
+          });
+        }
+      }
     });
-
-    message.success('配置成功');
-    this.handleUpdateModalVisible();
   };
 
-  renderSimpleForm() {
+  handleSelectedRowsReset = () => {
+    this.setState({
+      selectedRows: []
+    });
+  };
+
+  handleStandardTableChange = (pagination) => {
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
+
+    const params = {
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize,
+      ...formValues,
+    };
+
+    dispatch({
+      type: 'emp/fetch',
+      payload: params,
+    });
+  };
+
+  showDeleteConfirm = (selectedRows) => {
+    const { dispatch } = this.props;
+    const _ = this;
+    confirm({
+      title: '删除区域',
+      content: `确认删除选中的${selectedRows.length}个区域？`,
+      onOk() {
+        const ids = [];
+        selectedRows.forEach(row => {
+          ids.push(row.distId);
+        });
+        dispatch({
+          type: 'dist/delete',
+          payload: {
+            ids
+          },
+          callback: (response) => {
+            if (response.status === 0) {
+              message.success(response.message);
+              _.handleSelectedRowsReset();
+              dispatch({
+                type: 'dist/fetch'
+              });
+            } else {
+              message.error(response.message);
+            }
+          }
+        });
+      },
+      onCancel() {},
+    });
+  };
+
+  renderForm() {
     const {
       form: { getFieldDecorator },
     } = this.props;
     return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="规则名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
-            </FormItem>
+      <Form layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            {getFieldDecorator('distName')(<Input placeholder="区域名称" />)}
           </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            {getFieldDecorator('distCode')(<Input placeholder="区域编码" />)}
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
               </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+              <Button icon="sync" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
                 重置
               </Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
             </span>
           </Col>
         </Row>
@@ -536,125 +275,34 @@ class Emp extends PureComponent {
     );
   }
 
-  renderAdvancedForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
+  expandedRowRender= (record) => {
+    const { roleName } = record;
     return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="规则名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="调用次数">
-              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="更新日期">
-              {getFieldDecorator('date')(
-                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status3')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status4')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </div>
-        </div>
-      </Form>
+      <DescriptionList size="small" title={null}>
+        <Description term="用户角色">{roleName}</Description>
+        <Description term="状态">已取货</Description>
+        <Description term="销售单号">1234123421</Description>
+        <Description term="子订单">3214321432</Description>
+      </DescriptionList>
     );
-  }
-
-  renderForm() {
-    const { expandForm } = this.state;
-    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
-  }
+  };
 
   render() {
     const {
-      rule: { data },
+      emp: { data },
+      dic : { dicData },
       loading,
     } = this.props;
-    const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
-    const menu = (
-      <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-        <Menu.Item key="remove">删除</Menu.Item>
-        <Menu.Item key="approval">批量审批</Menu.Item>
-      </Menu>
-    );
-
-    const parentMethods = {
-      handleAdd: this.handleAdd,
-      handleModalVisible: this.handleModalVisible,
-    };
-    const updateMethods = {
-      handleUpdateModalVisible: this.handleUpdateModalVisible,
-      handleUpdate: this.handleUpdate,
-    };
+    const { selectedRows, addModalVisible, editModalVisible } = this.state;
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
           <div className={styles.Dist}>
             <div className={styles.DistForm}>{this.renderForm()}</div>
             <div className={styles.DistOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建
-              </Button>
-              {selectedRows.length > 0 && (
-                <span>
-                  <Button>批量操作</Button>
-                  <Dropdown overlay={menu}>
-                    <Button>
-                      更多操作 <Icon type="down" />
-                    </Button>
-                  </Dropdown>
-                </span>
-              )}
+              <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
+              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -663,20 +311,30 @@ class Emp extends PureComponent {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
+              expandedRowRender={this.expandedRowRender}
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
-        {stepFormValues && Object.keys(stepFormValues).length ? (
-          <UpdateForm
-            {...updateMethods}
-            updateModalVisible={updateModalVisible}
-            values={stepFormValues}
-          />
-        ) : null}
+        {/* <EmpAddForm */}
+        {/* handleAdd={this.handleAdd} */}
+        {/* handleCancel={this.handleAddModalVisible} */}
+        {/* modalVisible={addModalVisible} */}
+        {/* distTypeOptions={dicData} */}
+        {/* treeSelectData={data} */}
+        {/* /> */}
+        {/* {selectedRows.length === 1 ? ( */}
+        {/* <EmpEditForm */}
+        {/* handleEdit={this.handleEdit} */}
+        {/* handleCancel={this.handleEditModalVisible} */}
+        {/* modalVisible={editModalVisible} */}
+        {/* distTypeOptions={dicData} */}
+        {/* treeSelectData={data} */}
+        {/* selectedData={selectedRows[0]} */}
+        {/* />) : null */}
+        {/* } */}
       </PageHeaderWrapper>
     );
   }
 }
 
-export default Emp;
+export default Dist;

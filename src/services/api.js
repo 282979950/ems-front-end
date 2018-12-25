@@ -84,6 +84,46 @@ export async function searchDist(params) {
   });
 }
 
+export async function queryEmp(params) {
+  return request(`/api/emp/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function deleteEmp(params) {
+  return request('/api/emp/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addEmp(params) {
+  return request('/api/emp/add.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function editEmp(params) {
+  return request('/api/emp/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchEmp(params) {
+  return request('/api/emp/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function queryDict(params) {
   if (params) {
     return request(`/api/dic/dictByType.do?${stringify(params)}`);

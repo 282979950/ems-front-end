@@ -64,12 +64,15 @@ class StandardTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data = {}, rowKey, ...rest } = this.props;
-    const { list = [], pagination } = data;
+    const { list = [], pageNum, pageSize, total } = data;
 
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
-      ...pagination,
+      showTotal: () => data ? `查询到 ${total} 条数据`: null,
+      current: pageNum,
+      pageSize,
+      total,
     };
 
     const rowSelection = {
@@ -88,6 +91,7 @@ class StandardTable extends PureComponent {
           dataSource={list}
           pagination={paginationProps}
           onChange={this.handleTableChange}
+          size='small'
           {...rest}
         />
       </div>
