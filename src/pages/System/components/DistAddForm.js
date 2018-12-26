@@ -85,7 +85,7 @@ class DistAddForm extends PureComponent{
               required: true,
               message: '区域类别不能为空！'
             }],
-          })(<Select style={{ width: '100%' }}>{distTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
+          })(<Select style={{ width: '100%' }}>{distTypeOptions && distTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
         </FormItem>
         <FormItem {...this.formStyle} label="区域地址">
           {form.getFieldDecorator('distAddress', {

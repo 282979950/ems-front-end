@@ -50,18 +50,6 @@ class Dist extends PureComponent {
       dataIndex: 'empName',
     },
     {
-      title: '员工角色',
-      dataIndex: 'roleName',
-    },
-    {
-      title: '所属机构',
-      dataIndex: 'orgName',
-    },
-    {
-      title: '所属区域',
-      dataIndex: 'distName'
-    },
-    {
       title: '登录名',
       dataIndex: 'empLoginName',
     },
@@ -76,18 +64,6 @@ class Dist extends PureComponent {
     {
       title: '手机',
       dataIndex: 'empMobile',
-    },
-    {
-      title: '地址',
-      dataIndex: 'empAddress'
-    },
-    {
-      title: '员工类型',
-      dataIndex: 'empTypeName',
-    },
-    {
-      title: '负责区域',
-      dataIndex: 'empManagementDistId',
     },
     {
       title: '登录标记',
@@ -247,6 +223,20 @@ class Dist extends PureComponent {
     });
   };
 
+  expandedRowRender = (record) => {
+    const { roleName, orgName, distName, empAddress, empTypeName, empManagementDistId } = record;
+    return (
+      <DescriptionList size="small" title={null} col={3}>
+        <Description term="所属机构">{orgName}</Description>
+        <Description term="所属区域">{distName}</Description>
+        <Description term="用户角色">{roleName}</Description>
+        <Description term="地址">{empAddress}</Description>
+        <Description term="用户类型">{empTypeName}</Description>
+        <Description term="负责区域">{empManagementDistId}</Description>
+      </DescriptionList>
+    );
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -275,18 +265,6 @@ class Dist extends PureComponent {
     );
   }
 
-  expandedRowRender= (record) => {
-    const { roleName } = record;
-    return (
-      <DescriptionList size="small" title={null}>
-        <Description term="用户角色">{roleName}</Description>
-        <Description term="状态">已取货</Description>
-        <Description term="销售单号">1234123421</Description>
-        <Description term="子订单">3214321432</Description>
-      </DescriptionList>
-    );
-  };
-
   render() {
     const {
       emp: { data },
@@ -297,9 +275,9 @@ class Dist extends PureComponent {
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
-          <div className={styles.Dist}>
-            <div className={styles.DistForm}>{this.renderForm()}</div>
-            <div className={styles.DistOperator}>
+          <div className={styles.Emp}>
+            <div className={styles.EmpForm}>{this.renderForm()}</div>
+            <div className={styles.EmpOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
@@ -312,6 +290,7 @@ class Dist extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               expandedRowRender={this.expandedRowRender}
+              rowKey='empId'
             />
           </div>
         </Card>
