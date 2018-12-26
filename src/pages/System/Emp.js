@@ -13,9 +13,11 @@ import {
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import DescriptionList from '../../components/DescriptionList';
-import styles from './Dist.less';
+import Authorized from '../../utils/Authorized';
+import styles from './Emp.less';
 import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
+import Exception403 from '../Exception/403';
 
 const getValue = obj =>
   Object.keys(obj)
@@ -278,20 +280,41 @@ class Dist extends PureComponent {
           <div className={styles.Emp}>
             <div className={styles.EmpForm}>{this.renderForm()}</div>
             <div className={styles.EmpOperator}>
-              <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
-              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
-              <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
+              <Authorized authority="sys:emp:create">
+                <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
+              </Authorized>
+              <Authorized authority="sys:emp:update">
+                <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              </Authorized>
+              <Authorized authority="sys:emp:delete">
+                <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
+              </Authorized>
             </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={this.columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-              expandedRowRender={this.expandedRowRender}
-              rowKey='empId'
-            />
+            <Authorized
+              authority="sys:emp:detail"
+              noMatch={
+                <StandardTable
+                  selectedRows={selectedRows}
+                  loading={loading}
+                  data={data}
+                  columns={this.columns}
+                  onSelectRow={this.handleSelectRows}
+                  onChange={this.handleStandardTableChange}
+                  rowKey='empId'
+                />
+              }
+            >
+              <StandardTable
+                selectedRows={selectedRows}
+                loading={loading}
+                data={data}
+                columns={this.columns}
+                onSelectRow={this.handleSelectRows}
+                onChange={this.handleStandardTableChange}
+                expandedRowRender={this.expandedRowRender}
+                rowKey='empId'
+              />
+            </Authorized>
           </div>
         </Card>
         {/* <EmpAddForm */}
