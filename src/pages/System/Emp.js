@@ -8,7 +8,7 @@ import {
   Input,
   Button,
   message,
-  Modal
+  Modal, Badge,
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
@@ -26,13 +26,16 @@ const getValue = obj =>
 
 const { confirm } = Modal;
 const { Description } = DescriptionList;
-@connect(({ emp, dic, loading }) => ({
+@connect(({ emp, dist, org, role, dic, loading }) => ({
   emp,
+  dist,
+  org,
+  role,
   dic,
   loading: loading.models.emp,
 }))
 @Form.create()
-class Dist extends PureComponent {
+class Emp extends PureComponent {
   state = {
     addModalVisible: false,
     editModalVisible: false,
@@ -44,11 +47,11 @@ class Dist extends PureComponent {
 
   columns = [
     {
-      title: '员工工号',
+      title: '工号',
       dataIndex: 'empNumber',
     },
     {
-      title: '员工姓名',
+      title: '姓名',
       dataIndex: 'empName',
     },
     {
@@ -70,6 +73,12 @@ class Dist extends PureComponent {
     {
       title: '登录标记',
       dataIndex: 'empLoginFlagName',
+      render: text =>
+        text === '是' ? (
+          <Badge status="success" text="正常" />
+        ) : (
+          <Badge status="error" text="禁用" />
+        )
     }
   ];
 
@@ -84,9 +93,18 @@ class Dist extends PureComponent {
       }
     });
     dispatch({
+      type: 'dist/fetch'
+    });
+    dispatch({
+      type: 'org/fetch'
+    });
+    dispatch({
+      type: 'role/fetch'
+    });
+    dispatch({
       type: 'dic/fetch',
       payload: {
-        category: 'dist_type'
+        category: 'emp_type'
       }
     });
   }
@@ -270,9 +288,16 @@ class Dist extends PureComponent {
   render() {
     const {
       emp: { data },
-      dic : { dicData },
+      dic,
+      dist,
+      org,
+      role,
       loading,
     } = this.props;
+    const distData = dist.data;
+    const orgData = org.data;
+    const roleData = role.data;
+    const empTypeData = dic.dicData;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
@@ -317,13 +342,15 @@ class Dist extends PureComponent {
             </Authorized>
           </div>
         </Card>
-        {/* <EmpAddForm */}
-        {/* handleAdd={this.handleAdd} */}
-        {/* handleCancel={this.handleAddModalVisible} */}
-        {/* modalVisible={addModalVisible} */}
-        {/* distTypeOptions={dicData} */}
-        {/* treeSelectData={data} */}
-        {/* /> */}
+        <EmpAddForm
+          handleAdd={this.handleAdd}
+          handleCancel={this.handleAddModalVisible}
+          modalVisible={addModalVisible}
+          distData={distData}
+          orgData={orgData}
+          roleData={roleData}
+          empTypeData={empTypeData}
+        />
         {/* {selectedRows.length === 1 ? ( */}
         {/* <EmpEditForm */}
         {/* handleEdit={this.handleEdit} */}
@@ -339,4 +366,4 @@ class Dist extends PureComponent {
   }
 }
 
-export default Dist;
+export default Emp;

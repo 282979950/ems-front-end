@@ -84,6 +84,86 @@ export async function searchDist(params) {
   });
 }
 
+export async function queryOrg() {
+  return request('/api/org/listData.do');
+}
+
+export async function deleteOrg(params) {
+  return request('/api/org/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addOrg(params) {
+  return request('/api/org/add.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function editOrg(params) {
+  return request('/api/org/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchOrg(params) {
+  return request('/api/org/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function queryRole() {
+  return request('/api/role/listData.do');
+}
+
+export async function deleteRole(params) {
+  return request('/api/role/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addRole(params) {
+  return request('/api/role/add.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function editRole(params) {
+  return request('/api/role/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchRole(params) {
+  return request('/api/role/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function queryEmp(params) {
   return request(`/api/emp/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
 }
