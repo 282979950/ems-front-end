@@ -98,7 +98,7 @@ class EmpEditForm extends PureComponent{
     switch (currentStep) {
       case 1:
         return [
-          <FormItem {...this.formStyle} label="邮箱">
+          <FormItem {...this.formStyle} label="邮箱" key="empEmail">
             {form.getFieldDecorator('empEmail', {
               initialValue: formValues.empEmail,
               rules: [{
@@ -110,7 +110,7 @@ class EmpEditForm extends PureComponent{
               }],
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="电话">
+          <FormItem {...this.formStyle} label="电话" key="empPhone">
             {form.getFieldDecorator('empPhone', {
               initialValue: formValues.empPhone,
               rules: [{
@@ -119,7 +119,7 @@ class EmpEditForm extends PureComponent{
               }],
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="手机">
+          <FormItem {...this.formStyle} label="手机" key="empMobile">
             {form.getFieldDecorator('empMobile', {
               initialValue: formValues.empMobile,
               rules: [{
@@ -128,7 +128,7 @@ class EmpEditForm extends PureComponent{
               }],
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="地址">
+          <FormItem {...this.formStyle} label="地址" key="empAddress">
             {form.getFieldDecorator('empAddress', {
               initialValue: formValues.empAddress,
               rules: [{
@@ -140,7 +140,7 @@ class EmpEditForm extends PureComponent{
         ];
       case 2:
         return [
-          <FormItem {...this.formStyle} label="所属机构">
+          <FormItem {...this.formStyle} label="所属机构" key="empOrgId">
             {form.getFieldDecorator('empOrgId', {
               initialValue: formValues.empOrgId,
               rules: [{
@@ -156,7 +156,7 @@ class EmpEditForm extends PureComponent{
               />
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="所属区域">
+          <FormItem {...this.formStyle} label="所属区域" key="empDistId">
             {form.getFieldDecorator('empDistId', {
               initialValue: formValues.empDistId,
             })(
@@ -168,7 +168,7 @@ class EmpEditForm extends PureComponent{
               />
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="用户角色">
+          <FormItem {...this.formStyle} label="用户角色" key="roleId">
             {form.getFieldDecorator('roleId', {
               initialValue: formValues.roleId,
               rules: [{
@@ -181,7 +181,7 @@ class EmpEditForm extends PureComponent{
               </Select>
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="用户类型">
+          <FormItem {...this.formStyle} label="用户类型" key="empType">
             {form.getFieldDecorator('empType', {
               initialValue: formValues.empType,
               rules: [{
@@ -194,7 +194,7 @@ class EmpEditForm extends PureComponent{
               </Select>
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="负责区域">
+          <FormItem {...this.formStyle} label="负责区域" key="empManagementDistId">
             {form.getFieldDecorator('empManagementDistId', {
               initialValue: formValues.empManagementDistId,
             })(
@@ -206,7 +206,7 @@ class EmpEditForm extends PureComponent{
               />
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="登录标记">
+          <FormItem {...this.formStyle} label="登录标记" key="empLoginFlag">
             {form.getFieldDecorator('empLoginFlag', {
               initialValue: formValues.empLoginFlag,
               valuePropName: 'checked'
@@ -215,7 +215,7 @@ class EmpEditForm extends PureComponent{
         ];
       default:
         return [
-          <FormItem {...this.formStyle} label="工号">
+          <FormItem {...this.formStyle} label="工号" key="empNumber">
             {form.getFieldDecorator('empNumber', {
               initialValue: formValues.empNumber,
               rules: [{
@@ -227,7 +227,7 @@ class EmpEditForm extends PureComponent{
               }],
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="姓名">
+          <FormItem {...this.formStyle} label="姓名" key="empName">
             {form.getFieldDecorator('empName', {
               initialValue: formValues.empName,
               rules: [{
@@ -239,7 +239,7 @@ class EmpEditForm extends PureComponent{
               }],
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="登录名">
+          <FormItem {...this.formStyle} label="登录名" key="empLoginName">
             {form.getFieldDecorator('empLoginName', {
               initialValue: formValues.empLoginName,
               rules: [{
