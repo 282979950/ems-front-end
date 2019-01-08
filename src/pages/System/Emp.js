@@ -214,8 +214,10 @@ class Emp extends PureComponent {
 
   handleStandardTableChange = (pagination) => {
     const { dispatch } = this.props;
-    const { formValues } = this.state;
-
+    const { formValues, pageNum, pageSize } = this.state;
+    if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
+      this.handleSelectedRowsReset();
+    }
     const params = {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
