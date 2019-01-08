@@ -28,6 +28,7 @@ class EmpAddForm extends PureComponent{
         empManagementDistId: null,
         empLoginFlag: true,
       },
+      confirmDirty: false,
       useDefaultPassword: true,
       currentStep: 0
     };
@@ -88,15 +89,17 @@ class EmpAddForm extends PureComponent{
           initialValue: formValues.empPassword,
           rules: [{
             required: true,
-            message: '登录名不能为空！',
+            message: '密码不能为空！',
           }, {
             max: 20,
-            message: '登录名不能超过20个字',
+            message: '密码不能超过20个字',
           }, {
             min: 4,
-            message: '登录名不能少于4个字',
+            message: '密码不能少于4个字',
+          }, {
+            validator: this.validateToNextPassword
           }],
-        })(<Input />)}
+        })(<Input type="password" />)}
       </FormItem>);
   };
 
@@ -109,16 +112,36 @@ class EmpAddForm extends PureComponent{
           initialValue: formValues.confirmPassword,
           rules: [{
             required: true,
-            message: '登录名不能为空！',
+            message: '确认密码不能为空！',
           }, {
-            max: 20,
-            message: '登录名不能超过20个字',
-          }, {
-            min: 4,
-            message: '登录名不能少于4个字',
+            validator: this.compareToFirstPassword
           }],
-        })(<Input />)}
+        })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
       </FormItem>);
+  };
+
+  handleConfirmBlur = (e) => {
+    const { value } = e.target;
+    const { confirmDirty } = this.state;
+    this.setState({ confirmDirty: confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('empPassword')) {
+      callback('两次输入的密码不一致，请重新输入！');
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    const { confirmDirty } = this.state;
+    if (value && confirmDirty) {
+      form.validateFields(['confirmPassword'], { force: true });
+    }
+    callback();
   };
 
   renderForm = () => {
@@ -191,7 +214,7 @@ class EmpAddForm extends PureComponent{
             })(
               <TreeSelect
                 style={{ width: '100%' }}
-                treeData={this.loadDistData(distData)}
+                treeData={this.loadDistData1(distData)}
                 treeDefaultExpandAll
                 allowClear
               />
@@ -215,7 +238,7 @@ class EmpAddForm extends PureComponent{
               initialValue: formValues.empType,
               rules: [{
                 required: true,
-                message: '登录名不能为空！',
+                message: '用户类型不能为空！',
               }],
             })(
               <Select style={{ width:'100%' }}>
@@ -229,7 +252,7 @@ class EmpAddForm extends PureComponent{
             })(
               <TreeSelect
                 style={{ width: '100%' }}
-                treeData={this.loadDistData(distData)}
+                treeData={this.loadDistData2(distData)}
                 treeDefaultExpandAll
                 treeCheckable
               />
@@ -286,7 +309,7 @@ class EmpAddForm extends PureComponent{
           <FormItem {...this.formStyle} label="使用默认密码">
             <Switch checked={useDefaultPassword} onChange={this.handleDefaultPasswordChange} />
             &nbsp;
-            <Tag color="blue">默认密码为000000</Tag>
+            <Tag color="blue">默认密码为0000</Tag>
           </FormItem>,
           this.handlePasswordVisible(),
           this.handleConfirmPasswordVisible()
@@ -314,7 +337,7 @@ class EmpAddForm extends PureComponent{
           <Button key="back" onClick={this.handlePrev}>
             上一步
           </Button>,
-          <Button key="submit" type="primary" onClick={this.handleNext}>
+          <Button key="submit" type="primary" onClick={this.handleAdd}>
             新建
           </Button>,
           <Button key="cancel" onClick={this.handleCancel}>
@@ -333,12 +356,40 @@ class EmpAddForm extends PureComponent{
     }
   };
 
-  handleOK = () => {
+  handleAdd = () => {
     const { form, handleAdd } = this.props;
+    const { formValues } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
+      this.setState({
+        formValues: {
+          empNumber: null,
+          empName: null,
+          roleId: null,
+          empOrgId: null,
+          empDistId: null,
+          empLoginName: null,
+          empPassword: null,
+          confirmPassword: null,
+          empEmail: null,
+          empPhone: null,
+          empMobile: null,
+          empAddress: null,
+          empType: null,
+          empManagementDistId: null,
+          empLoginFlag: true,
+        },
+        confirmDirty: false,
+        useDefaultPassword: true,
+        currentStep: 0
+      });
       form.resetFields();
-      handleAdd(fieldsValue);
+      handleAdd({
+        ...formValues,
+        ...fieldsValue,
+        empManagementDistId: fieldsValue.empManagementDistId && fieldsValue.empManagementDistId.length ? fieldsValue.empManagementDistId.join(",") : null,
+        empPassword: formValues.empPassword ? formValues.empPassword: "0000"
+      });
     });
   };
 
@@ -369,13 +420,31 @@ class EmpAddForm extends PureComponent{
     handleCancel();
   };
 
-  loadDistData = (data0 = []) => {
+  loadDistData1 = (data0 = []) => {
     const treeData = JSON.parse(JSON.stringify(data0));
 
     function convert(data1 = []) {
       data1.forEach((item) => {
         item.key = item.distName;
         item.value = item.distId;
+        item.title = item.distName;
+        if (item.children) {
+          convert(item.children);
+        }
+      });
+    }
+
+    convert(treeData);
+    return treeData;
+  };
+
+  loadDistData2 = (data0 = []) => {
+    const treeData = JSON.parse(JSON.stringify(data0));
+
+    function convert(data1 = []) {
+      data1.forEach((item) => {
+        item.key = item.distName;
+        item.value = item.distName;
         item.title = item.distName;
         if (item.children) {
           convert(item.children);
@@ -415,6 +484,7 @@ class EmpAddForm extends PureComponent{
         onOk={this.handleOK}
         onCancel={this.handleCancel}
         footer={this.renderFooter()}
+        destroyOnClose
       >
         <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
           <Step title="基本信息" />

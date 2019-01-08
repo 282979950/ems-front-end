@@ -1,4 +1,4 @@
-import { queryRole, addRole, deleteRole, editRole, searchRole } from '../../../services/api';
+import { queryRole, addRole, deleteRole, editRole, searchRole } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {

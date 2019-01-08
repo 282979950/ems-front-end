@@ -1,4 +1,4 @@
-import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp } from '../../../services/api';
+import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -12,6 +12,11 @@ export default {
     *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryEmp, payload);
       if (response.status === 0) {
+        if (response.data.list) {
+          response.data.list.forEach((item) => {
+            item.empManagementDistId && (item.empManagementDistId = item.empManagementDistId.split(','));
+          });
+        }
         yield put({
           type: 'save',
           payload: response.data,

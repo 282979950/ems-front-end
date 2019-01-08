@@ -18,7 +18,7 @@ const DistEditForm = Form.create({
         value: selectedData.distCode
       }),
       distCategory: Form.createFormField({
-        value: selectedData.distCategory.toString()
+        value: selectedData.distCategory
       }),
       distAddress: Form.createFormField({
         value: selectedData.distAddress

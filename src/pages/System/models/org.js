@@ -1,4 +1,4 @@
-import { queryOrg, deleteOrg, addOrg, editOrg, searchOrg } from '../../../services/api';
+import { queryOrg, deleteOrg, addOrg, editOrg, searchOrg } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {

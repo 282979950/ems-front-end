@@ -1,4 +1,4 @@
-import { queryDict, removeDict, addDict, updateDict } from '@/services/api';
+import { queryDict, removeDict, addDict, updateDict } from '../../../services/system';
 
 export default {
   namespace: 'dic',

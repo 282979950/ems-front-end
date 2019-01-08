@@ -1,4 +1,4 @@
-import { queryDist, deleteDist, addDist, editDist, searchDist } from '@/services/api';
+import { queryDist, deleteDist, addDist, editDist, searchDist } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
