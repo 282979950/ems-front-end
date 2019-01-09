@@ -2,7 +2,7 @@ import fetch from 'dva/fetch';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { stringify } from 'qs';
-import { isAntdPro } from './utils';
+import { isAntdPro, removeLoginStatus } from './utils';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -143,7 +143,15 @@ export function handleRequestException(response) {
     case 1:
       break;
     case 2:
-      router.push('/user/login');
+      removeLoginStatus(status);
+      if (window.location.href.indexOf('redirect') === -1) {
+        router.push({
+          pathname: '/user/login',
+          search: stringify({
+            redirect: window.location.href
+          })
+        });
+      }
       break;
     case 3:
       router.push('/exception/403');

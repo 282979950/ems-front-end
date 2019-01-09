@@ -1,5 +1,5 @@
-import { request } from '../utils/request';
 import { stringify } from 'qs';
+import { request } from '../utils/request';
 
 export async function queryDist() {
   return request('/api/dist/listData.do');

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import { FormattedMessage } from 'umi/locale';
 import { Alert } from 'antd';
 import Login from '@/components/Login';
+import router from 'umi/router';
 import styles from './Login.less';
+import { getLoginStatus } from '../../utils/utils';
 
 const { UserName, Password, Submit } = Login;
 
@@ -16,9 +18,11 @@ class LoginPage extends Component {
     type: 'account',
   };
 
-  onTabChange = type => {
-    this.setState({ type });
-  };
+  componentDidMount() {
+    if (getLoginStatus() === 0) {
+      router.push('/system/dist');
+    }
+  }
 
   handleSubmit = (err, values) => {
     const { type } = this.state;
@@ -39,13 +43,12 @@ class LoginPage extends Component {
   );
 
   render() {
-    const { login, submitting } = this.props;
+    const { submitting } = this.props;
     const { type } = this.state;
     return (
       <div className={styles.main}>
         <Login
           defaultActiveKey={type}
-          onTabChange={this.onTabChange}
           onSubmit={this.handleSubmit}
           ref={form => {
             this.loginForm = form;
@@ -72,7 +75,7 @@ class LoginPage extends Component {
               ]}
             onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
           />
-          {login.status === 'error' && !submitting && this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
+          {getLoginStatus() === 1 && !submitting && this.renderMessage("用户名或密码错误")}
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </Submit>

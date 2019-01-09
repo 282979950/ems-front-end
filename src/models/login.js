@@ -1,26 +1,17 @@
 import { routerRedux } from 'dva/router';
-import { stringify } from 'qs';
 import { login , logout} from '../services/user';
-import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
+import { getPageQuery, setLoginStatus, removeLoginStatus } from '../utils/utils';
+import { reloadAuthorized } from '../utils/Authorized';
 
 export default {
   namespace: 'login',
 
-  state: {
-    status: undefined,
-  },
-
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
-      // Login successfully
+      // 登录成功
       if (response && response.status === 0) {
-        yield put({
-          type: 'changeLoginStatus',
-          payload: response,
-        });
+        setLoginStatus(response.status);
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -38,41 +29,22 @@ export default {
           }
         }
         yield put(routerRedux.replace(redirect || '/'));
+      } else {
+        setLoginStatus(response.status);
       }
     },
 
     *logout(payload, { call, put }) {
       const response = yield call(logout, payload);
       if (response.status === 0) {
-        yield put({
-          type: 'changeLoginStatus',
-          payload: {
-            status: false,
-            data: null,
-            currentAuthority: 'guest',
-          },
-        });
+        removeLoginStatus();
         reloadAuthorized();
         yield put(
           routerRedux.push({
-            pathname: '/user/login',
-            search: stringify({
-              redirect: window.location.href,
-            }),
-          }),
+            pathname: '/user/login'
+          })
         );
       }
     },
-  },
-
-  reducers: {
-    changeLoginStatus(state, { payload }) {
-      setAuthority(payload.data ? payload.data.permissions : null);
-      return {
-        ...state,
-        status: payload.status,
-        type: payload.type,
-      };
-    },
-  },
+  }
 };

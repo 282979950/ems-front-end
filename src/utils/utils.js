@@ -181,3 +181,16 @@ export function formatWan(val) {
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
 }
+
+export function getLoginStatus() {
+  const emsLoginStatus = localStorage.getItem('ems_login_status');
+  return emsLoginStatus? parseInt(emsLoginStatus, 0) : null;
+}
+
+export function setLoginStatus(value) {
+  localStorage.setItem('ems_login_status', value);
+}
+
+export function removeLoginStatus() {
+  localStorage.removeItem('ems_login_status');
+}
