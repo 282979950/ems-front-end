@@ -1,10 +1,12 @@
 import { routerRedux } from 'dva/router';
 import { login , logout} from '../services/user';
-import { getPageQuery, setLoginStatus, removeLoginStatus } from '../utils/utils';
+import { getPageQuery,setLoginStatus, removeLoginStatus } from '../utils/utils';
 import { reloadAuthorized } from '../utils/Authorized';
 
 export default {
   namespace: 'login',
+
+  state: {},
 
   effects: {
     *login({ payload }, { call, put }) {
