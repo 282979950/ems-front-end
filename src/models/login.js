@@ -2,6 +2,7 @@ import { routerRedux } from 'dva/router';
 import { login , logout} from '../services/user';
 import { getPageQuery,setLoginStatus, removeLoginStatus } from '../utils/utils';
 import { reloadAuthorized } from '../utils/Authorized';
+import { setAuthority } from '../utils/authority';
 
 export default {
   namespace: 'login',
@@ -14,6 +15,7 @@ export default {
       // 登录成功
       if (response && response.status === 0) {
         setLoginStatus(response.status);
+        setAuthority(response.data.permissions);
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -40,6 +42,7 @@ export default {
       const response = yield call(logout, payload);
       if (response.status === 0) {
         removeLoginStatus();
+        setAuthority(null);
         reloadAuthorized();
         yield put(
           routerRedux.push({

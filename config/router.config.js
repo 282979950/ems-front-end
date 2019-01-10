@@ -15,32 +15,8 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: 'visit',
     routes: [
-      // dashboard
       { path: '/', redirect: '/system/dist' },
-      // {
-      //   path: '/dashboard',
-      //   name: 'dashboard',
-      //   icon: 'dashboard',
-      //   authority: 'visit',
-      //   routes: [
-      //     {
-      //       path: '/dashboard/analysis',
-      //       name: 'analysis',
-      //       component: './Dashboard/Analysis',
-      //     },
-      //     {
-      //       path: '/dashboard/monitor',
-      //       name: 'monitor',
-      //       component: './Dashboard/Monitor',
-      //     },
-      //     {
-      //       path: '/dashboard/workplace',
-      //       name: 'workplace',
-      //       component: './Dashboard/Workplace',
-      //     },
-      //   ],
-      // },
-      // forms
+      // 系统管理
       {
         path: '/system',
         icon: 'home',
@@ -51,7 +27,7 @@ export default [
             path: '/system/dist',
             name: 'dist',
             component: './System/Dist',
-            authority: 'sys:dist:visit',
+            authority: 'sys:dist:visit'
           },
           {
             path: '/system/org',
@@ -83,221 +59,239 @@ export default [
             component: './System/Dist',
             authority: 'sys:dic:visit',
           },
+          {
+            path: '/system/gasPrice',
+            name: 'gasPrice',
+            component: './System/Dist',
+            authority: 'sys:dic:visit',
+          },
         ],
       },
-      // {
-      //   path: '/form',
-      //   icon: 'form',
-      //   name: 'form',
-      //   routes: [
-      //     {
-      //       path: '/form/basic-form',
-      //       name: 'basicform',
-      //       component: './Forms/BasicForm',
-      //     },
-      //     {
-      //       path: '/form/step-form',
-      //       name: 'stepform',
-      //       component: './Forms/StepForm',
-      //       hideChildrenInMenu: true,
-      //       routes: [
-      //         {
-      //           path: '/form/step-form',
-      //           redirect: '/form/step-form/info',
-      //         },
-      //         {
-      //           path: '/form/step-form/info',
-      //           name: 'info',
-      //           component: './Forms/StepForm/Step1',
-      //         },
-      //         {
-      //           path: '/form/step-form/confirm',
-      //           name: 'confirm',
-      //           component: './Forms/StepForm/Step2',
-      //         },
-      //         {
-      //           path: '/form/step-form/result',
-      //           name: 'result',
-      //           component: './Forms/StepForm/Step3',
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       path: '/form/advanced-form',
-      //       name: 'advancedform',
-      //       authority: ['admin'],
-      //       component: './Forms/AdvancedForm',
-      //     },
-      //   ],
-      // },
-      // // list
-      // {
-      //   path: '/list',
-      //   icon: 'table',
-      //   name: 'list',
-      //   routes: [
-      //     {
-      //       path: '/list/table-list',
-      //       name: 'searchtable',
-      //       component: './List/TableList',
-      //     },
-      //     {
-      //       path: '/list/basic-list',
-      //       name: 'basiclist',
-      //       component: './List/BasicList',
-      //     },
-      //     {
-      //       path: '/list/card-list',
-      //       name: 'cardlist',
-      //       component: './List/CardList',
-      //     },
-      //     {
-      //       path: '/list/search',
-      //       name: 'searchlist',
-      //       component: './List/List',
-      //       routes: [
-      //         {
-      //           path: '/list/search',
-      //           redirect: '/list/search/articles',
-      //         },
-      //         {
-      //           path: '/list/search/articles',
-      //           name: 'articles',
-      //           component: './List/Articles',
-      //         },
-      //         {
-      //           path: '/list/search/projects',
-      //           name: 'projects',
-      //           component: './List/Projects',
-      //         },
-      //         {
-      //           path: '/list/search/applications',
-      //           name: 'applications',
-      //           component: './List/Applications',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: '/profile',
-      //   name: 'profile',
-      //   icon: 'profile',
-      //   routes: [
-      //     // profile
-      //     {
-      //       path: '/profile/basic',
-      //       name: 'basic',
-      //       component: './Profile/BasicProfile',
-      //     },
-      //     {
-      //       path: '/profile/advanced',
-      //       name: 'advanced',
-      //       authority: ['admin'],
-      //       component: './Profile/AdvancedProfile',
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: 'result',
-      //   icon: 'check-circle-o',
-      //   path: '/result',
-      //   routes: [
-      //     // result
-      //     {
-      //       path: '/result/success',
-      //       name: 'success',
-      //       component: './Result/Success',
-      //     },
-      //     { path: '/result/fail', name: 'fail', component: './Result/Error' },
-      //   ],
-      // },
-      // {
-      //   name: 'exception',
-      //   icon: 'warning',
-      //   path: '/exception',
-      //   routes: [
-      //     // exception
-      //     {
-      //       path: '/exception/403',
-      //       name: 'not-permission',
-      //       component: './Exception/403',
-      //     },
-      //     {
-      //       path: '/exception/404',
-      //       name: 'not-find',
-      //       component: './Exception/404',
-      //     },
-      //     {
-      //       path: '/exception/500',
-      //       name: 'server-error',
-      //       component: './Exception/500',
-      //     },
-      //     {
-      //       path: '/exception/trigger',
-      //       name: 'trigger',
-      //       hideInMenu: true,
-      //       component: './Exception/TriggerException',
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: 'account',
-      //   icon: 'user',
-      //   path: '/account',
-      //   routes: [
-      //     {
-      //       path: '/account/center',
-      //       name: 'center',
-      //       component: './Account/Center/Center',
-      //       routes: [
-      //         {
-      //           path: '/account/center',
-      //           redirect: '/account/center/articles',
-      //         },
-      //         {
-      //           path: '/account/center/articles',
-      //           component: './Account/Center/Articles',
-      //         },
-      //         {
-      //           path: '/account/center/applications',
-      //           component: './Account/Center/Applications',
-      //         },
-      //         {
-      //           path: '/account/center/projects',
-      //           component: './Account/Center/Projects',
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       path: '/account/settings',
-      //       name: 'settings',
-      //       component: './Account/Settings/Info',
-      //       routes: [
-      //         {
-      //           path: '/account/settings',
-      //           redirect: '/account/settings/base',
-      //         },
-      //         {
-      //           path: '/account/settings/base',
-      //           component: './Account/Settings/BaseView',
-      //         },
-      //         {
-      //           path: '/account/settings/security',
-      //           component: './Account/Settings/SecurityView',
-      //         },
-      //         {
-      //           path: '/account/settings/binding',
-      //           component: './Account/Settings/BindingView',
-      //         },
-      //         {
-      //           path: '/account/settings/notification',
-      //           component: './Account/Settings/NotificationView',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      // 账户管理
+      {
+        path: '/account',
+        icon: 'user',
+        name: 'account',
+        authority: 'account:visit',
+        routes: [
+          {
+            path: '/account/entryMeter',
+            name: 'entryMeter',
+            component: './System/Dist',
+            authority: 'account:entryMeter:visit'
+          },
+          {
+            path: '/account/createArchive',
+            name: 'createArchive',
+            component: './System/Dist',
+            authority: 'account:createArchive:visit'
+          },
+          {
+            path: '/account/installMeter',
+            name: 'installMeter',
+            component: './System/Dist',
+            authority: 'account:installMeter:visit'
+          },
+          {
+            path: '/account/createAccount',
+            name: 'createAccount',
+            component: './System/Dist',
+            authority: 'account:createAccount:visit'
+          },
+          {
+            path: '/account/lockAccount',
+            name: 'lockAccount',
+            component: './System/Dist',
+            authority: 'account:lockAccount:visit'
+          },
+          {
+            path: '/account/alter',
+            name: 'alter',
+            component: './System/Dist',
+            authority: 'account:alter:visit'
+          },
+        ],
+      },
+      // 充值缴费管理
+      {
+        path: '/recharge',
+        icon: 'pay-circle',
+        name: 'recharge',
+        authority: 'recharge:visit',
+        routes: [
+          {
+            path: '/recharge/prePayment',
+            name: 'prePayment',
+            component: './System/Dist',
+            authority: 'recharge:prePayment:visit'
+          },
+          {
+            path: '/recharge/replaceCard',
+            name: 'replaceCard',
+            component: './System/Dist',
+            authority: 'recharge:replaceCard:visit'
+          },
+          {
+            path: '/recharge/postPayment',
+            name: 'postPayment',
+            component: './System/Dist',
+            authority: 'recharge:postPayment:visit'
+          },
+          {
+            path: '/recharge/order',
+            name: 'order',
+            component: './System/Dist',
+            authority: 'recharge:order:visit'
+          },
+        ],
+      },
+      // 发票管理
+      {
+        path: '/invoice',
+        icon: 'audit',
+        name: 'invoice',
+        authority: 'invoice:visit',
+        routes: [
+          {
+            path: '/invoice/assign',
+            name: 'assign',
+            component: './System/Dist',
+            authority: 'invoice:assign:visit'
+          },
+          {
+            path: '/invoice/printCancel',
+            name: 'printCancel',
+            component: './System/Dist',
+            authority: 'invoice:printCancel:visit'
+          },
+          {
+            path: '/invoice/eInvoice',
+            name: 'eInvoice',
+            component: './System/Dist',
+            authority: 'invoice:eInvoice:visit'
+          },
+        ],
+      },
+      // 维修补气管理
+      {
+        path: '/repairOrder',
+        icon: 'fire',
+        name: 'repairOrder',
+        authority: 'repairOrder:visit',
+        routes: [
+          {
+            path: '/repairOrder/input',
+            name: 'input',
+            component: './System/Dist',
+            authority: 'repairOrder:input:visit'
+          },
+          {
+            path: '/repairOrder/fillGas',
+            name: 'fillGas',
+            component: './System/Dist',
+            authority: 'repairOrder:fillGas:visit'
+          },
+          {
+            path: '/repairOrder/initCard',
+            name: 'initCard',
+            component: './System/Dist',
+            authority: 'repairOrder:initCard:visit'
+          },
+        ],
+      },
+      // 账务处理
+      {
+        path: '/financial',
+        icon: 'project',
+        name: 'financial',
+        authority: 'financial:visit',
+        routes: [
+          {
+            path: '/financial/preStrike',
+            name: 'preStrike',
+            component: './System/Dist',
+            authority: 'financial:preStrike:visit'
+          },
+          {
+            path: '/financial/strike',
+            name: 'strike',
+            component: './System/Dist',
+            authority: 'financial:strike:visit'
+          },
+        ],
+      },
+      // 表具运行管理
+      {
+        path: '/meter',
+        icon: 'dashboard',
+        name: 'meter',
+        authority: 'meter:visit',
+        routes: [
+          {
+            path: '/meter/record',
+            name: 'record',
+            component: './System/Dist',
+            authority: 'meter:record:visit'
+          },
+          {
+            path: '/meter/control',
+            name: 'control',
+            component: './System/Dist',
+            authority: 'meter:control:visit'
+          },
+          {
+            path: '/meter/exception',
+            name: 'exception',
+            component: './System/Dist',
+            authority: 'meter:exception:visit'
+          },
+        ],
+      },
+      // 查询统计
+      {
+        path: '/queryStats',
+        icon: 'bar-chart',
+        name: 'queryStats',
+        authority: 'queryStats:visit',
+        routes: [
+          {
+            path: '/queryStats/cardQuery',
+            name: 'cardQuery',
+            component: './System/Dist',
+            authority: 'queryStats:cardQuery:visit'
+          },
+          {
+            path: '/queryStats/accountQuery',
+            name: 'accountQuery',
+            component: './System/Dist',
+            authority: 'queryStats:accountQuery:visit'
+          },
+          {
+            path: '/queryStats/userQuery',
+            name: 'userQuery',
+            component: './System/Dist',
+            authority: 'queryStats:userQuery:visit'
+          },
+          {
+            path: '/queryStats/exceptionQuery',
+            name: 'exceptionQuery',
+            component: './System/Dist',
+            authority: 'queryStats:exceptionQuery:visit'
+          },
+          {
+            path: '/queryStats/businessDataQuery',
+            name: 'businessDataQuery',
+            component: './System/Dist',
+            authority: 'queryStats:businessDataQuery:visit'
+          },
+          {
+            path: '/queryStats/businessReportQuery',
+            name: 'businessReportQuery',
+            component: './System/Dist',
+            authority: 'queryStats:businessReportQuery:visit'
+          },
+        ],
+      },
       {
         component: '404',
       },
