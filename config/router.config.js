@@ -32,7 +32,7 @@ export default [
           {
             path: '/system/org',
             name: 'org',
-            component: './System/Dist',
+            component: './System/Org',
             authority: 'sys:org:visit',
           },
           {
