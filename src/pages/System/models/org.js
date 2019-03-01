@@ -22,11 +22,11 @@ export default {
       }
     },
     *add({ payload, callback }, { call }) {
-      const response = yield call(deleteOrg, payload);
+      const response = yield call(addOrg, payload);
       if (callback) callback(response);
     },
     *delete({ payload, callback }, { call }) {
-      const response = yield call(addOrg, payload);
+      const response = yield call(deleteOrg, payload);
       if (callback) callback(response);
     },
     *edit({ payload, callback }, { call }) {
