@@ -44,7 +44,7 @@ export default [
           {
             path: '/system/role',
             name: 'role',
-            component: './System/Dist',
+            component: './System/Role',
             authority: 'sys:role:visit',
           },
           {

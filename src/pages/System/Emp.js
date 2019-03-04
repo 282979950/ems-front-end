@@ -8,7 +8,7 @@ import {
   Input,
   Button,
   message,
-  Modal, Badge, TreeSelect, Select,
+  Modal, Badge, Select,
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
@@ -17,6 +17,8 @@ import Authorized from '../../utils/Authorized';
 import styles from './Emp.less';
 import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
+import DistTreeSelect from './components/DistTreeSelect';
+import OrgTreeSelect from './components/OrgTreeSelect';
 
 const { confirm } = Modal;
 const { Option } = Select;
@@ -309,54 +311,14 @@ class Emp extends PureComponent {
     );
   };
 
-  loadOrgData = (data0 = []) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.orgName;
-        item.value = item.orgId;
-        item.title = item.orgName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
-  };
-
-  loadDistData = (data0 = []) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.distName;
-        item.value = item.distId;
-        item.title = item.distName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
-  };
-
   renderForm() {
     const {
       form: { getFieldDecorator },
     } = this.props;
     const {
       dic,
-      dist,
-      org,
       role,
     } = this.props;
-    const distData = dist.data;
-    const orgData = org.data;
     const roleData = role.data;
     const empTypeData = dic.dicData;
     return (
@@ -371,24 +333,12 @@ class Emp extends PureComponent {
           <Authorized authority="sys:emp:detail">
             <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
               {getFieldDecorator('empOrgId')(
-                <TreeSelect
-                  style={{ width: '100%' }}
-                  treeData={this.loadOrgData(orgData)}
-                  treeDefaultExpandAll
-                  allowClear
-                  placeholder="所属机构"
-                />
+                <OrgTreeSelect placeholder="所属机构" />
               )}
             </Col>
             <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
               {getFieldDecorator('empDistId')(
-                <TreeSelect
-                  style={{ width: '100%' }}
-                  treeData={this.loadDistData(distData)}
-                  treeDefaultExpandAll
-                  allowClear
-                  placeholder="所属区域"
-                />
+                <DistTreeSelect placeholder="所属区域" />
               )}
             </Col>
             <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>

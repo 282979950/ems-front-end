@@ -1,10 +1,11 @@
-import { queryDict, removeDict, addDict, updateDict } from '../../../services/system';
+import { queryDict, removeDict, addDict, updateDict, loadDicListData } from '../../../services/system';
 
 export default {
   namespace: 'dic',
 
   state: {
     dicData: [],
+    listData: []
   },
 
   effects: {
@@ -39,6 +40,13 @@ export default {
       });
       if (callback) callback();
     },
+    *loadListData({ payload }, { call, put }) {
+      const response = yield call(loadDicListData, payload);
+      yield put({
+        type: 'saveListData',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -46,6 +54,12 @@ export default {
       return {
         ...state,
         dicData: action.payload.data,
+      };
+    },
+    saveListData(state, action) {
+      return {
+        ...state,
+        listData: action.payload.data,
       };
     },
   },

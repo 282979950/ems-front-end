@@ -20,7 +20,7 @@ const getIcon = icon => {
     return <img src={icon} alt="icon" className={styles.icon} />;
   }
   if (typeof icon === 'string') {
-    return <Icon type={icon} />;
+    return <Icon type={icon} style={{ fontSize: '16px' }} />;
   }
   return icon;
 };

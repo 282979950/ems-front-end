@@ -1,4 +1,4 @@
-import { queryOrg, deleteOrg, addOrg, editOrg, searchOrg } from '../../../services/system';
+import { queryOrg, deleteOrg, addOrg, editOrg, searchOrg, loadOrgTreeData } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -6,6 +6,7 @@ export default {
 
   state: {
     data: [],
+    treeData: []
   },
 
   effects: {
@@ -41,6 +42,14 @@ export default {
       });
       if (callback) callback();
     },
+    *loadTreeData({ payload, callback }, { call, put }) {
+      const response = yield call(loadOrgTreeData, payload);
+      yield put({
+        type: 'saveTreeData',
+        payload: response.data,
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
@@ -48,6 +57,12 @@ export default {
       return {
         ...state,
         data: action.payload
+      };
+    },
+    saveTreeData(state, action) {
+      return {
+        ...state,
+        treeData: action.payload
       };
     },
   },

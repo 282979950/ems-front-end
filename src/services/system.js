@@ -40,6 +40,11 @@ export async function searchDist(params) {
     },
   });
 }
+
+export async function loadDistTreeData() {
+  return request('/api/dist/loadTreeData.do');
+}
+
 export async function queryOrg() {
   return request('/api/org/listData.do');
 }
@@ -80,8 +85,13 @@ export async function searchOrg(params) {
   });
 }
 
-export async function queryRole() {
-  return request('/api/role/listData.do');
+export async function loadOrgTreeData() {
+  return request('/api/org/loadTreeData.do');
+}
+
+
+export async function queryRole(params) {
+  return request(`/api/role/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
 }
 
 export async function deleteRole(params) {
@@ -194,4 +204,8 @@ export async function updateDict(params) {
       method: 'update',
     },
   });
+}
+
+export async function loadDicListData(params) {
+  return request(`/api/dic/loadListData.do?${stringify(params)}`);
 }
