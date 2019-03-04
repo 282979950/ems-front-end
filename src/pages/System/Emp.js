@@ -14,7 +14,7 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import DescriptionList from '../../components/DescriptionList';
 import Authorized from '../../utils/Authorized';
-import styles from './Emp.less';
+import styles from './Common.less';
 import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
 import DistTreeSelect from './components/DistTreeSelect';
@@ -396,9 +396,9 @@ class Emp extends PureComponent {
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
-          <div className={styles.Emp}>
-            <div className={styles.EmpForm}>{this.renderForm()}</div>
-            <div className={styles.EmpOperator}>
+          <div className={styles.Common}>
+            <div className={styles.CommonForm}>{this.renderForm()}</div>
+            <div className={styles.CommonOperator}>
               <Authorized authority="sys:emp:create">
                 <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               </Authorized>

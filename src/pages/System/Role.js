@@ -13,7 +13,7 @@ import {
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
-import styles from './Role.less';
+import styles from './Common.less';
 import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
 
@@ -258,9 +258,9 @@ class Role extends PureComponent {
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-role">
         <Card bordered={false}>
-          <div className={styles.Role}>
-            <div className={styles.RoleForm}>{this.renderForm()}</div>
-            <div className={styles.RoleOperator}>
+          <div className={styles.Common}>
+            <div className={styles.CommonForm}>{this.renderForm()}</div>
+            <div className={styles.CommonOperator}>
               <Authorized authority="sys:role:create">
                 <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               </Authorized>

@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './Dist.less';
+import styles from './Common.less';
 import DistAddForm from './components/DistAddForm';
 import DistEditForm from './components/DistEditForm';
 
@@ -256,9 +256,9 @@ class Dist extends PureComponent {
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
-          <div className={styles.Dist}>
-            <div className={styles.DistForm}>{this.renderForm()}</div>
-            <div className={styles.DistOperator}>
+          <div className={styles.Common}>
+            <div className={styles.CommonForm}>{this.renderForm()}</div>
+            <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>

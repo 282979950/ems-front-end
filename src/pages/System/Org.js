@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './Org.less';
+import styles from './Common.less';
 import OrgAddForm from './components/OrgAddForm';
 import OrgEditForm from './components/OrgEditForm';
 
@@ -261,9 +261,9 @@ class Org extends PureComponent {
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
-          <div className={styles.Org}>
-            <div className={styles.OrgForm}>{this.renderForm()}</div>
-            <div className={styles.OrgOperator}>
+          <div className={styles.Common}>
+            <div className={styles.CommonForm}>{this.renderForm()}</div>
+            <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
