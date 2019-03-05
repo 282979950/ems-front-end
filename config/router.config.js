@@ -50,7 +50,7 @@ export default [
           {
             path: '/system/perm',
             name: 'perm',
-            component: './System/Dist',
+            component: './System/Perm',
             authority: 'sys:perm:visit',
           },
           {

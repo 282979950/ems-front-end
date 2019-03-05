@@ -209,3 +209,47 @@ export async function updateDict(params) {
 export async function loadDicListData(params) {
   return request(`/api/dic/loadListData.do?${stringify(params)}`);
 }
+
+export async function queryPerm(params) {
+  return request(`/api/permission/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function deletePerm(params) {
+  return request('/api/permission/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addPerm(params) {
+  return request('/api/permission/add.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function editPerm(params) {
+  return request('/api/permission/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchPerm(params) {
+  return request('/api/permission/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function queryAllMenus() {
+  return request('/api/permission/listAllMenus.do');
+}
