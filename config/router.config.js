@@ -56,7 +56,7 @@ export default [
           {
             path: '/system/dic',
             name: 'dic',
-            component: './System/Dist',
+            component: './System/Dic',
             authority: 'sys:dic:visit',
           },
           {

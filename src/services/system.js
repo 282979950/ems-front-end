@@ -167,31 +167,40 @@ export async function queryDict(params) {
   return request('/api/dic/listData.do');
 }
 
-export async function removeDict(params) {
-  return request('/api/dic', {
+export async function deleteDict(params) {
+  return request('/api/dic/delete.do', {
     method: 'POST',
     body: {
-      ...params,
+      ...params
     },
   });
 }
 
 export async function addDict(params) {
-  return request('/api/dic', {
+  return request('/api/dic/add.do', {
     method: 'POST',
     body: {
-      ...params,
-      method: 'post',
+      ...params
     },
   });
 }
 
-export async function updateDict(params) {
-  return request('/api/dic', {
+export async function editDict(params) {
+  return request('/api/dic/edit.do', {
     method: 'POST',
     body: {
-      ...params,
-      method: 'update',
+      ...params
     },
   });
+}
+export async function searchDict(params) {
+  return request('/api/dic/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+export async function queryListDict(params) {
+  return request(`/api/dic/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
 }
