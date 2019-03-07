@@ -1,4 +1,4 @@
-import { queryPerm, deletePerm, addPerm, editPerm, searchPerm, queryAllMenus } from '../../../services/system';
+import { queryPerm, deletePerm, addPerm, editPerm, searchPerm, queryAllMenus, queryAllPerms } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -6,7 +6,8 @@ export default {
 
   state: {
     data: [],
-    allMenus: []
+    allMenus: [],
+    allPerms: []
   },
 
   effects: {
@@ -53,6 +54,18 @@ export default {
       } else {
         handleRequestException(response);
       }
+    },
+    *fetchAllPerms({ payload, callback }, { call, put }) {
+      const response = yield call(queryAllPerms, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'saveAllPerms',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
     }
   },
 
@@ -67,6 +80,12 @@ export default {
       return {
         ...state,
         allMenus: action.payload
+      };
+    },
+    saveAllPerms(state, action) {
+      return {
+        ...state,
+        allPerms: action.payload
       };
     },
   },

@@ -14,8 +14,8 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
 import styles from './Common.less';
-import EmpAddForm from './components/EmpAddForm';
-import EmpEditForm from './components/EmpEditForm';
+import RoleAddForm from './components/RoleAddForm';
+import RoleEditForm from './components/RoleEditForm';
 
 const { confirm } = Modal;
 @connect(({ dist, org, role, dic, loading }) => ({
@@ -57,16 +57,17 @@ class Role extends PureComponent {
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
     form.resetFields();
     this.setState({
       formValues: {},
+      pageNum: 1,
+      pageSize: 10
     });
     dispatch({
       type: 'role/fetch',
       payload: {
-        pageNum,
-        pageSize
+        pageNum: 1,
+        pageSize: 10
       },
     });
   };
@@ -79,18 +80,19 @@ class Role extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
-    const { pageNum, pageSize } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
         formValues: fieldsValue,
+        pageNum: 1,
+        pageSize: 10
       });
       dispatch({
         type: 'role/search',
         payload: {
           ...fieldsValue,
-          pageNum,
-          pageSize
+          pageNum: 1,
+          pageSize: 10
         },
       });
     });
@@ -114,7 +116,9 @@ class Role extends PureComponent {
     const { pageNum, pageSize } = this.state;
     dispatch({
       type: 'role/add',
-      payload: fields,
+      payload: {
+        json: JSON.stringify(fields)
+      },
       callback: (response) => {
         if (response.status === 0) {
           message.success('新增成功');
@@ -139,7 +143,9 @@ class Role extends PureComponent {
     this.handleSelectedRowsReset();
     dispatch({
       type: 'role/edit',
-      payload: fields,
+      payload: {
+        json: JSON.stringify(fields)
+      },
       callback: (response) => {
         if (response.status === 0) {
           message.success('编辑成功');
@@ -190,14 +196,14 @@ class Role extends PureComponent {
     const _ = this;
     confirm({
       title: '删除用户',
-      content: `确认删除选中的${selectedRows.length}个用户？`,
+      content: `确认删除选中的${selectedRows.length}个角色？`,
       onOk() {
         const ids = [];
         selectedRows.forEach(row => {
-          ids.push(row.empId);
+          ids.push(row.roleId);
         });
         dispatch({
-          type: 'emp/delete',
+          type: 'role/delete',
           payload: {
             ids
           },
@@ -206,7 +212,7 @@ class Role extends PureComponent {
               message.success(response.message);
               _.handleSelectedRowsReset();
               dispatch({
-                type: 'emp/fetch',
+                type: 'role/fetch',
                 payload: {
                   pageNum,
                   pageSize
@@ -252,11 +258,9 @@ class Role extends PureComponent {
       role : { data },
       loading,
     } = this.props;
-    // const distData = dist.data;
-    // const orgData = org.data;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
     return (
-      <PageHeaderWrapper className="antd-pro-pages-system-role">
+      <PageHeaderWrapper className="system-role">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
@@ -282,13 +286,13 @@ class Role extends PureComponent {
             />
           </div>
         </Card>
-        <EmpAddForm
+        <RoleAddForm
           handleAdd={this.handleAdd}
           handleCancel={this.handleAddModalVisible}
           modalVisible={addModalVisible}
         />
         {selectedRows.length === 1 ? (
-          <EmpEditForm
+          <RoleEditForm
             handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
