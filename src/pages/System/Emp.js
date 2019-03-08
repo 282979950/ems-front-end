@@ -14,7 +14,7 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import DescriptionList from '../../components/DescriptionList';
 import Authorized from '../../utils/Authorized';
-import styles from './Common.less';
+import styles from '../Common.less';
 import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
 import DistTreeSelect from './components/DistTreeSelect';
@@ -99,7 +99,7 @@ class Emp extends PureComponent {
       type: 'role/fetch'
     });
     dispatch({
-      type: 'dic/fetch',
+      type: 'dic/fetchByType',
       payload: {
         category: 'emp_type'
       }

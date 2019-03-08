@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './Common.less';
+import styles from '../Common.less';
 import OrgAddForm from './components/OrgAddForm';
 import OrgEditForm from './components/OrgEditForm';
 
@@ -63,7 +63,7 @@ class Org extends PureComponent {
       type: 'org/fetch'
     });
     dispatch({
-      type: 'dic/fetch',
+      type: 'dic/fetchByType',
       payload: {
         category: 'org_type'
       }

@@ -6,6 +6,7 @@ export default {
 
   state: {
     data: [],
+    dicData: {}
   },
 
   effects: {
@@ -43,11 +44,11 @@ export default {
       if (callback) callback();
     },
     // 获取加载的字典项列表(其他页面需用到的数据字典项显示,根据类型)
-    *fetchDictionaryList({ payload }, { call, put }) {
+    *fetchByType({ payload }, { call, put }) {
       const response = yield call(queryDict, payload);
       yield put({
-        type: 'save',
-        payload: response,
+        type: 'saveByType',
+        payload: response.data
       });
     },
   },
@@ -57,6 +58,12 @@ export default {
       return {
         ...state,
         data: action.payload
+      };
+    },
+    saveByType(state, action) {
+      return {
+        ...state,
+        dicData: action.payload
       };
     },
   },

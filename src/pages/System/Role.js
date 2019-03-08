@@ -13,7 +13,7 @@ import {
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
-import styles from './Common.less';
+import styles from '../Common.less';
 import RoleAddForm from './components/RoleAddForm';
 import RoleEditForm from './components/RoleEditForm';
 

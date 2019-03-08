@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import TreeTable from '@/components/TreeTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './Common.less';
+import styles from '../Common.less';
 import DistAddForm from './components/DistAddForm';
 import DistEditForm from './components/DistEditForm';
 
@@ -67,7 +67,7 @@ class Dist extends PureComponent {
       type: 'dist/fetch'
     });
     dispatch({
-      type: 'dic/fetch',
+      type: 'dic/fetchByType',
       payload: {
         category: 'dist_type'
       }
