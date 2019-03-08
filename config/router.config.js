@@ -62,8 +62,8 @@ export default [
           {
             path: '/system/gasPrice',
             name: 'gasPrice',
-            component: './System/Dist',
-            authority: 'sys:dic:visit',
+            component: './System/GasPrice',
+            authority: 'sys:gasPrice:visit',
           },
         ],
       },

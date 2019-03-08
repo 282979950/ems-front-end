@@ -262,3 +262,17 @@ export async function searchPerm(params) {
 export async function queryAllMenus() {
   return request('/api/permission/listAllMenus.do');
 }
+
+
+export async function queryGasPrice(params) {
+  return request(`/api/gasPrice/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function editGasPrice(params) {
+  return request('/api/gasPrice/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
