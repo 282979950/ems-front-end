@@ -254,7 +254,6 @@ class Org extends PureComponent {
   render() {
     const {
       org: { data },
-      dic : { dicData },
       loading,
     } = this.props;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
@@ -284,16 +283,12 @@ class Org extends PureComponent {
           handleAdd={this.handleAdd}
           handleCancel={this.handleAddModalVisible}
           modalVisible={addModalVisible}
-          orgTypeOptions={dicData}
-          treeSelectData={data}
         />
         {selectedRows.length === 1 ? (
           <OrgEditForm
             handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
-            orgTypeOptions={dicData}
-            treeSelectData={data}
             selectedData={selectedRows[0]}
           />) : null
         }

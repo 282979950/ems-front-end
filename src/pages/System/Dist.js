@@ -249,7 +249,6 @@ class Dist extends PureComponent {
   render() {
     const {
       dist: { data },
-      dic : { dicData },
       loading,
     } = this.props;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
@@ -279,7 +278,6 @@ class Dist extends PureComponent {
           handleAdd={this.handleAdd}
           handleCancel={this.handleAddModalVisible}
           modalVisible={addModalVisible}
-          distTypeOptions={dicData}
           treeSelectData={data}
         />
         {selectedRows.length === 1 ? (
@@ -287,7 +285,6 @@ class Dist extends PureComponent {
             handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
-            distTypeOptions={dicData}
             treeSelectData={data}
             selectedData={selectedRows[0]}
           />) : null

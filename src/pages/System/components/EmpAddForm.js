@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Button, Form, Input, Modal, Select, Steps, Switch, Tag, TreeSelect } from 'antd';
 import React, { PureComponent } from 'react';
+import DictSelect from './DictSelect';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -146,7 +147,7 @@ class EmpAddForm extends PureComponent{
 
   renderForm = () => {
     const { currentStep, useDefaultPassword, formValues } = this.state;
-    const { form, distData, orgData, roleData, empTypeData } = this.props;
+    const { form, distData, orgData, roleData } = this.props;
     switch (currentStep) {
       case 1:
         return [
@@ -241,9 +242,7 @@ class EmpAddForm extends PureComponent{
                 message: '用户类型不能为空！',
               }],
             })(
-              <Select style={{ width:'100%' }}>
-                {empTypeData && empTypeData.map((option) => <Option value={option.dictValue} key={option.dictKey}>{option.dictKey}</Option>)}
-              </Select>
+              <DictSelect category="emp_type" />
             )}
           </FormItem>,
           <FormItem {...this.formStyle} label="负责区域" key="empManagementDistId">

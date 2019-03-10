@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { TreeSelect } from 'antd';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 @connect(({ dic }) => ({
   dic
@@ -11,7 +13,7 @@ class DictSelect extends PureComponent{
   componentDidMount () {
     const { dispatch, category } = this.props;
     dispatch({
-      type: 'dic/loadListData',
+      type: 'dic/fetchByType',
       payload: {
         category
       }
@@ -20,17 +22,14 @@ class DictSelect extends PureComponent{
 
   render() {
     const {
-      dist : { treeData }
+      dic : { dicData },
+      category
     } = this.props;
+    const listData = dicData[category];
     return (
-      <TreeSelect
-        style={{ width: '100%' }}
-        treeData={treeData}
-        treeDataSimpleMode
-        treeDefaultExpandAll
-        allowClear
-        {...this.props}
-      />
+      <Select style={{ width: '100%' }} {...this.props} allowClear>
+        {listData && listData.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}
+      </Select>
     );
   }
 }

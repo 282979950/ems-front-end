@@ -1,8 +1,9 @@
-import { Form, Input, Modal, Select, TreeSelect } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import React  from 'react';
+import DictSelect from './DictSelect';
+import OrgTreeSelect from './OrgTreeSelect';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 const OrgEditForm = Form.create({
   mapPropsToFields(props) {
@@ -26,7 +27,7 @@ const OrgEditForm = Form.create({
     };
   }
 })((props) => {
-  const { modalVisible, form, orgTypeOptions, treeSelectData, handleEdit, handleCancel } = props;
+  const { modalVisible, form, handleEdit, handleCancel } = props;
   const formStyle = {
     labelCol: { span: 5 },
     wrapperCol: { span: 15 },
@@ -43,24 +44,6 @@ const OrgEditForm = Form.create({
   const handleCancel0 = () => {
     form.resetFields();
     handleCancel();
-  };
-
-  const loadTreeData = (data0 =[]) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.orgName;
-        item.value = item.orgId;
-        item.title = item.orgName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
   };
 
   return(
@@ -95,7 +78,7 @@ const OrgEditForm = Form.create({
             required: true,
             message: '机构类别不能为空！'
           }],
-        })(<Select style={{ width: '100%' }}>{orgTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
+        })(<DictSelect category="org_type" />)}
       </FormItem>
       <FormItem {...formStyle} label="父级机构">
         {form.getFieldDecorator('orgParentId', {
@@ -103,7 +86,7 @@ const OrgEditForm = Form.create({
             required: true,
             message: '父级机构不能为空！'
           }],
-        })(<TreeSelect style={{ width: '100%' }} treeData={loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
+        })(<OrgTreeSelect />)}
       </FormItem>
     </Modal>
   );

@@ -1,8 +1,9 @@
-import { Form, Input, Modal, Select, TreeSelect } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import React  from 'react';
+import DictSelect from './DictSelect';
+import DistTreeSelect from './DistTreeSelect';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 const DistEditForm = Form.create({
   mapPropsToFields(props) {
@@ -29,7 +30,7 @@ const DistEditForm = Form.create({
     };
   }
 })((props) => {
-  const { modalVisible, form, distTypeOptions, treeSelectData, handleEdit, handleCancel } = props;
+  const { modalVisible, form, handleEdit, handleCancel } = props;
   const formStyle = {
     labelCol: { span: 5 },
     wrapperCol: { span: 15 },
@@ -46,24 +47,6 @@ const DistEditForm = Form.create({
   const handleCancel0 = () => {
     form.resetFields();
     handleCancel();
-  };
-
-  const loadTreeData = (data0 =[]) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.distName;
-        item.value = item.distId;
-        item.title = item.distName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
   };
 
   return(
@@ -101,7 +84,7 @@ const DistEditForm = Form.create({
             required: true,
             message: '区域类别不能为空！'
           }],
-        })(<Select style={{ width: '100%' }}>{distTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
+        })(<DictSelect category="dist_type" />)}
       </FormItem>
       <FormItem {...formStyle} label="区域地址">
         {form.getFieldDecorator('distAddress', {
@@ -117,7 +100,7 @@ const DistEditForm = Form.create({
             required: true,
             message: '父级区域不能为空！'
           }],
-        })(<TreeSelect style={{ width: '100%' }} treeData={loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
+        })(<DistTreeSelect />)}
       </FormItem>
     </Modal>
   );

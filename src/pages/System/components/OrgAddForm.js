@@ -1,8 +1,9 @@
-import { Form, Input, Modal, Select, TreeSelect } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import React, { PureComponent } from 'react';
+import DictSelect from './DictSelect';
+import OrgTreeSelect from './OrgTreeSelect';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 @Form.create()
 class OrgAddForm extends PureComponent{
@@ -33,26 +34,8 @@ class OrgAddForm extends PureComponent{
     handleCancel();
   };
 
-  loadTreeData = (data0 = []) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.orgName;
-        item.value = item.orgId;
-        item.title = item.orgName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
-  };
-
   render() {
-    const { modalVisible, form, orgTypeOptions, treeSelectData } = this.props;
+    const { modalVisible, form } = this.props;
     return (
       <Modal
         title="机构新增"
@@ -88,7 +71,7 @@ class OrgAddForm extends PureComponent{
               required: true,
               message: '机构类别不能为空！'
             }],
-          })(<Select style={{ width: '100%' }}>{orgTypeOptions && orgTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
+          })(<DictSelect category="org_type" />)}
         </FormItem>
         <FormItem {...this.formStyle} label="父级机构">
           {form.getFieldDecorator('orgParentId', {
@@ -96,7 +79,7 @@ class OrgAddForm extends PureComponent{
               required: true,
               message: '父级机构不能为空！'
             }],
-          })(<TreeSelect style={{ width: '100%' }} treeData={this.loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
+          })(<OrgTreeSelect />)}
         </FormItem>
       </Modal>
     );

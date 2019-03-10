@@ -1,8 +1,9 @@
-import { Form, Input, Modal, Select, TreeSelect } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import React, { PureComponent } from 'react';
+import DictSelect from './DictSelect';
+import DistTreeSelect from './DistTreeSelect';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 @Form.create()
 class DistAddForm extends PureComponent{
@@ -33,26 +34,8 @@ class DistAddForm extends PureComponent{
     handleCancel();
   };
 
-  loadTreeData = (data0 = []) => {
-    const treeData = JSON.parse(JSON.stringify(data0));
-
-    function convert(data1 = []) {
-      data1.forEach((item) => {
-        item.key = item.distName;
-        item.value = item.distId;
-        item.title = item.distName;
-        if (item.children) {
-          convert(item.children);
-        }
-      });
-    }
-
-    convert(treeData);
-    return treeData;
-  };
-
   render() {
-    const { modalVisible, form, distTypeOptions, treeSelectData } = this.props;
+    const { modalVisible, form } = this.props;
     return (
       <Modal
         title="新建区域"
@@ -85,7 +68,7 @@ class DistAddForm extends PureComponent{
               required: true,
               message: '区域类别不能为空！'
             }],
-          })(<Select style={{ width: '100%' }}>{distTypeOptions && distTypeOptions.map((option) => <Option value={option.dictValue} key={option.dictId}>{option.dictKey}</Option>)}</Select>)}
+          })(<DictSelect category="dist_type" />)}
         </FormItem>
         <FormItem {...this.formStyle} label="区域地址">
           {form.getFieldDecorator('distAddress', {
@@ -101,7 +84,7 @@ class DistAddForm extends PureComponent{
               required: true,
               message: '父级区域不能为空！'
             }],
-          })(<TreeSelect style={{ width: '100%' }} treeData={this.loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
+          })(<DistTreeSelect />)}
         </FormItem>
       </Modal>
     );

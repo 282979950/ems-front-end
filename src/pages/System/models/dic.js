@@ -6,7 +6,11 @@ export default {
 
   state: {
     data: [],
-    dicData: {}
+    dicData: {
+      dist_type: [],
+      org_type: [],
+      emp_type: []
+    }
   },
 
   effects: {
@@ -46,9 +50,13 @@ export default {
     // 获取加载的字典项列表(其他页面需用到的数据字典项显示,根据类型)
     *fetchByType({ payload }, { call, put }) {
       const response = yield call(queryDict, payload);
+      const { category } = payload;
       yield put({
         type: 'saveByType',
-        payload: response.data
+        payload: {
+          category,
+          data: response.data
+        }
       });
     },
   },
@@ -61,10 +69,37 @@ export default {
       };
     },
     saveByType(state, action) {
-      return {
-        ...state,
-        dicData: action.payload
-      };
+      const {
+        payload : {
+          category,
+          data
+        }
+      } = action;
+      switch (category) {
+        case 'dist_type':
+          return {
+            ...state,
+            dicData: {
+              dist_type: data
+            },
+          };
+        case 'org_type':
+          return {
+            ...state,
+            dicData: {
+              org_type: data
+            },
+          };
+        case 'emp_type':
+          return {
+            ...state,
+            dicData: {
+              emp_type: data
+            },
+          };
+        default:
+          return null;
+      }
     },
   },
 };

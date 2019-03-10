@@ -19,6 +19,7 @@ import EmpAddForm from './components/EmpAddForm';
 import EmpEditForm from './components/EmpEditForm';
 import DistTreeSelect from './components/DistTreeSelect';
 import OrgTreeSelect from './components/OrgTreeSelect';
+import DictSelect from './components/DictSelect';
 
 const { confirm } = Modal;
 const { Option } = Select;
@@ -354,13 +355,7 @@ class Emp extends PureComponent {
             </Col>
             <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
               {getFieldDecorator('empType')(
-                <Select
-                  style={{ width:'100%' }}
-                  allowClear
-                  placeholder="用户类型"
-                >
-                  {empTypeData && empTypeData.map((option) => <Option value={option.dictValue} key={option.dictKey}>{option.dictKey}</Option>)}
-                </Select>
+                <DictSelect category="emp_type" />
               )}
             </Col>
           </Authorized>
