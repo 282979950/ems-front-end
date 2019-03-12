@@ -9,7 +9,8 @@ export default {
     dicData: {
       dist_type: [],
       org_type: [],
-      emp_type: []
+      emp_type: [],
+      meter_direction: []
     }
   },
 
@@ -95,6 +96,13 @@ export default {
             ...state,
             dicData: {
               emp_type: data
+            },
+          };
+        case 'meter_direction':
+          return {
+            ...state,
+            dicData: {
+              meter_direction: data
             },
           };
         default:
