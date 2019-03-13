@@ -83,7 +83,7 @@ export default [
           {
             path: '/account/createArchive',
             name: 'createArchive',
-            component: './System/Dist',
+            component: './Account/CreateArchive',
             authority: 'account:createArchive:visit'
           },
           {

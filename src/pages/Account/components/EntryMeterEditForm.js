@@ -88,7 +88,7 @@ class EntryMeterEditForm extends PureComponent{
               required: true,
               message: '表具编号不能为空！',
             }, {
-              length: 12,
+              len: 12,
               message: '表具编号长度必须为12位',
             }],
           })(<Input />)}

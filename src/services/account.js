@@ -46,3 +46,47 @@ export async function searchEntryMeter(params) {
 export async function getAllMeterTypes() {
   return request('/api/entryMeter//getAllMeterTypes.do');
 }
+
+/**
+ * 用户建档
+ */
+export async function queryCreateArchive(params) {
+  return request(`/api/createArchive/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function deleteCreateArchive(params) {
+  return request('/api/createArchive/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addCreateArchive(params) {
+  return request('/api/createArchive/add.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function editCreateArchive(params) {
+  return request('/api/createArchive/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchCreateArchive(params) {
+  return request('/api/createArchive/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
