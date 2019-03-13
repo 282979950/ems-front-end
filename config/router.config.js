@@ -89,7 +89,7 @@ export default [
           {
             path: '/account/installMeter',
             name: 'installMeter',
-            component: './System/Dist',
+            component: './Account/InstallMeter',
             authority: 'account:installMeter:visit'
           },
           {

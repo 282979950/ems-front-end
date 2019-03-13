@@ -90,3 +90,28 @@ export async function searchCreateArchive(params) {
   });
 }
 
+/**
+ * 用户建档
+ */
+export async function queryInstallMeter(params) {
+  return request(`/api/installMeter/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function editInstallMeter(params) {
+  return request('/api/installMeter/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchInstallMeter(params) {
+  return request('/api/installMeter/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
