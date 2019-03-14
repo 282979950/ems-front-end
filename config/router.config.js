@@ -77,7 +77,7 @@ export default [
           {
             path: '/account/entryMeter',
             name: 'entryMeter',
-            component: './Account/EntryMeter',
+            component: './System/Dist',
             authority: 'account:entryMeter:visit'
           },
           {
@@ -107,7 +107,7 @@ export default [
           {
             path: '/account/alter',
             name: 'alter',
-            component: './System/Dist',
+            component: './Account/UserChange',
             authority: 'account:alter:visit'
           },
         ],

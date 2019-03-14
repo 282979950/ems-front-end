@@ -280,3 +280,43 @@ export async function editGasPrice(params) {
     },
   });
 }
+
+export async function queryUserChange(params) {
+  return request(`/api/alter/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+
+export async function deleteUserChange(params) {
+  return request('/api/alter/userEliminationHead.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+/*
+ *账户过户
+ */
+export async function editUserChange(params) {
+  return request('/api/alter/userChangeSettlement.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+export async function searchUserChange(params) {
+  return request('/api/alter/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+export async function historyUserChange(params) {
+  return request('/api/alter/userChangeList.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
