@@ -5,10 +5,8 @@ import StandardTable from '../../../components/StandardTable';
 import Authorized from '../../../utils/Authorized';
 
 const FormItem = Form.Item;
-
 @Form.create()
 class UserChangeHistoryRecord extends PureComponent{
-
   columns = [
     {
       title: '用户名称',
@@ -46,7 +44,6 @@ class UserChangeHistoryRecord extends PureComponent{
       title: '创建时间',
       dataIndex: 'createTime'
     }
-
   ];
 
   handleRemoveModalVisible = () => {

@@ -71,7 +71,6 @@ const FormItem = Form.Item;
 class UserChangeRemoveForm extends PureComponent{
   constructor() {
     super();
-
     this.state = {
 
     };
@@ -104,7 +103,6 @@ class UserChangeRemoveForm extends PureComponent{
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleRemoveModalVisible}
-
       >
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="用户ID">
           {form.getFieldDecorator('userId', {})(<Input />)}

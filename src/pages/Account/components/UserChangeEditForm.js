@@ -53,7 +53,6 @@ const FormItem = Form.Item;
 class UserChangeEditForm extends PureComponent{
   constructor() {
     super();
-
     this.state = {
 
     };
@@ -87,7 +86,6 @@ class UserChangeEditForm extends PureComponent{
         onOk={this.handleOK}
         onCancel={this.handleCancel}
         width={600}
-
       >
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="用户ID">
           {form.getFieldDecorator('userId', {})(<Input />)}

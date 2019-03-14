@@ -31,7 +31,6 @@ const { confirm } = Modal;
 @Form.create()
 class UserChange extends PureComponent {
   state = {
-
     editModalVisible: false,
     removeModalVisible:false,
     historyModalVisible:false,
@@ -96,8 +95,7 @@ class UserChange extends PureComponent {
       type: 'userChange/fetch',
       payload: {
         pageNum,
-        pageSize,
-        userMoney
+        pageSize
       }
     });
   }
@@ -224,7 +222,6 @@ class UserChange extends PureComponent {
       callback: (response) => {
         if (response.status === 0) {
           message.success(response.message);
-
         }else{
           message.error(response.message);
         }
@@ -253,18 +250,13 @@ class UserChange extends PureComponent {
       title: '销户',
       content: `确认对选中的${selectedRows.length}个账户销户？`,
       onOk() {
-
         const userMoney = 0;
         const OrderSupplement =0;
         const flage = 0;
-
-     const   selected =selectedRows[0]
-
-
+        const selected =selectedRows[0]
         dispatch({
           type: 'userChange/delete',
           payload: {
-
             userMoney,
             OrderSupplement,
             flage,
@@ -295,13 +287,10 @@ class UserChange extends PureComponent {
                     selectedData:selectedRows[0]
                   });
                 }
-
-
               } else {
                 message.error(response.message);
               }
             }
-
           }
         });
       },
@@ -317,7 +306,6 @@ class UserChange extends PureComponent {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     const _ = this;
-
     dispatch({
       type: 'userChange/historyRecord',
       payload: {
