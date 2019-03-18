@@ -1,8 +1,9 @@
-import { stringify } from 'qs';
 import { request } from '../utils/request';
 
 export async function queryDist() {
-  return request('/api/dist/listData.do');
+  return request('/api/dist/listData.do', {
+    method: 'POST',
+  });
 }
 
 export async function addDist(params) {
@@ -42,11 +43,15 @@ export async function searchDist(params) {
 }
 
 export async function loadDistTreeData() {
-  return request('/api/dist/loadTreeData.do');
+  return request('/api/dist/loadTreeData.do', {
+    method: 'POST',
+  });
 }
 
 export async function queryOrg() {
-  return request('/api/org/listData.do');
+  return request('/api/org/listData.do', {
+    method: 'POST',
+  });
 }
 
 export async function deleteOrg(params) {
@@ -86,12 +91,19 @@ export async function searchOrg(params) {
 }
 
 export async function loadOrgTreeData() {
-  return request('/api/org/loadTreeData.do');
+  return request('/api/org/loadTreeData.do', {
+    method: 'POST',
+  });
 }
 
 
 export async function queryRole(params) {
-  return request(`/api/role/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+  return request('/api/role/listData.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
 }
 
 export async function deleteRole(params) {
@@ -131,7 +143,12 @@ export async function searchRole(params) {
 }
 
 export async function queryEmp(params) {
-  return request(`/api/emp/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+  return request('/api/emp/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
 }
 
 export async function deleteEmp(params) {
@@ -172,9 +189,16 @@ export async function searchEmp(params) {
 
 export async function queryDict(params) {
   if (params) {
-    return request(`/api/dic/dictByType.do?${stringify(params)}`);
+    return request('/api/dic/dictByType.do', {
+      method: 'POST',
+      body: {
+        ...params
+      },
+    });
   }
-  return request('/api/dic/listData.do');
+  return request('/api/dic/listData.do', {
+    method: 'POST',
+  });
 }
 
 export async function deleteDict(params) {
@@ -212,15 +236,30 @@ export async function searchDict(params) {
   });
 }
 export async function queryListDict(params) {
-  return request(`/api/dic/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+  return request('/api/dic/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
 }
 
 export async function loadDicListData(params) {
-  return request(`/api/dic/loadListData.do?${stringify(params)}`);
+  return request('/api/dic/loadListData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
 }
 
 export async function queryPerm(params) {
-  return request(`/api/permission/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+  return request('/api/permission/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
 }
 
 export async function deletePerm(params) {
@@ -260,16 +299,25 @@ export async function searchPerm(params) {
 }
 
 export async function queryAllMenus() {
-  return request('/api/permission/listAllMenus.do');
+  return request('/api/permission/listAllMenus.do', {
+    method: 'POST',
+  });
 }
 
 export async function queryAllPerms() {
-  return request('/api/permission/listAllPerms.do');
+  return request('/api/permission/listAllPerms.do', {
+    method: 'POST',
+  });
 }
 
 
 export async function queryGasPrice(params) {
-  return request(`/api/gasPrice/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+  return request('/api/gasPrice/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
 }
 
 export async function editGasPrice(params) {

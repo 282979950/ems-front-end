@@ -95,7 +95,7 @@ export default [
           {
             path: '/account/createAccount',
             name: 'createAccount',
-            component: './System/Dist',
+            component: './Account/CreateAccount',
             authority: 'account:createAccount:visit'
           },
           {
