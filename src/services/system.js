@@ -320,3 +320,33 @@ export async function historyUserChange(params) {
     },
   });
 }
+/*
+ *账户锁定、解锁
+ */
+export async function queryLockAccount(params) {
+  return request(`/api/lockAccount/listData.do?pageNum=${params.pageNum}&pageSize=${params.pageSize}`);
+}
+export async function searchLockAccount(params) {
+  return request('/api/lockAccount/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+export async function editLockAccount(params) {
+  return request('/api/lockAccount/lock.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+export async function historyLockAccount(params) {
+  return request('/api/lockAccount/List.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

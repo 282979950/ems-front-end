@@ -101,7 +101,7 @@ export default [
           {
             path: '/account/lockAccount',
             name: 'lockAccount',
-            component: './System/Dist',
+            component: './Account/LockAccount',
             authority: 'account:lockAccount:visit'
           },
           {
