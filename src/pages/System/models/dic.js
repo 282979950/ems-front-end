@@ -9,7 +9,11 @@ export default {
     dicData: {
       dist_type: [],
       org_type: [],
-      emp_type: []
+      emp_type: [],
+      meter_direction: [],
+      user_type: [],
+      user_gas_type: [],
+      user_status: []
     }
   },
 
@@ -75,11 +79,13 @@ export default {
           data
         }
       } = action;
+      const { dicData } = state;
       switch (category) {
         case 'dist_type':
           return {
             ...state,
             dicData: {
+              ...dicData,
               dist_type: data
             },
           };
@@ -94,7 +100,40 @@ export default {
           return {
             ...state,
             dicData: {
+              ...dicData,
               emp_type: data
+            },
+          };
+        case 'meter_direction':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              meter_direction: data
+            },
+          };
+        case 'user_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              user_type: data
+            },
+          };
+        case 'user_gas_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              user_gas_type: data
+            },
+          };
+        case 'user_status':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              user_status: data
             },
           };
         default:

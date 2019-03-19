@@ -317,11 +317,9 @@ class Emp extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     const {
-      dic,
       role,
     } = this.props;
     const roleData = role.data;
-    const empTypeData = dic.dicData;
     return (
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
@@ -355,7 +353,7 @@ class Emp extends PureComponent {
             </Col>
             <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
               {getFieldDecorator('empType')(
-                <DictSelect category="emp_type" />
+                <DictSelect category="emp_type" placeholder="用户类型" />
               )}
             </Col>
           </Authorized>

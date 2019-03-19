@@ -83,19 +83,19 @@ export default [
           {
             path: '/account/createArchive',
             name: 'createArchive',
-            component: './System/Dist',
+            component: './Account/CreateArchive',
             authority: 'account:createArchive:visit'
           },
           {
             path: '/account/installMeter',
             name: 'installMeter',
-            component: './System/Dist',
+            component: './Account/InstallMeter',
             authority: 'account:installMeter:visit'
           },
           {
             path: '/account/createAccount',
             name: 'createAccount',
-            component: './System/Dist',
+            component: './Account/CreateAccount',
             authority: 'account:createAccount:visit'
           },
           {
