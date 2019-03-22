@@ -77,7 +77,7 @@ export default [
           {
             path: '/account/entryMeter',
             name: 'entryMeter',
-            component: './System/Dist',
+            component: './Account/EntryMeter',
             authority: 'account:entryMeter:visit'
           },
           {
