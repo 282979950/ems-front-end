@@ -398,3 +398,59 @@ export async function historyLockAccount(params) {
     },
   });
 }
+/*
+ *账务处理，预冲账
+ */
+  export async function queryPreStrike(params) {
+  return request('/api/preStrike/listData.do',{
+    method: 'POST',
+    body: {
+      ...params
+    }
+  });
+}
+export async function editPreStrike(params) {
+  return request('/api/preStrike/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+export async function searchPreStrike(params) {
+  return request('/api/preStrike/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+/*
+* 账务处理：冲账
+*/
+export async function queryStrikeNucleus(params) {
+  return request('/api/strike/listData.do',{
+    method: 'POST',
+    body: {
+      ...params
+    }
+  });
+}
+
+export async function editStrikeNucleus(params) {
+  return request('/api/strike/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchStrikeNucleus(params) {
+  return request('/api/strike/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

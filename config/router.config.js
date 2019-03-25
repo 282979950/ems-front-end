@@ -209,13 +209,13 @@ export default [
           {
             path: '/financial/preStrike',
             name: 'preStrike',
-            component: './System/Dist',
+            component: './Financial/PreStrike',
             authority: 'financial:preStrike:visit'
           },
           {
             path: '/financial/strike',
             name: 'strike',
-            component: './System/Dist',
+            component: './Financial/StrikeNucleus',
             authority: 'financial:strike:visit'
           },
         ],
