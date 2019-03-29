@@ -16,6 +16,7 @@ import Authorized from '../../utils/Authorized';
 import styles from '../Common.less';
 import OCX from '../../components/OCX';
 import PrePaymentForm from './components/PrePaymentForm';
+import NewCardPayment from './components/NewCardPayment';
 
 @connect(({ prePayment, loading }) => ({
   prePayment,
@@ -24,7 +25,8 @@ import PrePaymentForm from './components/PrePaymentForm';
 @Form.create()
 class PrePayment extends PureComponent {
   state = {
-    PrePaymentModalVisible: false,
+    prePaymentModalVisible: false,
+    newCardPaymentModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -37,7 +39,7 @@ class PrePayment extends PureComponent {
       dataIndex: 'userId',
     },
     {
-      title: 'IC卡卡号',
+      title: 'IC卡号',
       dataIndex: 'iccardId',
     },
     {
@@ -130,7 +132,7 @@ class PrePayment extends PureComponent {
         message.info('该卡为密码传递卡，不能充值');
         return;
       }
-      if(result[2] !== selectedRows[0].iccardIdentifier || result[3] != selectedRows[0].iccardId){
+      if(result[2] !== selectedRows[0].iccardIdentifier){
         message.info("该卡不是与该用户绑定的卡");
         return;
       }
@@ -141,19 +143,45 @@ class PrePayment extends PureComponent {
           okText: '继续充值',
           onOk: () => {
             this.setState({
-              PrePaymentModalVisible: !!flag,
+              prePaymentModalVisible: !!flag,
             });
           },
           cancelText: '取消',
         });
       } else {
         this.setState({
-          PrePaymentModalVisible: !!flag,
+          prePaymentModalVisible: !!flag,
         });
       }
     } else {
       this.setState({
-        PrePaymentModalVisible: !!flag,
+        prePaymentModalVisible: !!flag,
+      });
+    }
+  };
+
+  handleNewCardPaymentFormVisible = flag => {
+    if (flag) {
+      const { selectedRows } = this.state;
+      const result = OCX.readCard();
+      if (result[0] !== 'S') {
+        message.error("读卡失败");
+        return;
+      }
+      if (result[1] !== '0') {
+        message.info('只能对新卡进行发卡充值');
+        return;
+      }
+      if(result[2] !== selectedRows[0].iccardIdentifier){
+        message.info("该卡不是与该用户绑定的卡");
+        return;
+      }
+      this.setState({
+        newCardPaymentModalVisible: !!flag,
+      });
+    } else {
+      this.setState({
+        newCardPaymentModalVisible: !!flag,
       });
     }
   };
@@ -172,6 +200,53 @@ class PrePayment extends PureComponent {
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, flowNumber, orderId } = data;
           const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, orderGas, flowNumber);
+          if (wResult === '写卡成功') {
+            dispatch({
+              type: 'order/updateOrderStatus',
+              payload: {
+                orderId,
+                orderStatus: 2
+              },
+              callback: (response2) => {
+                if (response2.status === 0) {
+                  message.success("写卡成功");
+                  dispatch({
+                    type: 'prePayment/search',
+                    payload: {
+                      iccardIdentifier: selectedRows[0].iccardIdentifier,
+                      pageNum,
+                      pageSize
+                    },
+                  });
+                } else {
+                  message.error(response2.message);
+                }
+              }
+            })
+          } else {
+            message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
+          }
+        } else {
+          message.error('充值失败,请重试');
+        }
+      },
+    });
+  };
+
+  handleNewCardPaymentEdit = fields => {
+    this.handleNewCardPaymentFormVisible();
+    const { dispatch } = this.props;
+    const { selectedRows, pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    dispatch({
+      type: 'prePayment/edit',
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('充值成功，开始写卡');
+          const { data } = response;
+          const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
+          const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
           if (wResult === '写卡成功') {
             dispatch({
               type: 'order/updateOrderStatus',
@@ -261,7 +336,7 @@ class PrePayment extends PureComponent {
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('iccardId')(<Input placeholder="IC卡卡号" />)}
+            {getFieldDecorator('iccardId')(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
@@ -286,16 +361,21 @@ class PrePayment extends PureComponent {
       prePayment : { data },
       loading,
     } = this.props;
-    const { selectedRows, PrePaymentModalVisible } = this.state;
+    const { selectedRows, prePaymentModalVisible, newCardPaymentModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="recharge-prePayment">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
+              <Authorized authority="recharge:pre:record">
+                <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
+              </Authorized>
               <Authorized authority="recharge:pre:update">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handlePrePaymentFormVisible(true)}>预付费充值</Button>
+              </Authorized>
+              <Authorized authority="recharge:pre:new">
+                <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleNewCardPaymentFormVisible(true)}>发卡充值</Button>
               </Authorized>
             </div>
             <StandardTable
@@ -314,9 +394,16 @@ class PrePayment extends PureComponent {
           <PrePaymentForm
             handleEdit={this.handleEdit}
             handleCancel={this.handlePrePaymentFormVisible}
-            modalVisible={PrePaymentModalVisible}
+            modalVisible={prePaymentModalVisible}
             selectedData={selectedRows[0]}
-            getCardIdentifier={this.getCardIdentifier}
+          />) : null
+        }
+        {selectedRows.length === 1 ? (
+          <NewCardPayment
+            handleEdit={this.handleNewCardPaymentEdit}
+            handleCancel={this.handleNewCardPaymentFormVisible}
+            modalVisible={newCardPaymentModalVisible}
+            selectedData={selectedRows[0]}
           />) : null
         }
       </PageHeaderWrapper>
