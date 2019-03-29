@@ -37,7 +37,7 @@ class LockAccount extends PureComponent {
 
   columns = [
     {
-      title: '用户编号',
+      title: '户号',
       dataIndex: 'userId',
     },
     {

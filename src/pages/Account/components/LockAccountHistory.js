@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 class LockAccountHistory extends PureComponent{
   columns = [
     {
-      title: '用户编号',
+      title: '户号',
       dataIndex: 'userId',
     },
     {

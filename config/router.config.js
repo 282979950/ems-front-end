@@ -122,13 +122,13 @@ export default [
           {
             path: '/recharge/prePayment',
             name: 'prePayment',
-            component: './System/Dist',
+            component: './Recharge/PrePayment',
             authority: 'recharge:prePayment:visit'
           },
           {
             path: '/recharge/replaceCard',
             name: 'replaceCard',
-            component: './System/Dist',
+            component: './Recharge/ReplaceCard',
             authority: 'recharge:replaceCard:visit'
           },
           {

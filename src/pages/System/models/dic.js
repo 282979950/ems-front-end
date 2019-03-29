@@ -13,7 +13,8 @@ export default {
       meter_direction: [],
       user_type: [],
       user_gas_type: [],
-      user_status: []
+      user_status: [],
+      card_cost: []
     }
   },
 
@@ -134,6 +135,14 @@ export default {
             dicData: {
               ...dicData,
               user_status: data
+            },
+          };
+        case 'card_cost':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              card_cost: data
             },
           };
         default:

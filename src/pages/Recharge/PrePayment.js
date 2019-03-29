@@ -8,25 +8,23 @@ import {
   Input,
   Button,
   message,
+  Modal
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
 import styles from '../Common.less';
-import DictSelect from '../System/components/DictSelect';
-import DistTreeSelect from '../System/components/DistTreeSelect';
 import OCX from '../../components/OCX';
-import CreateAccountForm from './components/CreateAccountForm';
+import PrePaymentForm from './components/PrePaymentForm';
 
-@connect(({ account, order, loading }) => ({
-  account,
-  order,
-  loading: loading.models.account,
+@connect(({ prePayment, loading }) => ({
+  prePayment,
+  loading: loading.models.prePayment,
 }))
 @Form.create()
-class CreateAccount extends PureComponent {
+class PrePayment extends PureComponent {
   state = {
-    editModalVisible: false,
+    PrePaymentModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -39,8 +37,20 @@ class CreateAccount extends PureComponent {
       dataIndex: 'userId',
     },
     {
-      title: '用户区域',
-      dataIndex: 'userDistName',
+      title: 'IC卡卡号',
+      dataIndex: 'iccardId',
+    },
+    {
+      title: 'IC卡识别号',
+      dataIndex: 'iccardIdentifier',
+    },
+    {
+      title: '用户名称',
+      dataIndex: 'userName',
+    },
+    {
+      title: '手机',
+      dataIndex: 'userPhone',
     },
     {
       title: '用户地址',
@@ -55,37 +65,26 @@ class CreateAccount extends PureComponent {
       dataIndex: 'userGasTypeName',
     },
     {
-      title: '用户状态',
-      dataIndex: 'userStatusName',
+      title: '购气次数',
+      dataIndex: 'totalOrderTimes',
+    },
+    {
+      title: '购气总量',
+      dataIndex: 'totalOrderGas',
+    },
+    {
+      title: '购气总额',
+      dataIndex: 'totalOrderPayment',
     },
   ];
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'account/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      }
-    });
-  }
-
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
-    });
-    dispatch({
-      type: 'account/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
     });
   };
 
@@ -105,7 +104,7 @@ class CreateAccount extends PureComponent {
         pageSize: 10
       });
       dispatch({
-        type: 'account/search',
+        type: 'prePayment/search',
         payload: {
           ...fieldsValue,
           pageNum: 1,
@@ -115,26 +114,64 @@ class CreateAccount extends PureComponent {
     });
   };
 
-  handleEditModalVisible = flag => {
-    this.setState({
-      editModalVisible: !!flag,
-    });
+  handlePrePaymentFormVisible = flag => {
+    if (flag) {
+      const { selectedRows } = this.state;
+      const result = OCX.readCard();
+      if (result[0] !== 'S') {
+        message.error("读卡失败");
+        return;
+      }
+      if (result[1] === '0') {
+        message.info('该卡为新卡，请使用发卡充值');
+        return;
+      }
+      if (result[1] === '1') {
+        message.info('该卡为密码传递卡，不能充值');
+        return;
+      }
+      if(result[2] !== selectedRows[0].iccardIdentifier || result[3] != selectedRows[0].iccardId){
+        message.info("该卡不是与该用户绑定的卡");
+        return;
+      }
+      if (result[4] !== 0) {
+        Modal.confirm({
+          title: '是否继续充值',
+          content: '卡内已有未圈存的气量,确认覆盖已有气量继续充值吗？',
+          okText: '继续充值',
+          onOk: () => {
+            this.setState({
+              PrePaymentModalVisible: !!flag,
+            });
+          },
+          cancelText: '取消',
+        });
+      } else {
+        this.setState({
+          PrePaymentModalVisible: !!flag,
+        });
+      }
+    } else {
+      this.setState({
+        PrePaymentModalVisible: !!flag,
+      });
+    }
   };
 
   handleEdit = fields => {
-    this.handleEditModalVisible();
+    this.handlePrePaymentFormVisible();
     const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
+    const { selectedRows, pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
-      type: 'account/edit',
+      type: 'prePayment/edit',
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          message.success('录入开户信息成功');
+          message.success('充值成功，开始写卡');
           const { data } = response;
-          const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
-          const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
+          const { iccardId, iccardPassword, orderGas, flowNumber, orderId } = data;
+          const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, orderGas, flowNumber);
           if (wResult === '写卡成功') {
             dispatch({
               type: 'order/updateOrderStatus',
@@ -144,10 +181,11 @@ class CreateAccount extends PureComponent {
               },
               callback: (response2) => {
                 if (response2.status === 0) {
-                  message.success("开户首单充值成功");
+                  message.success("写卡成功");
                   dispatch({
-                    type: 'account/fetch',
+                    type: 'prePayment/search',
                     payload: {
+                      iccardIdentifier: selectedRows[0].iccardIdentifier,
                       pageNum,
                       pageSize
                     },
@@ -158,10 +196,10 @@ class CreateAccount extends PureComponent {
               }
             })
           } else {
-            message.error("充值成功，写卡失败，请前往订单页面写卡");
+            message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
           }
         } else {
-          message.error(response.message);
+          message.error('充值失败,请重试');
         }
       },
     });
@@ -194,15 +232,22 @@ class CreateAccount extends PureComponent {
     });
   };
 
-  getCardIdentifier = () => {
+  identifyCard = () => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
     const result = OCX.readCard();
     if (result[0] !== 'S') {
       return "读卡失败";
     }
-    if (result[1] !== '0') {
-      return "只能使用新卡进行开户";
-    }
-    return result[2];
+    dispatch({
+      type: 'prePayment/search',
+      payload: {
+        iccardIdentifier: result[2],
+        pageNum,
+        pageSize
+      },
+    });
+    return '';
   };
 
   renderForm() {
@@ -213,19 +258,13 @@ class CreateAccount extends PureComponent {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userId')(<Input placeholder="户号" />)}
+            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
+            {getFieldDecorator('iccardId')(<Input placeholder="IC卡卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userType')(<DictSelect placeholder="用户类型" category="user_type" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userGasType')(<DictSelect placeholder="用气类型" category="user_gas_type" />)}
+            {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>
@@ -244,18 +283,19 @@ class CreateAccount extends PureComponent {
 
   render() {
     const {
-      account : { data },
+      prePayment : { data },
       loading,
     } = this.props;
-    const { selectedRows, editModalVisible } = this.state;
+    const { selectedRows, PrePaymentModalVisible } = this.state;
     return (
-      <PageHeaderWrapper className="account-createAccount">
+      <PageHeaderWrapper className="recharge-prePayment">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Authorized authority="account:createArchive:update">
-                <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
+              <Authorized authority="recharge:pre:update">
+                <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handlePrePaymentFormVisible(true)}>预付费充值</Button>
               </Authorized>
             </div>
             <StandardTable
@@ -271,10 +311,10 @@ class CreateAccount extends PureComponent {
           </div>
         </Card>
         {selectedRows.length === 1 ? (
-          <CreateAccountForm
+          <PrePaymentForm
             handleEdit={this.handleEdit}
-            handleCancel={this.handleEditModalVisible}
-            modalVisible={editModalVisible}
+            handleCancel={this.handlePrePaymentFormVisible}
+            modalVisible={PrePaymentModalVisible}
             selectedData={selectedRows[0]}
             getCardIdentifier={this.getCardIdentifier}
           />) : null
@@ -284,4 +324,4 @@ class CreateAccount extends PureComponent {
   }
 }
 
-export default CreateAccount;
+export default PrePayment;

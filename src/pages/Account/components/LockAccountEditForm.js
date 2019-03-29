@@ -74,7 +74,7 @@ class LockAccountEditForm extends PureComponent{
         onCancel={this.handleCancel}
         okText={selectedData.isLock?'解锁':'锁定'}
       >
-        <FormItem {...this.formStyle} style={{ display: 'none' }} label="用户编号">
+        <FormItem {...this.formStyle} style={{ display: 'none' }} label="户号">
           {form.getFieldDecorator('userId', {})(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="客户姓名">

@@ -8,25 +8,25 @@ import {
   Input,
   Button,
   message,
+  Modal
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
 import styles from '../Common.less';
-import DictSelect from '../System/components/DictSelect';
-import DistTreeSelect from '../System/components/DistTreeSelect';
 import OCX from '../../components/OCX';
-import CreateAccountForm from './components/CreateAccountForm';
+import ReplaceCardForm from './components/ReplaceCardForm';
+import ReplaceCardHistoryForm from './components/ReplaceCardHistoryForm';
 
-@connect(({ account, order, loading }) => ({
-  account,
-  order,
-  loading: loading.models.account,
+@connect(({ replaceCard, loading }) => ({
+  replaceCard,
+  loading: loading.models.replaceCard,
 }))
 @Form.create()
-class CreateAccount extends PureComponent {
+class ReplaceCard extends PureComponent {
   state = {
-    editModalVisible: false,
+    replaceCardFormVisible: false,
+    replaceCardHistoryFormVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -39,32 +39,28 @@ class CreateAccount extends PureComponent {
       dataIndex: 'userId',
     },
     {
-      title: '用户区域',
-      dataIndex: 'userDistName',
+      title: 'IC卡识别号',
+      dataIndex: 'iccardIdentifier',
+    },
+    {
+      title: '用户名称',
+      dataIndex: 'userName',
+    },
+    {
+      title: '手机',
+      dataIndex: 'userPhone',
     },
     {
       title: '用户地址',
       dataIndex: 'userAddress',
     },
-    {
-      title: '用户类型',
-      dataIndex: 'userTypeName',
-    },
-    {
-      title: '用气类型',
-      dataIndex: 'userGasTypeName',
-    },
-    {
-      title: '用户状态',
-      dataIndex: 'userStatusName',
-    },
   ];
 
-  componentDidMount() {
+  componentDidMount () {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
-      type: 'account/fetch',
+      type: 'replaceCard/fetch',
       payload: {
         pageNum,
         pageSize
@@ -81,10 +77,10 @@ class CreateAccount extends PureComponent {
       pageSize: 10
     });
     dispatch({
-      type: 'account/fetch',
+      type: 'replaceCard/fetch',
       payload: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
       },
     });
   };
@@ -105,7 +101,7 @@ class CreateAccount extends PureComponent {
         pageSize: 10
       });
       dispatch({
-        type: 'account/search',
+        type: 'replaceCard/search',
         payload: {
           ...fieldsValue,
           pageNum: 1,
@@ -115,23 +111,45 @@ class CreateAccount extends PureComponent {
     });
   };
 
-  handleEditModalVisible = flag => {
+  handleReplaceCardFormVisible = flag => {
     this.setState({
-      editModalVisible: !!flag,
+      replaceCardFormVisible: !!flag,
     });
   };
 
+  handleReplaceCardHistoryFormVisible = flag => {
+    if (flag) {
+      const { dispatch } = this.props;
+      const { selectedRows } = this.state;
+      dispatch({
+        type: 'replaceCard/searchHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: () => {
+          this.setState({
+            replaceCardHistoryFormVisible: !!flag,
+          });
+        }
+      });
+    } else {
+      this.setState({
+        replaceCardHistoryFormVisible: !!flag,
+      });
+    }
+  };
+
   handleEdit = fields => {
-    this.handleEditModalVisible();
+    this.handleReplaceCardFormVisible();
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
-      type: 'account/edit',
+      type: 'replaceCard/edit',
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          message.success('录入开户信息成功');
+          message.success('补卡充值成功，开始写卡');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
           const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
@@ -144,9 +162,9 @@ class CreateAccount extends PureComponent {
               },
               callback: (response2) => {
                 if (response2.status === 0) {
-                  message.success("开户首单充值成功");
+                  message.success("写卡成功");
                   dispatch({
-                    type: 'account/fetch',
+                    type: 'replaceCard/fetch',
                     payload: {
                       pageNum,
                       pageSize
@@ -158,7 +176,7 @@ class CreateAccount extends PureComponent {
               }
             })
           } else {
-            message.error("充值成功，写卡失败，请前往订单页面写卡");
+            message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
           }
         } else {
           message.error(response.message);
@@ -189,7 +207,7 @@ class CreateAccount extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'account/fetch',
+      type: 'replaceCard/fetch',
       payload: params,
     });
   };
@@ -200,7 +218,7 @@ class CreateAccount extends PureComponent {
       return "读卡失败";
     }
     if (result[1] !== '0') {
-      return "只能使用新卡进行开户";
+      return "只能使用新卡进行补卡";
     }
     return result[2];
   };
@@ -216,16 +234,16 @@ class CreateAccount extends PureComponent {
             {getFieldDecorator('userId')(<Input placeholder="户号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
+            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            {getFieldDecorator('userPhone')(<Input placeholder="手机" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userType')(<DictSelect placeholder="用户类型" category="user_type" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userGasType')(<DictSelect placeholder="用气类型" category="user_gas_type" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>
@@ -244,18 +262,21 @@ class CreateAccount extends PureComponent {
 
   render() {
     const {
-      account : { data },
+      replaceCard : { data, history },
       loading,
     } = this.props;
-    const { selectedRows, editModalVisible } = this.state;
+    const { selectedRows, replaceCardFormVisible, replaceCardHistoryFormVisible } = this.state;
     return (
-      <PageHeaderWrapper className="account-createAccount">
+      <PageHeaderWrapper className="recharge-replaceCard">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Authorized authority="account:createArchive:update">
-                <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              <Authorized authority="recharge:replaceCard:update">
+                <Button icon="credit-card" disabled={selectedRows.length !== 1} onClick={() => this.handleReplaceCardFormVisible(true)}>补卡</Button>
+              </Authorized>
+              <Authorized authority="recharge:replaceCard:history">
+                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.handleReplaceCardHistoryFormVisible(true)}>历史记录</Button>
               </Authorized>
             </div>
             <StandardTable
@@ -271,12 +292,19 @@ class CreateAccount extends PureComponent {
           </div>
         </Card>
         {selectedRows.length === 1 ? (
-          <CreateAccountForm
+          <ReplaceCardForm
             handleEdit={this.handleEdit}
-            handleCancel={this.handleEditModalVisible}
-            modalVisible={editModalVisible}
+            handleCancel={this.handleReplaceCardFormVisible}
+            modalVisible={replaceCardFormVisible}
             selectedData={selectedRows[0]}
             getCardIdentifier={this.getCardIdentifier}
+          />) : null
+        }
+        {selectedRows.length === 1 ? (
+          <ReplaceCardHistoryForm
+            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
+            modalVisible={replaceCardHistoryFormVisible}
+            historyData={history}
           />) : null
         }
       </PageHeaderWrapper>
@@ -284,4 +312,4 @@ class CreateAccount extends PureComponent {
   }
 }
 
-export default CreateAccount;
+export default ReplaceCard;
