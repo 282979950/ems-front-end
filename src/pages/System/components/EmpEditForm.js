@@ -114,8 +114,8 @@ class EmpEditForm extends PureComponent{
             {form.getFieldDecorator('empPhone', {
               initialValue: formValues.empPhone,
               rules: [{
-                max: 20,
-                message: '电话不能超过20个字',
+                pattern: /^(\(\d{3,4}\)|\d{3,4}-)?\d{7,14}$/,
+                message: '电话号码不正确',
               }],
             })(<Input />)}
           </FormItem>,
@@ -123,8 +123,8 @@ class EmpEditForm extends PureComponent{
             {form.getFieldDecorator('empMobile', {
               initialValue: formValues.empMobile,
               rules: [{
-                max: 20,
-                message: '姓名不能超过20个字',
+                pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
+                message: '手机号不正确',
               }],
             })(<Input />)}
           </FormItem>,
