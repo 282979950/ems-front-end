@@ -84,6 +84,7 @@ class CreateAccountForm extends PureComponent{
       selectedData
     } = this.props;
     const { userId } = selectedData;
+    
     return (
       <Modal
         title="账户开户"
@@ -107,8 +108,11 @@ class CreateAccountForm extends PureComponent{
         <FormItem {...this.formStyle} label="手机">
           {form.getFieldDecorator('userPhone', {
             rules: [{
-              required: true,
-              message: '手机不能为空！',
+              pattern: /^1[34578]\d{9}$/,
+              message: '请输入正确的手机号！',
+            },{
+              required:true,
+              message:'手机号不能为空！'
             }]
           })(
             <Input />
@@ -117,6 +121,9 @@ class CreateAccountForm extends PureComponent{
         <FormItem {...this.formStyle} label="身份证">
           {form.getFieldDecorator('userIdcard', {
             rules: [{
+              pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+              message: '请输入正确的份证号！',
+            },{
               required: true,
               message: '身份证不能为空！'
             }],
