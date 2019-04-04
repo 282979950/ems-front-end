@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Icon, Input } from 'antd';
+import { Card, Row, Col, Input, Button, Tooltip } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import style from './User.less'
@@ -66,6 +66,32 @@ class User extends Component {
     });
   };
 
+  handleSelectedRowsReset = () => {
+    this.setState({
+      selectedRows: []
+    });
+  };
+
+  handleStandardTableChange = (pagination) => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
+      this.handleSelectedRowsReset();
+    }
+    const params = {
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize
+    };
+    this.setState({
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize
+    });
+    dispatch({
+      type: 'userQuery/fetch',
+      payload: params,
+    });
+  };
+
   render() {
     const {
       userQuery: {data},
@@ -78,22 +104,22 @@ class User extends Component {
           <div className={style.userInfoQuery}>
             <Row gutter={16}>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Icon type="edit" /></div>
+                <div className="gutter-box"><Tooltip title="变更信息"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="充值信息"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="补气信息"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="卡信息"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="维修信息"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="链接"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={8}>
                 <div className="gutter-box"><Input placeholder="用户编号" /></div>
@@ -102,10 +128,10 @@ class User extends Component {
                 <div className="gutter-box"><Input placeholder="用户名称" /></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="搜索"><Button type="primary" icon="search" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box">col-1</div>
+                <div className="gutter-box"><Tooltip title="删除"><Button type="primary" icon="close" /></Tooltip></div>
               </Col>
             </Row>
             <StandardTable
@@ -115,7 +141,6 @@ class User extends Component {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              expandedRowRender={this.expandedRowRender}
               rowKey='userInfoId'
             />
           </div>
