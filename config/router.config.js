@@ -269,7 +269,7 @@ export default [
           {
             path: '/queryStats/userQuery',
             name: 'userQuery',
-            component: './System/Dist',
+            component: './QueryStats/User',
             authority: 'queryStats:userQuery:visit'
           },
           {
