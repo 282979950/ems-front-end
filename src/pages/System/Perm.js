@@ -274,6 +274,7 @@ class Perm extends PureComponent {
   }
 
   render() {
+    console.log(this.props)
     const {
       perm: { data, allMenus },
       loading,

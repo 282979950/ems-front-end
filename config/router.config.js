@@ -263,7 +263,7 @@ export default [
           {
             path: '/queryStats/accountQuery',
             name: 'accountQuery',
-            component: './System/Dist',
+            component: './QueryStats/AccountQuery',
             authority: 'queryStats:accountQuery:visit'
           },
           {
@@ -275,7 +275,7 @@ export default [
           {
             path: '/queryStats/exceptionQuery',
             name: 'exceptionQuery',
-            component: './System/Dist',
+            component: './QueryStats/ExceptionQuery',
             authority: 'queryStats:exceptionQuery:visit'
           },
           {
