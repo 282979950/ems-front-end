@@ -1,4 +1,4 @@
-import { queryAccountQuery, exportAccountQuery } from '../../../services/queryStats';
+import { queryAccountQuery, exportAccountQuery, exportWithPageInfoAccountQuery } from '../../../services/queryStats';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -22,7 +22,10 @@ export default {
     },
     *export({ payload, callback }, { call, put }) {
       const response = yield call(exportAccountQuery, payload);
-      console.log(response)
+      if (callback) callback(response);
+    },
+    *exportWithPageInfo({ payload, callback }, { call, put }) {
+      const response = yield call(exportWithPageInfoAccountQuery, payload);
       if (callback) callback(response);
     },
   },

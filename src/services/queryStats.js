@@ -22,6 +22,15 @@ export async function exportAccountQuery(params) {
   });
 }
 
+export async function exportWithPageInfoAccountQuery(params) {
+  return request('/api/accountQuery/exportWithPageInfo.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 /**
  * 异常用户查询
  */
@@ -37,6 +46,14 @@ export async function queryExceptionQuery(params) {
 
 export async function exportExceptionQuery(params) {
   return request('/api/exceptionQuery/export.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+export async function exportWithPageInfoExceptionQuery(params) {
+  return request('/api/exceptionQuery/exportWithPageInfo.do', {
     method: 'POST',
     body: {
       ...params,

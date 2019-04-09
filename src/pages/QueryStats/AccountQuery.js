@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Modal, DatePicker, Pagination } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Modal, DatePicker, Pagination, Radio } from 'antd';
 import styles from '../Common.less';
 import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
+import ExportJsonExcel from 'js-export-excel'
 
+const RadioGroup = Radio.Group;
 const { MonthPicker } = DatePicker;
 @connect(({ accountQuery, dic, loading }) => ({
   accountQuery,
@@ -21,6 +23,8 @@ class AccountQuery extends PureComponent {
     formValues: {},
     pageNum: 1,
     pageSize: 10,
+    visible: false,
+    choice: 1,
   };
 
   columns = [
@@ -132,13 +136,73 @@ class AccountQuery extends PureComponent {
     });
   };
 
-  handleExport = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'accountQuery/export',
-      payload: {},
+  handleExportShow = () => {
+    this.setState({
+      visible: true
     });
   };
+
+  handleCancel = (e) => {
+    this.setState({
+      visible: false
+    });
+  }
+
+  handleExport = (e) => {
+    const { dispatch } = this.props;
+    const { choice, pageNum, pageSize } = this.state;
+
+    this.setState({
+      visible: false
+    });
+    let type = 'accountQuery/export';
+    let payload = {};
+
+    if (choice == 1) {
+      type = 'accountQuery/exportWithPageInfo'
+      payload = {
+        pageNum: pageNum,
+        pageSize: pageSize
+      }
+    }
+
+    dispatch({
+      type: type,
+      payload: payload,
+      callback: (response) => {
+        if (response.status === 0) {
+          let data = ""
+          if (choice == 1) {
+            data = response.data.list;
+          } else {
+            data = response.data;
+          }
+          let option = {};
+          option.fileName = '开户信息查询';// 文件名
+          option.datas = [
+            {
+              sheetData: data,
+              sheetName: 'sheet',// 表名
+              columnWidths: [10, 5, 5, 8],
+              sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
+              sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
+            },
+          ];
+          const toExcel = new ExportJsonExcel(option); //new
+          toExcel.saveExcel();
+        } else {
+          message.error(response.message);
+        }
+      }
+    });
+
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      choice: e.target.value,
+    });
+  }
 
   renderForm() {
     const {
@@ -151,7 +215,7 @@ class AccountQuery extends PureComponent {
           style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}
         >
           <Col md={1} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            <Button shape="circle" icon="download" onClick={this.handleExport} />
+            <Button shape="circle" icon="download" onClick={this.handleExportShow} />
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" />)}
@@ -179,6 +243,7 @@ class AccountQuery extends PureComponent {
       </Form>
     );
   }
+
   render() {
     const {
       accountQuery: { data },
@@ -202,6 +267,12 @@ class AccountQuery extends PureComponent {
             />
           </div>
         </Card>
+        <Modal title='下载' visible={this.state.visible} onOk={this.handleExport} onCancel={this.handleCancel}>
+          <RadioGroup onChange={this.handleChange} value={this.state.choice}>
+            <Radio name='choice' value={1}>当前页</Radio>
+            <Radio name='choice' value={2}>全部</Radio>
+          </RadioGroup>
+        </Modal>
       </PageHeaderWrapper>
     );
   }
