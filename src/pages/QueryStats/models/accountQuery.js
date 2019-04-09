@@ -22,11 +22,19 @@ export default {
     },
     *export({ payload, callback }, { call, put }) {
       const response = yield call(exportAccountQuery, payload);
-      if (callback) callback(response);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
     },
     *exportWithPageInfo({ payload, callback }, { call, put }) {
       const response = yield call(exportWithPageInfoAccountQuery, payload);
-      if (callback) callback(response);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
     },
   },
   reducers: {

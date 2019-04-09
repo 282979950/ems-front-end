@@ -169,29 +169,25 @@ class ExceptionQuery extends PureComponent {
       type: type,
       payload: payload,
       callback: (response) => {
-        if (response.status === 0) {
-          let data = ""
-          if (choice == 1) {
-            data = response.data.list;
-          } else {
-            data = response.data;
-          }
-          let option = {};
-          option.fileName = '异常用户查询';// 文件名
-          option.datas = [
-            {
-              sheetData: data,
-              sheetName: 'sheet',// 表名
-              columnWidths: [10, 5, 5, 8, 8, 8],
-              sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
-              sheetHeader: ['用户编号', '用户名', 'IC卡卡号', 'IC卡识别号', '用户手机号', '用户区域'],// 第一行标题
-            },
-          ];
-          const toExcel = new ExportJsonExcel(option); //new
-          toExcel.saveExcel();
+        let data = ""
+        if (choice == 1) {
+          data = response.data.list;
         } else {
-          message.error(response.message);
+          data = response.data;
         }
+        let option = {};
+        option.fileName = '异常用户查询';// 文件名
+        option.datas = [
+          {
+            sheetData: data,
+            sheetName: 'sheet',// 表名
+            columnWidths: [10, 5, 5, 8, 8, 8],
+            sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
+            sheetHeader: ['用户编号', '用户名', 'IC卡卡号', 'IC卡识别号', '用户手机号', '用户区域'],// 第一行标题
+          },
+        ];
+        const toExcel = new ExportJsonExcel(option); //new
+        toExcel.saveExcel();
       }
     });
 
@@ -222,13 +218,13 @@ class ExceptionQuery extends PureComponent {
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('notBuyDayCount')(<InputNumber placeholder="未购气天数(天)" min={1} decimalSeparator={'10000'} />)}
+            {getFieldDecorator('notBuyDayCount')(<InputNumber placeholder="未购气天数(天)" min={1} decimalSeparator={'10000'} style={{"width":"100%"}}/>)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月购气量(立方)" min={0} />)}
+            {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月购气量(立方)" min={0} style={{"width":"100%"}}/>)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('monthAvePayment')(<InputNumber placeholder="月均购气金额(元)" min={0} />)}
+            {getFieldDecorator('monthAvePayment')(<InputNumber placeholder="月均购气金额(元)" min={0} style={{"width":"100%"}}/>)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>

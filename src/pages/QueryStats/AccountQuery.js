@@ -170,29 +170,25 @@ class AccountQuery extends PureComponent {
       type: type,
       payload: payload,
       callback: (response) => {
-        if (response.status === 0) {
-          let data = ""
-          if (choice == 1) {
-            data = response.data.list;
-          } else {
-            data = response.data;
-          }
-          let option = {};
-          option.fileName = '开户信息查询';// 文件名
-          option.datas = [
-            {
-              sheetData: data,
-              sheetName: 'sheet',// 表名
-              columnWidths: [10, 5, 5, 8],
-              sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
-              sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
-            },
-          ];
-          const toExcel = new ExportJsonExcel(option); //new
-          toExcel.saveExcel();
+        let data = ""
+        if (choice == 1) {
+          data = response.data.list;
         } else {
-          message.error(response.message);
+          data = response.data;
         }
+        let option = {};
+        option.fileName = '开户信息查询';// 文件名
+        option.datas = [
+          {
+            sheetData: data,
+            sheetName: 'sheet',// 表名
+            columnWidths: [10, 5, 5, 8],
+            sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
+            sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
+          },
+        ];
+        const toExcel = new ExportJsonExcel(option); //new
+        toExcel.saveExcel();
       }
     });
 
@@ -218,10 +214,10 @@ class AccountQuery extends PureComponent {
             <Button shape="circle" icon="download" onClick={this.handleExportShow} />
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" />)}
+            {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" style={{"width":"100%"}}/>)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('endDate')(<MonthPicker placeholder="开户终止日期" />)}
+            {getFieldDecorator('endDate')(<MonthPicker placeholder="开户终止日期" style={{"width":"100%"}}/>)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
