@@ -1,4 +1,4 @@
-import {queryUserQuery, queryUserModifyHistory} from '../../../services/stats';
+import {queryUserQuery, queryUserModifyHistory, queryUserAddHistory} from '../../../services/stats';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -24,6 +24,18 @@ export default {
     },
     *fetchModifyHistory({ payload, callback }, { call, put }) {
       const response = yield call(queryUserModifyHistory, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'saveHistory',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *fetchAddHistory({ payload, callback }, { call, put }) {
+      const response = yield call(queryUserAddHistory, payload);
       if (response.status === 0) {
         yield put({
           type: 'saveHistory',

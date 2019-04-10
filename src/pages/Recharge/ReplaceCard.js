@@ -118,7 +118,6 @@ class ReplaceCard extends PureComponent {
   };
 
   handleReplaceCardHistoryFormVisible = flag => {
-    console.log(flag)
     if (flag) {
       const { dispatch } = this.props;
       const { selectedRows } = this.state;

@@ -23,3 +23,15 @@ export async function queryUserModifyHistory(params) {
     },
   });
 }
+
+/**
+ * 用户查询充值记录表
+ */
+export async function queryUserAddHistory(params) {
+  return request('/api/userQuery/historyOrderQuery.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

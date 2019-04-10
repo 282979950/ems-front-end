@@ -5,6 +5,7 @@ import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import style from './User.less'
 import UserInfoQueryModal from './components/UserInfoQueryModal';
+import UserInfoAddHistoryModal from './components/UserInfoAddHistoryModal';
 
 @connect(({ userQuery, loading }) => ({
   userQuery,
@@ -47,6 +48,7 @@ class User extends Component {
       pageNum: 1,
       pageSize: 10,
       UserInfoQueryModalVisible: false,
+      userInfoType: '',
     }
   };
 
@@ -94,25 +96,39 @@ class User extends Component {
     });
   };
 
-  handleReplaceCardHistoryFormVisible = flag => {
-    if (flag) {
+  handleReplaceCardHistoryFormVisible = (flag, type) => {
+    if (flag && type==='editHistory') {
       const { dispatch } = this.props;
       const { selectedRows } = this.state;
-      console.log('123')
       dispatch({
         type: 'userQuery/fetchModifyHistory',
         payload: {
-          userId: selectedRows[0].userId,
-          pageNum: 1,
-          pageSize: 10
+          userId: selectedRows[0].userId
         },
         callback: () => {
           this.setState({
             UserInfoQueryModalVisible: !!flag,
+            userInfoType: 'editHistory'
           });
         }
       });
-    } else {
+    } else if (flag && type==='addHistory') {
+      const { dispatch } = this.props;
+      const { selectedRows } = this.state;
+      dispatch({
+        type: 'userQuery/fetchAddHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: () => {
+          this.setState({
+            UserInfoQueryModalVisible: !!flag,
+            userInfoType: 'addHistory'
+          });
+        }
+      });
+    }
+    else {
       this.setState({
         UserInfoQueryModalVisible: !!flag,
       });
@@ -122,7 +138,11 @@ class User extends Component {
   handleOnClick = (param) => () => {
     switch (param) {
       case 'editHistory':
-        this.handleReplaceCardHistoryFormVisible(true)
+        this.handleReplaceCardHistoryFormVisible(true, 'editHistory')
+        break;
+      case 'addHistory':
+        console.log('addHistory')
+        this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
         break;
       default:
         console.log('123')
@@ -137,7 +157,7 @@ class User extends Component {
     } = this.props;
     console.log(data)
     console.log(history)
-    const { selectedRows, UserInfoQueryModalVisible } = this.state
+    const { selectedRows, UserInfoQueryModalVisible, userInfoType } = this.state
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -147,7 +167,7 @@ class User extends Component {
                 <div className="gutter-box"><Tooltip title="变更信息"><Button onClick={this.handleOnClick('editHistory')} type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Tooltip title="充值信息"><Button type="primary" icon="edit" /></Tooltip></div>
+                <div className="gutter-box"><Tooltip title="充值信息"><Button onClick={this.handleOnClick('addHistory')} type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
                 <div className="gutter-box"><Tooltip title="补气信息"><Button type="primary" icon="edit" /></Tooltip></div>
@@ -185,8 +205,15 @@ class User extends Component {
             />
           </div>
         </Card>
-        {selectedRows.length === 1 ? (
+        {userInfoType === 'editHistory' && selectedRows.length === 1 ? (
           <UserInfoQueryModal
+            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
+            modalVisible={UserInfoQueryModalVisible}
+            historyData={history}
+          />) : null
+        }
+        {userInfoType === 'addHistory' && selectedRows.length === 1 ? (
+          <UserInfoAddHistoryModal
             handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
             modalVisible={UserInfoQueryModalVisible}
             historyData={history}

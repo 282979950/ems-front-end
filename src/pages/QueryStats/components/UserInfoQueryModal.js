@@ -5,36 +5,45 @@ import React, { PureComponent } from 'react';
 class UserInfoQueryModal extends PureComponent{
   columns = [
     {
-      title: '户号',
-      dataIndex: 'userId',
+      title: '用户名称',
+      dataIndex: 'userChangeName',
     },
     {
-      title: 'IC卡识别号',
-      dataIndex: 'iccardIdentifier',
+      title: '用户电话',
+      dataIndex: 'userChangePhone',
     },
     {
-      title: '补卡工本费',
-      dataIndex: 'castCost'
+      title: '用户身份证号码',
+      dataIndex: 'userChangeIdcard'
     },
     {
-      title: '充值气量',
-      dataIndex: 'orderGas'
+      title: '用户房产证号码',
+      dataIndex: 'userChangeDeed'
     },
     {
-      title: '充值金额',
-      dataIndex: 'orderPayment'
+      title: '旧用户名称',
+      dataIndex: 'userOldName'
     },
     {
-      title: '换卡时间',
-      dataIndex: 'createTime'
+      title: '旧用户电话',
+      dataIndex: 'userOldPhone'
+    },
+    {
+      title: '旧用户身份证号码',
+      dataIndex: 'userOldIdcard'
+    },
+    {
+      title: '旧用户房产证号码',
+      dataIndex: 'userOldDeed'
     },
   ];
 
   render() {
     const { modalVisible, historyData, handleReplaceCardHistoryFormVisible } = this.props;
+    console.log(historyData)
     return (
       <Modal
-        title="补卡历史记录"
+        title="历史变更记录"
         visible={modalVisible}
         width={1250}
         footer={null}
