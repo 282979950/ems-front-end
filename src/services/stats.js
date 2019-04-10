@@ -35,3 +35,15 @@ export async function queryUserAddHistory(params) {
     },
   });
 }
+
+/**
+ * 用户补气信息查看
+ */
+export async function queryUserFillHistory(params) {
+  return request('/api/userQuery/historyFillGasOrder.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
