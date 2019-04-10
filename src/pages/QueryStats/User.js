@@ -161,7 +161,6 @@ class User extends Component {
         }
       });
     } else if (flag && type === 'repairHistory') {
-      console.log('123')
       const { dispatch } = this.props;
       const { selectedRows } = this.state;
       dispatch({
@@ -199,7 +198,6 @@ class User extends Component {
         this.handleReplaceCardHistoryFormVisible(true, 'cardHistory')
         break;
       case 'repairHistory':
-        console.log('repairHistory')
         this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
         break;
       default:
@@ -212,8 +210,6 @@ class User extends Component {
       userQuery: { data, history },
       loading,
     } = this.props;
-    console.log(data)
-    console.log(history)
     const { selectedRows, UserInfoQueryModalVisible, userInfoType } = this.state
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">

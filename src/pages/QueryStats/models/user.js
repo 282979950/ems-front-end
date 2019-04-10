@@ -78,7 +78,6 @@ export default {
       }
     },
     *fetchRepairHistory({ payload, callback }, { call, put }) {
-      console.log('321')
       const response = yield call(queryUserRepairHistory, payload);
       if (response.status === 0) {
         yield put({
