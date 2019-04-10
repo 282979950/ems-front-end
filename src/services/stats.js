@@ -59,3 +59,15 @@ export async function queryUserCardHistory(params) {
     },
   });
 }
+
+/**
+ * 维修信息查看
+ */
+export async function queryUserRepairHistory(params) {
+  return request('/api/userQuery/historyRepairOrder.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

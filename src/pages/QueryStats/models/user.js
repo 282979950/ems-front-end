@@ -1,4 +1,11 @@
-import {queryUserQuery, queryUserModifyHistory, queryUserAddHistory, queryUserFillHistory, queryUserCardHistory} from '../../../services/stats';
+import {
+  queryUserQuery, 
+  queryUserModifyHistory, 
+  queryUserAddHistory, 
+  queryUserFillHistory, 
+  queryUserCardHistory,
+  queryUserRepairHistory
+} from '../../../services/stats';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -60,6 +67,19 @@ export default {
     },
     *fetchCardHistory({ payload, callback }, { call, put }) {
       const response = yield call(queryUserCardHistory, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'saveHistory',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *fetchRepairHistory({ payload, callback }, { call, put }) {
+      console.log('321')
+      const response = yield call(queryUserRepairHistory, payload);
       if (response.status === 0) {
         yield put({
           type: 'saveHistory',
