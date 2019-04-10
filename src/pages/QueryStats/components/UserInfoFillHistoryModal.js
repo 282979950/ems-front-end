@@ -56,10 +56,9 @@ class UserInfoFillHistoryModal extends PureComponent{
 
   render() {
     const { modalVisible, historyData, handleReplaceCardHistoryFormVisible } = this.props;
-    console.log(historyData)
     return (
       <Modal
-        title="历史变更记录"
+        title="补气记录"
         visible={modalVisible}
         width={1250}
         footer={null}

@@ -47,3 +47,15 @@ export async function queryUserFillHistory(params) {
     },
   });
 }
+
+/**
+ * 卡信息查看
+ */
+export async function queryUserCardHistory(params) {
+  return request('/api/userQuery/historyUserCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

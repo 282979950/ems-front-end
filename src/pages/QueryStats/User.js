@@ -7,6 +7,7 @@ import style from './User.less'
 import UserInfoModifyHistoryModal from './components/UserInfoModifyHistoryModal';
 import UserInfoAddHistoryModal from './components/UserInfoAddHistoryModal';
 import UserInfoFillHistoryModal from './components/UserInfoAddHistoryModal';
+import UserInfoCardHistoryModal from './components/UserInfoCardHistoryModal';
 
 @connect(({ userQuery, loading }) => ({
   userQuery,
@@ -143,6 +144,21 @@ class User extends Component {
           });
         }
       });
+    } else if (flag && type === 'cardHistory') {
+      const { dispatch } = this.props;
+      const { selectedRows } = this.state;
+      dispatch({
+        type: 'userQuery/fetchCardHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: () => {
+          this.setState({
+            UserInfoQueryModalVisible: !!flag,
+            userInfoType: 'cardHistory'
+          });
+        }
+      });
     }
     else {
       this.setState({
@@ -160,8 +176,11 @@ class User extends Component {
         this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
         break;
       case 'fillHistory':
-        console.log('fillHistory')
         this.handleReplaceCardHistoryFormVisible(true, 'fillHistory')
+        break;
+      case 'cardHistory':
+        console.log('cardHistory')
+        this.handleReplaceCardHistoryFormVisible(true, 'cardHistory')
         break;
       default:
         console.log('123')
@@ -192,7 +211,7 @@ class User extends Component {
                 <div className="gutter-box"><Tooltip title="补气信息"><Button onClick={this.handleOnClick('fillHistory')} type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Tooltip title="卡信息"><Button type="primary" icon="edit" /></Tooltip></div>
+                <div className="gutter-box"><Tooltip title="卡信息"><Button onClick={this.handleOnClick('cardHistory')} type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
                 <div className="gutter-box"><Tooltip title="维修信息"><Button type="primary" icon="edit" /></Tooltip></div>
@@ -240,6 +259,13 @@ class User extends Component {
         }
         {userInfoType === 'fillHistory' && selectedRows.length === 1 ? (
           <UserInfoFillHistoryModal
+            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
+            modalVisible={UserInfoQueryModalVisible}
+            historyData={history}
+          />) : null
+        }
+        {userInfoType === 'cardHistory' && selectedRows.length === 1 ? (
+          <UserInfoCardHistoryModal
             handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
             modalVisible={UserInfoQueryModalVisible}
             historyData={history}

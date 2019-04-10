@@ -2,39 +2,23 @@ import { Form, Modal ,Table} from 'antd';
 import React, { PureComponent } from 'react';
 
 @Form.create()
-class UserInfoAddHistoryModal extends PureComponent{
+class UserInfoCardHistoryModal extends PureComponent{
   columns = [
     {
       title: '用户编号',
       dataIndex: 'userId',
     },
     {
-      title: '实付金额',
-      dataIndex: 'orderPayment',
+      title: 'IC卡卡号',
+      dataIndex: 'cardId',
     },
     {
-      title: '充值气量',
-      dataIndex: 'orderGas'
+      title: 'IC卡识别号',
+      dataIndex: 'cardIdentifier'
     },
     {
-      title: '流水号',
-      dataIndex: 'flowNumber'
-    },
-    {
-      title: '应付金额',
-      dataIndex: 'orderSupplement'
-    },
-    {
-      title: '订单状态',
-      dataIndex: 'orderStatusName'
-    },
-    {
-      title: '订单类型',
-      dataIndex: 'orderTypeName'
-    },
-    {
-      title: '账务状态',
-      dataIndex: 'accountStateName'
+      title: '补卡工本费用',
+      dataIndex: 'cardCost'
     },
     {
       title: '创建时间',
@@ -46,7 +30,7 @@ class UserInfoAddHistoryModal extends PureComponent{
     const { modalVisible, historyData, handleReplaceCardHistoryFormVisible } = this.props;
     return (
       <Modal
-        title="充值记录"
+        title="IC卡相关信息"
         visible={modalVisible}
         width={1250}
         footer={null}
@@ -62,4 +46,4 @@ class UserInfoAddHistoryModal extends PureComponent{
     );
   }
 };
-export default UserInfoAddHistoryModal;
+export default UserInfoCardHistoryModal;
