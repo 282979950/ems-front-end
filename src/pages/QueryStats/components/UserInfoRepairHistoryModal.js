@@ -17,10 +17,6 @@ class UserInfoRepairHistoryModal extends PureComponent{
       dataIndex: 'repairTypeName'
     },
     {
-      title: '燃气设备',
-      dataIndex: 'gasEquipmentTypeName'
-    },
-    {
       title: '旧表编号',
       dataIndex: 'oldMeterId'
     },
@@ -29,20 +25,12 @@ class UserInfoRepairHistoryModal extends PureComponent{
       dataIndex: 'oldMeterStopCode',
     },
     {
-      title: '旧安全卡编号',
-      dataIndex: 'oldSafetyCode',
-    },
-    {
       title: '新表编号',
       dataIndex: 'newMeterId'
     },
     {
       title: '新表止码',
       dataIndex: 'newMeterStopCode'
-    },
-    {
-      title: '新安全卡编号',
-      dataIndex: 'newSafetyCode'
     },
     {
       title: '维修故障类型',
