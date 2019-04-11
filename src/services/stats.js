@@ -71,3 +71,15 @@ export async function queryUserRepairHistory(params) {
     },
   });
 }
+
+/**
+ * 条件查询
+ */
+export async function queryUserSearch(params) {
+  return request('/api/userQuery/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

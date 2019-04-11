@@ -205,12 +205,42 @@ class User extends Component {
     }
   }
 
+  handleSearch = () => {
+    const { dispatch } = this.props;
+    const { userId, userName } = this.state
+    dispatch({
+      type: 'userQuery/fetchUserSearch',
+      payload: {
+        userId,
+        userName,
+        pageNum: 1,
+        pageSize: 10
+      }
+    });
+  }
+
+  handleCancel = () => {
+    const { dispatch } = this.props;  // this.props里面就含有dispatch
+    const { pageNum, pageSize } = this.state;
+    dispatch({
+      type: 'userQuery/fetch',
+      payload: {
+        pageNum,
+        pageSize
+      }
+    });
+    this.setState({
+      userId: '',
+      userName: ''
+    })
+  }
+
   render() {
     const {
       userQuery: { data, history },
       loading,
     } = this.props;
-    const { selectedRows, UserInfoQueryModalVisible, userInfoType } = this.state
+    const { selectedRows, UserInfoQueryModalVisible, userInfoType, userId, userName } = this.state
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -229,22 +259,19 @@ class User extends Component {
                 <div className="gutter-box"><Tooltip title="卡信息"><Button onClick={this.handleOnClick('cardHistory')} type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Tooltip title="维修信息"><Button onClick={this.handleOnClick('repairHistory')} type="primary" icon="edit" /></Tooltip></div>
-              </Col>
-              <Col className="gutter-row" span={1}>
                 <div className="gutter-box"><Tooltip title="链接"><Button type="primary" icon="edit" /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={8}>
-                <div className="gutter-box"><Input placeholder="用户编号" /></div>
+                <div className="gutter-box"><Input placeholder="用户编号" value={userId} onChange={e => this.setState({ userId: e.target.value })} /></div>
               </Col>
               <Col className="gutter-row" span={8}>
-                <div className="gutter-box"><Input placeholder="用户名称" /></div>
+                <div className="gutter-box"><Input placeholder="用户名称" value={userName} onChange={e => this.setState({ userName: e.target.value })} /></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Tooltip title="搜索"><Button type="primary" icon="search" /></Tooltip></div>
+                <div className="gutter-box"><Tooltip title="搜索"><Button type="primary" icon="search" onClick={this.handleSearch} /></Tooltip></div>
               </Col>
               <Col className="gutter-row" span={1}>
-                <div className="gutter-box"><Tooltip title="删除"><Button type="primary" icon="close" /></Tooltip></div>
+                <div className="gutter-box"><Tooltip title="删除"><Button type="primary" icon="close" onClick={this.handleCancel} /></Tooltip></div>
               </Col>
             </Row>
             <StandardTable

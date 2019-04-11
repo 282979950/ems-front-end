@@ -4,7 +4,8 @@ import {
   queryUserAddHistory, 
   queryUserFillHistory, 
   queryUserCardHistory,
-  queryUserRepairHistory
+  queryUserRepairHistory,
+  queryUserSearch
 } from '../../../services/stats';
 import { handleRequestException } from '../../../utils/request';
 
@@ -82,6 +83,18 @@ export default {
       if (response.status === 0) {
         yield put({
           type: 'saveHistory',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *fetchUserSearch({ payload, callback }, { call, put }) {
+      const response = yield call(queryUserSearch, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'save',
           payload: response.data,
         });
         if (callback) callback();
