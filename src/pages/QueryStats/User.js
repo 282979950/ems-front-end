@@ -309,7 +309,7 @@ class User extends Component {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              rowKey='userInfoId'
+              rowKey='userId'
             />
           </div>
         </Card>
