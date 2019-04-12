@@ -3,6 +3,7 @@ import router from 'umi/router';
 import hash from 'hash.js';
 import { stringify } from 'qs';
 import { isAntdPro, removeLoginStatus } from './utils';
+import {message} from 'antd';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -137,6 +138,7 @@ export function handleRequestException(response) {
   const { status } = response;
   switch (status) {
     case 1:
+      message.error(response.message);
       break;
     case 2:
       removeLoginStatus(status);

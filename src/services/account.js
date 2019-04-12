@@ -49,8 +49,17 @@ export async function searchEntryMeter(params) {
 }
 
 export async function getAllMeterTypes() {
-  return request('/api/entryMeter//getAllMeterTypes.do', {
+  return request('/api/entryMeter/getAllMeterTypes.do', {
     method: 'POST'
+  });
+}
+
+export async function getMeterByMeterCode(params) {
+  return request('/api/entryMeter/getMeterByMeterCode.do', {
+    method: 'POST',
+    body: {
+      ...params
+    }
   });
 }
 

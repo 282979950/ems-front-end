@@ -214,10 +214,10 @@ class AccountQuery extends PureComponent {
             <Button shape="circle" icon="download" onClick={this.handleExportShow} />
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" style={{"width":"100%"}}/>)}
+            {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('endDate')(<MonthPicker placeholder="开户终止日期" style={{"width":"100%"}}/>)}
+            {getFieldDecorator('endDate')(<MonthPicker placeholder="开户终止日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
