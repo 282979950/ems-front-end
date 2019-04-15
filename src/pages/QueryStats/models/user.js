@@ -102,26 +102,6 @@ export default {
         handleRequestException(response);
       }
     },
-    /* *add({ payload, callback }, { call }) {
-      const response = yield call(addEmp, payload);
-      if (callback) callback(response);
-    },
-    *delete({ payload, callback }, { call }) {
-      const response = yield call(deleteEmp, payload);
-      if (callback) callback(response);
-    },
-    *edit({ payload, callback }, { call }) {
-      const response = yield call(editEmp, payload);
-      if (callback) callback(response);
-    },
-    *search({ payload, callback }, { call, put }) {
-      const response = yield call(searchEmp, payload);
-      yield put({
-        type: 'save',
-        payload: response.data,
-      });
-      if (callback) callback();
-    }, */
   },
 
   reducers: {

@@ -155,7 +155,7 @@ export default [
           {
             path: '/invoice/assign',
             name: 'assign',
-            component: './Invoice',
+            component: './Invoice/Assign',
             authority: 'invoice:assign:visit'
           },
           {
