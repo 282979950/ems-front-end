@@ -4,6 +4,7 @@ import { Card, Row, Col, Input, Button, Form, message } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
+import EmpSelect from './components/EmpSelect'
 
 @connect(({ invoiceSearch, loading }) => ({
   invoiceSearch,
@@ -154,7 +155,7 @@ class InvoiceAssign extends Component {
             {getFieldDecorator('invoiceNumber')(<Input placeholder="发票号码" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('empId')(<Input placeholder="所属员工" />)}
+            {getFieldDecorator('empId')(<EmpSelect placeholder="所属员工" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
