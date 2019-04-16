@@ -1,5 +1,6 @@
 import {
   queryFillGas,
+  searchFillGas,
 
 } from '../../../services/repairOrder';
 import { handleRequestException } from '../../../utils/request';
@@ -28,7 +29,7 @@ export default {
       }
     },
     *search({ payload, callback }, { call, put }) {
-      const response = yield call(queryFillGas, payload);
+      const response = yield call(searchFillGas, payload);
       console.log(response)
       if (response.status === 0) {
         yield put({
