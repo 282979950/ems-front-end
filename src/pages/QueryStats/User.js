@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Tooltip, Form } from 'antd';
+import { Card, Row, Col, Input, Button, Form } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
 import Authorized from '../../utils/Authorized';
 import UserInfoModifyHistoryModal from './components/UserInfoModifyHistoryModal';
 import UserInfoAddHistoryModal from './components/UserInfoAddHistoryModal';
-import UserInfoFillHistoryModal from './components/UserInfoAddHistoryModal';
+import UserInfoFillHistoryModal from './components/UserInfoFillHistoryModal';
 import UserInfoCardHistoryModal from './components/UserInfoCardHistoryModal';
 import UserInfoRepairHistoryModal from './components/UserInfoRepairHistoryModal';
 
@@ -98,7 +98,7 @@ class User extends Component {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'userQuery/fetch',
+      type: 'userQuery/fetchUserSearch',
       payload: params,
     });
   };
@@ -279,7 +279,7 @@ class User extends Component {
       userQuery: { data, history },
       loading,
     } = this.props;
-    const { selectedRows, userInfoQueryModalVisible, userInfoType, userId, userName } = this.state
+    const { selectedRows, userInfoQueryModalVisible, userInfoType } = this.state
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -309,7 +309,7 @@ class User extends Component {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              rowKey='userInfoId'
+              rowKey='userId'
             />
           </div>
         </Card>
