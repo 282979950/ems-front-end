@@ -110,6 +110,7 @@ class InvoiceAssign extends Component {
   handleAdd = fields => {
     this.handleAddModalVisible();
     const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state
     dispatch({
       type: 'invoice/add',
       payload: fields,
@@ -117,7 +118,11 @@ class InvoiceAssign extends Component {
         if (response.status === 0) {
           message.success('新增成功');
           dispatch({
-            type: 'invoice/fetch'
+            type: 'invoice/fetch',
+            payload: {
+              pageNum,
+              pageSize
+            }
           });
         } else {
           message.warning(response.message);
