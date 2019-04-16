@@ -1,4 +1,4 @@
-import {  queryDict,deleteDict, addDict, editDict, queryListDict,searchDict } from '../../../services/system';
+import { queryDict, deleteDict, addDict, editDict, queryListDict, searchDict } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -19,7 +19,7 @@ export default {
   },
 
   effects: {
-    *fetch({ payload ,callback}, { call, put }) {
+    *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryListDict, payload);
       if (response.status === 0) {
         yield put({
@@ -36,11 +36,11 @@ export default {
       if (callback) callback(response);
 
     },
-    *delete({ payload, callback }, { call}) {
+    *delete({ payload, callback }, { call }) {
       const response = yield call(deleteDict, payload);
       if (callback) callback(response);
     },
-    *edit({ payload, callback }, { call}) {
+    *edit({ payload, callback }, { call }) {
       const response = yield call(editDict, payload);
       if (callback) callback(response);
     },
@@ -75,7 +75,7 @@ export default {
     },
     saveByType(state, action) {
       const {
-        payload : {
+        payload: {
           category,
           data
         }
@@ -143,6 +143,46 @@ export default {
             dicData: {
               ...dicData,
               card_cost: data
+            },
+          };
+        case 'repair_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              repair_type: data
+            },
+          };
+        case 'gas_equipment_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              gas_equipment_type: data
+            },
+          };
+        case 'repair_fault_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              repair_fault_type: data
+            },
+          };
+        case 'repair_result_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              repair_result_type: data
+            },
+          };
+        case 'meter_direction':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              meter_direction: data
             },
           };
         default:

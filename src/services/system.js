@@ -187,6 +187,15 @@ export async function searchEmp(params) {
   });
 }
 
+export async function getEmpByEmpNumber(params) {
+  return request('/api/emp/getEmpByEmpNumber.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function queryDict(params) {
   if (params) {
     return request('/api/dic/dictByType.do', {

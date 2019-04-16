@@ -182,13 +182,13 @@ export default [
           {
             path: '/repairOrder/input',
             name: 'input',
-            component: './System/Dist',
-            authority: 'repairOrder:input:visit'
+            component: './RepairOrder/Input',
+            authority: 'repairOrder:entry:visit'
           },
           {
             path: '/repairOrder/fillGas',
             name: 'fillGas',
-            component: './System/Dist',
+            component: './RepairOrder/FillGas',
             authority: 'repairOrder:fillGas:visit'
           },
           {

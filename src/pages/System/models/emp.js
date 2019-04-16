@@ -1,4 +1,4 @@
-import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp } from '../../../services/system';
+import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp, getEmpByEmpNumber } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -6,6 +6,7 @@ export default {
 
   state: {
     data: [],
+    empList: [],
   },
 
   effects: {
@@ -46,6 +47,18 @@ export default {
       });
       if (callback) callback();
     },
+    *getEmpByEmpNumber({ payload, callback }, { call, put }) {
+      const response = yield call(getEmpByEmpNumber, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'saveEmpList',
+          payload: response.data,
+        });
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
   },
 
   reducers: {
@@ -53,6 +66,12 @@ export default {
       return {
         ...state,
         data: action.payload
+      };
+    },
+    saveEmpList(state, action) {
+      return {
+        ...state,
+        empList: action.payload
       };
     },
   },

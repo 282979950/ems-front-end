@@ -1,4 +1,4 @@
-import { queryEntryMeter, addEntryMeter, deleteEntryMeter, editEntryMeter, searchEntryMeter } from '../../../services/account';
+import { queryEntryMeter, addEntryMeter, deleteEntryMeter, editEntryMeter, searchEntryMeter, getMeterByMeterCode } from '../../../services/account';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -6,6 +6,7 @@ export default {
 
   state: {
     data: [],
+    meterList: [],
   },
 
   effects: {
@@ -41,6 +42,20 @@ export default {
       });
       if (callback) callback();
     },
+    *getMeterByMeterCode({ payload, callback }, { call, put }) {
+      const response = yield call(getMeterByMeterCode, payload);
+      console.log('-----getMeterByMeterCode')
+      console.log(response)
+      if (response.status === 0) {
+        yield put({
+          type: 'saveMeterList',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
   },
 
   reducers: {
@@ -48,6 +63,12 @@ export default {
       return {
         ...state,
         data: action.payload
+      };
+    },
+    saveMeterList(state, action) {
+      return {
+        ...state,
+        meterList: action.payload
       };
     },
   },
