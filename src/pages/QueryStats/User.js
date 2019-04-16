@@ -98,7 +98,7 @@ class User extends Component {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'userQuery/fetch',
+      type: 'userQuery/fetchUserSearch',
       payload: params,
     });
   };

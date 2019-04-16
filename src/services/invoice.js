@@ -45,3 +45,15 @@ export async function queryAssignInvoice(params) {
     },
   });
 }
+
+/**
+ * 发票管理-发票分配-查询特定的发票
+ */
+export async function querySearchInvoice(params) {
+  return request('/api/assign/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

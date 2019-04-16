@@ -90,7 +90,7 @@ class InvoiceAssign extends Component {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'invoice/fetch',
+      type: 'invoice/search',
       payload: params,
     });
   };
@@ -150,6 +150,26 @@ class InvoiceAssign extends Component {
     });
   }
 
+  handleSearch = () => {
+    const { dispatch, form } = this.props;
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      this.setState({
+        formValues: fieldsValue,
+        pageNum: 1,
+        pageSize: 10,
+      });
+      dispatch({
+        type: 'invoice/search',
+        payload: {
+          ...fieldsValue,
+          pageNum: 1,
+          pageSize: 10,
+        },
+      });
+    });
+  }
+
   handleFormReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
@@ -175,10 +195,10 @@ class InvoiceAssign extends Component {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userId')(<Input placeholder="发票代码" />)}
+            {getFieldDecorator('invoiceCode')(<Input placeholder="发票代码" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userName')(<Input placeholder="发票号码" />)}
+            {getFieldDecorator('invoiceNumber')(<Input placeholder="发票号码" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
