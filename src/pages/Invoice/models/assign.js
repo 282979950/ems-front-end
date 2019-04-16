@@ -1,4 +1,4 @@
-import { queryAllAssignInvoice, queryAddInvoice } from '../../../services/invoice';
+import { queryAllAssignInvoice, queryAddInvoice, queryAssignInvoice } from '../../../services/invoice';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -26,6 +26,10 @@ export default {
       const response = yield call(queryAddInvoice, payload);
       if (callback) callback(response);
     },
+    *assign({ payload, callback }, { call }) {
+      const response = yield call(queryAssignInvoice, payload);
+      if (callback) callback(response);
+    }
   },
 
   reducers: {

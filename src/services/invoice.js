@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 
 /**
- * 用户信息查询
+ * 发票管理-发票分配-获取列表
  */
 export async function queryAllAssignInvoice(params) {
   return request('/api/assign/listData.do', {
@@ -17,6 +17,28 @@ export async function queryAllAssignInvoice(params) {
  */
 export async function queryAddInvoice(params) {
   return request('/api/assign/add.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+
+/**
+ * 获取加载的字典项列表(其他页面需用到的数据字典项显示,根据类型)
+ */
+export async function queryEmpDict() {
+  return request('/api/emp/listDataByEmp.do', {
+    method: 'POST',
+  });
+}
+
+/**
+ * 发票管理-发票分配-分配
+ */
+export async function queryAssignInvoice(params) {
+  return request('/api/assign/assignment.do', {
     method: 'POST',
     body: {
       ...params

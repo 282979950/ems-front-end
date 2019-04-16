@@ -4,8 +4,8 @@ import { Card, Row, Col, Input, Button, Form, message } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
-import Authorized from '../../utils/Authorized';
-import InvoiceAddForm from './components/InvoiceAddForm'
+import InvoiceAddForm from './components/InvoiceAddForm';
+import InvoiceAssignForm from './components/InvoiceAssignForm';
 
 @connect(({ invoice, loading }) => ({
   invoice,
@@ -46,6 +46,7 @@ class InvoiceAssign extends Component {
       pageNum: 1,
       pageSize: 10,
       addModalVisible: false,
+      assignModalVisible: false,
     }
   }
 
@@ -94,13 +95,15 @@ class InvoiceAssign extends Component {
     });
   };
 
-  handleOnClick = (type) => () => {
-    console.log(type)
-  }
-
   handleAddModalVisible = flag => {
     this.setState({
       addModalVisible: !!flag
+    });
+  };
+
+  handleAssignModalVisible = flag => {
+    this.setState({
+      assignModalVisible: !!flag
     });
   };
 
@@ -122,6 +125,30 @@ class InvoiceAssign extends Component {
       }
     });
   };
+
+  handleAssign = fields => {
+    this.handleAssignModalVisible();
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state
+    dispatch({
+      type: 'invoice/assign',
+      payload: fields,
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('分配成功');
+          dispatch({
+            type: 'invoice/fetch',
+            payload: {
+              pageNum,
+              pageSize
+            }
+          });
+        } else {
+          message.warning(response.message);
+        }
+      }
+    });
+  }
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -173,7 +200,7 @@ class InvoiceAssign extends Component {
       invoice: { data },
       loading,
     } = this.props;
-    const { addModalVisible, selectedRows } = this.state;
+    const { addModalVisible, assignModalVisible, selectedRows } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -181,7 +208,7 @@ class InvoiceAssign extends Component {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>发票录入</Button>
-              <Button icon="file-text" onClick={this.handleOnClick('assignInvoice')}>发票分配</Button>
+              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>发票分配</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -198,6 +225,12 @@ class InvoiceAssign extends Component {
           handleAdd={this.handleAdd}
           handleCancel={this.handleAddModalVisible}
           modalVisible={addModalVisible}
+          treeSelectData={null}
+        />
+        <InvoiceAssignForm
+          handleAdd={this.handleAssign}
+          handleCancel={this.handleAssignModalVisible}
+          modalVisible={assignModalVisible}
           treeSelectData={null}
         />
       </PageHeaderWrapper>

@@ -279,7 +279,7 @@ class User extends Component {
       userQuery: { data, history },
       loading,
     } = this.props;
-    const { selectedRows, userInfoQueryModalVisible, userInfoType, userId, userName } = this.state
+    const { selectedRows, userInfoQueryModalVisible, userInfoType } = this.state
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
