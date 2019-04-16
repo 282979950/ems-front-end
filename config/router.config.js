@@ -188,7 +188,7 @@ export default [
           {
             path: '/repairOrder/fillGas',
             name: 'fillGas',
-            component: './System/Dist',
+            component: './RepairOrder/FillGas',
             authority: 'repairOrder:fillGas:visit'
           },
           {

@@ -4,8 +4,7 @@ import React, { PureComponent } from 'react';
 import DictSelect from '../../System/components/DictSelect';
 import MeterTypeSelect from '../../Account/components/MeterTypeSelect';
 import moment from 'moment';
-// import emp from '../../System/models/emp';
-// import entryMeter from '../../Account/models/entryMeter';
+
 import { message } from 'antd';
 
 const FormItem = Form.Item;
@@ -70,7 +69,6 @@ class InputAddForm extends PureComponent {
   }
 
   handleGetMeterByMeterCode = (e) => {
-    console.log('-------新表')
     const { dispatch } = this.props;
     dispatch({
       type: 'entryMeter/getMeterByMeterCode',
@@ -105,7 +103,6 @@ class InputAddForm extends PureComponent {
     } = this.props;
     const { repairTypeVal } = this.state;
 
-    // console.log(meterList)
     return (
       <Modal
         title="新建区域"
@@ -129,6 +126,9 @@ class InputAddForm extends PureComponent {
             rules: [{
               required: true,
               message: '户号不能为空'
+            }, {
+              max: 10,
+              message: '户号不能超过10个字',
             }]
           })(<Input onBlur={this.handleGetRepairOrderUser} />)}
         </FormItem>
@@ -169,7 +169,7 @@ class InputAddForm extends PureComponent {
         </FormItem>
         <FormItem {...this.formStyle} label="旧表编号">
           {form.getFieldDecorator('oldMeterCode', {
-            initialValue: repairOrderUser ? repairOrderUser.meterTypeId : '',
+            initialValue: repairOrderUser ? repairOrderUser.meterCode : '',
           })(<Input disabled={true} />)}
         </FormItem>
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
@@ -198,7 +198,7 @@ class InputAddForm extends PureComponent {
               required: true,
               message: '旧表止码不能为空！'
             }]
-          })(<InputNumber decimalSeparator={'100000'} style={{ "width": "100%" }} />)}
+          })(<InputNumber  style={{ "width": "100%" }} />)}
         </FormItem>
         <FormItem {...this.formStyle} label="旧安全卡编号">
           {form.getFieldDecorator('oldSafetyCode', {})(<Input />)}
@@ -220,7 +220,7 @@ class InputAddForm extends PureComponent {
               })(<DictSelect category="meter_direction" disabled={true} />)}
             </FormItem>
             <FormItem {...this.formStyle} label="新表止码">
-              {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber decimalSeparator={'100000'} style={{ "width": "100%" }} />)}
+              {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber  style={{ "width": "100%" }} />)}
             </FormItem>
             <FormItem {...this.formStyle} label="新安全卡编号">
               {form.getFieldDecorator('newSafetyCode', {})(<Input />)}
@@ -249,7 +249,6 @@ class InputAddForm extends PureComponent {
               required: true,
               message: '维修员工号不能为空！'
             }],
-            
           })(<Input onBlur={this.handleGetEmpByEmpNumber} />)}
         </FormItem>
         <FormItem {...this.formStyle} label="维修员工号ID" style={{'display' : 'none'}}>
@@ -286,8 +285,6 @@ class InputAddForm extends PureComponent {
             <DatePicker showTime format="YYYY-MM-DD HH:mm" style={{ "width": "100%" }} />
           )}
         </FormItem>
-
-
       </Modal>
     )
   }

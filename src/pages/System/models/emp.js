@@ -49,8 +49,6 @@ export default {
     },
     *getEmpByEmpNumber({ payload, callback }, { call, put }) {
       const response = yield call(getEmpByEmpNumber, payload);
-      console.log('-----searchEmp')
-      console.log(response)
       if (response.status === 0) {
         yield put({
           type: 'saveEmpList',

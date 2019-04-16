@@ -24,34 +24,12 @@ export default {
   effects: {
     *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryInput, payload);
-      console.log(response)
       if (response.status === 0) {
         yield put({
           type: 'save',
           payload: response.data,
         })
         if (callback) callback();
-      } else {
-        handleRequestException(response)
-      }
-    },
-    *getRepairOrderUserById({ payload, callback }, { call, put }) {
-      const response = yield call(getRepairOrderUserByIdInput, payload);
-      if (response.status === 0) {
-        yield put({
-          type: 'saveRepairOrderUser',
-          payload: response.data,
-        })
-        if (callback) callback(response);
-      } else {
-        handleRequestException(response)
-      }
-    },
-    *add({ payload, callback }, { call }) {
-      const response = yield call(addInput, payload);
-      console.log(response)
-      if (response.status === 0) {
-        if (callback) callback(response);
       } else {
         handleRequestException(response)
       }
@@ -64,6 +42,14 @@ export default {
           payload: response.data,
         })
         if (callback) callback();
+      } else {
+        handleRequestException(response)
+      }
+    },
+    *add({ payload, callback }, { call }) {
+      const response = yield call(addInput, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
       } else {
         handleRequestException(response)
       }
@@ -84,7 +70,19 @@ export default {
         handleRequestException(response)
       }
     },
-    *getBindNewCardParamByUserId({ payload, callback }, { call,put }) {
+    *getRepairOrderUserById({ payload, callback }, { call, put }) {
+      const response = yield call(getRepairOrderUserByIdInput, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'saveRepairOrderUser',
+          payload: response.data,
+        })
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response)
+      }
+    },
+    *getBindNewCardParamByUserId({ payload, callback }, { call, put }) {
       const response = yield call(getBindNewCardParamByUserIdInput, payload);
       if (response.status === 0) {
         yield put({
@@ -104,7 +102,7 @@ export default {
         handleRequestException(response)
       }
     },
-    *hasFillGasOrderResolved({ payload, callback }, { call,put }) {
+    *hasFillGasOrderResolved({ payload, callback }, { call, put }) {
       const response = yield call(hasFillGasOrderResolved, payload);
       if (response.status === 0) {
         if (callback) callback(response);

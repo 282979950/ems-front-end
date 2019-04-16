@@ -82,3 +82,24 @@ export async function hasFillGasOrderResolved(params) {
     }
   })
 }
+
+/*
+ *补气补缴结算
+ */
+export async function queryFillGas(params) {
+  return request('/api/fillGas/listData.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    }
+  })
+}
+
+export async function searchFillGas(params) {
+  return request('/api/fillGas/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

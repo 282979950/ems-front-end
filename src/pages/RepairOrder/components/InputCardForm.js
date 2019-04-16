@@ -20,6 +20,9 @@ const InputCardForm = Form.create({
       cardCost:Form.createFormField({
         value:selectedData.cardCost
       }),
+      userCardId:Form.createFormField({
+        value:selectedData.userCardId
+      }),
     }
   }
 })((props) => {
@@ -32,8 +35,8 @@ const InputCardForm = Form.create({
   const handleOk = () => {
     form.validateFields((err,fieldsValue) =>{
       if(err)return;
-      form.resetFields();
-      handleCard(fieldsValue);
+      // form.resetFields();
+      handleCard(fieldsValue,form);
     })
   }
 
@@ -44,6 +47,9 @@ const InputCardForm = Form.create({
 
   return(
     <Modal title="绑定新卡" visible={modalVisible} onOk={handleOk} onCancel={handleCancel0}>
+    <FormItem {...formStyle} label='userCardId' style={{'display':'none'}}>
+        {form.getFieldDecorator('userCardId',{})(<Input disabled={true}/>)}
+      </FormItem>
       <FormItem {...formStyle} label='户号'>
         {form.getFieldDecorator('userId',{})(<Input disabled={true}/>)}
       </FormItem>

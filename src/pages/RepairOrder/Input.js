@@ -28,10 +28,6 @@ class Inputs extends PureComponent {
   }
   columns = [
     {
-      title: '维修单编号',
-      dataIndex: 'repairOrderId',
-    },
-    {
       title: '户号',
       dataIndex: 'userId',
     },
@@ -40,15 +36,31 @@ class Inputs extends PureComponent {
       dataIndex: 'userName',
     },
     {
-      title: '用户手机',
-      dataIndex: 'userPhone',
-    },
-    {
-      title: '用户地址',
-      dataIndex: 'userAddress',
-    },
-    {
       title: '维修类型',
+      dataIndex: 'repairTypeName',
+    },
+    {
+      title: '旧表编号',
+      dataIndex: 'oldMeterCode',
+    },
+    {
+      title: '旧表止码',
+      dataIndex: 'oldMeterStopCode',
+    },
+    {
+      title: '新表编号',
+      dataIndex: 'newMeterCode',
+    },
+    {
+      title: '新表止码',
+      dataIndex: 'newMeterStopCode',
+    },
+    {
+      title: '维修故障类型',
+      dataIndex: 'repairFaultTypeName',
+    },
+    {
+      title: '维修结果',
       dataIndex: 'repairResultTypeName',
     },
   ];
@@ -64,6 +76,12 @@ class Inputs extends PureComponent {
       },
     })
   }
+
+  handleSelectedRowsReset = () => {
+    this.setState({
+      selectedRows: []
+    });
+  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -112,8 +130,6 @@ class Inputs extends PureComponent {
       addModalVisible: !!flag
     });
   };
-
-
 
   handleEditModalVisible = flag => {
     const { selectedRows } = this.state;
@@ -173,7 +189,7 @@ class Inputs extends PureComponent {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
     const userId = selectedRows[0].userId;
-    
+
     dispatch({
       type: 'input/getBindNewCardParamByUserId',
       payload: {
@@ -200,33 +216,12 @@ class Inputs extends PureComponent {
       return;
     }
 
-    // if (selectedRows[0].repairType !== 0 && selectedRows[0].repairType !== 6 && selectedRows[0].repairType !== 7
-    //   && selectedRows[0].repairResultType !== 4 && selectedRows[0].repairResultType !== 9) {
-    //   message.warning("该订单不需要补气，不需要绑定新卡");
-    //   return;
-    // }
-
+    if (selectedRows[0].repairType !== 0 && selectedRows[0].repairType !== 6 && selectedRows[0].repairType !== 7
+      && selectedRows[0].repairResultType !== 4 && selectedRows[0].repairResultType !== 9) {
+      message.warning("该订单不需要补气，不需要绑定新卡");
+      return;
+    }
     this.isLatestOrHas(latestTip, hasTip, this.getBindNewCardParamByUserId)
-
-    // if (flag) {
-    //   dispatch({
-    //     type: 'input/getBindNewCardParamByUserId',
-    //     payload: {
-    //       userId: userId
-    //     },
-    //     callback: (response) => {
-    //       if (response.status === 0) {
-    //         this.setState({
-    //           cardModalVisible: !!flag,
-    //         })
-    //       }
-    //     }
-    //   })
-    // } else {
-    //   this.setState({
-    //     cardModalVisible: !!flag,
-    //   })
-    // }
   }
 
   handleAdd = (fields, form) => {
@@ -236,66 +231,84 @@ class Inputs extends PureComponent {
       type: 'input/add',
       payload: fields,
       callback: (response) => {
-        if (response.status === 0) {
-          message.success(response.message);
-          dispatch({
-            type: 'input/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            },
-          });
-          this.handleAddModalVisible();
-          form.resetFields();
-        }
+        message.success(response.message);
+        dispatch({
+          type: 'input/fetch',
+          payload: {
+            pageNum,
+            pageSize
+          },
+        });
+        this.handleAddModalVisible();
+        form.resetFields();
       }
     });
   }
 
-  handleEdit = fields => {
-    this.handleEditModalVisible();
+  handleEdit = (fields, form) => {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
       type: 'input/edit',
       payload: fields,
       callback: (response) => {
-        if (response.status === 0) {
-          message.success('编辑成功');
-          dispatch({
-            type: 'input/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            },
-          });
-          this.handleEditModalVisible();
-        }
+        message.success(response.message);
+        this.handleEditModalVisible();
+        this.handleSelectedRowsReset();
+        form.resetFields();
+        dispatch({
+          type: 'input/fetch',
+          payload: {
+            pageNum,
+            pageSize
+          },
+        });
       }
     });
   };
 
-  handleCard = fields => {
+  handleCard = (fields, form) => {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
       type: 'input/bindNewCard',
       payload: fields,
       callback: (response) => {
-        if (response.status === 0) {
-          message.success('补卡成功');
-          dispatch({
-            type: 'input/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            },
-          });
-          this.handleCardModalVisible();
-        }
+        message.success(response.message);
+        this.handleCardModalVisible();
+        this.handleSelectedRowsReset();
+        form.resetFields();
+        dispatch({
+          type: 'input/fetch',
+          payload: {
+            pageNum,
+            pageSize
+          },
+        });
       }
     });
   }
+
+  handleStandardTableChange = (pagination) => {
+    const { dispatch } = this.props;
+    const { formValues, pageNum, pageSize } = this.state;
+    if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
+      this.handleSelectedRowsReset();
+    }
+    const params = {
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize,
+      ...formValues,
+    };
+    this.setState({
+      pageNum: pagination.current,
+      pageSize: pagination.pageSize
+    });
+    dispatch({
+      type: 'input/search',
+      payload: params,
+    });
+  };
 
   renderForm() {
     const {
@@ -354,7 +367,7 @@ class Inputs extends PureComponent {
               data={data}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
-              onChage={this.handleStandardTableChange}
+              onChange={this.handleStandardTableChange}
               expandedRowRender={this.expandedRowRender}
               rowKey="repairOrderId"
             />
