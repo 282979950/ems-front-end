@@ -140,7 +140,7 @@ export default [
           {
             path: '/recharge/order',
             name: 'order',
-            component: './System/Dist',
+            component: './Recharge/OrderManagement',
             authority: 'recharge:order:visit'
           },
         ],
