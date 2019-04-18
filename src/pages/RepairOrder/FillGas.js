@@ -125,33 +125,6 @@ class FillGas extends PureComponent {
     });
   };
 
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows,
-    });
-  };
-
-  handleStandardTableChange = (pagination) => {
-    const { dispatch } = this.props;
-    const { formValues, pageNum, pageSize } = this.state;
-    if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
-      this.handleSelectedRowsReset();
-    }
-    const params = {
-      pageNum: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-    };
-    this.setState({
-      pageNum: pagination.current,
-      pageSize: pagination.pageSize
-    });
-    dispatch({
-      type: 'fillGas/search',
-      payload: params,
-    });
-  };
-
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
@@ -168,52 +141,6 @@ class FillGas extends PureComponent {
           pageSize
         },
       });
-    });
-  };
-
-  handleEditModalVisible = flag => {
-    const { selectedRows } = this.state;
-    if(!flag){
-      this.setState({
-        editModalVisible: !!flag,
-      })
-    }
-
-    if (selectedRows[0].fillGasOrderStatus === 1) {
-      message.warning('补气单已处理');
-      return;
-    }
-    if (selectedRows[0].fillGasOrderStatus === 2) {
-      message.warning('补气单已撤销');
-      return;
-    }
-
-    // data.fillGasOrderType === 1 ? 'fillGas' : 'overuse'
-
-    this.setState({
-      editModalVisible: !!flag,
-    })
-  };
-
-  handleEdit = (fields, form) => {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'input/edit',
-      payload: fields,
-      callback: (response) => {
-        message.success(response.message);
-        this.handleEditModalVisible();
-        this.handleSelectedRowsReset();
-        form.resetFields();
-        dispatch({
-          type: 'input/fetch',
-          payload: {
-            pageNum,
-            pageSize
-          },
-        });
-      }
     });
   };
 
@@ -238,10 +165,13 @@ class FillGas extends PureComponent {
     })
   };
 
-  handleEdit = () => {
+  handleEdit = (fields) => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-    const result = OCX.readCard();
+    const result = OCX.readCard(); fields
+    selectedRows[0].fillMoney = fields.fillMoney;
+    selectedRows[0].leftMoney = fields.leftMoney;
+    selectedRows[0].remarks = fields.remarks;
 
     this.handleEditModalVisible();
     this.handleSelectedRowsReset();
