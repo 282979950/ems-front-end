@@ -12,7 +12,7 @@ import InputCardForm from './components/InputCardForm';
 
 @connect(({ input, loading }) => ({
   input,
-  loading: loading.models.accountQuery,
+  loading: loading.models.input,
 }))
 @Form.create()
 class Inputs extends PureComponent {
@@ -24,7 +24,6 @@ class Inputs extends PureComponent {
     formValues: {},
     pageNum: 1,
     pageSize: 10,
-    // data: [],
   }
   columns = [
     {
@@ -324,7 +323,7 @@ class Inputs extends PureComponent {
             {getFieldDecorator("userId")(<Input placeholder="户号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('repairResultType')(<DictSelect placeholder="维修类型" category="repair_type" />)}
+            {getFieldDecorator('repairType')(<DictSelect placeholder="维修类型" category="repair_type" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator("empName")(<Input placeholder="维修员姓名" />)}
@@ -368,7 +367,6 @@ class Inputs extends PureComponent {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              expandedRowRender={this.expandedRowRender}
               rowKey="repairOrderId"
             />
           </div>
@@ -383,7 +381,6 @@ class Inputs extends PureComponent {
             handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
-            // treeSelectData={data}
             selectedData={selectedRows[0]}
           />
         ) : null}
@@ -392,7 +389,6 @@ class Inputs extends PureComponent {
             handleCard={this.handleCard}
             handleCancel={this.handleCardModalVisible}
             modalVisible={cardModalVisible}
-            // treeSelectData={data}
             selectedData={newCardParam}
           />
         ) : null}

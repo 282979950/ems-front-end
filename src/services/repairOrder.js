@@ -103,3 +103,39 @@ export async function searchFillGas(params) {
     },
   });
 }
+
+export async function editFillGas(params) {
+  return request('/api/fillGas/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function redCardFillGas(params) {
+  return request('/api/account/redCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function getServiceTimesByUserId(params) {
+  return request('/api/fillGas/getServiceTimesByUserId.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function getFlowNum(params) {
+  return request('/api/fillGas/getFlowNum.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

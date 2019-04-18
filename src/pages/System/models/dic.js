@@ -14,7 +14,8 @@ export default {
       user_type: [],
       user_gas_type: [],
       user_status: [],
-      card_cost: []
+      card_cost: [],
+      fill_gas_order_type: []
     }
   },
 
@@ -183,6 +184,14 @@ export default {
             dicData: {
               ...dicData,
               meter_direction: data
+            },
+          };
+        case 'fill_gas_order_type':
+          return {
+            ...state,
+            dicData: {
+              ...dicData,
+              fill_gas_order_type: data
             },
           };
         default:

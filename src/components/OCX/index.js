@@ -65,8 +65,8 @@ class OCX extends PureComponent {
   }
 
   render() {
-    // return (<object id="ICRW" type="application/x-itst-activex" clsid="{6C8FD9AF-5668-45C8-8D9A-EBE02A7A2F39}" width='0px' height='0px' />);
-    return (<object id="ICRW" classID="CLSID:6C8FD9AF-5668-45C8-8D9A-EBE02A7A2F39" />);
+    return (<object id="ICRW" type="application/x-itst-activex" clsid="{6C8FD9AF-5668-45C8-8D9A-EBE02A7A2F39}" width='0px' height='0px' />);
+    // return (<object id="ICRW" classID="CLSID:6C8FD9AF-5668-45C8-8D9A-EBE02A7A2F39" />);
   }
 }
 

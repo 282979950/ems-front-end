@@ -171,6 +171,15 @@ export async function searchCreateAccount(params) {
   });
 }
 
+export async function initCard(params) {
+  return request('/api/account/initCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function getOrderPayment(params) {
   return request('/api/gasPrice/calAmount.do', {
     method: 'POST',

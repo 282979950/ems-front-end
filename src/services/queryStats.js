@@ -52,8 +52,22 @@ export async function exportExceptionQuery(params) {
     },
   });
 }
+
 export async function exportWithPageInfoExceptionQuery(params) {
   return request('/api/exceptionQuery/exportWithPageInfo.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+/**
+ * IC卡查询
+ */
+
+export async function searchCardQuery(params) {
+  return request('/api/cardQuery/search.do', {
     method: 'POST',
     body: {
       ...params,

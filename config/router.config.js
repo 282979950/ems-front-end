@@ -194,7 +194,7 @@ export default [
           {
             path: '/repairOrder/initCard',
             name: 'initCard',
-            component: './System/Dist',
+            component: './RepairOrder/InitCard',
             authority: 'repairOrder:initCard:visit'
           },
         ],
@@ -257,7 +257,7 @@ export default [
           {
             path: '/queryStats/cardQuery',
             name: 'cardQuery',
-            component: './System/Dist',
+            component: './QueryStats/CardQuery',
             authority: 'queryStats:cardQuery:visit'
           },
           {

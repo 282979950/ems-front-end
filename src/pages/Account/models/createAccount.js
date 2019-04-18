@@ -1,4 +1,4 @@
-import { queryCreateAccount, editCreateAccount, searchCreateAccount, getOrderPayment } from '../../../services/account';
+import { queryCreateAccount, editCreateAccount, searchCreateAccount, getOrderPayment, initCard } from '../../../services/account';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -35,6 +35,14 @@ export default {
     },
     *getOrderPayment({ payload, callback }, { call }) {
       const response = yield call(getOrderPayment, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *initCard({ payload, callback }, { call }) {
+      const response = yield call(initCard, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {

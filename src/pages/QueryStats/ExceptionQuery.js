@@ -259,8 +259,7 @@ class ExceptionQuery extends PureComponent {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChage={this.handleStandardTableChange}
-              expandedRowRender={this.expandedRowRender}
-              rowKey="AccountQueryId"
+              rowKey="userId"
             />
           </div>
         </Card>
