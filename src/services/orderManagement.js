@@ -23,3 +23,15 @@ export async function querySearchOrder(params) {
     },
   });
 }
+
+/**
+ * 写卡
+ */
+export async function queryWriteCard(params) {
+  return request('/api/order/updateOrderStatus.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

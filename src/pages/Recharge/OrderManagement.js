@@ -8,7 +8,7 @@ import OCX from '../../components/OCX';
 
 @connect(({ orderManagement, loading }) => ({
   orderManagement,
-  loading: loading.models.replaceCard,
+  loading: loading.models.orderManagement,
 }))
 @Form.create()
 
@@ -104,7 +104,7 @@ class OrderManagement extends Component {
         pageNum,
         pageSize
       }
-    });    
+    });
   }
 
   handleSelectRows = rows => {
@@ -195,6 +195,40 @@ class OrderManagement extends Component {
     return '';
   };
 
+  writeCard = () => {
+    const { selectedRows, pageNum, pageSize } = this.state;
+    if (selectedRows.length === 0 || selectedRows.length >= 2) {
+      message.error('请选择一条数据')
+    }
+    if (selectedRows[0].orderStatus === 2) {
+      message.error('该订单已写卡成功，不能补写')
+    }
+
+    const { dispatch } = this.props;
+    const { orderId, orderStatus } = selectedRows[0];
+    dispatch({
+      type: 'orderManagement/write',
+      payload: {
+        orderId,
+        orderStatus,
+      },
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success('写卡成功');
+          dispatch({
+            type: 'orderManagement/fetch',
+            payload: {
+              pageNum,
+              pageSize
+            }
+          });
+        } else {
+          message.warning(response.message);
+        }
+      }
+    });
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -245,7 +279,7 @@ class OrderManagement extends Component {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
-              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>写卡</Button>
+              <Button icon="file-text" onClick={() => this.writeCard()}>写卡</Button>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>发票打印</Button>
               <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>原票补打</Button>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新票补打</Button>
@@ -267,5 +301,5 @@ class OrderManagement extends Component {
     );
   }
 }
- 
+
 export default OrderManagement;
