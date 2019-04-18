@@ -27,7 +27,7 @@ export async function querySearchOrder(params) {
 /**
  * 写卡
  */
-export async function queryWriteCard(params) {
+export async function queryUpdateOrderStatus(params) {
   return request('/api/order/updateOrderStatus.do', {
     method: 'POST',
     body: {

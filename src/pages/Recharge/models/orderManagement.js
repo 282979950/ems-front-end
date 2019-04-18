@@ -1,4 +1,4 @@
-import { queryAllOrder, querySearchOrder, queryWriteCard } from '../../../services/orderManagement';
+import { queryAllOrder, querySearchOrder, queryUpdateOrderStatus } from '../../../services/orderManagement';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -34,8 +34,8 @@ export default {
         handleRequestException(response);
       }
     },
-    *write({ payload, callback }, { call }) {
-      const response = yield call(queryWriteCard, payload);
+    *updateOrderStatus({ payload, callback }, { call }) {
+      const response = yield call(queryUpdateOrderStatus, payload);
       if (callback) callback(response);
     },
   },

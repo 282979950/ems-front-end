@@ -198,8 +198,8 @@ class PrePayment extends PureComponent {
         if (response.status === 0) {
           message.success('充值成功，开始写卡');
           const { data } = response;
-          const { iccardId, iccardPassword, orderGas, flowNumber, orderId } = data;
-          const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, orderGas, flowNumber);
+          const { iccardId, iccardPassword, orderGas, flowNumber, orderId, serviceTimes } = data;
+          const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, serviceTimes, flowNumber);
           if (wResult === '写卡成功') {
             dispatch({
               type: 'order/updateOrderStatus',

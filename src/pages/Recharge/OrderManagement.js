@@ -199,34 +199,44 @@ class OrderManagement extends Component {
     const { selectedRows, pageNum, pageSize } = this.state;
     if (selectedRows.length === 0 || selectedRows.length >= 2) {
       message.error('请选择一条数据')
+      return;
     }
     if (selectedRows[0].orderStatus === 2) {
       message.error('该订单已写卡成功，不能补写')
+      return;
     }
 
+    const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = selectedRows[0];
+    const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, serviceTimes, flowNumber);
     const { dispatch } = this.props;
-    const { orderId, orderStatus } = selectedRows[0];
-    dispatch({
-      type: 'orderManagement/write',
-      payload: {
-        orderId,
-        orderStatus,
-      },
-      callback: (response) => {
-        if (response.status === 0) {
-          message.success('写卡成功');
-          dispatch({
-            type: 'orderManagement/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            }
-          });
-        } else {
-          message.warning(response.message);
+    if (wResult === '写卡成功') {
+      dispatch({
+        type: 'orderManagement/updateOrderStatus',
+        payload: {
+          orderId,
+          orderStatus: 2
+        },
+        callback: (response2) => {
+          if (response2.status === 0) {
+            message.success("写卡成功");
+            this.setState({
+              selectedRows: []
+            });
+            dispatch({
+              type: 'orderManagement/fetch',
+              payload: {
+                pageNum,
+                pageSize
+              },
+            });
+          } else {
+            message.error(response2.message);
+          }
         }
-      }
-    });
+      })
+    } else {
+      message.error("写卡失败，请重试");
+    }
   }
 
   renderForm() {
