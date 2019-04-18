@@ -161,7 +161,7 @@ export default [
           {
             path: '/invoice/printCancel',
             name: 'printCancel',
-            component: './System/Dist',
+            component: './Invoice/Search',
             authority: 'invoice:printCancel:visit'
           },
           {

@@ -4,11 +4,10 @@ import { Card, Row, Col, Input, Button, Form, message } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
-import InvoiceAddForm from './components/InvoiceAddForm';
-import InvoiceAssignForm from './components/InvoiceAssignForm';
+import EmpSelect from './components/EmpSelect'
 
-@connect(({ invoice, loading }) => ({
-  invoice,
+@connect(({ invoiceSearch, loading }) => ({
+  invoiceSearch,
   loading: loading.models.assign,
 }))
 @Form.create()
@@ -29,12 +28,24 @@ class InvoiceAssign extends Component {
       dataIndex: 'invoiceStatusName',
     },
     {
-      title: '生成员工',
-      dataIndex: 'createByName',
+      title: '所属员工',
+      dataIndex: 'empName',
     },
     {
-      title: '发票生成时间',
-      dataIndex: 'invoiceGenerateTime',
+      title: '发票分配时间',
+      dataIndex: 'invoiceAssignTime',
+    },
+    {
+      title: '发票打印时间',
+      dataIndex: 'invoicePrintTime',
+    },
+    {
+      title: '作废人',
+      dataIndex: 'invoiceCancelEmpName',
+    },
+    {
+      title: '发票作废时间',
+      dataIndex: 'invoiceCancelTime',
     },
   ];
 
@@ -45,8 +56,6 @@ class InvoiceAssign extends Component {
       formValues: {},
       pageNum: 1,
       pageSize: 10,
-      addModalVisible: false,
-      assignModalVisible: false,
     }
   }
 
@@ -54,7 +63,7 @@ class InvoiceAssign extends Component {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state
     dispatch({
-      type: 'invoice/fetch',
+      type: 'invoiceSearch/fetch',
       payload: {
         pageNum,
         pageSize
@@ -90,70 +99,10 @@ class InvoiceAssign extends Component {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'invoice/search',
+      type: 'invoiceSearch/search',
       payload: params,
     });
   };
-
-  handleAddModalVisible = flag => {
-    this.setState({
-      addModalVisible: !!flag
-    });
-  };
-
-  handleAssignModalVisible = flag => {
-    this.setState({
-      assignModalVisible: !!flag
-    });
-  };
-
-  handleAdd = fields => {
-    this.handleAddModalVisible();
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state
-    dispatch({
-      type: 'invoice/add',
-      payload: fields,
-      callback: (response) => {
-        if (response.status === 0) {
-          message.success('新增成功');
-          dispatch({
-            type: 'invoice/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            }
-          });
-        } else {
-          message.warning(response.message);
-        }
-      }
-    });
-  };
-
-  handleAssign = fields => {
-    this.handleAssignModalVisible();
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state
-    dispatch({
-      type: 'invoice/assign',
-      payload: fields,
-      callback: (response) => {
-        if (response.status === 0) {
-          message.success('分配成功');
-          dispatch({
-            type: 'invoice/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            }
-          });
-        } else {
-          message.warning(response.message);
-        }
-      }
-    });
-  }
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
@@ -165,7 +114,7 @@ class InvoiceAssign extends Component {
         pageSize: 10,
       });
       dispatch({
-        type: 'invoice/search',
+        type: 'invoiceSearch/search',
         payload: {
           ...fieldsValue,
           pageNum: 1,
@@ -184,7 +133,7 @@ class InvoiceAssign extends Component {
       pageSize: 10
     });
     dispatch({
-      type: 'invoice/fetch',
+      type: 'invoiceSearch/fetch',
       payload: {
         pageNum: 1,
         pageSize: 10,
@@ -206,6 +155,9 @@ class InvoiceAssign extends Component {
             {getFieldDecorator('invoiceNumber')(<Input placeholder="发票号码" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('empId')(<EmpSelect placeholder="所属员工" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -222,19 +174,15 @@ class InvoiceAssign extends Component {
 
   render() {
     const {
-      invoice: { data },
+      invoiceSearch: { data },
       loading,
     } = this.props;
-    const { addModalVisible, assignModalVisible, selectedRows } = this.state;
+    const { selectedRows } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
-            <div className={styles.CommonOperator}>
-              <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>发票录入</Button>
-              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>发票分配</Button>
-            </div>
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
@@ -246,18 +194,6 @@ class InvoiceAssign extends Component {
             />
           </div>
         </Card>
-        <InvoiceAddForm
-          handleAdd={this.handleAdd}
-          handleCancel={this.handleAddModalVisible}
-          modalVisible={addModalVisible}
-          treeSelectData={null}
-        />
-        <InvoiceAssignForm
-          handleAdd={this.handleAssign}
-          handleCancel={this.handleAssignModalVisible}
-          modalVisible={assignModalVisible}
-          treeSelectData={null}
-        />
       </PageHeaderWrapper>
     );
   }

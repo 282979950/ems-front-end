@@ -57,3 +57,27 @@ export async function querySearchInvoice(params) {
     },
   });
 }
+
+/**
+ * 发票管理-发票查询-已分配后的发票编号
+ */
+export async function queryInvoice(params) {
+  return request('/api/printCancel/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+/**
+ * 发票管理-发票查询-特定的已分配的发票
+ */
+export async function querySpecificInvoice(params) {
+  return request('/api/printCancel/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
