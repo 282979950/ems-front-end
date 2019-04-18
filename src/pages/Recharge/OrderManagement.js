@@ -4,6 +4,7 @@ import { Card, Row, Col, Input, Button, Form, message } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
+import OCX from '../../components/OCX';
 
 @connect(({ orderManagement, loading }) => ({
   orderManagement,
@@ -176,6 +177,24 @@ class OrderManagement extends Component {
     });
   }
 
+  identifyCard = () => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    const result = OCX.readCard();
+    if (result[0] !== 'S') {
+      return "读卡失败";
+    }
+    dispatch({
+      type: 'orderManagement/search',
+      payload: {
+        iccardId: result[3],
+        pageNum,
+        pageSize
+      },
+    });
+    return '';
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -225,7 +244,7 @@ class OrderManagement extends Component {
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>识别IC卡</Button>
+              <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
               <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>写卡</Button>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>发票打印</Button>
               <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>原票补打</Button>
@@ -239,9 +258,10 @@ class OrderManagement extends Component {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              rowKey='invoiceId'
+              rowKey='orderId'
             />
           </div>
+          <OCX />
         </Card>
       </PageHeaderWrapper>
     );
