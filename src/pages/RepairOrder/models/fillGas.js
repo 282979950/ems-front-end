@@ -24,7 +24,7 @@ export default {
         yield put({
           type: 'save',
           payload: response.data,
-        })
+        });
         if (callback) callback();
       } else {
         handleRequestException(response)
