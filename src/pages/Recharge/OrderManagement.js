@@ -295,6 +295,57 @@ class OrderManagement extends Component {
     })
   }
 
+  reprintInvoice = () => {
+    const { selectedRows, pageNum, pageSize } = this.state;
+
+    if (selectedRows.length === 0 || selectedRows.length >= 2) {
+      message.error('请选择一条数据');
+      return;
+    }
+    
+    const { dispatch } = this.props
+    dispatch({
+      type: 'orderManagement/findInvoice',
+      payload: {
+        orderId: selectedRows[0].orderId,
+        userId: selectedRows[0].userId,
+        printType: 2
+      },
+      callback: (response) => {
+        const { data } = response;
+        if (response.status === 0) {
+          dispatch({
+            type: 'orderManagement/printInvoice',
+            payload: {
+              orderId: selectedRows[0].orderId,
+              invoiceCode: data.invoiceCode,
+              invoiceNumber: data.invoiceNumber,
+            },
+            callback: response2 => {
+              if (response2.status === 0) {
+                message.success(response2.message);
+                this.setState({
+                  selectedRows: []
+                });
+                dispatch({
+                  type: 'orderManagement/fetch',
+                  payload: {
+                    pageNum,
+                    pageSize
+                  }
+                });                
+              } else {
+                message.error(response2.message);
+              }
+            }
+          });
+        } else {
+          message.error(response.message);
+        }
+      }
+    })
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -347,7 +398,7 @@ class OrderManagement extends Component {
               <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
               <Button icon="file-text" onClick={() => this.writeCard()}>写卡</Button>
               <Button icon="plus" onClick={() => this.printInvoice()}>发票打印</Button>
-              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>原票补打</Button>
+              <Button icon="file-text" onClick={() => this.reprintInvoice()}>原票补打</Button>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新票补打</Button>
               <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>发票作废</Button>
             </div>
