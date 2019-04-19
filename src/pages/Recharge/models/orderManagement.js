@@ -1,4 +1,10 @@
-import { queryAllOrder, querySearchOrder, queryUpdateOrderStatus } from '../../../services/orderManagement';
+import { 
+  queryAllOrder, 
+  querySearchOrder, 
+  queryUpdateOrderStatus, 
+  queryFindInvoice,
+  queryPrintInvoice
+} from '../../../services/orderManagement';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -36,6 +42,14 @@ export default {
     },
     *updateOrderStatus({ payload, callback }, { call }) {
       const response = yield call(queryUpdateOrderStatus, payload);
+      if (callback) callback(response);
+    },
+    *findInvoice({ payload, callback }, { call }) {
+      const response = yield call(queryFindInvoice, payload);
+      if (callback) callback(response);
+    },
+    *printInvoice({ payload, callback }, { call }) {
+      const response = yield call(queryPrintInvoice, payload);
       if (callback) callback(response);
     },
   },
