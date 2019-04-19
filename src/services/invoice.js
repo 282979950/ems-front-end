@@ -81,3 +81,15 @@ export async function querySpecificInvoice(params) {
     },
   });
 }
+
+/**
+ * 发票管理-发票查询-注销未打印的发票
+ */
+export async function queryNullInvoice(params) {
+  return request('/api/printCancel/cancel.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
