@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Modal, Pagination } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message } from 'antd';
 import styles from '../Common.less';
-import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import DictSelect from '../System/components/DictSelect';
@@ -17,15 +16,15 @@ import InputCardForm from './components/InputCardForm';
 @Form.create()
 class Inputs extends PureComponent {
   state = {
-    addModalvisible: false,
     editModalVisible: false,
     cardModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
     pageSize: 10,
-    cardPassword:''
-  }
+    cardPassword: '',
+  };
+
   columns = [
     {
       title: '维修单编号',
@@ -140,13 +139,12 @@ class Inputs extends PureComponent {
   };
 
   handleEditModalVisible = flag => {
-    const { selectedRows } = this.state;
     const latestTip = '该维修单不是最新的，不能编辑';
     const hasTip = '该维修单的补气单或超用单已被处理，不能编辑';
     if (!flag) {
       this.setState({
         editModalVisible: false,
-      })
+      });
       return;
     }
     this.isLatestOrHas(latestTip, hasTip, this.handleEditShow)
@@ -156,7 +154,7 @@ class Inputs extends PureComponent {
     this.setState({
       editModalVisible: true,
     })
-  }
+  };
 
   isLatestOrHas = (latestTip, hasTip, callback) => {
     const { selectedRows } = this.state;
@@ -171,7 +169,6 @@ class Inputs extends PureComponent {
       callback: (response) => {
         if (!response.data) {
           message.warning(latestTip);
-          return;
         } else {
           dispatch({
             type: 'input/hasFillGasOrderResolved',
@@ -179,39 +176,38 @@ class Inputs extends PureComponent {
               userId: selectedRows[0].userId,
               repairOrderId: selectedRows[0].repairOrderId,
             },
-            callback: (response) => {
-              if (response.data) {
+            callback: (response2) => {
+              if (response2.data) {
                 message.warning(hasTip);
-                return;
-              } else {
-                if (callback) callback(response);
+              } else if (callback) {
+                callback(response2);
               }
             }
           })
         }
       }
     })
-  }
+  };
 
-  getBindNewCardParamByUserId = (response) => {
+  getBindNewCardParamByUserId = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-    const userId = selectedRows[0].userId;
+    const { userId } = selectedRows[0];
 
     dispatch({
       type: 'input/getBindNewCardParamByUserId',
       payload: {
-        userId: userId
+        userId,
       },
-      callback: (response) => {
+      callback: (response2) => {
         this.setState({
           cardModalVisible: true,
-          cardPassword: response.data.cardPassword
-        })
-      }
-    })
+          cardPassword: response2.data.cardPassword,
+        });
+      },
+    });
 
-  }
+  };
 
   handleCardModalVisible = flag => {
     const { selectedRows } = this.state;
@@ -221,7 +217,7 @@ class Inputs extends PureComponent {
     if (!flag) {
       this.setState({
         cardModalVisible: false,
-      })
+      });
       return;
     }
 
@@ -231,7 +227,7 @@ class Inputs extends PureComponent {
       return;
     }
     this.isLatestOrHas(latestTip, hasTip, this.getBindNewCardParamByUserId)
-  }
+  };
 
   handleAdd = (fields, form) => {
     const { dispatch } = this.props;
@@ -252,7 +248,7 @@ class Inputs extends PureComponent {
         form.resetFields();
       }
     });
-  }
+  };
 
   handleEdit = (fields, form) => {
     const { dispatch } = this.props;
@@ -300,7 +296,7 @@ class Inputs extends PureComponent {
           });
         }
       });
-  }
+  };
 
   handleStandardTableChange = (pagination) => {
     const { dispatch } = this.props;
