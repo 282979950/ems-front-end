@@ -3,7 +3,8 @@ import {
   querySearchOrder, 
   queryUpdateOrderStatus, 
   queryFindInvoice,
-  queryPrintInvoice
+  queryPrintInvoice,
+  queryNullInvoice
 } from '../../../services/orderManagement';
 import { handleRequestException } from '../../../utils/request';
 
@@ -50,6 +51,10 @@ export default {
     },
     *printInvoice({ payload, callback }, { call }) {
       const response = yield call(queryPrintInvoice, payload);
+      if (callback) callback(response);
+    },
+    *invalidate({ payload, callback }, { call }) {
+      const response = yield call(queryNullInvoice, payload);
       if (callback) callback(response);
     },
   },

@@ -302,6 +302,16 @@ class OrderManagement extends Component {
       message.error('请选择一条数据');
       return;
     }
+
+    if (selectedRows[0].invoiceStatusName === undefined) {
+      message.error('该订单还没打印过，无法补打');
+      return;
+    }
+
+    if (selectedRows[0].invoiceStatusName === '已作废') {
+        message.error('该订单已作废过，无法原票补打');
+        return;
+    }
     
     const { dispatch } = this.props
     dispatch({
@@ -337,6 +347,109 @@ class OrderManagement extends Component {
               } else {
                 message.error(response2.message);
               }
+            }
+          });
+        } else {
+          message.error(response.message);
+        }
+      }
+    })
+  }
+
+  reprintNewInvoice = () => {
+    const { selectedRows, pageNum, pageSize } = this.state;
+
+    if (selectedRows.length === 0 || selectedRows.length >= 2) {
+      message.error('请选择一条数据');
+      return;
+    }
+
+    if (selectedRows[0].invoiceStatusName === undefined) {
+        message.error('该订单还没打印过，无法补打');
+        return;
+    }
+    
+    const { dispatch } = this.props
+    dispatch({
+      type: 'orderManagement/findInvoice',
+      payload: {
+        orderId: selectedRows[0].orderId,
+        userId: selectedRows[0].userId,
+        printType: 3
+      },
+      callback: (response) => {
+        const { data } = response;
+        if (response.status === 0) {
+          dispatch({
+            type: 'orderManagement/printInvoice',
+            payload: {
+              orderId: selectedRows[0].orderId,
+              invoiceCode: data.invoiceCode,
+              invoiceNumber: data.invoiceNumber,
+            },
+            callback: response2 => {
+              if (response2.status === 0) {
+                message.success(response2.message);
+                this.setState({
+                  selectedRows: []
+                });
+                dispatch({
+                  type: 'orderManagement/fetch',
+                  payload: {
+                    pageNum,
+                    pageSize
+                  }
+                });                
+              } else {
+                message.error(response2.message);
+              }
+            }
+          });
+        } else {
+          message.error(response.message);
+        }
+      }
+    })
+  }
+
+  nullInvoice = () => {
+    const { selectedRows, pageNum, pageSize } = this.state;
+
+    if (selectedRows.length === 0 || selectedRows.length >= 2) {
+      message.error('请选择一条数据');
+      return;
+    }
+
+    if (selectedRows[0].invoiceStatusName === undefined) {
+        message.error('该订单还没打印过，无法作废');
+        return;
+    }
+
+    if (selectedRows[0].invoiceStatusName === '已作废') {
+        message.error('该发票已作废过，无法再作废');
+        return;
+    }
+    
+    const { dispatch } = this.props
+    dispatch({
+      type: 'orderManagement/invalidate',
+      payload: {
+        orderId: selectedRows[0].orderId,
+        userId: selectedRows[0].userId,
+        invoiceCode: selectedRows[0].invoiceCode,
+        invoiceNumber: selectedRows[0].invoiceNumber
+      },
+      callback: (response) => {
+        if (response.status === 0) {
+          message.success(response.message);
+          this.setState({
+            selectedRows: []
+          });
+          dispatch({
+            type: 'orderManagement/fetch',
+            payload: {
+              pageNum,
+              pageSize,
             }
           });
         } else {
@@ -399,8 +512,8 @@ class OrderManagement extends Component {
               <Button icon="file-text" onClick={() => this.writeCard()}>写卡</Button>
               <Button icon="plus" onClick={() => this.printInvoice()}>发票打印</Button>
               <Button icon="file-text" onClick={() => this.reprintInvoice()}>原票补打</Button>
-              <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新票补打</Button>
-              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>发票作废</Button>
+              <Button icon="plus" onClick={() => this.reprintNewInvoice()}>新票补打</Button>
+              <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}

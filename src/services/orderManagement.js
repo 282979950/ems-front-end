@@ -59,3 +59,15 @@ export async function queryPrintInvoice(params) {
     },
   });
 }
+
+/**
+ * 发票作废
+ */
+export async function queryNullInvoice(params) {
+  return request('/api/order/cancel.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

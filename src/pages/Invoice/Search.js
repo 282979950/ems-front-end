@@ -221,9 +221,9 @@ class InvoiceAssign extends Component {
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              {/* <Authorized authority="recharge:printCancel:cancel"> */}
-              <Button icon="scan" disabled={this.flag(selectedRows)} onClick={() => this.nullInvoice()}>作废未绑定发票</Button>
-              {/* </Authorized> */}
+              <Authorized authority="recharge:printCancel:cancel">
+                <Button icon="scan" disabled={this.flag(selectedRows)} onClick={() => this.nullInvoice()}>作废未绑定发票</Button>
+              </Authorized>
             </div>
             <StandardTable
               selectedRows={selectedRows}
