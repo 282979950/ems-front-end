@@ -35,3 +35,39 @@ export async function queryUpdateOrderStatus(params) {
     },
   });
 }
+
+/**
+ * 查找发票
+ */
+export async function queryFindInvoice(params) {
+  return request('/api/findInvoice.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+/**
+ * 打印发票-改变发票状态
+ */
+export async function queryPrintInvoice(params) {
+  return request('/api/print.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+/**
+ * 发票作废
+ */
+export async function queryNullInvoice(params) {
+  return request('/api/order/cancel.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

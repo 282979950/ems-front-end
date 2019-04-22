@@ -4,6 +4,7 @@ import { Card, Row, Col, Input, Button, Form, message } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
+import Authorized from '../../utils/Authorized';
 import EmpSelect from './components/EmpSelect'
 
 @connect(({ invoiceSearch, loading }) => ({
@@ -141,6 +142,42 @@ class InvoiceAssign extends Component {
     });
   }
 
+  nullInvoice = () => {
+    const { selectedRows, pageNum, pageSize } = this.state;
+    
+    const { dispatch } = this.props
+    dispatch({
+      type: 'invoiceSearch/invalidate',
+      payload: {
+        invoiceCode: selectedRows[0].invoiceCode,
+        invoiceNumber: selectedRows[0].invoiceNumber
+      },
+      callback: (response) => {
+        if (response.status === 0) {
+          this.setState({
+            selectedRows: []
+          });
+          dispatch({
+            type: 'invoiceSearch/fetch',
+            payload: {
+              pageNum,
+              pageSize,
+            }
+          });
+        } else {
+          message.error(response.message);
+        }
+      }
+    })
+  }
+
+  flag = (selectedRows) => {
+    if (selectedRows[0] && selectedRows.length === 1 && selectedRows[0].invoiceStatusName === '已分配未打印') {
+      return false;
+    }
+    return true;
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -183,6 +220,11 @@ class InvoiceAssign extends Component {
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
+            <div className={styles.CommonOperator}>
+              <Authorized authority="recharge:printCancel:cancel">
+                <Button icon="scan" disabled={this.flag(selectedRows)} onClick={() => this.nullInvoice()}>作废未绑定发票</Button>
+              </Authorized>
+            </div>
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}

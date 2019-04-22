@@ -1,4 +1,4 @@
-import { queryInvoice, querySpecificInvoice } from '../../../services/invoice';
+import { queryInvoice, querySpecificInvoice, queryNullInvoice } from '../../../services/invoice';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -29,6 +29,10 @@ export default {
         payload: response.data,
       });
       if (callback) callback();
+    },
+    *invalidate({ payload, callback }, { call }) {
+      const response = yield call(queryNullInvoice, payload);
+      if (callback) callback(response);
     },
   },
 
