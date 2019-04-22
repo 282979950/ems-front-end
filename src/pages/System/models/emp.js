@@ -1,4 +1,4 @@
-import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp, getEmpByEmpNumber } from '../../../services/system';
+import { queryEmp, deleteEmp, addEmp, editEmp, searchEmp, getEmpByEmpNumber,resetPassword } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -54,6 +54,14 @@ export default {
           type: 'saveEmpList',
           payload: response.data,
         });
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *resetPassword({ payload, callback }, { call }) {
+      const response = yield call(resetPassword, payload);
+      if (response.status === 0) {
         if (callback) callback(response);
       } else {
         handleRequestException(response);

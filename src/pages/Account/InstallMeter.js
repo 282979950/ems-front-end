@@ -88,7 +88,10 @@ class InstallMeter extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     form.validateFields((err, fieldsValue) => {
-      if (err) return;
+      if (err) {
+        message.error(err.userId.errors[0].message)
+        return;
+      };
       this.setState({
         formValues: fieldsValue,
         pageNum: 1,
@@ -169,17 +172,25 @@ class InstallMeter extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userId')(<Input placeholder="户号" />)}
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userId', {
+              rules: [{
+                pattern: /^[0-9]+$/,
+                message: '户号只能为整数',
+              }, {
+                max: 10,
+                message: '户号不能超过10个数字',
+              }]
+            })(<Input placeholder="户号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -196,7 +207,7 @@ class InstallMeter extends PureComponent {
 
   render() {
     const {
-      installMeter : { data },
+      installMeter: { data },
       loading,
     } = this.props;
     const { selectedRows, editModalVisible } = this.state;

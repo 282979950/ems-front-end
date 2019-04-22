@@ -75,8 +75,8 @@ class Emp extends PureComponent {
         text === '是' ? (
           <Badge status="success" text="正常" />
         ) : (
-          <Badge status="error" text="禁用" />
-        )
+            <Badge status="error" text="禁用" />
+          )
     }
   ];
 
@@ -97,7 +97,7 @@ class Emp extends PureComponent {
       type: 'org/fetch'
     });
     dispatch({
-      type: 'role/fetch'
+      type: 'role/getAllRole'
     });
     dispatch({
       type: 'dic/fetchByType',
@@ -270,7 +270,7 @@ class Emp extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -283,18 +283,14 @@ class Emp extends PureComponent {
         dispatch({
           type: 'emp/resetPassword',
           payload: {
-            selectedRow
+            empId: selectedRow.empId
           },
           callback: (response) => {
-            if (response.status === 0) {
-              message.success(response.message);
-            } else {
-              message.error(response.message);
-            }
+            message.success(response.message);
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -322,28 +318,28 @@ class Emp extends PureComponent {
     const roleData = role.data;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('empNumber')(<Input placeholder="工号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('empName')(<Input placeholder="姓名" />)}
           </Col>
           <Authorized authority="sys:emp:detail">
-            <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
               {getFieldDecorator('empOrgId')(
                 <OrgTreeSelect placeholder="所属机构" />
               )}
             </Col>
-            <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
               {getFieldDecorator('empDistId')(
                 <DistTreeSelect placeholder="所属区域" />
               )}
             </Col>
-            <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
               {getFieldDecorator('roleId')(
                 <Select
-                  style={{ width:'100%' }}
+                  style={{ width: '100%' }}
                   allowClear
                   placeholder="用户角色"
                 >
@@ -351,13 +347,13 @@ class Emp extends PureComponent {
                 </Select>
               )}
             </Col>
-            <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+            <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
               {getFieldDecorator('empType')(
                 <DictSelect category="emp_type" placeholder="用户类型" />
               )}
             </Col>
           </Authorized>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

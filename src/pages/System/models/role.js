@@ -1,4 +1,4 @@
-import { queryRole, addRole, deleteRole, editRole, searchRole } from '../../../services/system';
+import { queryRole, addRole, deleteRole, editRole, searchRole,getAllRole } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -35,6 +35,14 @@ export default {
     },
     *search({ payload, callback }, { call, put }) {
       const response = yield call(searchRole, payload);
+      yield put({
+        type: 'save',
+        payload: response.data,
+      });
+      if (callback) callback();
+    },
+    *getAllRole({ payload, callback }, { call, put }) {
+      const response = yield call(getAllRole, payload);
       yield put({
         type: 'save',
         payload: response.data,

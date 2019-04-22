@@ -142,6 +142,15 @@ export async function searchRole(params) {
   });
 }
 
+export async function getAllRole(params) {
+  return request('/api/role/getAllRole.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function queryEmp(params) {
   return request('/api/emp/listData.do', {
     method: 'POST',
@@ -189,6 +198,15 @@ export async function searchEmp(params) {
 
 export async function getEmpByEmpNumber(params) {
   return request('/api/emp/getEmpByEmpNumber.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function resetPassword(params) {
+  return request('/api/emp/resetPassword.do', {
     method: 'POST',
     body: {
       ...params

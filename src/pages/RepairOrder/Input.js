@@ -24,8 +24,13 @@ class Inputs extends PureComponent {
     formValues: {},
     pageNum: 1,
     pageSize: 10,
+    cardPassword:''
   }
   columns = [
+    {
+      title: '维修单编号',
+      dataIndex: 'repairOrderId',
+    },
     {
       title: '户号',
       dataIndex: 'userId',
@@ -33,6 +38,10 @@ class Inputs extends PureComponent {
     {
       title: '用户名称',
       dataIndex: 'userName',
+    },
+    {
+      title: '维修员姓名',
+      dataIndex: 'empName',
     },
     {
       title: '维修类型',
@@ -197,6 +206,7 @@ class Inputs extends PureComponent {
       callback: (response) => {
         this.setState({
           cardModalVisible: true,
+          cardPassword: response.data.cardPassword
         })
       }
     })
@@ -268,24 +278,28 @@ class Inputs extends PureComponent {
 
   handleCard = (fields, form) => {
     const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'input/bindNewCard',
-      payload: fields,
-      callback: (response) => {
-        message.success(response.message);
-        this.handleCardModalVisible();
-        this.handleSelectedRowsReset();
-        form.resetFields();
-        dispatch({
-          type: 'input/fetch',
-          payload: {
-            pageNum,
-            pageSize
-          },
-        });
-      }
-    });
+    const { pageNum, pageSize,cardPassword } = this.state;
+
+      dispatch({
+        type: 'input/bindNewCard',
+        payload: {
+          ...fields,
+          cardPassword
+        },
+        callback: (response) => {
+          message.success(response.message);
+          this.handleCardModalVisible();
+          this.handleSelectedRowsReset();
+          form.resetFields();
+          dispatch({
+            type: 'input/fetch',
+            payload: {
+              pageNum,
+              pageSize
+            },
+          });
+        }
+      });
   }
 
   handleStandardTableChange = (pagination) => {

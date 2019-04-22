@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { Button, Form, Input, Modal, Select, Steps, Switch, TreeSelect } from 'antd';
 import React, { PureComponent } from 'react';
+import DictSelect from './DictSelect';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { Step } = Steps;
 
 @Form.create()
-class EmpEditForm extends PureComponent{
+class EmpEditForm extends PureComponent {
   constructor(props) {
     super(props);
     const { selectedData } = props;
@@ -63,26 +64,6 @@ class EmpEditForm extends PureComponent{
     const { formValues } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      this.setState({
-        formValues: {
-          empNumber: null,
-          empName: null,
-          roleId: null,
-          empOrgId: null,
-          empDistId: null,
-          empLoginName: null,
-          empPassword: null,
-          confirmPassword: null,
-          empEmail: null,
-          empPhone: null,
-          empMobile: null,
-          empAddress: null,
-          empType: null,
-          empManagementDistId: null,
-          empLoginFlag: true,
-        },
-        currentStep: 0
-      });
       form.resetFields();
       handleEdit({
         ...formValues,
@@ -94,7 +75,8 @@ class EmpEditForm extends PureComponent{
 
   renderForm = () => {
     const { currentStep, formValues } = this.state;
-    const { form, distData, orgData, roleData, empTypeData } = this.props;
+    const { form, distData, orgData, roleData,  empTypeData} = this.props;
+    
     switch (currentStep) {
       case 1:
         return [
@@ -176,7 +158,7 @@ class EmpEditForm extends PureComponent{
                 message: '用户角色不能为空！',
               }],
             })(
-              <Select style={{ width:'100%' }}>
+              <Select style={{ width: '100%' }}>
                 {roleData && roleData.map((option) => <Option value={option.roleId} key={option.roleId}>{option.roleName}</Option>)}
               </Select>
             )}
@@ -188,11 +170,7 @@ class EmpEditForm extends PureComponent{
                 required: true,
                 message: '用户类型不能为空！',
               }],
-            })(
-              <Select style={{ width:'100%' }}>
-                {empTypeData && empTypeData.map((option) => <Option value={option.dictValue} key={option.dictKey}>{option.dictKey}</Option>)}
-              </Select>
-            )}
+            })(<DictSelect category="emp_type" />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="负责区域" key="empManagementDistId">
             {form.getFieldDecorator('empManagementDistId', {
@@ -307,26 +285,10 @@ class EmpEditForm extends PureComponent{
   };
 
   handleCancel = () => {
-    const { form, handleCancel } = this.props;
+    const { form, handleCancel, selectedData } = this.props;
     form.resetFields();
     this.setState({
-      formValues: {
-        empNumber: null,
-        empName: null,
-        roleId: null,
-        empOrgId: null,
-        empDistId: null,
-        empLoginName: null,
-        empPassword: null,
-        confirmPassword: null,
-        empEmail: null,
-        empPhone: null,
-        empMobile: null,
-        empAddress: null,
-        empType: null,
-        empManagementDistId: null,
-        empLoginFlag: true,
-      },
+      formValues: selectedData,
       currentStep: 0
     });
     handleCancel();

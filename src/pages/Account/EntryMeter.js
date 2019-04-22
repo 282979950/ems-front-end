@@ -220,6 +220,19 @@ class EntryMeter extends PureComponent {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     const _ = this;
+
+    let isDel = false;
+    selectedRows.some((option) => {
+      if (option.meterStatus === 2) {
+        message.warning("已挂表的用户不用删除！")
+        isDel = true;
+        return true;
+      }
+    })
+    if (isDel) {
+      return;
+    }
+
     confirm({
       title: '删除用户',
       content: `确认删除选中的${selectedRows.length}个入库表具信息？`,
@@ -250,7 +263,7 @@ class EntryMeter extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -260,17 +273,17 @@ class EntryMeter extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('meterCode')(<Input placeholder="表具名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('meterDirection')(<DictSelect placeholder="表向" category="meter_direction" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('meterProdDate')(<MonthPicker placeholder="生产日期" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -287,7 +300,7 @@ class EntryMeter extends PureComponent {
 
   render() {
     const {
-      entryMeter : { data },
+      entryMeter: { data },
       loading,
     } = this.props;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
