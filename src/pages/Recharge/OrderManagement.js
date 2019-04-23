@@ -5,6 +5,7 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
 import OCX from '../../components/OCX';
+import Authorized from '../../utils/Authorized';
 
 @connect(({ orderManagement, loading }) => ({
   orderManagement,
@@ -251,7 +252,7 @@ class OrderManagement extends Component {
       message.error('该订单已有打印记录，请选择补打');
       return;
     }
-    
+
     const { dispatch } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
@@ -282,7 +283,7 @@ class OrderManagement extends Component {
                     pageNum,
                     pageSize
                   }
-                });                
+                });
               } else {
                 message.error(response2.message);
               }
@@ -309,10 +310,10 @@ class OrderManagement extends Component {
     }
 
     if (selectedRows[0].invoiceStatusName === '已作废') {
-        message.error('该订单已作废过，无法原票补打');
-        return;
+      message.error('该订单已作废过，无法原票补打');
+      return;
     }
-    
+
     const { dispatch } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
@@ -343,7 +344,7 @@ class OrderManagement extends Component {
                     pageNum,
                     pageSize
                   }
-                });                
+                });
               } else {
                 message.error(response2.message);
               }
@@ -365,10 +366,10 @@ class OrderManagement extends Component {
     }
 
     if (selectedRows[0].invoiceStatusName === undefined) {
-        message.error('该订单还没打印过，无法补打');
-        return;
+      message.error('该订单还没打印过，无法补打');
+      return;
     }
-    
+
     const { dispatch } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
@@ -399,7 +400,7 @@ class OrderManagement extends Component {
                     pageNum,
                     pageSize
                   }
-                });                
+                });
               } else {
                 message.error(response2.message);
               }
@@ -421,15 +422,15 @@ class OrderManagement extends Component {
     }
 
     if (selectedRows[0].invoiceStatusName === undefined) {
-        message.error('该订单还没打印过，无法作废');
-        return;
+      message.error('该订单还没打印过，无法作废');
+      return;
     }
 
     if (selectedRows[0].invoiceStatusName === '已作废') {
-        message.error('该发票已作废过，无法再作废');
-        return;
+      message.error('该发票已作废过，无法再作废');
+      return;
     }
-    
+
     const { dispatch } = this.props
     dispatch({
       type: 'orderManagement/invalidate',
@@ -508,12 +509,24 @@ class OrderManagement extends Component {
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
-              <Button icon="file-text" onClick={() => this.writeCard()}>写卡</Button>
-              <Button icon="plus" onClick={() => this.printInvoice()}>发票打印</Button>
-              <Button icon="file-text" onClick={() => this.reprintInvoice()}>原票补打</Button>
-              <Button icon="plus" onClick={() => this.reprintNewInvoice()}>新票补打</Button>
-              <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
+              <Authorized authority="recharge:order:record">
+                <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:writeCard">
+                <Button icon="file-text" onClick={() => this.writeCard()}>写卡</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:print">
+                <Button icon="plus" onClick={() => this.printInvoice()}>发票打印</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:old">
+                <Button icon="file-text" onClick={() => this.reprintInvoice()}>原票补打</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:new">
+                <Button icon="plus" onClick={() => this.reprintNewInvoice()}>新票补打</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:cancel">
+                <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
+              </Authorized>
             </div>
             <StandardTable
               selectedRows={selectedRows}
