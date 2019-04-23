@@ -159,10 +159,10 @@ export default [
             authority: 'invoice:assign:visit'
           },
           {
-            path: '/invoice/printCancel',
-            name: 'printCancel',
+            path: '/invoice/query',
+            name: 'query',
             component: './Invoice/Search',
-            authority: 'invoice:printCancel:visit'
+            authority: 'invoice:query:visit'
           },
           {
             path: '/invoice/eInvoice',

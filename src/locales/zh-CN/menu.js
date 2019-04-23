@@ -25,7 +25,7 @@ export default {
 
   'menu.invoice': '发票管理',
   'menu.invoice.assign': '发票分配',
-  'menu.invoice.printCancel': '发票查询',
+  'menu.invoice.query': '发票查询',
   'menu.invoice.eInvoice': '电子发票管理',
 
   'menu.repairOrder': '维修补气管理',
