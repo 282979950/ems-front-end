@@ -218,6 +218,11 @@ class Dist extends PureComponent {
     });
   };
 
+  editFlag = () => {
+    const { selectedRows } = this.state;
+    return selectedRows.length !== 1 || selectedRows[0].distId === 1000;
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -259,7 +264,7 @@ class Dist extends PureComponent {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
-              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              <Button icon="edit" disabled={this.editFlag()} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
             </div>
             <TreeTable
