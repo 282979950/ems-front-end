@@ -54,6 +54,12 @@ class InvoiceAddForm extends PureComponent{
             rules: [{
               required: true,
               message: '不能为空！',
+            },{
+              pattern: /\d/,
+              message: '只能为数字',
+            },{
+              max: 8,
+              message: '最大长度为8位',
             }],
           })(<Input />)}
         </FormItem>
@@ -62,6 +68,12 @@ class InvoiceAddForm extends PureComponent{
             rules: [{
               required: true,
               message: '不能为空！',
+            },{
+              pattern: /\d/,
+              message: '只能为数字',
+            },{
+              max: 8,
+              message: '最大长度为8位',
             }],
           })(<Input />)}
         </FormItem>
