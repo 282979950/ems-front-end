@@ -123,7 +123,7 @@ export default [
             path: '/recharge/prePayment',
             name: 'prePayment',
             component: './Recharge/PrePayment',
-            authority: 'recharge:prePayment:visit'
+            authority: 'recharge:pre:visit'
           },
           {
             path: '/recharge/replaceCard',
