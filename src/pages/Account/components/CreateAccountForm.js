@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Button } from 'antd';
+import { Form, Input, Modal, Button, message } from 'antd';
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 
@@ -9,7 +9,7 @@ const FormItem = Form.Item;
   loading: loading.models.account,
 }))
 @Form.create()
-class CreateAccountForm extends PureComponent{
+class CreateAccountForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -38,15 +38,16 @@ class CreateAccountForm extends PureComponent{
     const { getCardIdentifier, form } = this.props;
     const fieldsValue = form.getFieldsValue();
     const result = getCardIdentifier();
+
     if (result === '读卡失败') {
+      message.error("读卡失败，请检查读卡设备和卡片是否正常！");
       form.setFieldsValue({
-        ...fieldsValue,
-        iccardIdentifier: "读卡失败，请检查读卡设备和卡片是否正常！",
+        "iccardIdentifier": "",
       });
-    } else if (result === '只能使用新卡进行开户！') {
+    } else if (result === '只能使用新卡进行开户') {
+      message.error(result);
       form.setFieldsValue({
-        ...fieldsValue,
-        iccardIdentifier: result,
+        "iccardIdentifier": "",
       });
     } else {
       form.setFieldsValue({
@@ -57,7 +58,7 @@ class CreateAccountForm extends PureComponent{
   };
 
   getOrderPayment = () => {
-    const { form, dispatch } =  this.props;
+    const { form, dispatch } = this.props;
     const userId = form.getFieldValue("userId");
     const orderGas = form.getFieldValue("orderGas");
     const fieldsValue = form.getFieldsValue();
@@ -84,7 +85,7 @@ class CreateAccountForm extends PureComponent{
       selectedData
     } = this.props;
     const { userId } = selectedData;
-    
+
     return (
       <Modal
         title="账户开户"
@@ -110,9 +111,9 @@ class CreateAccountForm extends PureComponent{
             rules: [{
               pattern: /^1[34578]\d{9}$/,
               message: '请输入正确的手机号！',
-            },{
-              required:true,
-              message:'手机号不能为空！'
+            }, {
+              required: true,
+              message: '手机号不能为空！'
             }]
           })(
             <Input />
@@ -123,7 +124,7 @@ class CreateAccountForm extends PureComponent{
             rules: [{
               pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
               message: '请输入正确的份证号！',
-            },{
+            }, {
               required: true,
               message: '身份证不能为空！'
             }],

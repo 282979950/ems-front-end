@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Modal } from 'antd';
 import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
@@ -9,6 +9,7 @@ import InputAddForm from './components/InputAddForm';
 import InputEditForm from './components/InputEditForm';
 import InputCardForm from './components/InputCardForm';
 
+const confirm = Modal.confirm;
 @connect(({ input, loading }) => ({
   input,
   loading: loading.models.input,
@@ -274,28 +275,37 @@ class Inputs extends PureComponent {
 
   handleCard = (fields, form) => {
     const { dispatch } = this.props;
-    const { pageNum, pageSize,cardPassword } = this.state;
+    const { pageNum, pageSize, cardPassword } = this.state;
+    const _ = this;
 
-      dispatch({
-        type: 'input/bindNewCard',
-        payload: {
-          ...fields,
-          cardPassword
-        },
-        callback: (response) => {
-          message.success(response.message);
-          this.handleCardModalVisible();
-          this.handleSelectedRowsReset();
-          form.resetFields();
-          dispatch({
-            type: 'input/fetch',
-            payload: {
-              pageNum,
-              pageSize
-            },
-          });
-        }
-      });
+    confirm({
+      title: '将清除该卡片剩余气量，请确认是否补卡?',
+      onOk() {
+        dispatch({
+          type: 'input/bindNewCard',
+          payload: {
+            ...fields,
+            cardPassword
+          },
+          callback: (response) => {
+            message.success(response.message);
+            _.handleCardModalVisible();
+            _.handleSelectedRowsReset();
+            form.resetFields();
+            dispatch({
+              type: 'input/fetch',
+              payload: {
+                pageNum,
+                pageSize
+              },
+            });
+          }
+        });
+      },
+      onCancel() {
+        _.handleCardModalVisible();
+      },
+    });
   };
 
   handleStandardTableChange = (pagination) => {
