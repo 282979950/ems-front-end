@@ -62,7 +62,7 @@ export default {
           type: 'saveAllPerms',
           payload: response.data,
         });
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         handleRequestException(response);
       }

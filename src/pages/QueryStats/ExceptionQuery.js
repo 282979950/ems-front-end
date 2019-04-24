@@ -1,6 +1,6 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Modal, Pagination, InputNumber, Radio } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, InputNumber, Radio } from 'antd';
 import styles from '../Common.less';
 import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
@@ -16,8 +16,6 @@ const RadioGroup = Radio.Group;
 @Form.create()
 class ExceptionQuery extends PureComponent {
   state = {
-    adModalVisible: false,
-    editModalVisble: false,
     selectedRows: [],
     formValues: [],
     pageNum: 1,
@@ -26,32 +24,49 @@ class ExceptionQuery extends PureComponent {
     choice: 1,
   };
 
-  columns = [
-    {
-      title: '用户编号',
-      dataIndex: 'userId',
-    },
-    {
-      title: '用户名',
-      dataIndex: 'userName',
-    },
-    {
-      title: 'IC卡卡号',
-      dataIndex: 'iccardId',
-    },
-    {
-      title: 'IC卡识别号',
-      dataIndex: 'iccardIdentifier',
-    },
-    {
-      title: '用户手机号',
-      dataIndex: 'userPhone',
-    },
-    {
-      title: '用户区域',
-      dataIndex: 'userDistName',
-    },
-  ];
+  columns = [{
+    dataIndex: 'userId',
+    title: '用户编号'
+  }, {
+    dataIndex: 'userName',
+    title: '用户名'
+  }, {
+    dataIndex: 'iccardId',
+    title: 'IC卡卡号'
+  }, {
+    dataIndex: 'iccardIdentifier',
+    title: 'IC卡识别号'
+  }, {
+    dataIndex: 'userPhone',
+    title: '用户手机号'
+  }, {
+    dataIndex: 'userDistName',
+    title: '用户区域'
+  }, {
+    dataIndex: 'userAddress',
+    title: '用户地址'
+  }, {
+    dataIndex: 'totalOrderGas',
+    title: '购气总量'
+  }, {
+    dataIndex: 'totalOrderPayment',
+    title: '购气总额'
+  }, {
+    dataIndex: 'startBuyDay',
+    title: '初次购气日期'
+  }, {
+    dataIndex: 'endBuyDay',
+    title: '最后购气日期'
+  }, {
+    dataIndex: 'notBuyDayCount',
+    title: '未购气天数'
+  }, {
+    dataIndex: 'monthAveGas',
+    title: '月均购气量'
+  }, {
+    dataIndex: 'monthAvePayment',
+    title: '月均购气金额'
+  }];
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -141,13 +156,13 @@ class ExceptionQuery extends PureComponent {
     });
   };
 
-  handleCancel = (e) => {
+  handleCancel = () => {
     this.setState({
       visible: false
     });
-  }
+  };
 
-  handleExport = (e) => {
+  handleExport = () => {
     const { dispatch } = this.props;
     const { choice, pageNum, pageSize } = this.state;
 
@@ -157,47 +172,47 @@ class ExceptionQuery extends PureComponent {
     let type = 'exceptionQuery/export';
     let payload = {};
 
-    if (choice == 1) {
-      type = 'exceptionQuery/exportWithPageInfo'
+    if (choice === 1) {
+      type = 'exceptionQuery/exportWithPageInfo';
       payload = {
-        pageNum: pageNum,
-        pageSize: pageSize
+        pageNum,
+        pageSize
       }
     }
 
     dispatch({
-      type: type,
-      payload: payload,
+      type,
+      payload,
       callback: (response) => {
-        let data = ""
-        if (choice == 1) {
+        let data = response.data;
+        if (choice === 1) {
           data = response.data.list;
-        } else {
-          data = response.data;
         }
-        let option = {};
-        option.fileName = '异常用户查询';// 文件名
-        option.datas = [
-          {
-            sheetData: data,
-            sheetName: 'sheet',// 表名
-            columnWidths: [10, 5, 5, 8, 8, 8],
-            sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
-            sheetHeader: ['用户编号', '用户名', 'IC卡卡号', 'IC卡识别号', '用户手机号', '用户区域'],// 第一行标题
-          },
-        ];
-        const toExcel = new ExportJsonExcel(option); //new
+        const option = {
+          fileName: '异常用户查询',// 文件名
+          datas: [
+            {
+              sheetData: data,
+              sheetName: 'sheet',// 表名
+              columnWidths: [10, 5, 5, 8, 8, 8],
+              sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
+              sheetHeader: ['用户编号', '用户名', 'IC卡卡号', 'IC卡识别号', '用户手机号', '用户区域'],// 第一行标题
+            },
+          ]
+        };
+        const toExcel = new ExportJsonExcel(option);
         toExcel.saveExcel();
       }
     });
 
-  }
+  };
 
   handleChange = (e) => {
     this.setState({
       choice: e.target.value,
     });
-  }
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -218,13 +233,13 @@ class ExceptionQuery extends PureComponent {
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('notBuyDayCount')(<InputNumber placeholder="未购气天数(天)" min={1} decimalSeparator={'10000'} style={{"width":"100%"}}/>)}
+            {getFieldDecorator('notBuyDayCount')(<InputNumber placeholder="未购气天数(天)" min={1} decimalSeparator={10000} style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月购气量(立方)" min={0} style={{"width":"100%"}}/>)}
+            {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月均购气量(立方)" min={0} style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('monthAvePayment')(<InputNumber placeholder="月均购气金额(元)" min={0} style={{"width":"100%"}}/>)}
+            {getFieldDecorator('monthAvePayment')(<InputNumber placeholder="月均购气金额(元)" min={0} style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
@@ -246,7 +261,7 @@ class ExceptionQuery extends PureComponent {
       exceptionQuery: { data },
       loading,
     } = this.props;
-    const { selectedRows } = this.state;
+    const { selectedRows, visible, choice } = this.state;
     return (
       <PageHeaderWrapper className="querystats-exceptionquery">
         <Card bordered={false}>
@@ -263,8 +278,8 @@ class ExceptionQuery extends PureComponent {
             />
           </div>
         </Card>
-        <Modal title='下载' visible={this.state.visible} onOk={this.handleExport} onCancel={this.handleCancel}>
-          <RadioGroup onChange={this.handleChange} value={this.state.choice}>
+        <Modal title='下载' visible={visible} onOk={this.handleExport} onCancel={this.handleCancel}>
+          <RadioGroup onChange={this.handleChange} value={choice}>
             <Radio name='choice' value={1}>当前页</Radio>
             <Radio name='choice' value={2}>全部</Radio>
           </RadioGroup>

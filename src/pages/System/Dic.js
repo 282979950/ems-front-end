@@ -157,7 +157,7 @@ class Dic extends PureComponent {
         if (response.status === 0) {
           message.success(response.message);
 
-        }else{
+        } else {
           message.error(response.message);
 
         }
@@ -183,8 +183,8 @@ class Dic extends PureComponent {
       callback: (response) => {
         if (response.status === 0) {
           message.success('编辑成功');
-
-        }else{
+          this.handleSelectedRowsReset();
+        } else {
           message.error(response.message);
         }
         dispatch({
@@ -238,7 +238,7 @@ class Dic extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -248,11 +248,11 @@ class Dic extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('dictCategory')(<Input placeholder="字典类型" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

@@ -34,9 +34,6 @@ const FormItem = Form.Item;
       userAddress: Form.createFormField({
         value: selectedData.userAddress
       }),
-      userAddress: Form.createFormField({
-        value: selectedData.userAddress
-      }),
       oldMeterStopCode: Form.createFormField({
         value: selectedData.oldMeterStopCode
       }),
@@ -103,10 +100,14 @@ const FormItem = Form.Item;
 
 class InputEditForm extends PureComponent {
   constructor(props) {
-    super();
+    super(props);
+    // const { selectedData: { repairStartTime, repairEndTime } } = this.props;
     this.state = {
-
+      startValue: null,
+      endValue: null,
+      endOpen: false
     };
+
     this.formStyle = {
       labelCol: { span: 5 },
       wrapperCol: { span: 15 },
@@ -123,13 +124,13 @@ class InputEditForm extends PureComponent {
         repairEndTime: fieldsValue.repairEndTime ? fieldsValue.repairEndTime.format('YYYY-MM-DD HH:mm') : undefined,
       }, form)
     })
-  }
+  };
 
   handleCancel0 = () => {
     const { form, handleCancel } = this.props;
     form.resetFields();
     handleCancel();
-  }
+  };
 
   handleGetEmpByEmpNumber = (e) => {
     const { form, dispatch } = this.props;
@@ -150,23 +151,63 @@ class InputEditForm extends PureComponent {
         }
       }
     });
-  }
+  };
+
+  disabledStartDate = startValue => {
+    const { endValue } = this.state;
+    if (!startValue || !endValue) {
+      return false;
+    }
+    return startValue.valueOf() > endValue.valueOf();
+  };
+
+  disabledEndDate = (endValue) => {
+    const { startValue } = this.state;
+    if (!endValue || !startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= startValue.valueOf();
+  };
+
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value,
+    });
+  };
+
+  onStartChange = (value) => {
+    this.onChange("startValue", value);
+  };
+
+  onEndChange = (value) => {
+    this.onChange('endValue', value);
+  };
+
+  handleStartOpenChange = (open) => {
+    if (!open) {
+      this.setState({ endOpen: true });
+    }
+  };
+
+  handleEndOpenChange = (open) => {
+    this.setState({ endOpen: open });
+  };
 
   render() {
     const {
       modalVisible,
       form,
-      loading, } = this.props;
-    const repairType = this.props.selectedData.repairType;
+    } = this.props;
+    const { selectedData: { repairType, repairResultType } } = this.props;
     let disableOrHide = false;
     if (repairType === 0 || repairType === 6 || repairType === 7) {
       disableOrHide = true;
     }
-    const repairResultType = this.props.selectedData.repairResultType;
     let isRepairResultType = false;
     if (repairResultType === 4 || repairResultType === 9) {
       isRepairResultType = true;
     }
+    const { endOpen } = this.state;
 
     return (
       <Modal
@@ -195,13 +236,13 @@ class InputEditForm extends PureComponent {
               required: true,
               message: '户号不能为空'
             }]
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label='用户名称'>
-          {form.getFieldDecorator('userName', {})(<Input disabled={true} />)}
+          {form.getFieldDecorator('userName', {})(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label='用户手机'>
-          {form.getFieldDecorator('userPhone', {})(<Input disabled={true} />)}
+          {form.getFieldDecorator('userPhone', {})(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label='用户地址'>
           {form.getFieldDecorator('userAddress', {
@@ -209,22 +250,22 @@ class InputEditForm extends PureComponent {
               required: true,
               message: '用户地址不能为空！'
             }],
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label="维修类型">
-          {form.getFieldDecorator('repairType', {})(<DictSelect disabled={true} category="repair_type" />)}
+          {form.getFieldDecorator('repairType', {})(<DictSelect disabled category="repair_type" />)}
         </FormItem>
         <FormItem {...this.formStyle} label="燃气设备类型">
-          {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect disabled={true} category="gas_equipment_type" />)}
+          {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect disabled category="gas_equipment_type" />)}
         </FormItem>
         <FormItem {...this.formStyle} label="旧表编号">
-          {form.getFieldDecorator('oldMeterCode', {})(<Input disabled={true} />)}
+          {form.getFieldDecorator('oldMeterCode', {})(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
           {form.getFieldDecorator('oldMeterId', {})(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="旧表类型">
-          {form.getFieldDecorator('oldMeterTypeId', {})(<Input style={{ "width": "100%" }} disabled={true} />)}
+          {form.getFieldDecorator('oldMeterTypeId', {})(<Input style={{ "width": "100%" }} disabled />)}
         </FormItem>
         {/* <FormItem {...this.this.formStyle} label="旧表类型">
           {form.getFieldDecorator('oldMeterTypeId', {
@@ -232,7 +273,7 @@ class InputEditForm extends PureComponent {
           })(<MeterTypeSelect  disabled={true} style={{ "width": "100%" }} />)}
         </FormItem> */}
         <FormItem {...this.formStyle} label="旧表表向">
-          {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" disabled={true} />)}
+          {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label='旧表止码'>
           {form.getFieldDecorator('oldMeterStopCode', {
@@ -295,7 +336,7 @@ class InputEditForm extends PureComponent {
               required: true,
               message: '维修员姓名不能为空！'
             }],
-          })(<Input disabled={true} />)}
+          })(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label="维修开始时间">
           {form.getFieldDecorator('repairStartTime', {
@@ -304,7 +345,14 @@ class InputEditForm extends PureComponent {
               message: '维修开始时间不能为空！'
             }]
           })(
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" style={{ "width": "100%" }} />
+            <DatePicker
+              disabledDate={this.disabledStartDate}
+              onChange={this.onStartChange}
+              onOpenChange={this.handleStartOpenChange}
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              style={{ "width": "100%" }}
+            />
           )}
         </FormItem>
         <FormItem {...this.formStyle} label="维修结束时间">
@@ -314,7 +362,15 @@ class InputEditForm extends PureComponent {
               message: '维修结束时间不能为空！'
             },]
           })(
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" style={{ "width": "100%" }} />
+            <DatePicker
+              disabledDate={this.disabledEndDate}
+              onChange={this.onEndChange}
+              open={endOpen}
+              onOpenChange={this.handleEndOpenChange}
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              style={{ "width": "100%" }}
+            />
           )}
         </FormItem>
       </Modal>

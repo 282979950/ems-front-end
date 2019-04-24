@@ -1,19 +1,23 @@
-import { Form, Input, Modal, Select } from 'antd';
+import { Form, Input, Modal, Select, Divider, Icon, Button } from 'antd';
 import React, { PureComponent } from 'react';
 import DistTreeSelect from './DistTreeSelect';
 import OrgTreeSelect from './OrgTreeSelect';
-import PermTreeSelect from './PermTreeSelect';
+import { connect } from 'dva';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 
+@connect(({ perm }) => ({
+  perm
+}))
 @Form.create()
-class RoleAddForm extends PureComponent{
+class RoleAddForm extends PureComponent {
   constructor() {
     super();
 
     this.state = {
-
+      selectedItems: [],
+      isOpen: false
     };
     this.formStyle = {
       labelCol: { span: 5 },
@@ -21,11 +25,26 @@ class RoleAddForm extends PureComponent{
     };
   }
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'perm/fetchAllPerms',
+      callback: (response) => {
+        const { data } = response;
+        let list = [];
+        data.map(item => {
+          list.push(item.value)
+        });
+        this.setState({ selectedItems: list });
+      }
+    });
+  }
+
   handleOK = () => {
     const { form, handleAdd } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      form.resetFields();
+      form.resetFields(fieldsValue);
       handleAdd(fieldsValue);
     });
   };
@@ -36,8 +55,26 @@ class RoleAddForm extends PureComponent{
     handleCancel();
   };
 
+  checkAll = () => {
+    const { form } = this.props;
+    const { selectedItems } = this.state;
+    form.setFieldsValue({ rolePermIds: selectedItems });
+    this.handleIsOpen(false);
+  };
+
+  checkCancel = () => {
+    const { form } = this.props;
+    form.setFieldsValue({ rolePermIds: [] });
+    this.handleIsOpen(false);
+  };
+
+  handleIsOpen = (isOpen) => {
+    this.setState({ isOpen });
+  };
+
   render() {
-    const { modalVisible, form } = this.props;
+    const { modalVisible, form, perm: { allPerms } } = this.props;
+    const { isOpen } = this.state;
     return (
       <Modal
         title="新建角色"
@@ -62,7 +99,7 @@ class RoleAddForm extends PureComponent{
               required: true,
               message: '角色区域权限不能为空！'
             }],
-          })(<DistTreeSelect placeholder="区域权限" multiple treeCheckable />)}
+          })(<DistTreeSelect placeholder="区域权限" multiple treeCheckable maxTagCount={2} maxTagPlaceholder="更多..."/>)}
         </FormItem>
         <FormItem {...this.formStyle} label="机构权限">
           {form.getFieldDecorator('roleOrgIds', {
@@ -70,7 +107,7 @@ class RoleAddForm extends PureComponent{
               required: true,
               message: '角色机构权限不能为空！'
             }],
-          })(<OrgTreeSelect placeholder="机构权限" multiple treeCheckable />)}
+          })(<OrgTreeSelect placeholder="机构权限" multiple treeCheckable maxTagCount={2} maxTagPlaceholder="更多..."/>)}
         </FormItem>
         <FormItem {...this.formStyle} label="权限">
           {form.getFieldDecorator('rolePermIds', {
@@ -78,7 +115,36 @@ class RoleAddForm extends PureComponent{
               required: true,
               message: '角色权限不能为空！'
             }],
-          })(<PermTreeSelect placeholder="权限" multiple treeCheckable />)}
+          })(
+            <Select
+              mode="multiple"
+              placeholder="权限"
+              style={{ width: "100%" }}
+              onFocus={() => this.handleIsOpen(true)}
+              onBlur={() => this.handleIsOpen(false)}
+              open={isOpen}
+              maxTagCount={2} 
+              maxTagPlaceholder="更多..."
+              dropdownRender={menu => (
+                <div>
+                  {menu}
+                  <Divider style={{ margin: "4px 0" }} />
+                  <Button onClick={this.checkAll} style={{ cursor: "pointer", margin: '0 5px 5px 5px' }}>
+                    <Icon type="plus" /> 全选
+                  </Button>
+                  <Button onClick={this.checkCancel} style={{ cursor: "pointer", margin: '0 5px 5px 5px' }}>
+                    <Icon type="close" /> 清空
+                  </Button>
+                </div>
+              )}
+            >
+              {allPerms.map(item => (
+                <Option key={item.key} value={item.value}>
+                  {item.title}
+                </Option>
+              ))}
+            </Select>
+          )}
         </FormItem>
         <FormItem {...this.formStyle} label="是否管理员">
           {form.getFieldDecorator('isAdmin', {

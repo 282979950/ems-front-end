@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Modal, DatePicker, Pagination, Radio } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, DatePicker, Radio } from 'antd';
+import ExportJsonExcel from 'js-export-excel'
 import styles from '../Common.less';
 import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
-import ExportJsonExcel from 'js-export-excel'
 
 const RadioGroup = Radio.Group;
-const { MonthPicker } = DatePicker;
 @connect(({ accountQuery, dic, loading }) => ({
   accountQuery,
   dic,
@@ -17,8 +16,6 @@ const { MonthPicker } = DatePicker;
 @Form.create()
 class AccountQuery extends PureComponent {
   state = {
-    addModalVisible: false,
-    editModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -52,6 +49,13 @@ class AccountQuery extends PureComponent {
       title: '用气类型',
       dataIndex: 'userGasTypeName',
     },
+    {
+      title: '开户人',
+      dataIndex: 'openByName',
+    }, {
+      title: '开户时间',
+      dataIndex: 'openTime',
+    }
   ];
 
   componentDidMount() {
@@ -64,7 +68,7 @@ class AccountQuery extends PureComponent {
         pageSize,
       },
     });
-  }
+  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -142,13 +146,13 @@ class AccountQuery extends PureComponent {
     });
   };
 
-  handleCancel = (e) => {
+  handleCancel = () => {
     this.setState({
       visible: false
     });
-  }
+  };
 
-  handleExport = (e) => {
+  handleExport = () => {
     const { dispatch } = this.props;
     const { choice, pageNum, pageSize } = this.state;
 
@@ -158,47 +162,46 @@ class AccountQuery extends PureComponent {
     let type = 'accountQuery/export';
     let payload = {};
 
-    if (choice == 1) {
+    if (choice === 1) {
       type = 'accountQuery/exportWithPageInfo'
       payload = {
-        pageNum: pageNum,
-        pageSize: pageSize
+        pageNum,
+        pageSize
       }
     }
 
     dispatch({
-      type: type,
-      payload: payload,
+      type,
+      payload,
       callback: (response) => {
-        let data = ""
-        if (choice == 1) {
+        let data = response.data;
+        if (choice === 1) {
           data = response.data.list;
-        } else {
-          data = response.data;
         }
-        let option = {};
-        option.fileName = '开户信息查询';// 文件名
-        option.datas = [
-          {
-            sheetData: data,
-            sheetName: 'sheet',// 表名
-            columnWidths: [10, 5, 5, 8],
-            sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
-            sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
-          },
-        ];
-        const toExcel = new ExportJsonExcel(option); //new
+        const option = {
+          fileName: '开户信息查询',// 文件名
+          datas: [
+            {
+              sheetData: data,
+              sheetName: 'sheet',// 表名
+              columnWidths: [10, 5, 5, 8],
+              sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
+              sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
+            },
+          ]
+        };
+        const toExcel = new ExportJsonExcel(option);
         toExcel.saveExcel();
       }
     });
 
-  }
+  };
 
   handleChange = (e) => {
     this.setState({
       choice: e.target.value,
     });
-  }
+  };
 
   renderForm() {
     const {
@@ -214,10 +217,10 @@ class AccountQuery extends PureComponent {
             <Button shape="circle" icon="download" onClick={this.handleExportShow} />
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('startDate')(<MonthPicker placeholder="开户起始日期" style={{ "width": "100%" }} />)}
+            {getFieldDecorator('startDate')(<DatePicker placeholder="开户起始日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('endDate')(<MonthPicker placeholder="开户终止日期" style={{ "width": "100%" }} />)}
+            {getFieldDecorator('endDate')(<DatePicker placeholder="开户终止日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
@@ -238,14 +241,14 @@ class AccountQuery extends PureComponent {
         </Row>
       </Form>
     );
-  }
+  };
 
   render() {
     const {
       accountQuery: { data },
       loading,
     } = this.props;
-    const { selectedRows } = this.state;
+    const { selectedRows, visible, choice } = this.state;
     return (
       <PageHeaderWrapper className="querystats-accountquery">
         <Card bordered={false}>
@@ -262,14 +265,14 @@ class AccountQuery extends PureComponent {
             />
           </div>
         </Card>
-        <Modal title='下载' visible={this.state.visible} onOk={this.handleExport} onCancel={this.handleCancel}>
-          <RadioGroup onChange={this.handleChange} value={this.state.choice}>
+        <Modal title='下载' visible={visible} onOk={this.handleExport} onCancel={this.handleCancel}>
+          <RadioGroup onChange={this.handleChange} value={choice}>
             <Radio name='choice' value={1}>当前页</Radio>
             <Radio name='choice' value={2}>全部</Radio>
           </RadioGroup>
         </Modal>
       </PageHeaderWrapper>
     );
-  }
+  };
 }
 export default AccountQuery;

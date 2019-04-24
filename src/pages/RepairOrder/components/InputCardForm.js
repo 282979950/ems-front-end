@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Button } from 'antd';
+import { Form, Input, Modal, Button, message } from 'antd';
 import React from 'react';
 import DictSelect from '../../System/components/DictSelect';
 import OCX from '../../../components/OCX';
@@ -36,30 +36,29 @@ const InputCardForm = Form.create({
   const handleOk = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      // form.resetFields();
       handleCard(fieldsValue, form);
     })
-  }
+  };
 
   const handleCancel0 = () => {
     form.resetFields();
     handleCancel();
-  }
+  };
 
   const getCardIdentifier = () => {
     const result = OCX.readCard();
     if (result[0] !== 'S') {
-      message.err("读卡失败");
+      message.error("读卡失败");
       form.setFieldsValue({
         "newCardIdentifier": "",
-      })
+      });
       return;
     }
     if (result[1] !== '0') {
-      message.err("只能使用新卡进行开户");
+      message.error("只能使用新卡进行开户");
       form.setFieldsValue({
         "newCardIdentifier": "",
-      })
+      });
       return;
     }
     form.setFieldsValue({
