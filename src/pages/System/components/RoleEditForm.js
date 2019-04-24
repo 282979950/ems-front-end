@@ -125,7 +125,7 @@ class RoleEditForm extends PureComponent {
               required: true,
               message: '角色区域权限不能为空！'
             }],
-          })(<DistTreeSelect placeholder="区域权限" multiple treeCheckable />)}
+          })(<DistTreeSelect placeholder="区域权限" multiple treeCheckable maxTagCount={2} maxTagPlaceholder="更多..."/>)}
         </FormItem>
         <FormItem {...this.formStyle} label="机构权限">
           {form.getFieldDecorator('roleOrgIds', {
@@ -133,7 +133,7 @@ class RoleEditForm extends PureComponent {
               required: true,
               message: '角色机构权限不能为空！'
             }],
-          })(<OrgTreeSelect placeholder="机构权限" multiple treeCheckable />)}
+          })(<OrgTreeSelect placeholder="机构权限" multiple treeCheckable maxTagCount={2} maxTagPlaceholder="更多..."/>)}
         </FormItem>
         <FormItem {...this.formStyle} label="权限">
           {form.getFieldDecorator('rolePermIds', {
@@ -149,6 +149,8 @@ class RoleEditForm extends PureComponent {
               onFocus={() => this.handleIsOpen(true)}
               onBlur={() => this.handleIsOpen(false)}
               open={isOpen}
+              maxTagCount={2}
+              maxTagPlaceholder="更多..."
               dropdownRender={menu => (
                 <div>
                   {menu}
