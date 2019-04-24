@@ -241,7 +241,7 @@ class PreStrike extends PureComponent {
                 columns={this.columns}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
-                rowKey='userId'
+                rowKey='orderId'
               />
             </Authorized>
           </div>
