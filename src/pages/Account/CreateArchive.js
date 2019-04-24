@@ -247,6 +247,15 @@ class CreateArchive extends PureComponent {
     });
   };
 
+  handleValidation = (rule, value, callback) => {
+    if(Number(value) > 2147483647) {
+      callback('户号太大，请重新输入')
+    }
+
+    // Note: 必须总是返回一个 callback，否则 validateFieldsAndScroll 无法响应
+    callback()
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -262,6 +271,8 @@ class CreateArchive extends PureComponent {
               }, {
                 max: 10,
                 message: '户号不能超过10个数字',
+              }, {
+                validator: this.handleValidation
               }]
             })(<Input placeholder="户号" />)}
           </Col>

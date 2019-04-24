@@ -115,7 +115,7 @@ class Emp extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'dist/fetch',
+      type: 'emp/fetch',
       payload: {
         pageNum,
         pageSize
