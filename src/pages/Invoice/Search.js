@@ -9,7 +9,7 @@ import EmpSelect from './components/EmpSelect'
 
 @connect(({ invoiceSearch, loading }) => ({
   invoiceSearch,
-  loading: loading.models.assign,
+  loading: loading.models.search,
 }))
 @Form.create()
 

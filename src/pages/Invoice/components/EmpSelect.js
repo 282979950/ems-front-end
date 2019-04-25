@@ -7,7 +7,7 @@ const { Option } = Select;
 @connect(({ empDic }) => ({
   empDic
 }))
-class DictSelect extends PureComponent{
+class EmpSelect extends PureComponent{
   state = {};
 
   componentDidMount () {
@@ -29,4 +29,4 @@ class DictSelect extends PureComponent{
   }
 }
 
-export default DictSelect;
+export default EmpSelect;
