@@ -82,14 +82,6 @@ class PermAddForm extends PureComponent{
             }],
           })(<Input />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="父级菜单名称">
-          {form.getFieldDecorator('permParentId', {
-            rules: [{
-              required: true,
-              message: '父级菜单名称不能为空！'
-            }],
-          })(<TreeSelect style={{ width: '100%' }} treeData={this.loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
-        </FormItem>
         <FormItem {...this.formStyle} label="按钮权限">
           {form.getFieldDecorator('isButton', {
             rules: [{

@@ -262,9 +262,6 @@ class Perm extends PureComponent {
             {getFieldDecorator('permCaption')(<Input placeholder="权限标题" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('menuName')(<Input placeholder="菜单名称" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

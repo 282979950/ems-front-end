@@ -17,9 +17,6 @@ const { Option } = Select;
       permCaption: Form.createFormField({
         value: selectedData.permCaption
       }),
-      permParentId: Form.createFormField({
-        value: selectedData.permParentId
-      }),
       isButton: Form.createFormField({
         value: selectedData.isButton
       })
@@ -105,14 +102,6 @@ class DistEditForm extends PureComponent{
               message: '权限标题不能超过20个字',
             }],
           })(<Input />)}
-        </FormItem>
-        <FormItem {...formStyle} label="父级菜单名称">
-          {form.getFieldDecorator('permParentId', {
-            rules: [{
-              required: true,
-              message: '父级菜单名称不能为空！'
-            }],
-          })(<TreeSelect style={{ width: '100%' }} treeData={this.loadTreeData(treeSelectData)} treeDefaultExpandAll />)}
         </FormItem>
         <FormItem {...formStyle} label="按钮权限">
           {form.getFieldDecorator('isButton', {
