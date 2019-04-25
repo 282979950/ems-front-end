@@ -16,8 +16,8 @@ class GasPriceEditForm extends PureComponent{
       currentStep: 0
     };
     this.formStyle = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 15 },
+      labelCol: { span: 7 },
+      wrapperCol: { span: 13 },
     };
   }
 
