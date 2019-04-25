@@ -143,6 +143,14 @@ class OrderManagement extends Component {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'userName': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'iccardId': form.getFieldValue('iccardId') && form.getFieldValue('iccardId').trim(),
+      'iccardIdentifier': form.getFieldValue('iccardIdentifier') && form.getFieldValue('iccardIdentifier').trim(),
+      'invoiceCode': form.getFieldValue('invoiceCode') && form.getFieldValue('invoiceCode').trim(),
+      'invoiceNumber': form.getFieldValue('invoiceNumber') && form.getFieldValue('invoiceNumber').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

@@ -56,7 +56,7 @@ class ReplaceCard extends PureComponent {
     },
   ];
 
-  componentDidMount () {
+  componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
@@ -93,6 +93,14 @@ class ReplaceCard extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim(),
+      'iccardIdentifier': form.getFieldValue('iccardIdentifier') && form.getFieldValue('iccardIdentifier').trim(),
+      'userPhone': form.getFieldValue('userPhone') && form.getFieldValue('userPhone').trim(),
+      'userAddress': form.getFieldValue('userAddress') && form.getFieldValue('userAddress').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -229,23 +237,23 @@ class ReplaceCard extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userId')(<Input placeholder="户号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userPhone')(<Input placeholder="手机" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -262,7 +270,7 @@ class ReplaceCard extends PureComponent {
 
   render() {
     const {
-      replaceCard : { data, history },
+      replaceCard: { data, history },
       loading,
     } = this.props;
     const { selectedRows, replaceCardFormVisible, replaceCardHistoryFormVisible } = this.state;

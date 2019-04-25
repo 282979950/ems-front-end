@@ -146,6 +146,8 @@ class UserChange extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim()});
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

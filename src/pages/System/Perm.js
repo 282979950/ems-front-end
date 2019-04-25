@@ -100,6 +100,12 @@ class Perm extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'permName': form.getFieldValue('permName') && form.getFieldValue('permName').trim(),
+      'permCaption': form.getFieldValue('permCaption') && form.getFieldValue('permCaption').trim(),
+      'menuName': form.getFieldValue('menuName') && form.getFieldValue('menuName').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -238,7 +244,7 @@ class Perm extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -248,17 +254,17 @@ class Perm extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('permName')(<Input placeholder="权限名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('permCaption')(<Input placeholder="权限标题" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('menuName')(<Input placeholder="菜单名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

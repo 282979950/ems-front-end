@@ -9,7 +9,7 @@ import EmpSelect from './components/EmpSelect'
 
 @connect(({ invoiceSearch, loading }) => ({
   invoiceSearch,
-  loading: loading.models.assign,
+  loading: loading.models.search,
 }))
 @Form.create()
 
@@ -69,7 +69,7 @@ class InvoiceAssign extends Component {
         pageNum,
         pageSize
       }
-    });    
+    });
   }
 
   handleSelectRows = rows => {
@@ -107,6 +107,11 @@ class InvoiceAssign extends Component {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'invoiceCode': form.getFieldValue('invoiceCode') && form.getFieldValue('invoiceCode').trim(),
+      'invoiceNumber': form.getFieldValue('invoiceNumber') && form.getFieldValue('invoiceNumber').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -144,7 +149,7 @@ class InvoiceAssign extends Component {
 
   nullInvoice = () => {
     const { selectedRows, pageNum, pageSize } = this.state;
-    
+
     const { dispatch } = this.props
     dispatch({
       type: 'invoiceSearch/invalidate',

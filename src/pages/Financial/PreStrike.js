@@ -133,6 +133,11 @@ class PreStrike extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim(),
+      'userTypeName': form.getFieldValue('userTypeName') && form.getFieldValue('userTypeName').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -163,7 +168,7 @@ class PreStrike extends PureComponent {
       title: '预冲账发起',
       content: '确认对该笔记录发起预冲账处理？',
       onOk() {
-        if(selectedRows[0].accountState!==undefined){
+        if (selectedRows[0].accountState !== undefined) {
           message.success("该笔记录已发起过预冲账申请无法再次发起");
           return;
         }
@@ -189,7 +194,7 @@ class PreStrike extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -199,14 +204,14 @@ class PreStrike extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             {getFieldDecorator('userType')(<DictSelect category="user_type" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

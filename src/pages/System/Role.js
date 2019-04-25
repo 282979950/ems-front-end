@@ -80,6 +80,8 @@ class Role extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({ 'roleName': form.getFieldValue('roleName') && form.getFieldValue('roleName').trim() });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -224,7 +226,7 @@ class Role extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -234,11 +236,11 @@ class Role extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('roleName')(<Input placeholder="角色名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -255,7 +257,7 @@ class Role extends PureComponent {
 
   render() {
     const {
-      role : { data },
+      role: { data },
       loading,
     } = this.props;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;

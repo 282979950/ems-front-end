@@ -121,6 +121,10 @@ class Dist extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
 
+    form.setFieldsValue({
+      'distName': form.getFieldValue('distName') && form.getFieldValue('distName').trim(),
+      'distCode': form.getFieldValue('distCode') && form.getFieldValue('distCode').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -214,7 +218,7 @@ class Dist extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -229,14 +233,14 @@ class Dist extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('distName')(<Input placeholder="区域名称" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('distCode')(<Input placeholder="区域编码" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

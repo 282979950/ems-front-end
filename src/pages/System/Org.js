@@ -117,6 +117,10 @@ class Org extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
 
+    form.setFieldsValue({
+      'orgName': form.getFieldValue('orgName') && form.getFieldValue('orgName').trim(),
+      'orgCode': form.getFieldValue('orgCode') && form.getFieldValue('orgCode').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -152,7 +156,7 @@ class Org extends PureComponent {
         if (response.status === 0) {
           message.success(response.message);
 
-        }else{
+        } else {
           message.error(response.message);
 
         }
@@ -174,7 +178,7 @@ class Org extends PureComponent {
         if (response.status === 0) {
           message.success('编辑成功');
 
-        }else{
+        } else {
           message.error(response.message);
         }
         dispatch({
@@ -219,7 +223,7 @@ class Org extends PureComponent {
           }
         });
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -229,14 +233,14 @@ class Org extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('orgName')(<Input placeholder="机构名称" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('orgCode')(<Input placeholder="机构代码" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询

@@ -138,6 +138,11 @@ class LockAccount extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim(),
+      'iccardId': form.getFieldValue('iccardId') && form.getFieldValue('iccardId').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) {
         Object.keys(err).map(key => {
