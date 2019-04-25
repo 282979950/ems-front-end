@@ -275,7 +275,7 @@ class EntryMeter extends PureComponent {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('meterCode')(<Input placeholder="表具名称" />)}
+            {getFieldDecorator('meterCode')(<Input placeholder="表具编码" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('meterDirection')(<DictSelect placeholder="表向" category="meter_direction" />)}

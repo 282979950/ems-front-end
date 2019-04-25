@@ -128,10 +128,10 @@ class GasPrice extends PureComponent {
       callback: (response) => {
         if (response.status === 0) {
           message.success('编辑成功');
-
         }else{
           message.error(response.message);
         }
+        this.handleSelectedRowsReset();
         dispatch({
           type: 'gasPrice/fetch',
           payload: {

@@ -311,11 +311,9 @@ class Emp extends PureComponent {
   renderForm() {
     const {
       form: { getFieldDecorator },
-    } = this.props;
-    const {
       role,
     } = this.props;
-    const roleData = role.data;
+    const roleData = role.dataAll;
     return (
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>

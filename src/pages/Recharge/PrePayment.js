@@ -80,13 +80,32 @@ class PrePayment extends PureComponent {
     },
   ];
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    dispatch({
+      type: 'prePayment/fetch',
+      payload: {
+        pageNum,
+        pageSize,
+      },
+    })
+  }
+
   handleFormReset = () => {
-    const { form } = this.props;
+    const { form, dispatch } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
+    });
+    dispatch({
+      type: 'prePayment/fetch',
+      payload: {
+        pageNum: 1,
+        pageSize: 10
+      },
     });
   };
 
@@ -132,7 +151,7 @@ class PrePayment extends PureComponent {
         message.info('该卡为密码传递卡，不能充值');
         return;
       }
-      if(result[2] !== selectedRows[0].iccardIdentifier){
+      if (result[2] !== selectedRows[0].iccardIdentifier) {
         message.info("该卡不是与该用户绑定的卡");
         return;
       }
@@ -172,7 +191,7 @@ class PrePayment extends PureComponent {
         message.info('只能对新卡进行发卡充值');
         return;
       }
-      if(result[2] !== selectedRows[0].iccardIdentifier){
+      if (result[2] !== selectedRows[0].iccardIdentifier) {
         message.info("该卡不是与该用户绑定的卡");
         return;
       }
@@ -312,6 +331,7 @@ class PrePayment extends PureComponent {
     const { pageNum, pageSize } = this.state;
     const result = OCX.readCard();
     if (result[0] !== 'S') {
+      message.error("读卡失败");
       return "读卡失败";
     }
     dispatch({
@@ -331,17 +351,17 @@ class PrePayment extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('iccardId')(<Input placeholder="IC卡号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
           </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -358,7 +378,7 @@ class PrePayment extends PureComponent {
 
   render() {
     const {
-      prePayment : { data },
+      prePayment: { data },
       loading,
     } = this.props;
     const { selectedRows, prePaymentModalVisible, newCardPaymentModalVisible } = this.state;

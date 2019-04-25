@@ -19,7 +19,7 @@ class FillGas extends PureComponent {
     selectedRows: [],
     pageNum: 1,
     pageSize: 10,
-  }
+  };
 
   columns = [
     {
@@ -61,7 +61,7 @@ class FillGas extends PureComponent {
     {
       dataIndex: 'remarks',
       title: '备注'
-    }]
+    }];
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -103,7 +103,7 @@ class FillGas extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'input/search',
+      type: 'fillGas/search',
       payload: params,
     });
   };
@@ -149,7 +149,7 @@ class FillGas extends PureComponent {
     if (!flag) {
       this.setState({
         editModalVisible: !!flag,
-      })
+      });
       return;
     }
     if (selectedRows[0].fillGasOrderStatus === 1) {
@@ -168,7 +168,7 @@ class FillGas extends PureComponent {
   handleEdit = (fields) => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-    const result = OCX.readCard(); fields
+    const result = OCX.readCard();
     selectedRows[0].fillMoney = fields.fillMoney;
     selectedRows[0].leftMoney = fields.leftMoney;
     selectedRows[0].remarks = fields.remarks;
@@ -258,7 +258,7 @@ class FillGas extends PureComponent {
           payload: {
             pageNum,
             pageSize
-          },
+          }
         });
       }
     });

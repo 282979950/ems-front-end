@@ -1,4 +1,4 @@
-import { queryRole, addRole, deleteRole, editRole, searchRole,getAllRole } from '../../../services/system';
+import { queryRole, addRole, deleteRole, editRole, searchRole, getAllRole } from '../../../services/system';
 import { handleRequestException } from '../../../utils/request';
 
 export default {
@@ -6,6 +6,7 @@ export default {
 
   state: {
     data: [],
+    dataAll: [],
   },
 
   effects: {
@@ -44,7 +45,7 @@ export default {
     *getAllRole({ payload, callback }, { call, put }) {
       const response = yield call(getAllRole, payload);
       yield put({
-        type: 'save',
+        type: 'saveAll',
         payload: response.data,
       });
       if (callback) callback();
@@ -56,6 +57,12 @@ export default {
       return {
         ...state,
         data: action.payload
+      };
+    },
+    saveAll(state, action) {
+      return {
+        ...state,
+        dataAll: action.payload
       };
     },
   },

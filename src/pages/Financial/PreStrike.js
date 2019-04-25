@@ -14,6 +14,8 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Common.less';
 import Authorized from '../../utils/Authorized';
+import DictSelect from '../System/components/DictSelect';
+
 
 const { confirm } = Modal;
 /* eslint react/no-multi-comp:0 */
@@ -202,7 +204,7 @@ class PreStrike extends PureComponent {
             {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userTypeName')(<Input placeholder="用户类型" />)}
+            {getFieldDecorator('userType')(<DictSelect category="user_type" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
             <span className={styles.submitButtons}>

@@ -26,10 +26,10 @@ import LockAccountHistory from './components/LockAccountHistory';
 class LockAccount extends PureComponent {
   state = {
     editModalVisible: false,
-    removeModalVisible:false,
+    removeModalVisible: false,
     selectedRows: [],
     historyData: null,
-    historyModalVisible:false,
+    historyModalVisible: false,
     formValues: {},
     pageNum: 1,
     pageSize: 10,
@@ -117,7 +117,7 @@ class LockAccount extends PureComponent {
     });
   };
 
-  editHistoryData = flag =>{
+  editHistoryData = flag => {
     this.setState({
       historyData: flag
     });
@@ -139,7 +139,12 @@ class LockAccount extends PureComponent {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     form.validateFields((err, fieldsValue) => {
-      if (err) return;
+      if (err) {
+        Object.keys(err).map(key => {
+          message.error(err[key].errors[0].message)
+        });
+        return;
+      }
       this.setState({
         formValues: fieldsValue,
       });
@@ -173,7 +178,7 @@ class LockAccount extends PureComponent {
         if (response.status === 0) {
           message.success(response.message);
 
-        }else{
+        } else {
           message.error(response.message);
         }
         dispatch({
@@ -193,24 +198,24 @@ class LockAccount extends PureComponent {
     });
   };
 
-    /*
-     *历史记录查询，点击触发
-     *
-     */
-  showHistory = (selectedRows,flag) => {
+  /*
+   *历史记录查询，点击触发
+   *
+   */
+  showHistory = (selectedRows, flag) => {
     const { dispatch } = this.props;
     const _ = this;
     dispatch({
       type: 'lockAccount/historyLockAccount',
       payload: {
-        userId:  selectedRows[0].userId
+        userId: selectedRows[0].userId
       },
       callback: (response) => {
         if (response.status === 0) {
           // 若未查询到数据则提示
-          if(response.data === null){
+          if (response.data === null) {
             message.error(response.message);
-          }else{
+          } else {
             _.handleSelectHistoryModalVisible(flag);
             _.editHistoryData(response.data);
           }
@@ -227,14 +232,22 @@ class LockAccount extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('iccardId')(<Input placeholder="IC卡编号" />)}
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('iccardId', {
+              rules: [{
+                pattern: /^[0-9]+$/,
+                message: 'IC卡编号只能为整数',
+              }, {
+                max: 10,
+                message: 'IC卡编号不能超过10个数字',
+              }]
+            })(<Input placeholder="IC卡编号" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -254,7 +267,7 @@ class LockAccount extends PureComponent {
       lockAccount: { data },
       loading,
     } = this.props;
-    const { selectedRows, editModalVisible, historyModalVisible, historyData} = this.state;
+    const { selectedRows, editModalVisible, historyModalVisible, historyData } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -262,7 +275,7 @@ class LockAccount extends PureComponent {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="unlock" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>锁定/解锁</Button>
-              <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows,true)}>操作记录</Button>
+              <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows, true)}>操作记录</Button>
             </div>
             <Authorized>
               <StandardTable

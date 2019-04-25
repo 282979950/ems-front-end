@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, Modal, InputNumber, Radio } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, InputNumber, Radio, message } from 'antd';
 import styles from '../Common.less';
 import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
@@ -101,7 +101,12 @@ class ExceptionQuery extends PureComponent {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     form.validateFields((err, fieldsValue) => {
-      if (err) return;
+      if (err) {
+        Object.keys(err).map(key => {
+          message.error(err[key].errors[0].message);
+        });
+        return;
+      }
       this.setState({
         formValues: fieldsValue,
       });
@@ -184,15 +189,15 @@ class ExceptionQuery extends PureComponent {
       type,
       payload,
       callback: (response) => {
-        let data = response.data;
+        let dataList = response.data;
         if (choice === 1) {
-          data = response.data.list;
+          dataList = response.data.list;
         }
         const option = {
           fileName: '异常用户查询',// 文件名
           datas: [
             {
-              sheetData: data,
+              sheetData: dataList,
               sheetName: 'sheet',// 表名
               columnWidths: [10, 5, 5, 8, 8, 8],
               sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
@@ -233,7 +238,12 @@ class ExceptionQuery extends PureComponent {
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('notBuyDayCount')(<InputNumber placeholder="未购气天数(天)" min={1} decimalSeparator={10000} style={{ "width": "100%" }} />)}
+            {getFieldDecorator('notBuyDayCount', {
+              rules: [{
+                pattern: /^[0-9]+$/,
+                message: '未购气天数(天)只能为整数',
+              }]
+            })(<InputNumber placeholder="未购气天数(天)" min={0} max={999999999} style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月均购气量(立方)" min={0} style={{ "width": "100%" }} />)}

@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Button } from 'antd';
+import { Form, Input, Modal, Button, message } from 'antd';
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import DictSelect from '../../System/components/DictSelect';
@@ -10,7 +10,7 @@ const FormItem = Form.Item;
   loading: loading.models.account,
 }))
 @Form.create()
-class ReplaceCardForm extends PureComponent{
+class ReplaceCardForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -36,7 +36,7 @@ class ReplaceCardForm extends PureComponent{
   };
 
   getOrderPayment = () => {
-    const { form, dispatch } =  this.props;
+    const { form, dispatch } = this.props;
     const userId = form.getFieldValue("userId");
     const orderGas = form.getFieldValue("orderGas");
     const fieldsValue = form.getFieldsValue();
@@ -62,20 +62,19 @@ class ReplaceCardForm extends PureComponent{
     const fieldsValue = form.getFieldsValue();
     const result = getCardIdentifier();
     if (result === '读卡失败') {
+      message.error(result);
       form.setFieldsValue({
-        ...fieldsValue,
-        nIcCardIdentifier: "读卡失败，请检查读卡设备和卡片是否正常！",
+        "nIcCardIdentifier": "",
       });
-    } else if (result === '只能使用新卡进行补卡！') {
+    } else if (result === '只能使用新卡进行补卡') {
+      message.error(result);
       form.setFieldsValue({
-        ...fieldsValue,
-        nIcCardIdentifier: result,
+        "nIcCardIdentifier": "",
       });
     } else {
       form.setFieldsValue({
-        ...fieldsValue,
-        nIcCardIdentifier: result,
-      });
+        "nIcCardIdentifier": result,
+      })
     }
   };
 
@@ -93,12 +92,12 @@ class ReplaceCardForm extends PureComponent{
         onOk={this.handleOK}
         onCancel={this.handleCancel}
       >
-        <FormItem {...this.formStyle} style={{display: 'none'}} label="户号">
+        <FormItem {...this.formStyle} style={{ display: 'none' }} label="户号">
           {form.getFieldDecorator('userId', {
             initialValue: userId
           })(<Input disabled />)}
         </FormItem>
-        <FormItem {...this.formStyle} style={{display: 'none'}} label="IC卡号">
+        <FormItem {...this.formStyle} style={{ display: 'none' }} label="IC卡号">
           {form.getFieldDecorator('iccardId', {
             initialValue: iccardId
           })(<Input disabled />)}
@@ -139,7 +138,12 @@ class ReplaceCardForm extends PureComponent{
           })(<Input onBlur={this.getOrderPayment} />)}
         </FormItem>
         <FormItem {...this.formStyle} label="充值金额">
-          {form.getFieldDecorator('orderPayment', {})(<Input disabled />)}
+          {form.getFieldDecorator('orderPayment', {
+            rules: [{
+              required: true,
+              message: '充值金额不能为空！'
+            }],
+          })(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label="订单详情">
           {form.getFieldDecorator('orderDetail', {})(<Input disabled />)}

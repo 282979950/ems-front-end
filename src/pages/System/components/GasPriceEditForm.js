@@ -108,6 +108,9 @@ class GasPriceEditForm extends PureComponent{
               rules: [{
                 required: true,
                 message: '二阶梯气价不能为空！'
+              },{
+                pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+                message: '二阶梯气价只能为整数',
               }]
             })(<Input />)}
           </FormItem>,
@@ -129,6 +132,9 @@ class GasPriceEditForm extends PureComponent{
               rules: [{
                 required: true,
                 message: '三阶梯气价不能为空！'
+              },{
+                pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+                message: '三阶梯气价只能为整数',
               }]
             })(<Input />)}
           </FormItem>
@@ -150,6 +156,9 @@ class GasPriceEditForm extends PureComponent{
               rules: [{
                 required: true,
                 message: '四阶梯气价不能为空！'
+              },{
+                pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+                message: '四阶梯气价只能为整数',
               }]
             })(<Input />)}
           </FormItem>
@@ -186,6 +195,9 @@ class GasPriceEditForm extends PureComponent{
               rules: [{
                 required: true,
                 message: '一阶梯气价不能为空！'
+              },{
+                pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+                message: '一阶梯气价只能为整数',
               }]
             })(<Input />)}
           </FormItem>

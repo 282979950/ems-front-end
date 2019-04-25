@@ -73,13 +73,13 @@ class FillGasEditForm extends PureComponent {
       form.resetFields();
       handleEdit(fieldsValue);
     })
-  }
+  };
 
   handleCancel0 = () => {
     const { form, handleCancel } = this.props;
     form.resetFields();
     handleCancel();
-  }
+  };
 
   render() {
     const {
@@ -95,7 +95,7 @@ class FillGasEditForm extends PureComponent {
         onOk={this.handleOk}
         onCancel={this.handleCancel0}
       >
-        <FormItem {...this.formStyle} label='户号1'>
+        <FormItem {...this.formStyle} label='户号'>
           {form.getFieldDecorator('userId', {})(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label='用户名称'>
