@@ -100,6 +100,11 @@ class CreateArchive extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userAddress': form.getFieldValue('userAddress') && form.getFieldValue('userAddress').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) {
         message.error(err.userId.errors[0].message)
@@ -248,7 +253,7 @@ class CreateArchive extends PureComponent {
   };
 
   handleValidation = (rule, value, callback) => {
-    if(Number(value) > 2147483647) {
+    if (Number(value) > 2147483647) {
       callback('户号太大，请重新输入')
     }
 

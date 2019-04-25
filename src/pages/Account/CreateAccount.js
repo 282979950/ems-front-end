@@ -97,6 +97,11 @@ class CreateAccount extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userAddress': form.getFieldValue('userAddress') && form.getFieldValue('userAddress').trim(),
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) {
         message.error(err.userId.errors[0].message)

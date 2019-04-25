@@ -128,6 +128,11 @@ class FillGas extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'repairOrderId': form.getFieldValue('repairOrderId') && form.getFieldValue('repairOrderId').trim(),
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

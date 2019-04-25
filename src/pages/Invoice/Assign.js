@@ -59,7 +59,7 @@ class InvoiceAssign extends Component {
         pageNum,
         pageSize
       }
-    });    
+    });
   }
 
   handleSelectRows = rows => {
@@ -157,6 +157,11 @@ class InvoiceAssign extends Component {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'invoiceCode': form.getFieldValue('invoiceCode') && form.getFieldValue('invoiceCode').trim(),
+      'invoiceNumber': form.getFieldValue('invoiceNumber') && form.getFieldValue('invoiceNumber').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

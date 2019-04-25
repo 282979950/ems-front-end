@@ -117,6 +117,8 @@ class Dic extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({ 'dictCategory': form.getFieldValue('dictCategory') && form.getFieldValue('dictCategory').trim() });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

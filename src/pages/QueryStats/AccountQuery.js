@@ -90,6 +90,8 @@ class AccountQuery extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({ 'userAddress': form.getFieldValue('userAddress') && form.getFieldValue('userAddress').trim() });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

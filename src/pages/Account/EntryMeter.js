@@ -109,6 +109,8 @@ class EntryMeter extends PureComponent {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({'meterCode': form.getFieldValue('meterCode') && form.getFieldValue('meterCode').trim()});
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

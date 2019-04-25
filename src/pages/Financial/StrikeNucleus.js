@@ -135,7 +135,7 @@ class StrikeNucleus extends PureComponent {
         if (response.status === 0) {
           message.success('审核提交成功');
 
-        }else{
+        } else {
           message.error(response.message);
         }
         dispatch({
@@ -165,7 +165,7 @@ class StrikeNucleus extends PureComponent {
         if (response.status === 0) {
           message.success('审核提交成功');
 
-        }else{
+        } else {
           message.error(response.message);
         }
         dispatch({
@@ -182,6 +182,11 @@ class StrikeNucleus extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'orderId': form.getFieldValue('orderId') && form.getFieldValue('orderId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
@@ -211,14 +216,14 @@ class StrikeNucleus extends PureComponent {
     } = this.props;
     return (
       <Form layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8}}>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('orderId')(<Input placeholder="订单编号" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -238,7 +243,7 @@ class StrikeNucleus extends PureComponent {
       strikeNucleus: { data },
       loading,
     } = this.props;
-    const { selectedRows,editModalVisible } = this.state;
+    const { selectedRows, editModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>

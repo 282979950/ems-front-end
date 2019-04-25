@@ -132,6 +132,11 @@ class Emp extends PureComponent {
   handleSearch = () => {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
+
+    form.setFieldsValue({
+      'empNumber': form.getFieldValue('empNumber') && form.getFieldValue('empNumber').trim(),
+      'empName': form.getFieldValue('empName') && form.getFieldValue('empName').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({

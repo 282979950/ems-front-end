@@ -211,6 +211,11 @@ class User extends Component {
 
   handleSearch = () => {
     const { dispatch, form } = this.props;
+
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim()
+    });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
