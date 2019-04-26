@@ -1,11 +1,11 @@
-import { Button, Form, Input, Modal, Steps } from 'antd';
+import { Button, Form, Input, Modal, Steps, message } from 'antd';
 import React, { PureComponent } from 'react';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
 
 @Form.create()
-class GasPriceEditForm extends PureComponent{
+class GasPriceEditForm extends PureComponent {
   constructor(props) {
     super(props);
     const { selectedData } = props;
@@ -49,6 +49,20 @@ class GasPriceEditForm extends PureComponent{
     const { formValues } = this.state;
     form.validateFields((errors, fieldsValue) => {
       if (errors) return;
+
+      if (fieldsValue.gasRangeTwo !== undefined && fieldsValue.gasRangeTwo <= formValues.gasRangeOne) {
+        message.error("二阶梯气量不能低于一阶梯气量");
+        return;
+      }
+      if (fieldsValue.gasRangeThree !== undefined && fieldsValue.gasRangeThree <= formValues.gasRangeTwo) {
+        message.error("三阶梯气量不能低于二阶梯气量");
+        return;
+      }
+      if (fieldsValue.gasRangeFour !== undefined && fieldsValue.gasRangeFour <= formValues.gasRangeThree) {
+        message.error("四阶梯气量不能低于一阶梯气量");
+        return;
+      }
+
       this.setState({
         formValues: { ...formValues, ...fieldsValue }
       });
@@ -61,6 +75,20 @@ class GasPriceEditForm extends PureComponent{
     const { formValues } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
+
+      if (fieldsValue.gasRangeTwo !== undefined && fieldsValue.gasRangeTwo <= formValues.gasRangeOne) {
+        message.error("二阶梯气量不能低于一阶梯气量");
+        return;
+      }
+      if (fieldsValue.gasRangeThree !== undefined && fieldsValue.gasRangeThree <= formValues.gasRangeTwo) {
+        message.error("三阶梯气量不能低于二阶梯气量");
+        return;
+      }
+      if (fieldsValue.gasRangeFour !== undefined && fieldsValue.gasRangeFour <= formValues.gasRangeThree) {
+        message.error("四阶梯气量不能低于一阶梯气量");
+        return;
+      }
+
       this.setState({
         formValues: {
           gasPriceId: null,
@@ -90,11 +118,12 @@ class GasPriceEditForm extends PureComponent{
   renderForm = () => {
     const { currentStep, formValues } = this.state;
     const { form } = this.props;
+
     switch (currentStep) {
       case 1:
         return [
           <FormItem {...this.formStyle} label="二阶梯气量(不含)" key="gasRangeTwo">
-            {form.getFieldDecorator('gasRangeTwo',{
+            {form.getFieldDecorator('gasRangeTwo', {
               initialValue: formValues.gasRangeTwo,
               rules: [{
                 required: true,
@@ -103,14 +132,14 @@ class GasPriceEditForm extends PureComponent{
             })(<Input />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="二阶梯气价" key="gasPriceTwo">
-            {form.getFieldDecorator('gasPriceTwo',{
+            {form.getFieldDecorator('gasPriceTwo', {
               initialValue: formValues.gasPriceTwo,
               rules: [{
                 required: true,
                 message: '二阶梯气价不能为空！'
-              },{
+              }, {
                 pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
-                message: '二阶梯气价只能为整数',
+                message: '二阶梯气价只能为正数',
               }]
             })(<Input />)}
           </FormItem>,
@@ -118,7 +147,7 @@ class GasPriceEditForm extends PureComponent{
       case 2:
         return [
           <FormItem {...this.formStyle} label="三阶梯气量(不含)" key="gasRangeThree">
-            {form.getFieldDecorator('gasRangeThree',{
+            {form.getFieldDecorator('gasRangeThree', {
               initialValue: formValues.gasRangeThree,
               rules: [{
                 required: true,
@@ -127,14 +156,14 @@ class GasPriceEditForm extends PureComponent{
             })(<Input />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="三阶梯气价" key="gasPriceThree">
-            {form.getFieldDecorator('gasPriceThree',{
+            {form.getFieldDecorator('gasPriceThree', {
               initialValue: formValues.gasPriceThree,
               rules: [{
                 required: true,
                 message: '三阶梯气价不能为空！'
-              },{
+              }, {
                 pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
-                message: '三阶梯气价只能为整数',
+                message: '三阶梯气价只能为正数',
               }]
             })(<Input />)}
           </FormItem>
@@ -142,7 +171,7 @@ class GasPriceEditForm extends PureComponent{
       case 3:
         return [
           <FormItem {...this.formStyle} label="四阶梯气量(不含)" key="gasRangeFour">
-            {form.getFieldDecorator('gasRangeFour',{
+            {form.getFieldDecorator('gasRangeFour', {
               initialValue: formValues.gasRangeFour,
               rules: [{
                 required: true,
@@ -151,53 +180,53 @@ class GasPriceEditForm extends PureComponent{
             })(<Input />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="四阶梯气价" key="gasPriceFour">
-            {form.getFieldDecorator('gasPriceFour',{
+            {form.getFieldDecorator('gasPriceFour', {
               initialValue: formValues.gasPriceFour,
               rules: [{
                 required: true,
                 message: '四阶梯气价不能为空！'
-              },{
+              }, {
                 pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
-                message: '四阶梯气价只能为整数',
+                message: '四阶梯气价只能为正数',
               }]
             })(<Input />)}
           </FormItem>
-      ];
+        ];
       default:
         return [
-          <FormItem {...this.formStyle} style={{display: 'none'}} label="气价ID" key="gasPriceId">
-            {form.getFieldDecorator('gasPriceId', {initialValue: formValues.gasPriceId})(<Input />)}
+          <FormItem {...this.formStyle} style={{ display: 'none' }} label="气价ID" key="gasPriceId">
+            {form.getFieldDecorator('gasPriceId', { initialValue: formValues.gasPriceId })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} style={{display: 'none'}} label="用户类型" key="userType">
-            {form.getFieldDecorator('userType', {initialValue: formValues.userType})(<Input />)}
+          <FormItem {...this.formStyle} style={{ display: 'none' }} label="用户类型" key="userType">
+            {form.getFieldDecorator('userType', { initialValue: formValues.userType })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} style={{display: 'none'}} label="用气类型" key="userGasType">
-            {form.getFieldDecorator('userGasType', {initialValue: formValues.userGasType})(<Input />)}
+          <FormItem {...this.formStyle} style={{ display: 'none' }} label="用气类型" key="userGasType">
+            {form.getFieldDecorator('userGasType', { initialValue: formValues.userGasType })(<Input />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="用户类型" key="userTypeName">
-            {form.getFieldDecorator('userTypeName', {initialValue: formValues.userTypeName})(<Input disabled />)}
+            {form.getFieldDecorator('userTypeName', { initialValue: formValues.userTypeName })(<Input disabled />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="用气类型" key="userGasTypeName">
-            {form.getFieldDecorator('userGasTypeName',{initialValue: formValues.userGasTypeName})(<Input disabled />)}
+            {form.getFieldDecorator('userGasTypeName', { initialValue: formValues.userGasTypeName })(<Input disabled />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="一阶梯气量" key="gasRangeOne">
-            {form.getFieldDecorator('gasRangeOne',{
+            {form.getFieldDecorator('gasRangeOne', {
               initialValue: formValues.gasRangeOne,
               rules: [{
                 required: true,
                 message: '一阶梯气量不能为空！'
               }]
-            })(<Input />)}
+            })(<Input disabled />)}
           </FormItem>,
           <FormItem {...this.formStyle} label="一阶梯气价" key="gasPriceOne">
-            {form.getFieldDecorator('gasPriceOne',{
+            {form.getFieldDecorator('gasPriceOne', {
               initialValue: formValues.gasPriceOne,
               rules: [{
                 required: true,
                 message: '一阶梯气价不能为空！'
-              },{
+              }, {
                 pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
-                message: '一阶梯气价只能为整数',
+                message: '一阶梯气价只能为正数',
               }]
             })(<Input />)}
           </FormItem>

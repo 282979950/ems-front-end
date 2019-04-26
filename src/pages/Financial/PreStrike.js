@@ -209,7 +209,7 @@ class PreStrike extends PureComponent {
             {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8}}>
-            {getFieldDecorator('userType')(<DictSelect category="user_type" />)}
+            {getFieldDecorator('userType')(<DictSelect placeholder="用户类型" category="user_type" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
