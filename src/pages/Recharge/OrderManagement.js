@@ -145,7 +145,7 @@ class OrderManagement extends Component {
     const { dispatch, form } = this.props;
 
     form.setFieldsValue({
-      'userName': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim(),
       'iccardId': form.getFieldValue('iccardId') && form.getFieldValue('iccardId').trim(),
       'iccardIdentifier': form.getFieldValue('iccardIdentifier') && form.getFieldValue('iccardIdentifier').trim(),
       'invoiceCode': form.getFieldValue('invoiceCode') && form.getFieldValue('invoiceCode').trim(),
