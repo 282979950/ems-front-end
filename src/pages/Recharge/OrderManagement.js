@@ -196,7 +196,7 @@ class OrderManagement extends Component {
     dispatch({
       type: 'orderManagement/search',
       payload: {
-        iccardId: result[3],
+        iccardIdentifier: result[2],
         pageNum,
         pageSize
       },
