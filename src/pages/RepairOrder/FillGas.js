@@ -151,6 +151,17 @@ class FillGas extends PureComponent {
 
   handleEditModalVisible = flag => {
     const { selectedRows } = this.state;
+    const cardInfo = OCX.readCard();
+    if(cardInfo === '写卡器连接错误.' || cardInfo === 'IC卡未插入写卡器.') {
+      message.error('请插入卡片');
+      return;
+    }
+    
+    if(cardInfo[2] !== selectedRows[0].cardIdentifier) {
+      message.error('IC卡与用户不对应');
+      return;
+    }
+
     if (!flag) {
       this.setState({
         editModalVisible: !!flag,
@@ -258,6 +269,7 @@ class FillGas extends PureComponent {
       payload: selectedRows[0],
       callback: () => {
         message.success(selectedRows[0].fillGasOrderType === 1 ? '处理补气单成功' : '处理补缴单成功');
+        message.info('请前往预付费充值页面做【发卡充值】');
         dispatch({
           type: 'fillGas/fetch',
           payload: {
@@ -268,6 +280,8 @@ class FillGas extends PureComponent {
       }
     });
   }
+
+  handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理' || selectedRows[0].fillGasOrderTypeName !== '超用补缴单';
 
   renderForm() {
     const {
@@ -313,7 +327,7 @@ class FillGas extends PureComponent {
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>补气补缴</Button>
+              <Button icon="edit" disabled={this.handleDisabled(selectedRows)} onClick={() => this.handleEditModalVisible(true)}>补气补缴</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
