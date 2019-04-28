@@ -382,7 +382,7 @@ class Emp extends PureComponent {
     } = this.props;
     const distData = dist.data;
     const orgData = org.data;
-    const roleData = role.data;
+    const roleData = role.dataAll;
     const empTypeData = dic.dicData;
     const { selectedRows, addModalVisible, editModalVisible } = this.state;
     return (
