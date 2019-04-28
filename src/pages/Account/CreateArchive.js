@@ -218,6 +218,10 @@ class CreateArchive extends PureComponent {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     const _ = this;
+    if(selectedRows.some(ele => ele.userStatus === 2)) {
+      message.warn('已挂表的用户不用删除！');
+      return;
+    }
     confirm({
       title: '删除用户',
       content: `确认删除选中的${selectedRows.length}个用户档案信息？`,
