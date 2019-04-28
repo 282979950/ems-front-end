@@ -8,7 +8,6 @@ import {
   Input,
   Button,
   message,
-  Modal
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
@@ -160,31 +159,36 @@ class ReplaceCard extends PureComponent {
           message.success('补卡充值成功，开始写卡');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
-          const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
+          const wResult = OCX.writePCard(iccardId, iccardPassword, 0, serviceTimes, 0, flowNumber);
           if (wResult === '写卡成功') {
-            dispatch({
-              type: 'order/updateOrderStatus',
-              payload: {
-                orderId,
-                orderStatus: 2
-              },
-              callback: (response2) => {
-                if (response2.status === 0) {
-                  message.success("写卡成功");
-                  dispatch({
-                    type: 'replaceCard/fetch',
-                    payload: {
-                      pageNum,
-                      pageSize
-                    },
-                  });
-                } else {
-                  message.error(response2.message);
+            const wResult2 = OCX.writeUCard(iccardId, iccardPassword, orderGas, serviceTimes, flowNumber);
+            if (wResult2 === '写卡成功') {
+              dispatch({
+                type: 'order/updateOrderStatus',
+                payload: {
+                  orderId,
+                  orderStatus: 2
+                },
+                callback: (response2) => {
+                  if (response2.status === 0) {
+                    message.success("写卡成功");
+                    dispatch({
+                      type: 'replaceCard/fetch',
+                      payload: {
+                        pageNum,
+                        pageSize
+                      },
+                    });
+                  } else {
+                    message.error(response2.message);
+                  }
                 }
-              }
-            })
+              })
+            } else {
+              message.error("充值成功，写卡一般充值卡失败，请前往订单管理页面重新写卡");
+            }
           } else {
-            message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
+            message.error("充值成功，写卡密码传递卡失败，请前往订单管理页面重新写卡");
           }
         } else {
           message.error(response.message);

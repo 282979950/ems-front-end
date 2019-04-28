@@ -30,16 +30,16 @@ const FormItem = Form.Item;
         value: selectedData.userIdcard
       }),
       userDeed: Form.createFormField({
-          value: selectedData.userDeed
+        value: selectedData.userDeed
       }),
       userTypeName: Form.createFormField({
-          value: selectedData.userTypeName
+        value: selectedData.userTypeName
       }),
       userGasTypeName: Form.createFormField({
-          value: selectedData.userGasTypeName
+        value: selectedData.userGasTypeName
       }),
       userStatusName: Form.createFormField({
-          value: selectedData.userStatusName
+        value: selectedData.userStatusName
       }),
       userMoney: Form.createFormField({
         value: 0
@@ -50,7 +50,7 @@ const FormItem = Form.Item;
     };
   }
 })
-class UserChangeEditForm extends PureComponent{
+class UserChangeEditForm extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -153,7 +153,10 @@ class UserChangeEditForm extends PureComponent{
           {form.getFieldDecorator('tableCode', {
             rules: [{
               required: true,
-              message: '房产证号码不能为空！'
+              message: '燃气表当前止码不能为空！'
+            }, {
+              pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+              message: '燃气表当前止码只能为正数',
             }],
           })(<Input />)}
         </FormItem>
