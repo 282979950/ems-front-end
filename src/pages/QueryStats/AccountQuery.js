@@ -101,6 +101,8 @@ class AccountQuery extends PureComponent {
         type: 'accountQuery/fetch',
         payload: {
           ...fieldsValue,
+          startDate: fieldsValue.startDate ? fieldsValue.startDate.format('YYYY-MM-DD') : null,
+          endDate: fieldsValue.endDate ? fieldsValue.endDate.format('YYYY-MM-DD') : null,
           pageNum,
           pageSize,
         },
