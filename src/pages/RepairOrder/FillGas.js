@@ -286,7 +286,7 @@ class FillGas extends PureComponent {
     });
   }
 
-  handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理' || selectedRows[0].fillGasOrderTypeName !== '超用补缴单';
+  handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理';
 
   renderForm() {
     const {
