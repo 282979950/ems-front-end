@@ -218,7 +218,7 @@ class CreateArchive extends PureComponent {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     const _ = this;
-    if(selectedRows.some(ele => ele.userStatus === 2)) {
+    if(selectedRows.some(ele => ele.userStatus === 2 || ele.userStatus === 3 || ele.userStatus === 4)) {
       message.warn('已挂表的用户不用删除！');
       return;
     }

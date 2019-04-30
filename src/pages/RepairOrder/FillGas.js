@@ -156,6 +156,11 @@ class FillGas extends PureComponent {
       message.error('请插入卡片');
       return;
     }
+
+    if(cardInfo === '卡类型不正确.') {
+      message.error('卡插反了，请重新插卡');
+      return;
+    }
     
     if(cardInfo[2] !== selectedRows[0].cardIdentifier) {
       message.error('IC卡与用户不对应');
@@ -281,7 +286,7 @@ class FillGas extends PureComponent {
     });
   }
 
-  handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理' || selectedRows[0].fillGasOrderTypeName !== '超用补缴单';
+  handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理';
 
   renderForm() {
     const {
