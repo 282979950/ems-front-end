@@ -52,6 +52,9 @@ const FormItem = Form.Item;
       oldMeterTypeId: Form.createFormField({
         value: selectedData.oldMeterTypeId
       }),
+      oldMeterTypeName: Form.createFormField({
+        value: selectedData.oldMeterTypeName
+      }),
       oldMeterDirection: Form.createFormField({
         value: selectedData.oldMeterDirection
       }),
@@ -264,8 +267,11 @@ class InputEditForm extends PureComponent {
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
           {form.getFieldDecorator('oldMeterId', {})(<Input />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="旧表类型">
+        <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表类型">
           {form.getFieldDecorator('oldMeterTypeId', {})(<Input style={{ "width": "100%" }} disabled />)}
+        </FormItem>
+        <FormItem {...this.formStyle} label="旧表类型">
+          {form.getFieldDecorator('oldMeterTypeName', {})(<Input style={{ "width": "100%" }} disabled />)}
         </FormItem>
         {/* <FormItem {...this.this.formStyle} label="旧表类型">
           {form.getFieldDecorator('oldMeterTypeId', {
