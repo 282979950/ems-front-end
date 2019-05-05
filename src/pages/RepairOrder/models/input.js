@@ -9,6 +9,7 @@ import {
   getBindNewCardParamByUserIdInput,
   isLatestFillGasOrder,
   hasFillGasOrderResolved,
+  queryHistory,
 } from '../../../services/repairOrder';
 import { handleRequestException } from '../../../utils/request';
 
@@ -45,6 +46,10 @@ export default {
       } else {
         handleRequestException(response)
       }
+    },
+    *cardHistory({ payload, callback }, { call}) {
+      const response = yield call(queryHistory, payload);
+      if (callback) callback(response);
     },
     *add({ payload, callback }, { call }) {
       const response = yield call(addInput, payload);
