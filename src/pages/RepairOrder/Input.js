@@ -8,8 +8,9 @@ import DictSelect from '../System/components/DictSelect';
 import InputAddForm from './components/InputAddForm';
 import InputEditForm from './components/InputEditForm';
 import InputCardForm from './components/InputCardForm';
+import RepairOrderCardHistory from "./components/RepairOrderCardHistory";
 
-const confirm = Modal.confirm;
+const {confirm} = Modal;
 @connect(({ input, loading }) => ({
   input,
   loading: loading.models.input,
@@ -24,6 +25,8 @@ class Inputs extends PureComponent {
     pageNum: 1,
     pageSize: 10,
     cardPassword: '',
+    historyData:null,
+    historyModalVisible:false,
   };
 
   columns = [
@@ -335,6 +338,41 @@ class Inputs extends PureComponent {
     });
   };
 
+  handleHistoryModalVisible = flag => {
+    this.setState({
+      historyModalVisible: !!flag
+    });
+  };
+
+  editHistoryData = flag =>{
+    this.setState({
+      historyData: flag
+    });
+  };
+  /*
+   *历史记录查询，点击触发(补卡操作)
+   *
+   */
+
+  showHistory = (selectedRows,flag) => {
+    const { dispatch } = this.props;
+    const _ = this;
+    dispatch({
+      type: 'input/cardHistory',
+      payload: {
+        userId:  selectedRows[0].userId
+      },
+      callback: (response) => {
+        if (response.status === 0) {
+          _.handleHistoryModalVisible(flag);
+          _.editHistoryData(response.data);
+        } else {
+          message.error(response.message);
+        }
+      }
+    });
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -375,7 +413,7 @@ class Inputs extends PureComponent {
       input: { newCardParam },
       loading,
     } = this.props;
-    const { addModalVisible, editModalVisible, cardModalVisible, selectedRows } = this.state;
+    const { addModalVisible, editModalVisible, cardModalVisible, selectedRows,historyData,historyModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="repairorder-input">
         <Card bordered={false}>
@@ -385,6 +423,7 @@ class Inputs extends PureComponent {
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               <Button icon="snippets" disabled={selectedRows.length !== 1} onClick={() => this.handleCardModalVisible(true)}>补卡</Button>
+              <Button icon="schedule" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows,true)}>维修单补卡记录</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -418,6 +457,14 @@ class Inputs extends PureComponent {
             selectedData={newCardParam}
           />
         ) : null}
+        {selectedRows.length === 1 ? (
+          <RepairOrderCardHistory
+            modalVisible={historyModalVisible}
+            handleRemoveModalVisible={this.handleHistoryModalVisible}
+            historyData={historyData}
+            selectedRows={selectedRows}
+          />) : null
+        }
       </PageHeaderWrapper>
     )
   }
