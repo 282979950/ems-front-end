@@ -45,17 +45,9 @@ class Perm extends PureComponent {
       dataIndex: 'permCaption',
     },
     {
-      title: '父级权限标题',
-      dataIndex: 'permParentCaption',
-    },
-    {
       title: '按钮权限',
       dataIndex: 'isButton',
       render: text => text ? '是' : '否',
-    },
-    {
-      title: '备注',
-      dataIndex: 'remarks',
     }
   ];
 

@@ -8,7 +8,7 @@ import {
   getBindNewCardParamByUserIdInput,
   isLatestFillGasOrder,
   hasFillGasOrderResolved,
-  queryHistory,
+  queryHistory
 } from '../services/repairOrder';
 import { handleRequestException } from '../utils/request';
 
