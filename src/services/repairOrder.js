@@ -29,6 +29,15 @@ export async function searchInput(params) {
   });
 }
 
+export async function queryHistory(params) {
+  return request('/api/input/userCardByUserId.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function editInput(params) {
   return request('/api/input/edit.do', {
     method: 'POST',

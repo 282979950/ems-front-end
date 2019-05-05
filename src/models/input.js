@@ -5,7 +5,6 @@ import {
   searchInput,
   editInput,
   bindNewCardInput,
-  getMeterByMeterCodeInput,
   getBindNewCardParamByUserIdInput,
   isLatestFillGasOrder,
   hasFillGasOrderResolved,
@@ -22,92 +21,96 @@ export default {
   },
 
   effects: {
-    *fetch({ payload, callback }, { call, put }) {
+    * fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryInput, payload);
       if (response.status === 0) {
         yield put({
           type: 'save',
           payload: response.data,
-        })
+        });
         if (callback) callback();
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *search({ payload, callback }, { call, put }) {
+    * search({ payload, callback }, { call, put }) {
       const response = yield call(searchInput, payload);
       if (response.status === 0) {
         yield put({
           type: 'save',
           payload: response.data,
-        })
+        });
         if (callback) callback();
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *add({ payload, callback }, { call }) {
+    * cardHistory({ payload, callback }, { call }) {
+      const response = yield call(queryHistory, payload);
+      if (callback) callback(response);
+    },
+    * add({ payload, callback }, { call }) {
       const response = yield call(addInput, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *edit({ payload, callback }, { call }) {
+    * edit({ payload, callback }, { call }) {
       const response = yield call(editInput, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *bindNewCard({ payload, callback }, { call }) {
+    * bindNewCard({ payload, callback }, { call }) {
       const response = yield call(bindNewCardInput, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *getRepairOrderUserById({ payload, callback }, { call, put }) {
+    * getRepairOrderUserById({ payload, callback }, { call, put }) {
       const response = yield call(getRepairOrderUserByIdInput, payload);
       if (response.status === 0) {
         yield put({
           type: 'saveRepairOrderUser',
           payload: response.data,
-        })
+        });
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *getBindNewCardParamByUserId({ payload, callback }, { call, put }) {
+    * getBindNewCardParamByUserId({ payload, callback }, { call, put }) {
       const response = yield call(getBindNewCardParamByUserIdInput, payload);
       if (response.status === 0) {
         yield put({
           type: 'saveNewCardParam',
           payload: response.data,
-        })
+        });
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *isLatestFillGasOrder({ payload, callback }, { call }) {
+    * isLatestFillGasOrder({ payload, callback }, { call }) {
       const response = yield call(isLatestFillGasOrder, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
-    *hasFillGasOrderResolved({ payload, callback }, { call, put }) {
+    * hasFillGasOrderResolved({ payload, callback }, { call, put }) {
       const response = yield call(hasFillGasOrderResolved, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
-        handleRequestException(response)
+        handleRequestException(response);
       }
     },
   },
@@ -116,20 +119,20 @@ export default {
     save(state, action) {
       return {
         ...state,
-        data: action.payload
-      }
+        data: action.payload,
+      };
     },
     saveRepairOrderUser(state, action) {
       return {
         ...state,
-        repairOrderUser: action.payload
-      }
+        repairOrderUser: action.payload,
+      };
     },
     saveNewCardParam(state, action) {
       return {
         ...state,
-        newCardParam: action.payload
-      }
+        newCardParam: action.payload,
+      };
     },
-  }
-}
+  },
+};
