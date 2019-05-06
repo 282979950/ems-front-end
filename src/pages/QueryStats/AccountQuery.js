@@ -264,8 +264,8 @@ class AccountQuery extends PureComponent {
               data={data}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
-              onChage={this.handleStandardTableChange}
-              rowKey="userId"
+              onChange={this.handleStandardTableChange}
+              rowKey='userId'
             />
           </div>
         </Card>
