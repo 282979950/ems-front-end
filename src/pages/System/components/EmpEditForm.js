@@ -138,9 +138,9 @@ class EmpEditForm extends PureComponent {
               />
             )}
           </FormItem>,
-          <FormItem {...this.formStyle} label="所属区域" key="empDistId">
-            {form.getFieldDecorator('empDistId', {
-              initialValue: formValues.empDistId,
+          <FormItem {...this.formStyle} label="所属区域" key="empDistrictId">
+            {form.getFieldDecorator('empDistrictId', {
+              initialValue: formValues.empDistrictId,
             })(
               <TreeSelect
                 style={{ width: '100%' }}
