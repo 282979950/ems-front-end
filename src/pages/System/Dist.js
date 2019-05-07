@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
@@ -125,6 +126,10 @@ class Dist extends PureComponent {
       'distName': form.getFieldValue('distName') && form.getFieldValue('distName').trim(),
       'distCode': form.getFieldValue('distCode') && form.getFieldValue('distCode').trim()
     });
+    if(undefined == form.getFieldValue('distName') && undefined == form.getFieldValue('distCode')){
+      this.handleFormReset();
+      return;
+    }
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
