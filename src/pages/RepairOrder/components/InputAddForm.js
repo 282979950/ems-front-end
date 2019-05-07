@@ -218,8 +218,8 @@ class InputAddForm extends PureComponent {
           })(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="旧表类型">
-          {form.getFieldDecorator('oldMeterTypeId', {
-            initialValue: repairOrderUser ? repairOrderUser.meterTypeId : '',
+          {form.getFieldDecorator('meterTypeName', {
+            initialValue: repairOrderUser ? repairOrderUser.meterTypeName : '',
           })(<Input style={{ "width": "100%" }} disabled />)}
         </FormItem>
         {/* <FormItem {...this.formStyle} label="旧表类型">
