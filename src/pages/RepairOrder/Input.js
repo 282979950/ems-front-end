@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Modal } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Modal, Tag } from 'antd';
 import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
@@ -35,16 +35,17 @@ class Inputs extends PureComponent {
       dataIndex: 'repairOrderId',
     },
     {
+      title: '维修单状态',
+      dataIndex: 'repairOrderStatus',
+      render: status => status === 1 ? (<Tag color='green'>正常</Tag>): (<Tag color='volcano'>已锁定</Tag>),
+    },
+    {
       title: '户号',
       dataIndex: 'userId',
     },
     {
       title: '用户名称',
       dataIndex: 'userName',
-    },
-    {
-      title: '维修员姓名',
-      dataIndex: 'empName',
     },
     {
       title: '维修类型',
@@ -149,54 +150,44 @@ class Inputs extends PureComponent {
   };
 
   handleEditModalVisible = flag => {
-    const latestTip = '该维修单不是最新的，不能编辑';
-    const hasTip = '该维修单的补气单或超用单已被处理，不能编辑';
     if (!flag) {
       this.setState({
         editModalVisible: false,
       });
       return;
     }
-    this.isLatestOrHas(latestTip, hasTip, this.handleEditShow)
+    this.isLatestOrHas('该维修单的补气单或超用单已被处理，不能编辑', this.handleEditShow);
   };
 
   handleEditShow = () => {
     this.setState({
       editModalVisible: true,
-    })
+    });
   };
 
-  isLatestOrHas = (latestTip, hasTip, callback) => {
+  isLatestOrHas = (tip, callback) => {
     const { selectedRows } = this.state;
     const { dispatch } = this.props;
 
-    dispatch({
-      type: 'input/isLatestFillGasOrder',
-      payload: {
-        id: selectedRows[0].id,
-        userId: selectedRows[0].userId
-      },
-      callback: (response) => {
-        if (!response.data) {
-          message.warning(latestTip);
-        } else {
-          dispatch({
-            type: 'input/hasFillGasOrderResolved',
-            payload: {
-              userId: selectedRows[0].userId,
-              repairOrderId: selectedRows[0].repairOrderId,
-            },
-            callback: (response2) => {
-              if (response2.data) {
-                message.warning(hasTip);
-              } else if (callback) {
-                callback(response2);
-              }
-            }
-          })
+    const { repairOrderStatus } = selectedRows[0];
+    if (repairOrderStatus === 2) {
+      message.warning("该维修单已经被锁定，不能进行编辑");
+    } else {
+      dispatch({
+        type: 'input/hasFillGasOrderResolved',
+        payload: {
+          userId: selectedRows[0].userId,
+          repairOrderId: selectedRows[0].repairOrderId,
+        },
+        callback: (response2) => {
+          if (response2.data) {
+            message.warning(tip);
+          } else if (callback) {
+            callback(response2);
+          }
         }
-      }
-    })
+      });
+    }
   };
 
   getBindNewCardParamByUserId = () => {
@@ -221,22 +212,19 @@ class Inputs extends PureComponent {
 
   handleCardModalVisible = flag => {
     const { selectedRows } = this.state;
-    const latestTip = '该维修单不是最新的，不能绑定新卡';
-    const hasTip = '该维修单的补气单或超用单已被处理，不能绑定新卡';
-
+    const tip = '该维修单的补气单或超用单已被处理，不能绑定新卡';
     if (!flag) {
       this.setState({
         cardModalVisible: false,
       });
       return;
     }
-
     if (selectedRows[0].repairType !== 0 && selectedRows[0].repairType !== 6 && selectedRows[0].repairType !== 7
       && selectedRows[0].repairResultType !== 4 && selectedRows[0].repairResultType !== 9) {
-      message.warning("该订单不需要补气，不需要绑定新卡");
+      message.warning('该订单不需要补气，不需要绑定新卡');
       return;
     }
-    this.isLatestOrHas(latestTip, hasTip, this.getBindNewCardParamByUserId)
+    this.isLatestOrHas(tip, this.getBindNewCardParamByUserId);
   };
 
   handleAdd = (fields, form) => {
