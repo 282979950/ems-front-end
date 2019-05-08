@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
@@ -121,6 +122,10 @@ class Org extends PureComponent {
       'orgName': form.getFieldValue('orgName') && form.getFieldValue('orgName').trim(),
       'orgCode': form.getFieldValue('orgCode') && form.getFieldValue('orgCode').trim()
     });
+    if(undefined == form.getFieldValue('orgName') && undefined == form.getFieldValue('orgCode')){
+      this.handleFormReset();
+      return;
+    }
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
