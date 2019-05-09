@@ -219,7 +219,7 @@ class InputEditForm extends PureComponent {
         onOk={this.handleOk}
         onCancel={this.handleCancel0}
       >
-        <div style={{ overflow:"scroll", height:"400px" }}>
+        <div style={{ overflow:"scroll", height:"400px",'overflow-x':'hidden' }}>
           <FormItem {...this.formStyle} label='维修单编号' style={{ 'display': 'none' }}>
             {form.getFieldDecorator('id', {})(<Input />)}
           </FormItem>
