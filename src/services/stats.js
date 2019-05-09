@@ -83,3 +83,15 @@ export async function queryUserSearch(params) {
     },
   });
 }
+
+/**
+ * 表具信息查看
+ */
+export async function queryUserMeterType(params) {
+  return request('/api/userQuery/userMeterType.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

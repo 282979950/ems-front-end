@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Row, Col, Input, Button, Form } from 'antd';
@@ -10,6 +11,7 @@ import UserInfoAddHistoryModal from './components/UserInfoAddHistoryModal';
 import UserInfoFillHistoryModal from './components/UserInfoFillHistoryModal';
 import UserInfoCardHistoryModal from './components/UserInfoCardHistoryModal';
 import UserInfoRepairHistoryModal from './components/UserInfoRepairHistoryModal';
+import UserMeterTypeModal from './components/UserMeterTypeModal';
 
 @connect(({ userQuery, loading }) => ({
   userQuery,
@@ -179,6 +181,21 @@ class User extends Component {
           });
         }
       });
+    }else if(flag && type === 'userMeterType'){
+      const { dispatch } = this.props;
+      const { selectedRows } = this.state;
+      dispatch({
+        type: 'userQuery/fetchqueryUserMeterType',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: () => {
+          this.setState({
+            userInfoQueryModalVisible: !!flag,
+            userInfoType: 'userMeterType'
+          });
+        }
+      });
     }
     else {
       this.setState({
@@ -204,6 +221,8 @@ class User extends Component {
       case 'repairHistory':
         this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
         break;
+      case'userMeterType':
+        this.handleReplaceCardHistoryFormVisible(true, 'userMeterType')
       default:
         break;
     }
@@ -306,6 +325,9 @@ class User extends Component {
               <Authorized authority="queryStats:userQuery:historyRepairOrder">
                 <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('repairHistory')}>维修信息</Button>
               </Authorized>
+              <Authorized authority="queryStats:userQuery:userMeterType">
+                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('userMeterType')}>表具信息</Button>
+              </Authorized>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -351,6 +373,13 @@ class User extends Component {
             handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
             modalVisible={userInfoQueryModalVisible}
             historyData={history}
+          />) : null
+        }
+        {userInfoType === 'userMeterType' && selectedRows.length === 1 ? (
+          <UserMeterTypeModal
+            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
+            modalVisible={userInfoQueryModalVisible}
+            selectedData={history}
           />) : null
         }
       </PageHeaderWrapper>
