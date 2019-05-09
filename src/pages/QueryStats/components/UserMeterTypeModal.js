@@ -32,6 +32,9 @@ const FormItem = Form.Item;
       meterType: Form.createFormField({
         value: selectedData[0].meterType,
       }),
+      meterCode: Form.createFormField({
+        value: selectedData[0].meterCode,
+      }),
     };
   },
 })
@@ -71,6 +74,9 @@ class UserMeterTypeModal extends PureComponent {
         </FormItem>
         <FormItem {...this.formStyle} label="用户住址">
           {form.getFieldDecorator('userAddress', {})(<Input />)}
+        </FormItem>
+        <FormItem {...this.formStyle} label="表具编码">
+          {form.getFieldDecorator('meterCode', {})(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="表具类别">
           {form.getFieldDecorator('meterCategory', {})(<Input />)}
