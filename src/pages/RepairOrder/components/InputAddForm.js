@@ -42,6 +42,8 @@ class InputAddForm extends PureComponent {
       // form.resetFields();
       handleAdd({
         ...fieldsValue,
+        oldMeterTypeId: fieldsValue.oldMeterTypeId ? fieldsValue.oldMeterTypeId[1] : null,
+        newMeterTypeId: fieldsValue.newMeterTypeId ? fieldsValue.newMeterTypeId[1] : null,
         repairStartTime: fieldsValue.repairStartTime ? fieldsValue.repairStartTime.format('YYYY-MM-DD HH:mm') : undefined,
         repairEndTime: fieldsValue.repairEndTime ? fieldsValue.repairEndTime.format('YYYY-MM-DD HH:mm') : undefined,
       }, form)
@@ -49,33 +51,71 @@ class InputAddForm extends PureComponent {
   };
 
   handleGetRepairOrderUser = (e) => {
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     dispatch({
       type: 'input/getRepairOrderUserById',
       payload: {
         userId: e.target.value,
       },
       callback: (response) => {
-        if (response.data === null) {
-          message.error("户号错误，请重新输入")
+        const {data} = response;
+        if (data) {
+          const { userName, userPhone, userAddress, meterId, meterCode, meterStopCode, meterTypeId, meterDirection } = data;
+          form.setFieldsValue({
+            'userName': userName,
+            'userPhone': userPhone,
+            'userAddress': userAddress,
+            'oldMeterId': meterId,
+            'oldMeterCode': meterCode,
+            'oldMeterStopCode': meterStopCode,
+            'oldMeterTypeId': ['IC卡表', meterTypeId],
+            'oldMeterDirection': meterDirection,
+          });
+        } else {
+          message.error("户号错误，请重新输入");
         }
       }
     });
   };
 
-  handleRepairTypeChage = (e) => {
+  handleRepairTypeChange = (e) => {
     this.setState({
       repairTypeVal: e,
     });
   };
 
   handleGetMeterByMeterCode = (e) => {
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     dispatch({
       type: 'entryMeter/getMeterByMeterCode',
       payload: {
         meterCode: e.target.value,
       },
+      callback: (response) => {
+        if (response.data === null) {
+          message.error("表号错误，请重新输入");
+        } else {
+          const {
+            data: { meterId, meterTypeId, meterDirection, meterStopCode, safetyCode, meterStatus}
+          } = response;
+          switch (meterStatus) {
+            case 2:
+              message.error("表具已被其他用户绑定，请重新输入");
+              return;
+            case 3:
+              message.error("表具已报废，请重新输入");
+              return;
+            default:
+              form.setFieldsValue({
+                'newMeterId': meterId,
+                'newMeterTypeId': ['IC卡表', meterTypeId],
+                'newMeterDirection': meterDirection,
+                'newMeterStopCode': meterStopCode,
+                'newSafetyCode': safetyCode,
+              });
+          }
+        }
+      }
     });
   };
 
@@ -136,16 +176,14 @@ class InputAddForm extends PureComponent {
 
   render() {
     const {
-      input: { repairOrderUser },
       emp: { empList },
-      // entryMeter: { meterList },
       modalVisible, form,
     } = this.props;
     const { repairTypeVal, endOpen } = this.state;
 
     return (
       <Modal
-        title="新建区域"
+        title="新建维修单"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
@@ -175,12 +213,10 @@ class InputAddForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="用户名称">
             {form.getFieldDecorator('userName', {
-            initialValue: repairOrderUser ? repairOrderUser.userName : '',
           })(<Input disabled />)}
           </FormItem>
           <FormItem {...this.formStyle} label="用户手机">
             {form.getFieldDecorator('userPhone', {
-            initialValue: repairOrderUser ? repairOrderUser.userPhone : '',
           })(<Input disabled />)}
           </FormItem>
           <FormItem {...this.formStyle} label="用户地址">
@@ -189,7 +225,6 @@ class InputAddForm extends PureComponent {
               required: true,
               message: '用户地址不能为空！'
             }],
-            initialValue: repairOrderUser ? repairOrderUser.userAddress : '',
           })(<Input disabled />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修类型">
@@ -198,7 +233,7 @@ class InputAddForm extends PureComponent {
               required: true,
               message: '维修类型不能为空！'
             }]
-          })(<DictSelect onChange={this.handleRepairTypeChage} category="repair_type" />)}
+          })(<DictSelect onChange={this.handleRepairTypeChange} category="repair_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} label="燃气设备类型">
             {form.getFieldDecorator('gasEquipmentType', {
@@ -210,27 +245,18 @@ class InputAddForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="旧表编号">
             {form.getFieldDecorator('oldMeterCode', {
-            initialValue: repairOrderUser ? repairOrderUser.meterCode : '',
           })(<Input disabled />)}
           </FormItem>
           <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
             {form.getFieldDecorator('oldMeterId', {
-            initialValue: repairOrderUser ? repairOrderUser.meterId : '',
           })(<Input />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表类型">
-            {form.getFieldDecorator('meterTypeName', {
-            initialValue: repairOrderUser ? repairOrderUser.meterTypeName : '',
-          })(<Input style={{ "width": "100%" }} disabled />)}
+            {form.getFieldDecorator('oldMeterTypeId', {
+            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
           </FormItem>
-          {/* <FormItem {...this.formStyle} label="旧表类型">
-          {form.getFieldDecorator('oldMeterTypeId', {
-            initialValue: [ 'IC卡表', repairOrderUser.meterTypeName ],
-          })(<MeterTypeSelect  disabled style={{ "width": "100%" }} />)}
-        </FormItem> */}
           <FormItem {...this.formStyle} label="旧表表向">
             {form.getFieldDecorator('oldMeterDirection', {
-            initialValue: repairOrderUser ? repairOrderUser.meterDirection : '',
           })(<DictSelect category="meter_direction" disabled />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表止码">
@@ -246,6 +272,10 @@ class InputAddForm extends PureComponent {
           </FormItem>
           {repairTypeVal === 0 || this.repairTypeVal === 6 || this.repairTypeVal === 7 ? (
             <div>
+              <FormItem {...this.formStyle} style={{ display: 'none' }} label="新表ID">
+                {form.getFieldDecorator('newMeterId', {
+                })(<Input />)}
+              </FormItem>
               <FormItem {...this.formStyle} label="新表编号">
                 {form.getFieldDecorator('newMeterCode', {
               })(<Input onBlur={this.handleGetMeterByMeterCode} />)}
@@ -253,7 +283,7 @@ class InputAddForm extends PureComponent {
               <FormItem {...this.formStyle} label="新表类型">
                 {form.getFieldDecorator('newMeterTypeId', {
                 // initialValue: repairOrderUser.newMeterTypeId,
-              })(<MeterTypeSelect disabled style={{ "width": "100%" }} />)}
+              })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表表向">
                 {form.getFieldDecorator('newMeterDirection', {
@@ -261,7 +291,7 @@ class InputAddForm extends PureComponent {
               })(<DictSelect category="meter_direction" disabled />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表止码">
-                {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} />)}
+                {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} disabled />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新安全卡编号">
                 {form.getFieldDecorator('newSafetyCode', {})(<Input />)}

@@ -7,92 +7,92 @@ class MeterTypeSelect extends PureComponent{
     super();
     this.state = {};
     this.options = [{
-      value: 'IC卡表',
       label: 'IC卡表',
+      value: 'IC卡表',
       children: [{
-        value: '10-3B(LMN)',
         label: '10-3B(LMN)',
+        value: 1,
       }, {
-        value: '10-4A(G)',
         label: '10-4A(G)',
+        value: 2,
       }, {
-        value: '10-4A(LMN)',
         label: '10-4A(LMN)',
+        value: 3,
       }, {
-        value: '16-3B(LMN)',
         label: '16-3B(LMN)',
+        value: 4,
       }, {
-        value: '16-4A(ACD)',
         label: '16-4A(ACD)',
+        value: 5,
       }, {
-        value: '16-4A(LMN)',
         label: '16-4A(LMN)',
+        value: 6,
       }, {
-        value: '2.5-3B(C)',
         label: '2.5-3B(C)',
+        value: 7,
       }, {
-        value: '2.5-3B(C)（T1）',
         label: '2.5-3B(C)（T1）',
+        value: 8,
       }, {
-        value: '2.5-3B(CQ)',
         label: '2.5-3B(CQ)',
+        value: 9,
       }, {
-        value: '2.5-3B(QK)',
         label: '2.5-3B(QK)',
+        value: 10,
       }, {
-        value: '25-3B(LMN)',
         label: '25-3B(LMN)',
+        value: 11,
       }, {
-        value: '25-4A(ACD)',
         label: '25-4A(ACD)',
+        value: 12,
       }, {
-        value: '25-4A(LMN)',
         label: '25-4A(LMN)',
+        value: 13,
       }, {
-        value: '40-3B(LMN)',
         label: '40-3B(LMN)',
+        value: 14,
       }, {
-        value: '40-4A(G)',
         label: '40-4A(G)',
+        value: 15,
       }, {
-        value: '40-4A(LMN)',
         label: '40-4A(LMN)',
+        value: 16,
       }, {
-        value: '4-3B(C)',
         label: '4-3B(C)',
+        value: 17,
       }, {
-        value: '4-3B(C) (II)',
         label: '4-3B(C) (II)',
+        value: 18,
       }, {
-        value: '4-3B(C) (T1)',
         label: '4-3B(C) (T1)',
+        value: 19,
       }, {
-        value: '4-3B(C) (T1Q)',
         label: '4-3B(C) (T1Q)',
+        value: 20,
       }, {
-        value: '4-3B(C)（Y6）',
         label: '4-3B(C)（Y6）',
+        value: 21,
       }, {
-        value: '4-3B(CQ)',
         label: '4-3B(CQ)',
+        value: 22,
       }, {
-        value: '4-3B(CQ)（T1）',
         label: '4-3B(CQ)（T1）',
+        value: 23,
       }, {
-        value: '4-3B(QK)',
         label: '4-3B(QK)',
+        value: 24,
       }, {
-        value: '6-3B(C)',
         label: '6-3B(C)',
+        value: 25,
       }, {
-        value: '6-3B(C)（T1）',
         label: '6-3B(C)（T1）',
+        value: 26,
       }, {
-        value: '6-3B(CQ)',
         label: '6-3B(CQ)',
+        value: 27,
       }, {
-        value: '6-3B(QK)',
         label: '6-3B(QK)',
+        value: 28,
       }]
     }];
   }

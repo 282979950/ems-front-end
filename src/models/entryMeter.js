@@ -6,7 +6,6 @@ export default {
 
   state: {
     data: [],
-    meterList: [],
   },
 
   effects: {
@@ -42,16 +41,10 @@ export default {
       });
       if (callback) callback();
     },
-    *getMeterByMeterCode({ payload, callback }, { call, put }) {
+    *getMeterByMeterCode({ payload, callback }, { call }) {
       const response = yield call(getMeterByMeterCode, payload);
-      console.log('-----getMeterByMeterCode')
-      console.log(response)
       if (response.status === 0) {
-        yield put({
-          type: 'saveMeterList',
-          payload: response.data,
-        });
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         handleRequestException(response);
       }
@@ -64,12 +57,6 @@ export default {
         ...state,
         data: action.payload
       };
-    },
-    saveMeterList(state, action) {
-      return {
-        ...state,
-        meterList: action.payload
-      };
-    },
+    }
   },
 };

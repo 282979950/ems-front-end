@@ -22,7 +22,7 @@ const { MonthPicker } = DatePicker;
         value: selectedData.meterStopCode
       }),
       meterType: Form.createFormField({
-        value: [selectedData.meterCategory, selectedData.meterType],
+        value: [selectedData.meterCategory, selectedData.meterTypeId],
       }),
       meterDirection: Form.createFormField({
         value: selectedData.meterDirection
@@ -56,8 +56,8 @@ class EntryMeterEditForm extends PureComponent{
       form.resetFields();
       handleEdit({
         ...fieldsValue,
-        meterCategory: fieldsValue.meterType[0],
-        meterType: fieldsValue.meterType[1],
+        meterType: null,
+        meterTypeId: fieldsValue.meterType[1],
         meterProdDate: fieldsValue.meterProdDate.format('YYYY-MM'),
         meterEntryDate: fieldsValue.meterEntryDate.format('YYYY-MM-DD')
       });

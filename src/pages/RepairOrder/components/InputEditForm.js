@@ -50,7 +50,7 @@ const FormItem = Form.Item;
         value: selectedData.oldMeterId
       }),
       oldMeterTypeId: Form.createFormField({
-        value: selectedData.oldMeterTypeId
+        value: ['IC卡表', selectedData.oldMeterTypeId]
       }),
       oldMeterTypeName: Form.createFormField({
         value: selectedData.oldMeterTypeName
@@ -83,7 +83,7 @@ const FormItem = Form.Item;
         value: selectedData.newMeterCode
       }),
       newMeterTypeId: Form.createFormField({
-        value: selectedData.newMeterTypeId
+        value: ['IC卡表', selectedData.newMeterTypeId]
       }),
       newMeterDirection: Form.createFormField({
         value: selectedData.newMeterDirection
@@ -123,6 +123,8 @@ class InputEditForm extends PureComponent {
       if (err) return;
       handleEdit({
         ...fieldsValue,
+        oldMeterTypeId: fieldsValue.oldMeterTypeId ? fieldsValue.oldMeterTypeId[1] : null,
+        newMeterTypeId: fieldsValue.newMeterTypeId ? fieldsValue.newMeterTypeId[1] : null,
         repairStartTime: fieldsValue.repairStartTime ? fieldsValue.repairStartTime.format('YYYY-MM-DD HH:mm') : undefined,
         repairEndTime: fieldsValue.repairEndTime ? fieldsValue.repairEndTime.format('YYYY-MM-DD HH:mm') : undefined,
       }, form)
@@ -268,17 +270,10 @@ class InputEditForm extends PureComponent {
           <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
             {form.getFieldDecorator('oldMeterId', {})(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表类型">
-            {form.getFieldDecorator('oldMeterTypeId', {})(<Input style={{ "width": "100%" }} disabled />)}
-          </FormItem>
           <FormItem {...this.formStyle} label="旧表类型">
-            {form.getFieldDecorator('oldMeterTypeName', {})(<Input style={{ "width": "100%" }} disabled />)}
-          </FormItem>
-          {/* <FormItem {...this.this.formStyle} label="旧表类型">
             {form.getFieldDecorator('oldMeterTypeId', {
-              initialValue: [ 'IC卡表', repairOrderUser.meterTypeName ],
-            })(<MeterTypeSelect  disabled={true} style={{ "width": "100%" }} />)}
-          </FormItem> */}
+            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
+          </FormItem>
           <FormItem {...this.formStyle} label="旧表表向">
             {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" disabled />)}
           </FormItem>
@@ -296,9 +291,9 @@ class InputEditForm extends PureComponent {
           <FormItem {...this.formStyle} label='新表编码' style={disableOrHide ? '' : { display: 'none' }}>
             {form.getFieldDecorator('newMeterCode', {})(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="新表类型" style={disableOrHide ? '' : { display: 'none' }}>
-            {form.getFieldDecorator('newMeterTypeId')
-              (<MeterTypeSelect disabled={disableOrHide} style={{ "width": "100%" }} />)}
+          <FormItem {...this.formStyle} label="新表类型">
+            {form.getFieldDecorator('newMeterTypeId', {
+            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="新表表向" style={disableOrHide ? '' : { display: 'none' }}>
             {form.getFieldDecorator('newMeterDirection')
