@@ -125,9 +125,6 @@ class FillGasEditForm extends PureComponent {
         <FormItem {...this.formStyle} label='剩余气量'>
           {form.getFieldDecorator('leftGas', {})(<Input disabled />)}
         </FormItem>
-        <FormItem {...this.formStyle} label='补气单状态'>
-          {form.getFieldDecorator('fillGasOrderStatusName', {})(<Input disabled />)}
-        </FormItem>
         {fillGasOrderType !== 1 ? (
           <div>
             <FormItem {...this.formStyle} label='应补金额'>
@@ -138,14 +135,6 @@ class FillGasEditForm extends PureComponent {
                 rules: [{
                   required: true,
                   message: '实补金额不能为空'
-                }],
-              })(<Input />)}
-            </FormItem>
-            <FormItem {...this.formStyle} label='剩余金额'>
-              {form.getFieldDecorator('leftMoney', {
-                rules: [{
-                  required: true,
-                  message: '剩余金额不能为空'
                 }],
               })(<Input />)}
             </FormItem>
