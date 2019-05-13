@@ -131,7 +131,7 @@ class GasPriceEditForm extends PureComponent {
               }]
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="二阶梯气价" key="gasPriceTwo">
+          <FormItem {...this.formStyle} label="二阶梯气价(单位:元)" key="gasPriceTwo">
             {form.getFieldDecorator('gasPriceTwo', {
               initialValue: formValues.gasPriceTwo,
               rules: [{
@@ -155,7 +155,7 @@ class GasPriceEditForm extends PureComponent {
               }]
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="三阶梯气价" key="gasPriceThree">
+          <FormItem {...this.formStyle} label="三阶梯气价(单位:元)" key="gasPriceThree">
             {form.getFieldDecorator('gasPriceThree', {
               initialValue: formValues.gasPriceThree,
               rules: [{
@@ -179,7 +179,7 @@ class GasPriceEditForm extends PureComponent {
               }]
             })(<Input />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="四阶梯气价" key="gasPriceFour">
+          <FormItem {...this.formStyle} label="四阶梯气价(单位:元)" key="gasPriceFour">
             {form.getFieldDecorator('gasPriceFour', {
               initialValue: formValues.gasPriceFour,
               rules: [{
@@ -218,7 +218,7 @@ class GasPriceEditForm extends PureComponent {
               }]
             })(<Input disabled />)}
           </FormItem>,
-          <FormItem {...this.formStyle} label="一阶梯气价" key="gasPriceOne">
+          <FormItem {...this.formStyle} label="一阶梯气价(单位:元)" key="gasPriceOne">
             {form.getFieldDecorator('gasPriceOne', {
               initialValue: formValues.gasPriceOne,
               rules: [{
