@@ -35,8 +35,8 @@ class EntryMeterAddForm extends PureComponent{
       form.resetFields();
       handleAdd({
         ...fieldsValue,
-        meterCategory: fieldsValue.meterType[0],
-        meterType: fieldsValue.meterType[1],
+        meterType: null,
+        meterTypeId: fieldsValue.meterType[1],
         meterProdDate: fieldsValue.meterProdDate.format('YYYY-MM'),
         meterEntryDate: fieldsValue.meterEntryDate.format('YYYY-MM-DD')
       });

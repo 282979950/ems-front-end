@@ -17,7 +17,6 @@ export default {
   namespace: 'input',
   state: {
     data: [],
-    repairOrderUser: [],
     newCardParam: [],
   },
 
@@ -74,13 +73,9 @@ export default {
         handleRequestException(response);
       }
     },
-    * getRepairOrderUserById({ payload, callback }, { call, put }) {
+    * getRepairOrderUserById({ payload, callback }, { call }) {
       const response = yield call(getRepairOrderUserByIdInput, payload);
       if (response.status === 0) {
-        yield put({
-          type: 'saveRepairOrderUser',
-          payload: response.data,
-        });
         if (callback) callback(response);
       } else {
         handleRequestException(response);
@@ -121,12 +116,6 @@ export default {
       return {
         ...state,
         data: action.payload,
-      };
-    },
-    saveRepairOrderUser(state, action) {
-      return {
-        ...state,
-        repairOrderUser: action.payload,
       };
     },
     saveNewCardParam(state, action) {
