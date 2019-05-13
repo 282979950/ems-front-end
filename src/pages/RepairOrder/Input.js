@@ -9,8 +9,10 @@ import InputAddForm from './components/InputAddForm';
 import InputEditForm from './components/InputEditForm';
 import InputCardForm from './components/InputCardForm';
 import RepairOrderCardHistory from "./components/RepairOrderCardHistory";
+import DescriptionList from '../../components/DescriptionList';
 
 const {confirm} = Modal;
+const { Description } = DescriptionList;
 @connect(({ input, loading }) => ({
   input,
   loading: loading.models.input,
@@ -50,22 +52,6 @@ class Inputs extends PureComponent {
     {
       title: '维修类型',
       dataIndex: 'repairTypeName',
-    },
-    {
-      title: '旧表编号',
-      dataIndex: 'oldMeterCode',
-    },
-    {
-      title: '旧表止码',
-      dataIndex: 'oldMeterStopCode',
-    },
-    {
-      title: '新表编号',
-      dataIndex: 'newMeterCode',
-    },
-    {
-      title: '新表止码',
-      dataIndex: 'newMeterStopCode',
     },
     {
       title: '维修故障类型',
@@ -361,6 +347,18 @@ class Inputs extends PureComponent {
     });
   };
 
+  expandedRowRender = (record) => {
+    const { oldMeterCode, oldMeterStopCode, newMeterCode, newMeterStopCode } = record;
+    return (
+      <DescriptionList size="small" title={null} col={6}>
+        <Description term="旧表编号">{oldMeterCode}</Description>
+        <Description term="旧表止码">{oldMeterStopCode}</Description>
+        <Description term="新表编号">{newMeterCode}</Description>
+        <Description term="新表止码">{newMeterStopCode}</Description>
+      </DescriptionList>
+    );
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -420,6 +418,7 @@ class Inputs extends PureComponent {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
+              expandedRowRender={this.expandedRowRender}
               rowKey="repairOrderId"
             />
           </div>

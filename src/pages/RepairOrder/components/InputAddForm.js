@@ -188,7 +188,7 @@ class InputAddForm extends PureComponent {
         onOk={this.handleOK}
         onCancel={this.handleCancel}
       >
-        <div style={{ overflow:"scroll", height:"400px",'overflow-x':'hidden' }}>
+        <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
           <FormItem {...this.formStyle} label="维修单编号">
             {form.getFieldDecorator('repairOrderId', {
             rules: [{

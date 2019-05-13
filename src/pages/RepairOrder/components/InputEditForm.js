@@ -1,9 +1,10 @@
 import { Form, Input, InputNumber, Modal, DatePicker, message } from 'antd';
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import MeterTypeSelect from '../../Account/components/MeterTypeSelect';
 import DictSelect from '../../System/components/DictSelect';
-import moment from 'moment';
+
 const FormItem = Form.Item;
 
 @connect(({ input, emp, entryMeter, loading }) => ({
@@ -221,7 +222,7 @@ class InputEditForm extends PureComponent {
         onOk={this.handleOk}
         onCancel={this.handleCancel0}
       >
-        <div style={{ overflow:"scroll", height:"400px",'overflow-x':'hidden' }}>
+        <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
           <FormItem {...this.formStyle} label='维修单编号' style={{ 'display': 'none' }}>
             {form.getFieldDecorator('id', {})(<Input />)}
           </FormItem>
@@ -288,21 +289,21 @@ class InputEditForm extends PureComponent {
           <FormItem {...this.formStyle} label='旧安全卡编码'>
             {form.getFieldDecorator('oldSafetyCode', {})(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} label='新表编码' style={disableOrHide ? '' : { display: 'none' }}>
+          <FormItem {...this.formStyle} label='新表编码' style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newMeterCode', {})(<Input />)}
           </FormItem>
           <FormItem {...this.formStyle} label="新表类型">
             {form.getFieldDecorator('newMeterTypeId', {
             })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="新表表向" style={disableOrHide ? '' : { display: 'none' }}>
+          <FormItem {...this.formStyle} label="新表表向" style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newMeterDirection')
               (<DictSelect category="meter_direction" disabled={disableOrHide} />)}
           </FormItem>
-          <FormItem {...this.formStyle} label='新表止码' style={disableOrHide ? '' : { display: 'none' }}>
+          <FormItem {...this.formStyle} label='新表止码' style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="新安全卡编号" style={disableOrHide ? '' : { display: 'none' }}>
+          <FormItem {...this.formStyle} label="新安全卡编号" style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newSafetyCode', {})(<Input />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修故障类型">
