@@ -6,7 +6,9 @@ import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
 import OCX from '../../components/OCX';
 import Authorized from '../../utils/Authorized';
+import DescriptionList from '../../components/DescriptionList';
 
+const { Description } = DescriptionList;
 @connect(({ orderManagement, loading }) => ({
   orderManagement,
   loading: loading.models.orderManagement,
@@ -47,42 +49,6 @@ class OrderManagement extends Component {
     {
       title: '流水号',
       dataIndex: 'flowNumber',
-    },
-    {
-      title: '订单生成员工',
-      dataIndex: 'orderCreateEmpName',
-    },
-    {
-      title: '订单生成时间',
-      dataIndex: 'orderCreateTime',
-    },
-    {
-      title: '发票代码',
-      dataIndex: 'invoiceCode',
-    },
-    {
-      title: '发票号码',
-      dataIndex: 'invoiceNumber',
-    },
-    {
-      title: '发票状态',
-      dataIndex: 'invoiceStatusName',
-    },
-    {
-      title: '发票打印员工',
-      dataIndex: 'invoicePrintEmpName',
-    },
-    {
-      title: '发票打印时间',
-      dataIndex: 'invoicePrintTime',
-    },
-    {
-      title: '发票作废员工',
-      dataIndex: 'invoiceCancelEmpName',
-    },
-    {
-      title: '发票作废时间',
-      dataIndex: 'invoiceCancelTime',
     },
   ];
 
@@ -468,6 +434,23 @@ class OrderManagement extends Component {
     })
   }
 
+  expandedRowRender = (record) => {
+    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName } = record;
+    return (
+      <DescriptionList size="small" title={null} col={3}>
+        <Description term="订单生成员工">{orderCreateEmpName}</Description>
+        <Description term="订单生成时间">{orderCreateTime}</Description>
+        <Description term="发票代码">{invoiceCode}</Description>
+        <Description term="发票号码">{invoiceNumber}</Description>
+        <Description term="发票状态">{invoiceStatusName}</Description>
+        <Description term="发票打印员工">{invoicePrintEmpName}</Description>
+        <Description term="发票打印时间">{invoicePrintTime}</Description>
+        <Description term="发票作废员工">{invoiceCancelEmpName}</Description>
+        <Description term="发票作废时间">{invoiceCancelTime}</Description>
+      </DescriptionList>
+    );
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -536,15 +519,31 @@ class OrderManagement extends Component {
                 <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
               </Authorized>
             </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={this.columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-              rowKey='orderId'
-            />
+            <Authorized
+              authority="sys:emp:detail"
+              noMatch={
+                <StandardTable
+                  selectedRows={selectedRows}
+                  loading={loading}
+                  data={data}
+                  columns={this.columns}
+                  onSelectRow={this.handleSelectRows}
+                  onChange={this.handleStandardTableChange}
+                  rowKey='orderId'
+                />
+              }
+            >
+              <StandardTable
+                selectedRows={selectedRows}
+                loading={loading}
+                data={data}
+                columns={this.columns}
+                onSelectRow={this.handleSelectRows}
+                onChange={this.handleStandardTableChange}
+                rowKey='orderId'
+                expandedRowRender={this.expandedRowRender}
+              />
+            </Authorized>
           </div>
           <OCX />
         </Card>

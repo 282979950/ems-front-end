@@ -6,8 +6,11 @@ import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import ExportJsonExcel from 'js-export-excel'
+import DescriptionList from '../../components/DescriptionList';
+import Authorized from '../../utils/Authorized';
 
 const RadioGroup = Radio.Group;
+const { Description } = DescriptionList;
 @connect(({ exceptionQuery, dic, loading }) => ({
   exceptionQuery,
   dic,
@@ -42,30 +45,6 @@ class ExceptionQuery extends PureComponent {
   }, {
     dataIndex: 'userDistName',
     title: '用户区域'
-  }, {
-    dataIndex: 'userAddress',
-    title: '用户地址'
-  }, {
-    dataIndex: 'totalOrderGas',
-    title: '购气总量'
-  }, {
-    dataIndex: 'totalOrderPayment',
-    title: '购气总额'
-  }, {
-    dataIndex: 'startBuyDay',
-    title: '初次购气日期'
-  }, {
-    dataIndex: 'endBuyDay',
-    title: '最后购气日期'
-  }, {
-    dataIndex: 'notBuyDayCount',
-    title: '未购气天数'
-  }, {
-    dataIndex: 'monthAveGas',
-    title: '月均购气量'
-  }, {
-    dataIndex: 'monthAvePayment',
-    title: '月均购气金额'
   }];
 
   componentDidMount() {
@@ -220,6 +199,22 @@ class ExceptionQuery extends PureComponent {
     });
   };
 
+  expandedRowRender = (record) => {
+    const { totalOrderGas, totalOrderPayment, startBuyDay, endBuyDay, notBuyDayCount, monthAveGas, monthAvePayment, userAddress } = record;
+    return (
+      <DescriptionList size="small" title={null} col={3}>
+        <Description term="购气总量">{totalOrderGas}</Description>
+        <Description term="购气总额">{totalOrderPayment}</Description>
+        <Description term="初次购气日期">{startBuyDay}</Description>
+        <Description term="最后购气日期">{endBuyDay}</Description>
+        <Description term="未购气天数">{notBuyDayCount}</Description>
+        <Description term="月均购气量">{monthAveGas}</Description>
+        <Description term="月均购气金额">{monthAvePayment}</Description>
+        <Description term="用户地址">{userAddress}</Description>
+      </DescriptionList>
+    );
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -279,15 +274,31 @@ class ExceptionQuery extends PureComponent {
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={this.columns}
-              onSelectRow={this.handleSelectRows}
-              onChage={this.handleStandardTableChange}
-              rowKey="userId"
-            />
+            <Authorized
+              authority="sys:emp:detail"
+              noMatch={
+                <StandardTable
+                  selectedRows={selectedRows}
+                  loading={loading}
+                  data={data}
+                  columns={this.columns}
+                  onSelectRow={this.handleSelectRows}
+                  onChage={this.handleStandardTableChange}
+                  rowKey="userId"
+                />
+              }
+            >
+              <StandardTable
+                selectedRows={selectedRows}
+                loading={loading}
+                data={data}
+                columns={this.columns}
+                onSelectRow={this.handleSelectRows}
+                onChage={this.handleStandardTableChange}
+                rowKey="userId"
+                expandedRowRender={this.expandedRowRender}
+              />
+            </Authorized>
           </div>
         </Card>
         <Modal title='下载' visible={visible} onOk={this.handleExport} onCancel={this.handleCancel}>
