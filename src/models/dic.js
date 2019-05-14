@@ -15,7 +15,11 @@ export default {
       user_gas_type: [],
       user_status: [],
       card_cost: [],
-      fill_gas_order_type: []
+      fill_gas_order_type: [],
+      repair_type: [],
+      gas_equipment_type: [],
+      repair_fault_type: [],
+      repair_result_type: []
     }
   },
 
@@ -56,14 +60,18 @@ export default {
     // 获取加载的字典项列表(其他页面需用到的数据字典项显示,根据类型)
     *fetchByType({ payload }, { call, put }) {
       const response = yield call(queryDict, payload);
-      const { category } = payload;
-      yield put({
-        type: 'saveByType',
-        payload: {
-          category,
-          data: response.data
-        }
-      });
+      if (response.status === 0) {
+        const { category } = payload;
+        yield put({
+          type: 'saveByType',
+          payload: {
+            category,
+            data: response.data
+          }
+        });
+      } else {
+        handleRequestException(response);
+      }
     },
   },
 
@@ -176,14 +184,6 @@ export default {
             dicData: {
               ...dicData,
               repair_result_type: data
-            },
-          };
-        case 'meter_direction':
-          return {
-            ...state,
-            dicData: {
-              ...dicData,
-              meter_direction: data
             },
           };
         case 'fill_gas_order_type':

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Tag } from 'antd';
 import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
@@ -31,8 +31,10 @@ class FillGas extends PureComponent {
       title: '户号'
     },
     {
-      dataIndex: 'fillGasOrderStatusName',
-      title: '补气单状态'
+      dataIndex: 'fillGasOrderStatus',
+      title: '补气单状态',
+      render: status => status === 0 ? (<Tag color='volcano'>未处理</Tag>) : (status === 1 ? (
+        <Tag color='green'>已处理</Tag>) : (<Tag color='gray'>已撤销</Tag>)),
     },
     {
       dataIndex: 'fillGasOrderTypeName',
@@ -158,10 +160,10 @@ class FillGas extends PureComponent {
     }
 
     if(cardInfo === '卡类型不正确.') {
-      message.error('卡插反了，请重新插卡');
+      message.error('卡片识别异常，请确认卡片已正常插入');
       return;
     }
-    
+
     if(cardInfo[2] !== selectedRows[0].cardIdentifier) {
       message.error('IC卡与用户不对应');
       return;
