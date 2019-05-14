@@ -95,54 +95,56 @@ class FillGasEditForm extends PureComponent {
         onOk={this.handleOk}
         onCancel={this.handleCancel0}
       >
-        <FormItem {...this.formStyle} label='户号'>
-          {form.getFieldDecorator('userId', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='用户名称'>
-          {form.getFieldDecorator('userName', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='用户手机'>
-          {form.getFieldDecorator('userPhone', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='用户地址'>
-          {form.getFieldDecorator('userAddress', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='维修单编号'>
-          {form.getFieldDecorator('repairOrderId', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='历史购气总量'>
-          {form.getFieldDecorator('gasCount', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='历史表止码'>
-          {form.getFieldDecorator('stopCodeCount', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='应补气量'>
-          {form.getFieldDecorator('needFillGas', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='实补气量'>
-          {form.getFieldDecorator('fillGas', {})(<Input disabled />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label='剩余气量'>
-          {form.getFieldDecorator('leftGas', {})(<Input disabled />)}
-        </FormItem>
-        {fillGasOrderType !== 1 ? (
-          <div>
-            <FormItem {...this.formStyle} label='应补金额'>
-              {form.getFieldDecorator('needFillMoney', {})(<Input disabled />)}
-            </FormItem>
-            <FormItem {...this.formStyle} label='实补金额'>
-              {form.getFieldDecorator('fillMoney', {
+        <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
+          <FormItem {...this.formStyle} label='户号'>
+            {form.getFieldDecorator('userId', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='用户名称'>
+            {form.getFieldDecorator('userName', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='用户手机'>
+            {form.getFieldDecorator('userPhone', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='用户地址'>
+            {form.getFieldDecorator('userAddress', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='维修单编号'>
+            {form.getFieldDecorator('repairOrderId', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='历史购气总量'>
+            {form.getFieldDecorator('gasCount', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='历史表止码'>
+            {form.getFieldDecorator('stopCodeCount', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='应补气量'>
+            {form.getFieldDecorator('needFillGas', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='实补气量'>
+            {form.getFieldDecorator('fillGas', {})(<Input disabled />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label='剩余气量'>
+            {form.getFieldDecorator('leftGas', {})(<Input disabled />)}
+          </FormItem>
+          {fillGasOrderType !== 1 ? (
+            <div>
+              <FormItem {...this.formStyle} label='应补金额'>
+                {form.getFieldDecorator('needFillMoney', {})(<Input disabled />)}
+              </FormItem>
+              <FormItem {...this.formStyle} label='实补金额'>
+                {form.getFieldDecorator('fillMoney', {
                 rules: [{
                   required: true,
                   message: '实补金额不能为空'
                 }],
               })(<Input />)}
-            </FormItem>
-            <FormItem {...this.formStyle} label='备注'>
-              {form.getFieldDecorator('remarks', {})(<Input />)}
-            </FormItem>
-          </div>
+              </FormItem>
+              <FormItem {...this.formStyle} label='备注'>
+                {form.getFieldDecorator('remarks', {})(<Input />)}
+              </FormItem>
+            </div>
         ) : null}
+        </div>
       </Modal>
     )
   }
