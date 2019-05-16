@@ -47,7 +47,7 @@ export default {
       const response = yield call(queryUserAddHistory, payload);
       if (response.status === 0) {
         yield put({
-          type: 'saveHistory',
+          type: 'userRechargeHistory',
           payload: response.data,
         });
         if (callback) callback();
@@ -59,7 +59,7 @@ export default {
       const response = yield call(queryUserFillHistory, payload);
       if (response.status === 0) {
         yield put({
-          type: 'saveHistory',
+          type: 'fillsHistory',
           payload: response.data,
         });
         if (callback) callback();
@@ -71,7 +71,7 @@ export default {
       const response = yield call(queryUserCardHistory, payload);
       if (response.status === 0) {
         yield put({
-          type: 'saveHistory',
+          type: 'CardHistory',
           payload: response.data,
         });
         if (callback) callback();
@@ -83,7 +83,7 @@ export default {
       const response = yield call(queryUserRepairHistory, payload);
       if (response.status === 0) {
         yield put({
-          type: 'saveHistory',
+          type: 'repairHistory',
           payload: response.data,
         });
         if (callback) callback();
@@ -128,6 +128,30 @@ export default {
       return {
         ...state,
         history: action.payload
+      };
+    },
+    userRechargeHistory(state, action) {
+      return {
+        ...state,
+        userRecharge: action.payload
+      };
+    },
+    fillsHistory(state, action) {
+      return {
+        ...state,
+        fillGas: action.payload
+      };
+    },
+    CardHistory(state, action) {
+      return {
+        ...state,
+        userCard: action.payload
+      };
+    },
+    repairHistory(state, action) {
+      return {
+        ...state,
+        userRepair: action.payload
       };
     },
   },

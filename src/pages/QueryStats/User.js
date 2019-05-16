@@ -1,18 +1,14 @@
-/* eslint-disable no-fallthrough */
+/* eslint-disable react/no-unused-state,no-fallthrough,prefer-destructuring,no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form } from 'antd';
+import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
-import Authorized from '../../utils/Authorized';
-import UserInfoModifyHistoryModal from './components/UserInfoModifyHistoryModal';
-import UserInfoAddHistoryModal from './components/UserInfoAddHistoryModal';
-import UserInfoFillHistoryModal from './components/UserInfoFillHistoryModal';
-import UserInfoCardHistoryModal from './components/UserInfoCardHistoryModal';
-import UserInfoRepairHistoryModal from './components/UserInfoRepairHistoryModal';
 import UserMeterTypeModal from './components/UserMeterTypeModal';
+import InputEditForm from '../RepairOrder/components/InputEditForm';
 
+const TabPane = Tabs.TabPane;
 @connect(({ userQuery, loading }) => ({
   userQuery,
   loading: loading.models.emp,
@@ -48,6 +44,197 @@ class User extends Component {
     }
   ];
 
+  userChangeColumns = [
+    {
+      title: '用户名称',
+      dataIndex: 'userChangeName',
+    },
+    {
+      title: '用户电话',
+      dataIndex: 'userChangePhone',
+    },
+    {
+      title: '用户身份证号码',
+      dataIndex: 'userChangeIdcard'
+    },
+    {
+      title: '用户房产证号码',
+      dataIndex: 'userChangeDeed'
+    },
+    {
+      title: '旧用户名称',
+      dataIndex: 'userOldName'
+    },
+    {
+      title: '旧用户电话',
+      dataIndex: 'userOldPhone'
+    },
+    {
+      title: '旧用户身份证号码',
+      dataIndex: 'userOldIdcard'
+    },
+    {
+      title: '旧用户房产证号码',
+      dataIndex: 'userOldDeed'
+    },
+  ];
+
+  userRechargeColumns = [
+    {
+      title: '用户编号',
+      dataIndex: 'userId',
+    },
+    {
+      title: '实付金额',
+      dataIndex: 'orderPayment',
+    },
+    {
+      title: '充值气量',
+      dataIndex: 'orderGas'
+    },
+    {
+      title: '流水号',
+      dataIndex: 'flowNumber'
+    },
+    {
+      title: '应付金额',
+      dataIndex: 'orderSupplement'
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'orderStatusName'
+    },
+    {
+      title: '订单类型',
+      dataIndex: 'orderTypeName'
+    },
+    {
+      title: '账务状态',
+      dataIndex: 'accountStateName'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime'
+    },
+  ];
+
+  fillGasColumns = [
+    {
+      title: '用户编号',
+      dataIndex: 'userId',
+    },
+    {
+      title: '订单类型',
+      dataIndex: 'fillGasOrderTypeName',
+    },
+    {
+      title: '历史购气总量',
+      dataIndex: 'gasCount'
+    },
+    {
+      title: '历史表止码',
+      dataIndex: 'stopCodeCount'
+    },
+    {
+      title: '应补气量',
+      dataIndex: 'needFillGas'
+    },
+    {
+      title: '实补气量',
+      dataIndex: 'fillGas'
+    },
+    {
+      title: '剩余气量',
+      dataIndex: 'leftGas'
+    },
+    {
+      title: '应补金额',
+      dataIndex: 'needFillMoney'
+    },
+    {
+      title: '实补金额',
+      dataIndex: 'fillMoney'
+    },
+    {
+      title: '剩余金额',
+      dataIndex: 'leftMoney'
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'fillGasOrderStatusName'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime'
+    },
+  ];
+
+  userCardColumns = [
+    {
+      title: '用户编号',
+      dataIndex: 'userId',
+    },
+    {
+      title: 'IC卡卡号',
+      dataIndex: 'cardId',
+    },
+    {
+      title: 'IC卡识别号',
+      dataIndex: 'cardIdentifier'
+    },
+    {
+      title: '补卡工本费用',
+      dataIndex: 'cardCost'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime'
+    },
+  ];
+
+  userRepairColumns = [
+    {
+      title: '用户编号',
+      dataIndex: 'userId',
+    },
+    {
+      title: '维修单号',
+      dataIndex: 'repairOrderId',
+    },
+    {
+      title: '维修类型',
+      dataIndex: 'repairTypeName'
+    },
+    {
+      title: '旧表编号',
+      dataIndex: 'oldMeterId'
+    },
+    {
+      title: '旧表止码',
+      dataIndex: 'oldMeterStopCode',
+    },
+    {
+      title: '新表编号',
+      dataIndex: 'newMeterId'
+    },
+    {
+      title: '新表止码',
+      dataIndex: 'newMeterStopCode'
+    },
+    {
+      title: '维修故障类型',
+      dataIndex: 'repairFaultTypeName'
+    },
+    {
+      title: '维修处理结果',
+      dataIndex: 'repairResultTypeName'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime'
+    },
+  ];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +244,7 @@ class User extends Component {
       pageSize: 10,
       userInfoQueryModalVisible: false,
       userInfoType: '',
+      editModalVisible:false,
     }
   };
 
@@ -71,6 +259,12 @@ class User extends Component {
       }
     });
   }
+
+  handleEditModalVisible = flag => {
+    this.setState({
+      editModalVisible: !!flag,
+    });
+  };
 
   handleSelectRows = rows => {
     this.setState({
@@ -181,9 +375,17 @@ class User extends Component {
           });
         }
       });
-    }else if(flag && type === 'userMeterType'){
+    }
+    else {
+      this.setState({
+        userInfoQueryModalVisible: !!flag,
+      });
+    }
+  };
+
+  showModalUserMeter = (selectedRows,flag) => {
       const { dispatch } = this.props;
-      const { selectedRows } = this.state;
+      const _ = this;
       dispatch({
         type: 'userQuery/fetchqueryUserMeterType',
         payload: {
@@ -191,17 +393,11 @@ class User extends Component {
         },
         callback: () => {
           this.setState({
-            userInfoQueryModalVisible: !!flag,
             userInfoType: 'userMeterType'
           });
+          _.handleEditModalVisible(flag);
         }
       });
-    }
-    else {
-      this.setState({
-        userInfoQueryModalVisible: !!flag,
-      });
-    }
   };
 
   handleOnClick = (param) => () => {
@@ -221,8 +417,6 @@ class User extends Component {
       case 'repairHistory':
         this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
         break;
-      case'userMeterType':
-        this.handleReplaceCardHistoryFormVisible(true, 'userMeterType')
       default:
         break;
     }
@@ -252,6 +446,14 @@ class User extends Component {
       });
     });
   }
+
+  showModal = () => {
+    this.handleReplaceCardHistoryFormVisible(true, 'editHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'fillHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'cardHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
+  };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -300,34 +502,18 @@ class User extends Component {
 
   render() {
     const {
-      userQuery: { data, history },
+      userQuery: { data, history, userRecharge, fillGas, userCard, userRepair },
       loading,
     } = this.props;
-    const { selectedRows, userInfoQueryModalVisible, userInfoType } = this.state
+    const { selectedRows, userInfoQueryModalVisible, editModalVisible, handleEditModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
-              <Authorized authority="queryStats:userQuery:historyQuery">
-                <Button icon="credit-card" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('editHistory')}>变更信息</Button>
-              </Authorized>
-              <Authorized authority="queryStats:userQuery:historyOrderQuery">
-                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('addHistory')}>充值信息</Button>
-              </Authorized>
-              <Authorized authority="queryStats:userQuery:historyFillGasOrder">
-                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('fillHistory')}>补气信息</Button>
-              </Authorized>
-              <Authorized authority="queryStats:userQuery:historyUserCard">
-                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('cardHistory')}>卡信息</Button>
-              </Authorized>
-              <Authorized authority="queryStats:userQuery:historyRepairOrder">
-                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('repairHistory')}>维修信息</Button>
-              </Authorized>
-              <Authorized authority="queryStats:userQuery:userMeterType">
-                <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={this.handleOnClick('userMeterType')}>表具信息</Button>
-              </Authorized>
+              <Button icon="audit" disabled={selectedRows.length !== 1} onClick={() => this.showModal()}>基本信息</Button>
+              <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showModalUserMeter(selectedRows,true)}>表具信息</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -340,48 +526,66 @@ class User extends Component {
             />
           </div>
         </Card>
-        {userInfoType === 'editHistory' && selectedRows.length === 1 ? (
-          <UserInfoModifyHistoryModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
-            historyData={history}
-          />) : null
-        }
-        {userInfoType === 'addHistory' && selectedRows.length === 1 ? (
-          <UserInfoAddHistoryModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
-            historyData={history}
-          />) : null
-        }
-        {userInfoType === 'fillHistory' && selectedRows.length === 1 ? (
-          <UserInfoFillHistoryModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
-            historyData={history}
-          />) : null
-        }
-        {userInfoType === 'cardHistory' && selectedRows.length === 1 ? (
-          <UserInfoCardHistoryModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
-            historyData={history}
-          />) : null
-        }
-        {userInfoType === 'repairHistory' && selectedRows.length === 1 ? (
-          <UserInfoRepairHistoryModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
-            historyData={history}
-          />) : null
-        }
-        {userInfoType === 'userMeterType' && selectedRows.length === 1 ? (
+        {selectedRows.length === 1 ? (
           <UserMeterTypeModal
-            handleReplaceCardHistoryFormVisible={this.handleReplaceCardHistoryFormVisible}
-            modalVisible={userInfoQueryModalVisible}
+            handleEditModalVisible={this.handleEditModalVisible}
+            modalVisible={editModalVisible}
             selectedData={history}
-          />) : null
-        }
+          />
+        ) : null}
+        <Modal
+          visible={userInfoQueryModalVisible}
+          title="用户相关信息"
+          onOk={this.handleOk}
+          onCancel={() => this.handleReplaceCardHistoryFormVisible(false)}
+          footer={null}
+          width={1400}
+        >
+          <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="变更信息" key="1">
+                <Table
+                  dataSource={history}
+                  columns={this.userChangeColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+              <TabPane tab="充值信息" key="2">
+                <Table
+                  dataSource={userRecharge}
+                  columns={this.userRechargeColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+              <TabPane tab="补气信息" key="3">
+                <Table
+                  dataSource={fillGas}
+                  columns={this.fillGasColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+              <TabPane tab="卡信息" key="4">
+                <Table
+                  dataSource={userCard}
+                  columns={this.userCardColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+              <TabPane tab="维修信息" key="5">
+                <Table
+                  dataSource={userRepair}
+                  columns={this.userRepairColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+            </Tabs>
+          </div>
+        </Modal>
       </PageHeaderWrapper>
     );
   }

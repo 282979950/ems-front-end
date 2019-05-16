@@ -7,35 +7,38 @@ const FormItem = Form.Item;
 @Form.create({
   mapPropsToFields(props) {
     const { selectedData } = props;
-    return {
-      userId: Form.createFormField({
-        value: selectedData[0].userId,
-      }),
-      userName: Form.createFormField({
-        value: selectedData[0].userName,
-      }),
-      userPhone: Form.createFormField({
-        value: selectedData[0].userPhone,
-      }),
-      userIdcard: Form.createFormField({
-        value: selectedData[0].userIdcard,
-      }),
-      userAddress: Form.createFormField({
-        value: selectedData[0].userAddress,
-      }),
-      userLocked: Form.createFormField({
-        value: selectedData[0].userLocked,
-      }),
-      meterCategory: Form.createFormField({
-        value: selectedData[0].meterCategory,
-      }),
-      meterType: Form.createFormField({
-        value: selectedData[0].meterType,
-      }),
-      meterCode: Form.createFormField({
-        value: selectedData[0].meterCode,
-      }),
-    };
+    if (selectedData[0]) {
+      return {
+        userId: Form.createFormField({
+          value: selectedData[0].userId,
+        }),
+        userName: Form.createFormField({
+          value: selectedData[0].userName,
+        }),
+        userPhone: Form.createFormField({
+          value: selectedData[0].userPhone,
+        }),
+        userIdcard: Form.createFormField({
+          value: selectedData[0].userIdcard,
+        }),
+        userAddress: Form.createFormField({
+          value: selectedData[0].userAddress,
+        }),
+        userLocked: Form.createFormField({
+          value: selectedData[0].userLocked,
+        }),
+        meterCategory: Form.createFormField({
+          value: selectedData[0].meterCategory,
+        }),
+        meterType: Form.createFormField({
+          value: selectedData[0].meterType,
+        }),
+        meterCode: Form.createFormField({
+          value: selectedData[0].meterCode,
+        }),
+      };
+    } 
+    return {};
   },
 })
 class UserMeterTypeModal extends PureComponent {
@@ -52,13 +55,13 @@ class UserMeterTypeModal extends PureComponent {
   }
 
   render() {
-    const { modalVisible, form, handleReplaceCardHistoryFormVisible } = this.props;
+    const { modalVisible, form, editModalVisible,handleEditModalVisible } = this.props;
     return (
       <Modal
         title="表具信息"
         visible={modalVisible}
         footer={null}
-        onCancel={() => handleReplaceCardHistoryFormVisible(false)}
+        onCancel={() => handleEditModalVisible(false)}
       >
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="ID">
           {form.getFieldDecorator('userId', {})(<Input />)}
