@@ -15,55 +15,38 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: 'visit',
     routes: [
-      { path: '/', redirect: '/system/dist' },
-      // 系统管理
+      { path: '/', redirect: '/recharge/prePayment' },
+      // 充值缴费管理
       {
-        path: '/system',
-        icon: 'home',
-        name: 'system',
-        authority: 'sys:visit',
+        path: '/recharge',
+        icon: 'pay-circle',
+        name: 'recharge',
+        authority: 'recharge:visit',
         routes: [
           {
-            path: '/system/dist',
-            name: 'dist',
-            component: './System/Dist',
-            authority: 'sys:dist:visit'
+            path: '/recharge/prePayment',
+            name: 'prePayment',
+            component: './Recharge/PrePayment',
+            authority: 'recharge:pre:visit'
           },
           {
-            path: '/system/org',
-            name: 'org',
-            component: './System/Org',
-            authority: 'sys:org:visit',
+            path: '/recharge/replaceCard',
+            name: 'replaceCard',
+            component: './Recharge/ReplaceCard',
+            authority: 'recharge:replaceCard:visit'
           },
+          // 后付费充值暂时屏蔽
+          // {
+          //   path: '/recharge/postPayment',
+          //   name: 'postPayment',
+          //   component: './System/Dist',
+          //   authority: 'recharge:postPayment:visit'
+          // },
           {
-            path: '/system/emp',
-            name: 'emp',
-            component: './System/Emp',
-            authority: 'sys:emp:visit',
-          },
-          {
-            path: '/system/role',
-            name: 'role',
-            component: './System/Role',
-            authority: 'sys:role:visit',
-          },
-          {
-            path: '/system/perm',
-            name: 'perm',
-            component: './System/Perm',
-            authority: 'sys:perm:visit',
-          },
-          {
-            path: '/system/dic',
-            name: 'dic',
-            component: './System/Dic',
-            authority: 'sys:dic:visit',
-          },
-          {
-            path: '/system/gasPrice',
-            name: 'gasPrice',
-            component: './System/GasPrice',
-            authority: 'sys:gasPrice:visit',
+            path: '/recharge/order',
+            name: 'order',
+            component: './Recharge/OrderManagement',
+            authority: 'recharge:order:visit'
           },
         ],
       },
@@ -112,39 +95,6 @@ export default [
           },
         ],
       },
-      // 充值缴费管理
-      {
-        path: '/recharge',
-        icon: 'pay-circle',
-        name: 'recharge',
-        authority: 'recharge:visit',
-        routes: [
-          {
-            path: '/recharge/prePayment',
-            name: 'prePayment',
-            component: './Recharge/PrePayment',
-            authority: 'recharge:pre:visit'
-          },
-          {
-            path: '/recharge/replaceCard',
-            name: 'replaceCard',
-            component: './Recharge/ReplaceCard',
-            authority: 'recharge:replaceCard:visit'
-          },
-          {
-            path: '/recharge/postPayment',
-            name: 'postPayment',
-            component: './System/Dist',
-            authority: 'recharge:postPayment:visit'
-          },
-          {
-            path: '/recharge/order',
-            name: 'order',
-            component: './Recharge/OrderManagement',
-            authority: 'recharge:order:visit'
-          },
-        ],
-      },
       // 发票管理
       {
         path: '/invoice',
@@ -164,12 +114,12 @@ export default [
             component: './Invoice/Search',
             authority: 'invoice:query:visit'
           },
-          {
-            path: '/invoice/eInvoice',
-            name: 'eInvoice',
-            component: './System/Dist',
-            authority: 'invoice:eInvoice:visit'
-          },
+          // {
+          //   path: '/invoice/eInvoice',
+          //   name: 'eInvoice',
+          //   component: './System/Dist',
+          //   authority: 'invoice:eInvoice:visit'
+          // },
         ],
       },
       // 维修补气管理
@@ -221,32 +171,32 @@ export default [
         ],
       },
       // 表具运行管理
-      {
-        path: '/meter',
-        icon: 'dashboard',
-        name: 'meter',
-        authority: 'meter:visit',
-        routes: [
-          {
-            path: '/meter/record',
-            name: 'record',
-            component: './System/Dist',
-            authority: 'meter:record:visit'
-          },
-          {
-            path: '/meter/control',
-            name: 'control',
-            component: './System/Dist',
-            authority: 'meter:control:visit'
-          },
-          {
-            path: '/meter/exception',
-            name: 'exception',
-            component: './System/Dist',
-            authority: 'meter:exception:visit'
-          },
-        ],
-      },
+      // {
+      //   path: '/meter',
+      //   icon: 'dashboard',
+      //   name: 'meter',
+      //   authority: 'meter:visit',
+      //   routes: [
+      //     {
+      //       path: '/meter/record',
+      //       name: 'record',
+      //       component: './System/Dist',
+      //       authority: 'meter:record:visit'
+      //     },
+      //     {
+      //       path: '/meter/control',
+      //       name: 'control',
+      //       component: './System/Dist',
+      //       authority: 'meter:control:visit'
+      //     },
+      //     {
+      //       path: '/meter/exception',
+      //       name: 'exception',
+      //       component: './System/Dist',
+      //       authority: 'meter:exception:visit'
+      //     },
+      //   ],
+      // },
       // 查询统计
       {
         path: '/queryStats',
@@ -278,17 +228,68 @@ export default [
             component: './QueryStats/ExceptionQuery',
             authority: 'queryStats:exceptionQuery:visit'
           },
+          // {
+          //   path: '/queryStats/businessDataQuery',
+          //   name: 'businessDataQuery',
+          //   component: './System/Dist',
+          //   authority: 'queryStats:businessDataQuery:visit'
+          // },
+          // {
+          //   path: '/queryStats/businessReportQuery',
+          //   name: 'businessReportQuery',
+          //   component: './System/Dist',
+          //   authority: 'queryStats:businessReportQuery:visit'
+          // },
+        ],
+      },
+      // 系统管理
+      {
+        path: '/system',
+        icon: 'home',
+        name: 'system',
+        authority: 'sys:visit',
+        routes: [
           {
-            path: '/queryStats/businessDataQuery',
-            name: 'businessDataQuery',
+            path: '/system/dist',
+            name: 'dist',
             component: './System/Dist',
-            authority: 'queryStats:businessDataQuery:visit'
+            authority: 'sys:dist:visit'
           },
           {
-            path: '/queryStats/businessReportQuery',
-            name: 'businessReportQuery',
-            component: './System/Dist',
-            authority: 'queryStats:businessReportQuery:visit'
+            path: '/system/org',
+            name: 'org',
+            component: './System/Org',
+            authority: 'sys:org:visit',
+          },
+          {
+            path: '/system/emp',
+            name: 'emp',
+            component: './System/Emp',
+            authority: 'sys:emp:visit',
+          },
+          {
+            path: '/system/role',
+            name: 'role',
+            component: './System/Role',
+            authority: 'sys:role:visit',
+          },
+          {
+            path: '/system/perm',
+            name: 'perm',
+            component: './System/Perm',
+            authority: 'sys:perm:visit',
+          },
+          {
+            path: '/system/dic',
+            name: 'dic',
+            component: './System/Dic',
+            authority: 'sys:dic:visit',
+          },
+          {
+            path: '/system/gasPrice',
+            name: 'gasPrice',
+            component: './System/GasPrice',
+            authority: 'sys:gasPrice:visit',
           },
         ],
       },
