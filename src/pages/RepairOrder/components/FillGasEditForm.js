@@ -97,39 +97,39 @@ class FillGasEditForm extends PureComponent {
       >
         <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
           <FormItem {...this.formStyle} label='户号'>
-            {form.getFieldDecorator('userId', {})(<Input disabled />)}
+            {form.getFieldDecorator('userId', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户名称'>
-            {form.getFieldDecorator('userName', {})(<Input disabled />)}
+            {form.getFieldDecorator('userName', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户手机'>
-            {form.getFieldDecorator('userPhone', {})(<Input disabled />)}
+            {form.getFieldDecorator('userPhone', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户地址'>
-            {form.getFieldDecorator('userAddress', {})(<Input disabled />)}
+            {form.getFieldDecorator('userAddress', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='维修单编号'>
-            {form.getFieldDecorator('repairOrderId', {})(<Input disabled />)}
+            {form.getFieldDecorator('repairOrderId', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='历史购气总量'>
-            {form.getFieldDecorator('gasCount', {})(<Input disabled />)}
+            {form.getFieldDecorator('gasCount', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='历史表止码'>
-            {form.getFieldDecorator('stopCodeCount', {})(<Input disabled />)}
+            {form.getFieldDecorator('stopCodeCount', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='应补气量'>
-            {form.getFieldDecorator('needFillGas', {})(<Input disabled />)}
+            {form.getFieldDecorator('needFillGas', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='实补气量'>
-            {form.getFieldDecorator('fillGas', {})(<Input disabled />)}
+            {form.getFieldDecorator('fillGas', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='剩余气量'>
-            {form.getFieldDecorator('leftGas', {})(<Input disabled />)}
+            {form.getFieldDecorator('leftGas', {})(<Input readOnly />)}
           </FormItem>
           {fillGasOrderType !== 1 ? (
             <div>
               <FormItem {...this.formStyle} label='应补金额'>
-                {form.getFieldDecorator('needFillMoney', {})(<Input disabled />)}
+                {form.getFieldDecorator('needFillMoney', {})(<Input readOnly />)}
               </FormItem>
               <FormItem {...this.formStyle} label='实补金额'>
                 {form.getFieldDecorator('fillMoney', {

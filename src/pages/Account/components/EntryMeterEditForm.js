@@ -91,7 +91,7 @@ class EntryMeterEditForm extends PureComponent{
               len: 12,
               message: '表具编号长度必须为12位',
             }],
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
         </FormItem>
         <FormItem {...this.formStyle} label="表止码">
           {form.getFieldDecorator('meterStopCode')(

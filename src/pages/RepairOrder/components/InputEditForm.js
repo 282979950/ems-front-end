@@ -243,13 +243,13 @@ class InputEditForm extends PureComponent {
                 required: true,
                 message: '户号不能为空'
               }]
-            })(<Input disabled />)}
+            })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户名称'>
-            {form.getFieldDecorator('userName', {})(<Input disabled />)}
+            {form.getFieldDecorator('userName', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户手机'>
-            {form.getFieldDecorator('userPhone', {})(<Input disabled />)}
+            {form.getFieldDecorator('userPhone', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户地址'>
             {form.getFieldDecorator('userAddress', {
@@ -257,26 +257,26 @@ class InputEditForm extends PureComponent {
                 required: true,
                 message: '用户地址不能为空！'
               }],
-            })(<Input disabled />)}
+            })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修类型">
-            {form.getFieldDecorator('repairType', {})(<DictSelect disabled category="repair_type" />)}
+            {form.getFieldDecorator('repairType', {})(<DictSelect style={{"width":"100%","pointer-events": "none"}} category="repair_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} label="燃气设备类型">
-            {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect disabled category="gas_equipment_type" />)}
+            {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect style={{ "width":"100%","pointer-events": "none"}} category="gas_equipment_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表编号">
-            {form.getFieldDecorator('oldMeterCode', {})(<Input disabled />)}
+            {form.getFieldDecorator('oldMeterCode', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
             {form.getFieldDecorator('oldMeterId', {})(<Input />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表类型">
             {form.getFieldDecorator('oldMeterTypeId', {
-            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
+            })(<MeterTypeSelect style={{ "width": "100%","pointer-events": "none" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表表向">
-            {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" disabled />)}
+            {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" style={{"pointer-events": "none"}} />)}
           </FormItem>
           <FormItem {...this.formStyle} label='旧表止码'>
             {form.getFieldDecorator('oldMeterStopCode', {
@@ -294,7 +294,7 @@ class InputEditForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="新表类型">
             {form.getFieldDecorator('newMeterTypeId', {
-            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
+            })(<MeterTypeSelect style={{ "width": "100%","pointer-events": "none" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="新表表向" style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newMeterDirection')
@@ -339,7 +339,7 @@ class InputEditForm extends PureComponent {
                 required: true,
                 message: '维修员姓名不能为空！'
               }],
-            })(<Input disabled />)}
+            })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修开始时间">
             {form.getFieldDecorator('repairStartTime', {

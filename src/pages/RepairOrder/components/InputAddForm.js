@@ -213,11 +213,11 @@ class InputAddForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="用户名称">
             {form.getFieldDecorator('userName', {
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="用户手机">
             {form.getFieldDecorator('userPhone', {
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="用户地址">
             {form.getFieldDecorator('userAddress', {
@@ -225,7 +225,7 @@ class InputAddForm extends PureComponent {
               required: true,
               message: '用户地址不能为空！'
             }],
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修类型">
             {form.getFieldDecorator('repairType', {
@@ -245,7 +245,7 @@ class InputAddForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="旧表编号">
             {form.getFieldDecorator('oldMeterCode', {
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
             {form.getFieldDecorator('oldMeterId', {
@@ -253,11 +253,11 @@ class InputAddForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="旧表类型">
             {form.getFieldDecorator('oldMeterTypeId', {
-            })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
+            })(<MeterTypeSelect readOnly style={{ "width": "100%" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表表向">
             {form.getFieldDecorator('oldMeterDirection', {
-          })(<DictSelect category="meter_direction" disabled />)}
+          })(<DictSelect category="meter_direction" readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表止码">
             {form.getFieldDecorator('oldMeterStopCode', {
@@ -334,7 +334,7 @@ class InputAddForm extends PureComponent {
               message: '维修员姓名不能为空！'
             }],
             initialValue: empList ? empList.empName : '',
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修开始时间">
             {form.getFieldDecorator('repairStartTime', {
