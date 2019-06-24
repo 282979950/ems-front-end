@@ -478,7 +478,7 @@ class EmpAddForm extends PureComponent{
     const { currentStep } = this.state;
     return (
       <Modal
-        title="新建区域"
+        title="新建用户"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}

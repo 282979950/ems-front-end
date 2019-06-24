@@ -76,7 +76,7 @@ class EmpEditForm extends PureComponent {
   renderForm = () => {
     const { currentStep, formValues } = this.state;
     const { form, distData, orgData, roleData,  empTypeData} = this.props;
-    
+
     switch (currentStep) {
       case 1:
         return [
@@ -353,7 +353,7 @@ class EmpEditForm extends PureComponent {
     const { currentStep } = this.state;
     return (
       <Modal
-        title="编辑区域"
+        title="编辑用户"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
