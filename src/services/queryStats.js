@@ -74,3 +74,59 @@ export async function searchCardQuery(params) {
     },
   });
 }
+
+
+/**
+ * 营业数据查询
+ */
+
+export async function businessDataQuery(params) {
+  return request('/api/businessDataQuery/listData.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+
+/**
+ * 营业数据查询（头部筛选）
+ */
+
+export async function businessDataQuerySearch(params) {
+  return request('/api/businessDataQuery/search.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+
+/**
+ * 营业报表数据查询
+ */
+
+export async function businessReportDataQuery(params) {
+  return request('/api/businessReportQuery/listData.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+
+/**
+ * 营业数据查询（头部筛选）
+ */
+
+export async function businessReportDataQuerySearch(params) {
+  return request('/api/businessReportQuery/search.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}

@@ -228,18 +228,18 @@ export default [
             component: './QueryStats/ExceptionQuery',
             authority: 'queryStats:exceptionQuery:visit'
           },
-          // {
-          //   path: '/queryStats/businessDataQuery',
-          //   name: 'businessDataQuery',
-          //   component: './System/Dist',
-          //   authority: 'queryStats:businessDataQuery:visit'
-          // },
-          // {
-          //   path: '/queryStats/businessReportQuery',
-          //   name: 'businessReportQuery',
-          //   component: './System/Dist',
-          //   authority: 'queryStats:businessReportQuery:visit'
-          // },
+          {
+            path: '/queryStats/businessDataQuery',
+            name: 'businessDataQuery',
+            component: './QueryStats/BusinessDataQuery',
+            authority: 'queryStats:businessDataQuery:visit'
+          },
+          {
+            path: '/queryStats/businessReportQuery',
+            name: 'businessReportQuery',
+            component: './QueryStats/businessReportQuery',
+            authority: 'queryStats:businessReportQuery:visit'
+          },
         ],
       },
       // 系统管理
