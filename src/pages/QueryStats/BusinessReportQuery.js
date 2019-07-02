@@ -162,10 +162,10 @@ class BusinessReportQuery extends PureComponent {
             )}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('startDate')(<DatePicker placeholder="售卡开始日期" style={{ "width": "100%" }} />)}
+            {getFieldDecorator('startDate')(<DatePicker placeholder="充值开始日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('endDate')(<DatePicker placeholder="售卡截止日期" style={{ "width": "100%" }} />)}
+            {getFieldDecorator('endDate')(<DatePicker placeholder="充值截止日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>

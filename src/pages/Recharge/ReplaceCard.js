@@ -156,7 +156,7 @@ class ReplaceCard extends PureComponent {
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          message.success('补卡充值成功，开始写卡');
+          console.log('补卡充值成功，开始写卡');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
           const wResult = OCX.writePCard(iccardId, iccardPassword, 0, serviceTimes, 0, flowNumber);
@@ -171,7 +171,7 @@ class ReplaceCard extends PureComponent {
                 },
                 callback: (response2) => {
                   if (response2.status === 0) {
-                    message.success("写卡成功");
+                    message.success("操作成功已补卡");
                     dispatch({
                       type: 'replaceCard/fetch',
                       payload: {

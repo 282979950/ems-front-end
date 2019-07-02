@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-state,no-fallthrough,prefer-destructuring,no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal } from 'antd';
+import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
@@ -179,6 +179,11 @@ class User extends Component {
       dataIndex: 'cardId',
     },
     {
+      title: '卡片状态',
+      dataIndex: 'usable',
+      render: status => status? "当前使用": "历史使用",
+    },
+    {
       title: 'IC卡识别号',
       dataIndex: 'cardIdentifier'
     },
@@ -228,6 +233,33 @@ class User extends Component {
     {
       title: '维修处理结果',
       dataIndex: 'repairResultTypeName'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime'
+    },
+  ];
+
+  userStrikeNucleusColumns = [
+    {
+      title: '订单编号',
+      dataIndex: 'orderId',
+    },
+    {
+      title: '用户名称',
+      dataIndex: 'userName',
+    },
+    {
+      title: '审核状态',
+      dataIndex: 'nucleusStatusName'
+    },
+    {
+      title: '审核意见',
+      dataIndex: 'nucleusOpinion'
+    },
+    {
+      title: '发起人姓名',
+      dataIndex: 'nucleusLaunchingPerson',
     },
     {
       title: '创建时间',
@@ -375,6 +407,21 @@ class User extends Component {
           });
         }
       });
+    }else if (flag && type === 'strikeNucleusHistory') {
+      const { dispatch } = this.props;
+      const { selectedRows } = this.state;
+      dispatch({
+        type: 'userQuery/fetchStrikeNucleusHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: () => {
+          this.setState({
+            userInfoQueryModalVisible: !!flag,
+            userInfoType: 'strikeNucleusHistory'
+          });
+        }
+      });
     }
     else {
       this.setState({
@@ -417,6 +464,9 @@ class User extends Component {
       case 'repairHistory':
         this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
         break;
+      case 'strikeNucleusHistory':
+        this.handleReplaceCardHistoryFormVisible(true, 'strikeNucleusHistory')
+        break;
       default:
         break;
     }
@@ -453,6 +503,7 @@ class User extends Component {
     this.handleReplaceCardHistoryFormVisible(true, 'fillHistory')
     this.handleReplaceCardHistoryFormVisible(true, 'cardHistory')
     this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'strikeNucleusHistory')
   };
 
   handleFormReset = () => {
@@ -502,7 +553,7 @@ class User extends Component {
 
   render() {
     const {
-      userQuery: { data, history, userRecharge, fillGas, userCard, userRepair },
+      userQuery: { data, history, userRecharge, fillGas, userCard, userRepair, userStrikeNucleus },
       loading,
     } = this.props;
     const { selectedRows, userInfoQueryModalVisible, editModalVisible, handleEditModalVisible } = this.state;
@@ -579,6 +630,14 @@ class User extends Component {
                 <Table
                   dataSource={userRepair}
                   columns={this.userRepairColumns}
+                  pagination={false}
+                  size='small'
+                />
+              </TabPane>
+              <TabPane tab="审核冲账信息" key="6">
+                <Table
+                  dataSource={userStrikeNucleus}
+                  columns={this.userStrikeNucleusColumns}
                   pagination={false}
                   size='small'
                 />

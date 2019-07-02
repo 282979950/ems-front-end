@@ -49,7 +49,7 @@ class RepairOrderCardHistory extends PureComponent {
     const { modalVisible, historyData, selectedRows, handleRemoveModalVisible } = this.props;
     return (
       <Modal
-        title="维修单补卡记录"
+        title="维修单历史补卡记录"
         visible={modalVisible}
         width={950}
         footer={null}

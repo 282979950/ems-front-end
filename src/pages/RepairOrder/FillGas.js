@@ -275,8 +275,7 @@ class FillGas extends PureComponent {
       type: 'fillGas/edit',
       payload: selectedRows[0],
       callback: () => {
-        message.success(selectedRows[0].fillGasOrderType === 1 ? '处理补气单成功' : '处理补缴单成功');
-        message.info('请前往预付费充值页面做【发卡充值】');
+        message.success(selectedRows[0].fillGasOrderType === 1 ? '处理补气单成功' : '处理补缴单成功,请前往预付费充值页面做【发卡充值】');
         dispatch({
           type: 'fillGas/fetch',
           payload: {

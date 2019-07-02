@@ -6,6 +6,7 @@ import {
   queryUserCardHistory,
   queryUserRepairHistory,
   queryUserSearch,
+  queryHistoryStrikeNucleus,
   queryUserMeterType
 } from '../services/stats';
 import { handleRequestException } from '../utils/request';
@@ -91,6 +92,18 @@ export default {
         handleRequestException(response);
       }
     },
+    *fetchStrikeNucleusHistory({ payload, callback }, { call, put }) {
+      const response = yield call(queryHistoryStrikeNucleus, payload);
+      if (response.status === 0) {
+        yield put({
+          type: 'strikeNucleusHistory',
+          payload: response.data,
+        });
+        if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
     *fetchqueryUserMeterType({ payload, callback }, { call, put }) {
       const response = yield call(queryUserMeterType, payload);
       if (response.status === 0) {
@@ -152,6 +165,12 @@ export default {
       return {
         ...state,
         userRepair: action.payload
+      };
+    },
+    strikeNucleusHistory(state, action) {
+      return {
+        ...state,
+        userStrikeNucleus: action.payload
       };
     },
   },

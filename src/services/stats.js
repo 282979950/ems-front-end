@@ -95,3 +95,15 @@ export async function queryUserMeterType(params) {
     },
   });
 }
+
+/**
+ * 审核的冲账记录查看
+ */
+export async function queryHistoryStrikeNucleus(params) {
+  return request('/api/userQuery/historyUserStrike.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
