@@ -204,7 +204,7 @@ class BusinessReportQuery extends PureComponent {
                 columns={this.columns}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
-                rowKey='orderId'
+                rowKey='userId'
                 bordered
                 disableCheckBox
               />

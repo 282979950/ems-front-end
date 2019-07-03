@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Button,
+  Modal,
   message,
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
@@ -139,7 +140,7 @@ class CreateAccount extends PureComponent {
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          message.success('录入开户信息成功');
+          console.log('录入开户信息成功');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
           const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
@@ -152,7 +153,18 @@ class CreateAccount extends PureComponent {
               },
               callback: (response2) => {
                 if (response2.status === 0) {
-                  message.success("开户首单充值成功");
+                  console.log("开户首单充值成功");
+                  const Info = Modal.info({
+                    title: '已开户首单充值成功',
+                    content:
+                      <div>
+                        <span>姓名：{fields.userName}</span><br />
+                        <span>手机：{fields.userPhone}</span><br />
+                        <span>ic卡识别号：{fields.iccardIdentifier}</span><br />
+                        <span>本次充值气量：{fields.orderGas}</span><br />
+                        <span>本次充值金额：{fields.orderPayment}</span>
+                      </div>
+                  });
                   dispatch({
                     type: 'account/fetch',
                     payload: {
