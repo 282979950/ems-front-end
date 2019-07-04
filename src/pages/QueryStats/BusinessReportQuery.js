@@ -27,13 +27,10 @@ class BusinessReportQuery extends PureComponent {
           width:'6%',
           render:(text,record,index)=>`${index+1}`
         },{
-          dataIndex: 'userId',
-          title: '用户编号',
-          width:'15%',
-        },{
           dataIndex: 'createTime',
           title: '充值日期',
           width:'20%',
+          render: status => status? status.substring(0,10) : "未知",
         }, {
           dataIndex: 'icCard',
           title: '充值次数',
@@ -204,7 +201,7 @@ class BusinessReportQuery extends PureComponent {
                 columns={this.columns}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
-                rowKey='userId'
+                rowKey='createTime'
                 bordered
                 disableCheckBox
               />

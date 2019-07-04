@@ -142,12 +142,7 @@ class UserChangeEditForm extends PureComponent {
           })(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="房产证号码">
-          {form.getFieldDecorator('userChangeDeed', {
-            rules: [{
-              required: true,
-              message: '房产证号码不能为空！'
-            }],
-          })(<Input />)}
+          {form.getFieldDecorator('userChangeDeed', {})(<Input />)}
         </FormItem>
         <FormItem {...this.formStyle} label="燃气表当前止码">
           {form.getFieldDecorator('tableCode', {
