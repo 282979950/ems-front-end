@@ -101,7 +101,6 @@ class BusinessReportQuery extends PureComponent {
     const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
 
-    form.setFieldsValue({ 'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim() });
     form.validateFields((err, fieldsValue) => {
       if (err) {
         Object.keys(err).map(key => {
@@ -150,9 +149,6 @@ class BusinessReportQuery extends PureComponent {
           gutter={{ md: 8, lg: 24, xl: 48 }}
           style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}
         >
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userId')(<Input placeholder="用户编号" />)}
-          </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('empOrgId')(
               <OrgTreeSelect placeholder="所属营业厅" />

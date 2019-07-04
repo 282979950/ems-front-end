@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, message } from 'antd';
+import { Card, Row, Col, Input, Button, Form, message, DatePicker } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
@@ -128,6 +128,8 @@ class OrderManagement extends Component {
         type: 'orderManagement/search',
         payload: {
           ...fieldsValue,
+          startDate: fieldsValue.startDate ? fieldsValue.startDate.format('YYYY-MM-DD') : null,
+          endDate: fieldsValue.endDate ? fieldsValue.endDate.format('YYYY-MM-DD') : null,
           pageNum: 1,
           pageSize: 10,
         },
@@ -472,6 +474,12 @@ class OrderManagement extends Component {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('invoiceNumber')(<Input placeholder="发票号码" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('startDate')(<DatePicker placeholder="开始日期" style={{ "width": "100%" }} />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('endDate')(<DatePicker placeholder="截止日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>

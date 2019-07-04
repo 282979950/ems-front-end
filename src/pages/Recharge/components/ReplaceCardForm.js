@@ -39,6 +39,7 @@ class ReplaceCardForm extends PureComponent {
     const { form, dispatch } = this.props;
     const userId = form.getFieldValue("userId");
     const orderGas = form.getFieldValue("orderGas");
+    if(orderGas === undefined || orderGas ==="")return;
     const fieldsValue = form.getFieldsValue();
     dispatch({
       type: 'account/getOrderPayment',
