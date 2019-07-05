@@ -337,7 +337,7 @@ class PrePayment extends PureComponent {
             message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
           }
         } else {
-          message.error('充值失败,请重试');
+          message.error(response.message);
         }
       },
     });
