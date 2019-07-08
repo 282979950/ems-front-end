@@ -250,7 +250,7 @@ class PrePayment extends PureComponent {
                     content: (
                       <div>
                         <p style={{color:"red"}}>基本信息：</p>
-                        <p>IC卡号：{fields.iccardIdentifier}<br />姓名：{fields.userName}<br />本次购气量：{fields.orderGas}<br />本次支付金额：{fields.orderPayment}<br />详情：{fields.orderDetail}<br />地址：{selectedRows[0].userAddress}</p>
+                        <p>IC卡识别号：{fields.iccardIdentifier}<br />姓名：{fields.userName}<br />本次购气量：{fields.orderGas}<br />本次支付金额：{fields.orderPayment}<br />详情：{fields.orderDetail}<br />地址：{selectedRows[0].userAddress}</p>
                         <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
                         <div id="billDetails">
                           <div>
