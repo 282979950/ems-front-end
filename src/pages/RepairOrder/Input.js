@@ -171,7 +171,7 @@ class Inputs extends PureComponent {
     const { dispatch } = this.props;
 
     const { repairOrderStatus } = selectedRows[0];
-    if (repairOrderStatus === 3 || repairOrderStatus === 4) {
+    if (repairOrderStatus === 2 || repairOrderStatus === 4 || repairOrderStatus === 5) {
       message.warning("该维修单不能进行编辑");
     } else {
       dispatch({

@@ -120,7 +120,7 @@ class InputAddForm extends PureComponent {
   };
 
   handleGetEmpByEmpNumber = (e) => {
-    const { dispatch } = this.props;
+    const { form, dispatch } = this.props;
     dispatch({
       type: 'emp/getEmpByEmpNumber',
       payload: {
@@ -129,6 +129,12 @@ class InputAddForm extends PureComponent {
       callback: (response) => {
         if (response.data === null) {
           message.error(response.message)
+        } else {
+          form.setFieldsValue({
+            "empNumber": response.data.empNumber,
+            "empId": response.data.empId,
+            "empName": response.data.empName
+          })
         }
       }
     });
