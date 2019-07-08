@@ -81,7 +81,7 @@ class PrePaymentForm extends PureComponent{
             initialValue: userName,
           })(<Input disabled />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="IC卡号">
+        <FormItem {...this.formStyle} label="IC卡识别号">
           {form.getFieldDecorator('iccardIdentifier', {
             initialValue: iccardIdentifier,
           })(<Input disabled />)}
