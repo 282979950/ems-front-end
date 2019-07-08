@@ -4,6 +4,7 @@ import {
   addInput,
   searchInput,
   editInput,
+  cancelInput,
   bindNewCardInput,
   getBindNewCardParamByUserIdInput,
   isLatestFillGasOrder,
@@ -59,6 +60,14 @@ export default {
     },
     * edit({ payload, callback }, { call }) {
       const response = yield call(editInput, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    * cancel({ payload, callback }, { call }) {
+      const response = yield call(cancelInput, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {

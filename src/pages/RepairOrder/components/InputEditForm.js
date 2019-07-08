@@ -260,10 +260,10 @@ class InputEditForm extends PureComponent {
             })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="维修类型">
-            {form.getFieldDecorator('repairType', {})(<DictSelect style={{"width":"100%","pointer-events": "none"}} category="repair_type" />)}
+            {form.getFieldDecorator('repairType', {})(<DictSelect style={{"width":"100%","pointerEvents": "none"}} category="repair_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} label="燃气设备类型">
-            {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect style={{ "width":"100%","pointer-events": "none"}} category="gas_equipment_type" />)}
+            {form.getFieldDecorator('gasEquipmentType', {})(<DictSelect style={{ "width":"100%","pointerEvents": "none"}} category="gas_equipment_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表编号">
             {form.getFieldDecorator('oldMeterCode', {})(<Input readOnly />)}
@@ -273,10 +273,10 @@ class InputEditForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="旧表类型">
             {form.getFieldDecorator('oldMeterTypeId', {
-            })(<MeterTypeSelect style={{ "width": "100%","pointer-events": "none" }} placeholder={null} />)}
+            })(<MeterTypeSelect style={{ "width": "100%","pointerEvents": "none" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="旧表表向">
-            {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" style={{"pointer-events": "none"}} />)}
+            {form.getFieldDecorator('oldMeterDirection', {})(<DictSelect category="meter_direction" style={{"pointerEvents": "none"}} />)}
           </FormItem>
           <FormItem {...this.formStyle} label='旧表止码'>
             {form.getFieldDecorator('oldMeterStopCode', {
@@ -294,7 +294,7 @@ class InputEditForm extends PureComponent {
           </FormItem>
           <FormItem {...this.formStyle} label="新表类型">
             {form.getFieldDecorator('newMeterTypeId', {
-            })(<MeterTypeSelect style={{ "width": "100%","pointer-events": "none" }} placeholder={null} />)}
+            })(<MeterTypeSelect style={{ "width": "100%","pointerEvents": "none" }} placeholder={null} />)}
           </FormItem>
           <FormItem {...this.formStyle} label="新表表向" style={disableOrHide ? null : { display: 'none' }}>
             {form.getFieldDecorator('newMeterDirection')

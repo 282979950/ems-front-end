@@ -39,7 +39,22 @@ class Inputs extends PureComponent {
     {
       title: '维修单状态',
       dataIndex: 'repairOrderStatus',
-      render: status => status === 1 ? (<Tag color='green'>正常</Tag>): (<Tag color='volcano'>已锁定</Tag>),
+      render: status => {
+        switch (status) {
+          case 1:
+            return <Tag color='volcano'>待处理</Tag>;
+          case 2:
+            return <Tag color='orange'>处理中</Tag>;
+          case 3:
+            return <Tag color='geekblue'>无需处理</Tag>;
+          case 4:
+            return <Tag color='green'>已处理</Tag>;
+          case 5:
+            return <Tag color='gray'>已撤销</Tag>;
+          default:
+            return <Tag color='gray'>已撤销</Tag>;
+        }
+      },
     },
     {
       title: '户号',
@@ -156,8 +171,8 @@ class Inputs extends PureComponent {
     const { dispatch } = this.props;
 
     const { repairOrderStatus } = selectedRows[0];
-    if (repairOrderStatus === 2) {
-      message.warning("该维修单已经被锁定，不能进行编辑");
+    if (repairOrderStatus === 3 || repairOrderStatus === 4) {
+      message.warning("该维修单不能进行编辑");
     } else {
       dispatch({
         type: 'input/hasFillGasOrderResolved',
@@ -253,6 +268,36 @@ class Inputs extends PureComponent {
           },
         });
       }
+    });
+  };
+
+  handleCancel = () => {
+    const { dispatch, form } = this.props;
+    const { selectedRows, pageNum, pageSize } = this.state;
+    const _ = this;
+    Modal.confirm({
+      title: '撤销维修单',
+      content: `是否撤销维修单：${selectedRows[0].repairOrderId}`,
+      onOk() {
+        dispatch({
+          type: 'input/cancel',
+          payload: selectedRows[0],
+          callback: (response) => {
+            message.success(response.message);
+            _.handleSelectedRowsReset();
+            form.resetFields();
+            dispatch({
+              type: 'input/fetch',
+              payload: {
+                pageNum,
+                pageSize
+              },
+            });
+          }
+        });
+      },
+      onCancel() {
+      },
     });
   };
 
@@ -408,6 +453,7 @@ class Inputs extends PureComponent {
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              <Button icon="" disabled={!(selectedRows.length === 1 && selectedRows[0] && (selectedRows[0].repairOrderStatus === 1 || selectedRows[0].repairOrderStatus === 2))} onClick={this.handleCancel}>撤销</Button>
               <Button icon="snippets" disabled={selectedRows.length !== 1} onClick={() => this.handleCardModalVisible(true)}>新卡补卡</Button>
               <Button icon="schedule" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows,true)}>维修单历史补卡记录</Button>
             </div>

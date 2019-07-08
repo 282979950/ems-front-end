@@ -47,6 +47,15 @@ export async function editInput(params) {
   });
 }
 
+export async function cancelInput(params) {
+  return request('/api/input/cancel.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function bindNewCardInput(params) {
   return request('/api/input/bindNewCard.do', {
     method: 'POST',
