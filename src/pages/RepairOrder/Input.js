@@ -453,7 +453,7 @@ class Inputs extends PureComponent {
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
-              <Button icon="" disabled={!(selectedRows.length === 1 && selectedRows[0] && (selectedRows[0].repairOrderStatus === 1 || selectedRows[0].repairOrderStatus === 2))} onClick={this.handleCancel}>撤销</Button>
+              <Button icon="delete" disabled={!(selectedRows.length === 1 && selectedRows[0] && (selectedRows[0].repairOrderStatus === 1 || selectedRows[0].repairOrderStatus === 3))} onClick={this.handleCancel}>撤销</Button>
               <Button icon="snippets" disabled={selectedRows.length !== 1} onClick={() => this.handleCardModalVisible(true)}>新卡补卡</Button>
               <Button icon="schedule" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows,true)}>维修单历史补卡记录</Button>
             </div>
