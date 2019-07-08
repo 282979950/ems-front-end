@@ -76,6 +76,10 @@ class Inputs extends PureComponent {
       title: '维修结果',
       dataIndex: 'repairResultTypeName',
     },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+    },
   ];
 
   componentDidMount() {
@@ -275,30 +279,34 @@ class Inputs extends PureComponent {
     const { dispatch, form } = this.props;
     const { selectedRows, pageNum, pageSize } = this.state;
     const _ = this;
-    Modal.confirm({
-      title: '撤销维修单',
-      content: `是否撤销维修单：${selectedRows[0].repairOrderId}`,
-      onOk() {
-        dispatch({
-          type: 'input/cancel',
-          payload: selectedRows[0],
-          callback: (response) => {
-            message.success(response.message);
-            _.handleSelectedRowsReset();
-            form.resetFields();
-            dispatch({
-              type: 'input/fetch',
-              payload: {
-                pageNum,
-                pageSize
-              },
-            });
-          }
-        });
-      },
-      onCancel() {
-      },
-    });
+    if (new Date() - new Date(selectedRows[0].createTime) > 24 * 60 * 60 * 1000) {
+      message.info('只能撤销当天的维修单');
+    } else {
+      Modal.confirm({
+        title: '撤销维修单',
+        content: `是否撤销维修单：${selectedRows[0].repairOrderId}`,
+        onOk() {
+          dispatch({
+            type: 'input/cancel',
+            payload: selectedRows[0],
+            callback: (response) => {
+              message.success(response.message);
+              _.handleSelectedRowsReset();
+              form.resetFields();
+              dispatch({
+                type: 'input/fetch',
+                payload: {
+                  pageNum,
+                  pageSize
+                },
+              });
+            }
+          });
+        },
+        onCancel() {
+        },
+      });
+    }
   };
 
   handleCard = (fields, form) => {
@@ -452,7 +460,7 @@ class Inputs extends PureComponent {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新建</Button>
-              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
+              {/*<Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>*/}
               <Button icon="delete" disabled={!(selectedRows.length === 1 && selectedRows[0] && (selectedRows[0].repairOrderStatus === 1 || selectedRows[0].repairOrderStatus === 3))} onClick={this.handleCancel}>撤销</Button>
               <Button icon="snippets" disabled={selectedRows.length !== 1} onClick={() => this.handleCardModalVisible(true)}>新卡补卡</Button>
               <Button icon="schedule" disabled={selectedRows.length !== 1} onClick={() => this.showHistory(selectedRows,true)}>维修单历史补卡记录</Button>
@@ -490,14 +498,14 @@ class Inputs extends PureComponent {
             selectedData={newCardParam}
           />
         ) : null}
-        {selectedRows.length === 1 ? (
-          <RepairOrderCardHistory
-            modalVisible={historyModalVisible}
-            handleRemoveModalVisible={this.handleHistoryModalVisible}
-            historyData={historyData}
-            selectedRows={selectedRows}
-          />) : null
-        }
+        {/*{selectedRows.length === 1 ? (*/}
+          {/*<RepairOrderCardHistory*/}
+            {/*modalVisible={historyModalVisible}*/}
+            {/*handleRemoveModalVisible={this.handleHistoryModalVisible}*/}
+            {/*historyData={historyData}*/}
+            {/*selectedRows={selectedRows}*/}
+          {/*/>) : null*/}
+        {/*}*/}
       </PageHeaderWrapper>
     )
   }
