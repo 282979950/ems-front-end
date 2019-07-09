@@ -230,7 +230,7 @@ class ReplaceCard extends PureComponent {
       return "读卡失败";
     }
     if (result[1] !== '0') {
-      return "只能使用新卡进行补卡";
+      return "只能使用新卡进行补卡,请先前往卡片初始化页面初始化卡片";
     }
     return result[2];
   };

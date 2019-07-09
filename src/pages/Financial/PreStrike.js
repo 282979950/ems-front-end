@@ -46,11 +46,11 @@ class PreStrike extends PureComponent {
       dataIndex: 'userGasTypeName',
     },
     {
-      title: '实际充值金额(单位:方)',
+      title: '实际充值金额(单位:元)',
       dataIndex: 'orderPayment'
     },
     {
-      title: '充值气量(单位:元)',
+      title: '充值气量(单位:方)',
       dataIndex: 'orderGas'
     },
     {
