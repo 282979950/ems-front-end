@@ -176,7 +176,7 @@ class Inputs extends PureComponent {
 
     const { repairOrderStatus } = selectedRows[0];
     if (repairOrderStatus === 2 || repairOrderStatus === 4 || repairOrderStatus === 5) {
-      message.warning("该维修单不能进行编辑");
+      message.warning(tip);
     } else {
       dispatch({
         type: 'input/hasFillGasOrderResolved',
@@ -482,14 +482,14 @@ class Inputs extends PureComponent {
           handleCancel={this.handleAddModalVisible}
           modalVisible={addModalVisible}
         />
-        {selectedRows.length === 1 ? (
-          <InputEditForm
-            handleEdit={this.handleEdit}
-            handleCancel={this.handleEditModalVisible}
-            modalVisible={editModalVisible}
-            selectedData={selectedRows[0]}
-          />
-        ) : null}
+        {/*{selectedRows.length === 1 ? (*/}
+          {/*<InputEditForm*/}
+            {/*handleEdit={this.handleEdit}*/}
+            {/*handleCancel={this.handleEditModalVisible}*/}
+            {/*modalVisible={editModalVisible}*/}
+            {/*selectedData={selectedRows[0]}*/}
+          {/*/>*/}
+        {/*) : null}*/}
         {selectedRows.length === 1 ? (
           <InputCardForm
             handleCard={this.handleCard}
@@ -498,14 +498,14 @@ class Inputs extends PureComponent {
             selectedData={newCardParam}
           />
         ) : null}
-        {/*{selectedRows.length === 1 ? (*/}
-          {/*<RepairOrderCardHistory*/}
-            {/*modalVisible={historyModalVisible}*/}
-            {/*handleRemoveModalVisible={this.handleHistoryModalVisible}*/}
-            {/*historyData={historyData}*/}
-            {/*selectedRows={selectedRows}*/}
-          {/*/>) : null*/}
-        {/*}*/}
+        {selectedRows.length === 1 ? (
+          <RepairOrderCardHistory
+            modalVisible={historyModalVisible}
+            handleRemoveModalVisible={this.handleHistoryModalVisible}
+            historyData={historyData}
+            selectedRows={selectedRows}
+          />) : null
+        }
       </PageHeaderWrapper>
     )
   }

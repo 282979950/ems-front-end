@@ -33,8 +33,18 @@ class FillGas extends PureComponent {
     {
       dataIndex: 'fillGasOrderStatus',
       title: '补气单状态',
-      render: status => status === 0 ? (<Tag color='volcano'>未处理</Tag>) : (status === 1 ? (
-        <Tag color='green'>已处理</Tag>) : (<Tag color='gray'>已撤销</Tag>)),
+      render: status => {
+        switch (status) {
+          case 0:
+            return <Tag color='volcano'>待处理</Tag>;
+          case 1:
+            return <Tag color='green'>已处理</Tag>;
+          case 2:
+            return <Tag color='gray'>已撤销</Tag>;
+          default:
+            return <Tag color='gray'>已撤销</Tag>;
+        }
+      },
     },
     {
       dataIndex: 'fillGasOrderTypeName',
