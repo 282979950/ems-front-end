@@ -261,12 +261,26 @@ class FillGas extends PureComponent {
                           }
                         }
                       } else {
-                        // 写一般充值卡
-                        const writeUCardResult = OCX.writeUCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, flowNum);
-                        if (writeUCardResult === '写卡成功') {
-                          this.editFillGasOrder(selectedRows);
+                        if (result[1] === '0') {
+                          const writePCardResult = OCX.writePCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, selectedRows[0].fillGas, flowNum);
+                          if (writePCardResult === '写卡成功') {
+                            const writeUCardResult = OCX.writeUCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, flowNum);
+                            if (writeUCardResult === '写卡成功') {
+                              this.editFillGasOrder(selectedRows);
+                            } else {
+                              message.error(writeUCardResult);
+                            }
+                          } else {
+                            message.error(writePCardResult);
+                          }
                         } else {
-                          message.error(writeUCardResult);
+                          // 写一般充值卡
+                          const writeUCardResult = OCX.writeUCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, flowNum);
+                          if (writeUCardResult === '写卡成功') {
+                            this.editFillGasOrder(selectedRows);
+                          } else {
+                            message.error(writeUCardResult);
+                          }
                         }
                       }
                     }
@@ -314,7 +328,7 @@ class FillGas extends PureComponent {
         });
       }
     });
-  }
+  };
 
   handleDisabled = selectedRows => selectedRows.length !== 1 || selectedRows[0].fillGasOrderStatusName !== '未处理';
 
