@@ -76,6 +76,9 @@ class User extends Component {
     {
       title: '旧用户房产证号码',
       dataIndex: 'userOldDeed'
+    },{
+      title: '生成时间',
+      dataIndex: 'createTime'
     },
   ];
 

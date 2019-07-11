@@ -107,7 +107,7 @@ class DistEditForm extends PureComponent{
           {form.getFieldDecorator('isButton', {
             rules: [{
               required: true,
-              message: '区域类别不能为空！'
+              message: '请选择权限！'
             }],
           })(
             <Select style={{ width: '100%' }}>

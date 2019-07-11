@@ -45,7 +45,7 @@ class InvoiceAddForm extends PureComponent{
           {form.getFieldDecorator('invoiceCode', {
             rules: [{
               required: true,
-              message: '不能为空！',
+              message: '请填写发票代码！',
             }],
           })(<Input />)}
         </FormItem>
@@ -53,7 +53,7 @@ class InvoiceAddForm extends PureComponent{
           {form.getFieldDecorator('sInvoiceNumber', {
             rules: [{
               required: true,
-              message: '不能为空！',
+              message: '请填写发票起始号码！',
             },{
               pattern: /^\d{8}$/,
               message: '只能为8位数字'
@@ -64,7 +64,7 @@ class InvoiceAddForm extends PureComponent{
           {form.getFieldDecorator('eInvoiceNumber', {
             rules: [{
               required: true,
-              message: '不能为空！',
+              message: '请填写发票终止号码！',
             },{
               pattern: /^\d{8}$/,
               message: '只能为8位数字'

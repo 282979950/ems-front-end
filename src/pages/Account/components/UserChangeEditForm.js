@@ -144,17 +144,6 @@ class UserChangeEditForm extends PureComponent {
         <FormItem {...this.formStyle} label="房产证号码">
           {form.getFieldDecorator('userChangeDeed', {})(<Input />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="燃气表当前止码">
-          {form.getFieldDecorator('tableCode', {
-            rules: [{
-              required: true,
-              message: '燃气表当前止码不能为空！'
-            }, {
-              pattern: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
-              message: '燃气表当前止码只能为正数',
-            }],
-          })(<Input />)}
-        </FormItem>
         <FormItem {...this.formStyle} style={{ display: 'none' }} label="">
           {form.getFieldDecorator('userMoney', {})(<Input />)}
         </FormItem>

@@ -93,11 +93,6 @@ class EntryMeterEditForm extends PureComponent{
             }],
           })(<Input readOnly />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="表止码">
-          {form.getFieldDecorator('meterStopCode')(
-            <Input />
-          )}
-        </FormItem>
         <FormItem {...this.formStyle} label="表具型号">
           {form.getFieldDecorator('meterType', {
             rules: [{
