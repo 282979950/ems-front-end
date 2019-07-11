@@ -131,8 +131,8 @@ export async function editFillGas(params) {
   });
 }
 
-export async function redCardFillGas(params) {
-  return request('/api/account/redCard.do', {
+export async function readCardFillGas(params) {
+  return request('/api/account/readCard.do', {
     method: 'POST',
     body: {
       ...params

@@ -164,8 +164,12 @@ class FillGas extends PureComponent {
   handleEditModalVisible = flag => {
     const { selectedRows } = this.state;
     const cardInfo = OCX.readCard();
-    if(cardInfo === '写卡器连接错误.' || cardInfo === 'IC卡未插入写卡器.') {
-      message.error('请插入卡片');
+    if(cardInfo === '写卡器连接错误.') {
+      message.error('写卡器连接错误');
+      return;
+    }
+    if(cardInfo === 'IC卡未插入写卡器.') {
+      message.error('IC卡未插入写卡器');
       return;
     }
 
@@ -211,10 +215,11 @@ class FillGas extends PureComponent {
 
     if (result[0] === 'S') {
       dispatch({
-        type: 'fillGas/redCard',
-        payload: { cardId: result[3] },
+        type: 'fillGas/readCard',
+        payload: { cardId: result[2] },
         callback: (response) => {
           const password = response.data.cardPassword;
+          const icCardId = response.data.cardId;
           switch (selectedRows[0].fillGasOrderType) {
             case 1:
               dispatch({
@@ -232,22 +237,32 @@ class FillGas extends PureComponent {
 
                       if (isFirstOrder) {
                         // 初始化IC卡
-                        const initResult = OCX.initCard(password);
-                        if (initResult === 'S') {
-                          // 获取流水号 获取维修次数
-                          const writePCardResult = OCX.writePCard(result[3], password, selectedRows[0].fillGas, serviceTimes, selectedRows[0].fillGas, flowNum);
+                        if (result[1] !== '0') {
+                          const initResult = OCX.initCard(password);
+                          if (initResult === 'S') {
+                            // 获取流水号 获取维修次数
+                            const writePCardResult = OCX.writePCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, selectedRows[0].fillGas, flowNum);
+                            if (writePCardResult === '写卡成功') {
+                              // 更新订单状态，生成新订单，
+                              this.editFillGasOrder(selectedRows);
+                            } else {
+                              message.error(writePCardResult);
+                            }
+                          } else {
+                            message.error('初始化失败');
+                          }
+                        } else {
+                          const writePCardResult = OCX.writePCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, selectedRows[0].fillGas, flowNum);
                           if (writePCardResult === '写卡成功') {
                             // 更新订单状态，生成新订单，
                             this.editFillGasOrder(selectedRows);
                           } else {
                             message.error(writePCardResult);
                           }
-                        } else {
-                          message.error("初始化失败");
                         }
                       } else {
                         // 写一般充值卡
-                        const writeUCardResult = OCX.writeUCard(result[3], password, selectedRows[0].fillGas, serviceTimes, flowNum);
+                        const writeUCardResult = OCX.writeUCard(icCardId, password, selectedRows[0].fillGas, serviceTimes, flowNum);
                         if (writeUCardResult === '写卡成功') {
                           this.editFillGasOrder(selectedRows);
                         } else {
@@ -261,11 +276,15 @@ class FillGas extends PureComponent {
               break;
             case 2:
               // 初始化IC卡
-              const initResult2 = OCX.initCard(password);
-              if (initResult2 === 'S') {
-                this.editFillGasOrder(selectedRows);
+              if (result[1] === '0') {
+                  this.editFillGasOrder(selectedRows);
               } else {
-                message.error("初始化失败");
+                const initResult2 = OCX.initCard(password);
+                if (initResult2 === 'S') {
+                  this.editFillGasOrder(selectedRows);
+                } else {
+                  message.error("初始化失败");
+                }
               }
               break;
             default:

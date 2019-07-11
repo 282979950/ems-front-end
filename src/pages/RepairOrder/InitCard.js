@@ -100,9 +100,14 @@ class InitCard extends PureComponent {
   handleInitCard = () => {
     const { dispatch } = this.props;
     const { data } = this.state;
+    const readResult = OCX.readCard();
+    if (readResult[1] && readResult[1] === '0') {
+      message.info('卡片已被初始化，不需要再进行初始化操作');
+      return;
+    }
     dispatch({
-      type: 'fillGas/redCard',
-      payload: { cardId: data.list[0].cardId },
+      type: 'fillGas/readCard',
+      payload: { cardId: data.list[0].cardNumber },
       callback: (response) => {
         const password = response.data.cardPassword;
         const result = OCX.initCard(password);
@@ -113,18 +118,18 @@ class InitCard extends PureComponent {
               cardId: data.list[0].cardId,
               result: result
             },
-          })
+          });
           this.setState({
             data: [],
             selectedRows: [],
-          })
+          });
           message.success("已成功初始化")
         } else if (result === 'ocx.ErrorDesc') {
           message.error("初始化失败")
         }
       }
     })
-  }
+  };
 
   render() {
     const { loading, } = this.props;

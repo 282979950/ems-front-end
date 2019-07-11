@@ -2,7 +2,7 @@ import {
   queryFillGas,
   searchFillGas,
   editFillGas,
-  redCardFillGas,
+  readCardFillGas,
   getServiceTimesByUserId,
   getFlowNum,
 } from '../services/repairOrder';
@@ -50,8 +50,8 @@ export default {
         handleRequestException(response)
       }
     },
-    *redCard({ payload, callback }, { call }) {
-      const response = yield call(redCardFillGas, payload);
+    *readCard({ payload, callback }, { call }) {
+      const response = yield call(readCardFillGas, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {
