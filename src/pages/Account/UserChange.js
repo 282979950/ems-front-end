@@ -252,15 +252,23 @@ class UserChange extends PureComponent {
       title: '销户',
       content: `确认对选中的${selectedRows.length}个账户销户？`,
       onOk() {
+        const userMoney = 0;
+        const OrderSupplement =0;
+        const flage = 0;
         const selected =selectedRows[0]
         dispatch({
           type: 'userChange/delete',
           payload: {
+            userMoney,
+            OrderSupplement,
+            flage,
             ...selected
           },
           callback: (response) => {
-            if(response.status === 0){
+            // 直接销户不需要涉及退钱和补钱
+            if(response.data === null){
               message.success(response.message);
+              _.handleSelectedRowsReset();
               dispatch({
                 type: 'userChange/fetch',
                 payload: {
@@ -269,7 +277,21 @@ class UserChange extends PureComponent {
                 }
               });
             }else{
-              message.error(response.message);
+              // 获取第三个参数是否为空后台传递标识（number）data[2]补缴金额。1，用户超用补缴，2.燃气公司退钱，为空则不涉及金额问题
+              console.log(response.data[0],response.data[2])
+              if (response.status === 0) {
+                if(response.data[2] && response.data[0]){
+                  _.setState({
+                    removeModalVisible :true,
+                    removeModalMsg: response.message,
+                    flage :response.data[2],
+                    OrderSupplement :response.data[0],
+                    selectedData:selectedRows[0]
+                  });
+                }
+              } else {
+                message.error(response.message);
+              }
             }
           }
         });
