@@ -201,7 +201,7 @@ class InputAddForm extends PureComponent {
             {form.getFieldDecorator('repairOrderId', {
             rules: [{
               required: true,
-              message: ''
+              message: '请输入维修单编号'
             }, {
               max: 20,
               message: '维修员工号不能超过20个字',
