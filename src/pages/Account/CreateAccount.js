@@ -209,7 +209,7 @@ class CreateAccount extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'account/fetch',
+      type: 'account/search',
       payload: params,
     });
   };

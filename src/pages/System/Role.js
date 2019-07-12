@@ -187,7 +187,7 @@ class Role extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'role/fetch',
+      type: 'role/search',
       payload: params,
     });
   };

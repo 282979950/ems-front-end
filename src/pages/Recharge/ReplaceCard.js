@@ -219,7 +219,7 @@ class ReplaceCard extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'replaceCard/fetch',
+      type: 'replaceCard/search',
       payload: params,
     });
   };

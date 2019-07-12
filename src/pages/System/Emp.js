@@ -236,7 +236,7 @@ class Emp extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'emp/fetch',
+      type: 'emp/search',
       payload: params,
     });
   };

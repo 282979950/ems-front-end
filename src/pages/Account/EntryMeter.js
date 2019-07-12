@@ -213,7 +213,7 @@ class EntryMeter extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'entryMeter/fetch',
+      type: 'entryMeter/search',
       payload: params,
     });
   };

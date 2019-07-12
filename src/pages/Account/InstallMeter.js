@@ -166,7 +166,7 @@ class InstallMeter extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'installMeter/fetch',
+      type: 'installMeter/search',
       payload: params,
     });
   };

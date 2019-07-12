@@ -209,7 +209,7 @@ class CreateArchive extends PureComponent {
       pageSize: pagination.pageSize
     });
     dispatch({
-      type: 'createArchive/fetch',
+      type: 'createArchive/search',
       payload: params,
     });
   };
