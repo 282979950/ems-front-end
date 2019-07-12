@@ -67,7 +67,7 @@ class ReplaceCardForm extends PureComponent {
       form.setFieldsValue({
         "nIcCardIdentifier": "",
       });
-    } else if (result === '只能使用新卡进行补卡') {
+    } else if (result === '该卡片类型不是新卡') {
       message.error(result);
       form.setFieldsValue({
         "nIcCardIdentifier": "",

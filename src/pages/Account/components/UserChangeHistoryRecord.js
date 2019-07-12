@@ -39,6 +39,9 @@ class UserChangeHistoryRecord extends PureComponent{
     {
       title: '旧用户房产证号码',
       dataIndex: 'userOldDeed'
+    },{
+      title: '过户当前表止码',
+      dataIndex: 'tableCode'
     },
     {
       title: '创建时间',
@@ -58,7 +61,7 @@ class UserChangeHistoryRecord extends PureComponent{
       <Modal
         title="变更记录"
         visible={modalVisible}
-        width={1250}
+        width={1300}
         footer={null}
         onCancel={this.handleRemoveModalVisible}
       >
@@ -67,6 +70,7 @@ class UserChangeHistoryRecord extends PureComponent{
           columns={this.columns}
           rowKey='userId'
           pagination={false}
+          size='small'
         />
       </Modal>
     );

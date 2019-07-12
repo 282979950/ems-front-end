@@ -189,8 +189,8 @@ class AccountQuery extends PureComponent {
               sheetData: data,
               sheetName: 'sheet',// 表名
               columnWidths: [10, 5, 5, 8],
-              sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName'],// 列过滤
-              sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型'],// 第一行标题
+              sheetFilter: ['userId', 'userName', 'userDistName', 'userAddress', 'userTypeName', 'userGasTypeName', 'openByName', 'openTime'],// 列过滤
+              sheetHeader: ['用户编码', '用户名', '用户区域', '用户地址', '用户类型', '用气类型', '开户人', '开户时间'],// 第一行标题
             },
           ]
         };

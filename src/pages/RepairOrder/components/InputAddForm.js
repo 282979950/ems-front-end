@@ -52,6 +52,8 @@ class InputAddForm extends PureComponent {
 
   handleGetRepairOrderUser = (e) => {
     const { dispatch, form } = this.props;
+    const userId = e.target.value;
+    if(userId === undefined || userId ==="")return;
     dispatch({
       type: 'input/getRepairOrderUserById',
       payload: {
