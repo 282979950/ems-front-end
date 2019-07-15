@@ -198,7 +198,7 @@ class EntryMeter extends PureComponent {
   };
 
   handleStandardTableChange = (pagination) => {
-    const { dispatch } = this.props;
+    const { dispatch,form } = this.props;
     const { formValues, pageNum, pageSize } = this.state;
     if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
       this.handleSelectedRowsReset();
@@ -207,6 +207,7 @@ class EntryMeter extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
       ...formValues,
+      meterProdDate: form.getFieldValue('meterProdDate') ? form.getFieldValue('meterProdDate').format('YYYY-MM'):null,
     };
     this.setState({
       pageNum: pagination.current,

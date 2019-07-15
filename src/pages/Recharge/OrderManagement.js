@@ -87,7 +87,7 @@ class OrderManagement extends Component {
   };
 
   handleStandardTableChange = (pagination) => {
-    const { dispatch } = this.props;
+    const { dispatch,form } = this.props;
     const { formValues, pageNum, pageSize } = this.state;
     if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
       this.handleSelectedRowsReset();
@@ -96,6 +96,8 @@ class OrderManagement extends Component {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
       ...formValues,
+      startDate: form.getFieldValue('startDate') ? form.getFieldValue('startDate').format('YYYY-MM-DD'):null,
+      endDate: form.getFieldValue('endDate') ? form.getFieldValue('endDate').format('YYYY-MM-DD'):null,
     };
     this.setState({
       pageNum: pagination.current,
