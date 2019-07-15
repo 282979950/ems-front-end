@@ -4,7 +4,7 @@ import { Spin, Tag, Menu, Icon, Dropdown, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import styles from './index.less';
-import avatarImg from "../../assets/lanyan-logo-rect.svg";
+import avatarImg from "../../assets/lanyan-logo-rect.png";
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {

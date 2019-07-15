@@ -3,11 +3,11 @@ import Link from 'umi/link';
 import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../assets/lanyan-logo-circle.svg';
+import logo from '../assets/lanyan-logo.png';
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 武汉蓝焰自动化应用技术有限责任公司
+    Copyright <Icon type="copyright" /> 2019 石门兴业管道燃气有限公司
   </Fragment>
 );
 
@@ -22,7 +22,7 @@ class UserLayout extends React.PureComponent {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>蓝焰表具管理系统</span>
+                <span className={styles.title}>石门兴业燃气</span>
               </Link>
             </div>
           </div>

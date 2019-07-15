@@ -68,7 +68,7 @@ export default class SiderMenu extends PureComponent {
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>蓝焰表具管理系统</h1>
+            <h1>石门兴业燃气</h1>
           </Link>
         </div>
         <Suspense fallback={<PageLoading />}>
