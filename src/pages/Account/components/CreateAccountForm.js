@@ -72,7 +72,8 @@ class CreateAccountForm extends PureComponent {
       callback: (response) => {
         const params = {
           ...fieldsValue,
-          orderPayment: response.data
+          orderPayment: response.data,
+          orderDetail: response.message
         };
         form.setFieldsValue(params);
       }
@@ -153,6 +154,9 @@ class CreateAccountForm extends PureComponent {
         </FormItem>
         <FormItem {...this.formStyle} label="充值金额">
           {form.getFieldDecorator('orderPayment', {})(<Input disabled />)}
+        </FormItem>
+        <FormItem {...this.formStyle} label="订单详情">
+          {form.getFieldDecorator('orderDetail', {})(<Input disabled />)}
         </FormItem>
       </Modal>
     );
