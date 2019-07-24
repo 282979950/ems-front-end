@@ -64,6 +64,12 @@ export default [
             authority: 'account:entryMeter:visit'
           },
           {
+            path: '/account/account',
+            name: 'account',
+            component: './Account/Account',
+            authority: 'account:createArchive:visit'
+          },
+          {
             path: '/account/createArchive',
             name: 'createArchive',
             component: './Account/CreateArchive',

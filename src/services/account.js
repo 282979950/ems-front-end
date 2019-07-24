@@ -144,7 +144,7 @@ export async function searchInstallMeter(params) {
 /**
  * 用户开户
  */
-export async function queryCreateAccount(params) {
+export async function queryAccount(params) {
   return request('/api/account/listData.do', {
     method: 'POST',
     body: {

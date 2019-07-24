@@ -1,4 +1,4 @@
-import { queryCreateAccount, editCreateAccount, searchCreateAccount, getOrderPayment, initCard } from '../services/account';
+import { queryAccount, editCreateAccount, searchCreateAccount, getOrderPayment, initCard } from '../services/account';
 import { handleRequestException } from '../utils/request';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 
   effects: {
     *fetch({ payload, callback }, { call, put }) {
-      const response = yield call(queryCreateAccount, payload);
+      const response = yield call(queryAccount, payload);
       if (response.status === 0) {
         yield put({
           type: 'save',
