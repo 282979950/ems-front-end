@@ -1,15 +1,18 @@
 /* eslint-disable react/no-unused-state,no-fallthrough,prefer-destructuring,no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag } from 'antd';
+import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag, Select } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
 import UserMeterTypeModal from './components/UserMeterTypeModal';
 import InputEditForm from '../RepairOrder/components/InputEditForm';
+import DictSelect from '../System/components/DictSelect';
 
 const TabPane = Tabs.TabPane;
-@connect(({ userQuery, loading }) => ({
+const { Option } = Select;
+@connect(({ dic,userQuery, loading }) => ({
+  dic,
   userQuery,
   loading: loading.models.emp,
 }))
@@ -538,6 +541,9 @@ class User extends Component {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userType', {})(<DictSelect category="user_type" placeholder="用户类型" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
