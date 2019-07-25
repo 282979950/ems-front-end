@@ -48,6 +48,12 @@ export default [
             component: './Recharge/OrderManagement',
             authority: 'recharge:order:visit'
           },
+          {
+            path: '/recharge/coupon',
+            name: 'coupon',
+            component: './Recharge/Coupon',
+            authority: 'recharge:coupon:visit'
+          },
         ],
       },
       // 账户管理

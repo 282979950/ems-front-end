@@ -23,6 +23,7 @@ export default {
   'menu.recharge.replaceCard': '补卡充值',
   'menu.recharge.postPayment': '后付费充值',
   'menu.recharge.order': '订单管理',
+  'menu.recharge.coupon': '优惠券管理',
 
   'menu.invoice': '发票管理',
   'menu.invoice.assign': '发票分配',

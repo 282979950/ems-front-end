@@ -71,3 +71,15 @@ export async function queryNullInvoice(params) {
     },
   });
 }
+
+/**
+ * 人民币查询
+ */
+export async function getRmbBig(params) {
+  return request('/api/order/getRmbBig.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

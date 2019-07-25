@@ -4,6 +4,7 @@ import {
   queryUpdateOrderStatus,
   queryFindInvoice,
   queryPrintInvoice,
+  getRmbBig,
   queryNullInvoice
 } from '../services/orderManagement';
 import { handleRequestException } from '../utils/request';
@@ -55,6 +56,10 @@ export default {
     },
     *invalidate({ payload, callback }, { call }) {
       const response = yield call(queryNullInvoice, payload);
+      if (callback) callback(response);
+    },
+    *getRmbBig({ payload, callback }, { call }) {
+      const response = yield call(getRmbBig, payload);
       if (callback) callback(response);
     },
   },

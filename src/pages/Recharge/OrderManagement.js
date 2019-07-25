@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, message, DatePicker } from 'antd';
+import { Card, Row, Col, Input, Button, Form, message, DatePicker, Modal } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
@@ -9,6 +10,7 @@ import Authorized from '../../utils/Authorized';
 import DescriptionList from '../../components/DescriptionList';
 
 const { Description } = DescriptionList;
+const { confirm } = Modal;
 @connect(({ orderManagement, loading }) => ({
   orderManagement,
   loading: loading.models.orderManagement,
@@ -438,8 +440,104 @@ class OrderManagement extends Component {
     })
   }
 
+  Printings = (selectedRows) =>{
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    dispatch({
+      type: 'orderManagement/getRmbBig',
+      payload: {
+        orderGas:selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas
+      },
+      callback: (response) => {
+        const { rmbBig } = response;
+        // 创建当前日期
+        const nowDate = new Date();
+        const Y = nowDate.getFullYear();
+        const M = nowDate.getMonth()+1;
+        const D = nowDate.getDate();
+        Modal.confirm({
+          title: '确定打印凭证？',
+          content: (
+            <div>
+              <br /><br /><p style={{color:"red"}}>凭证信息：</p>
+              <div id="billDetails">
+                <div style={{color:"black"}}>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col span={4}>&nbsp;</Col>
+                    <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                    <Col>用户名称：{selectedRows[0].userName}</Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col span={11}>本次购买气量(单位：方)：{selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas}</Col>
+                    <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
+                  </Row>
+                  <Row>
+                    <Col span={2}>&nbsp;</Col>
+                    <Col span={13}>{rmbBig}</Col>
+                    <Col>{selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas}</Col>
+                  </Row>
+                  <Row>
+                    <Col span={18}>&nbsp;</Col>
+                    <Col>{selectedRows[0].orderCreateEmpName?selectedRows[0].orderCreateEmpName:""}</Col>
+                  </Row>
+                </div>
+              </div>
+            </div>
+          ),
+          okText: '打印凭证',
+          onOk: () => {
+            window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+            window.print();
+            window.location.reload();
+          },
+          cancelText: '取消',
+          width:560,
+        });
+      },
+    });
+
+    dispatch({
+      type: 'orderManagement/fetch',
+      payload: {
+        pageNum,
+        pageSize
+      },
+    });
+
+  }
+
   expandedRowRender = (record) => {
-    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName } = record;
+    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="订单生成员工">{orderCreateEmpName}</Description>
@@ -451,6 +549,8 @@ class OrderManagement extends Component {
         <Description term="发票打印时间">{invoicePrintTime}</Description>
         <Description term="发票作废员工">{invoiceCancelEmpName}</Description>
         <Description term="发票作废时间">{invoiceCancelTime}</Description>
+        <Description term="订单详情">{orderDetail}</Description>
+        <Description term="赠送气量或优惠券">{couponGas}</Description>
       </DescriptionList>
     );
   };
@@ -527,6 +627,9 @@ class OrderManagement extends Component {
               </Authorized>
               <Authorized authority="recharge:order:cancel">
                 <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
+              </Authorized>
+              <Authorized authority="recharge:order:cancel">
+                <Button icon="file-text" onClick={() => this.Printings(selectedRows)}>打印凭证</Button>
               </Authorized>
             </div>
             <Authorized
