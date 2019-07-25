@@ -70,23 +70,29 @@ export default [
             authority: 'account:entryMeter:visit'
           },
           {
-            path: '/account/createArchive',
-            name: 'createArchive',
-            component: './Account/CreateArchive',
+            path: '/account/account',
+            name: 'account',
+            component: './Account/Account',
             authority: 'account:createArchive:visit'
           },
-          {
-            path: '/account/installMeter',
-            name: 'installMeter',
-            component: './Account/InstallMeter',
-            authority: 'account:installMeter:visit'
-          },
-          {
-            path: '/account/createAccount',
-            name: 'createAccount',
-            component: './Account/CreateAccount',
-            authority: 'account:createAccount:visit'
-          },
+          // {
+          //   path: '/account/createArchive',
+          //   name: 'createArchive',
+          //   component: './Account/CreateArchive',
+          //   authority: 'account:createArchive:visit'
+          // },
+          // {
+          //   path: '/account/installMeter',
+          //   name: 'installMeter',
+          //   component: './Account/InstallMeter',
+          //   authority: 'account:installMeter:visit'
+          // },
+          // {
+          //   path: '/account/createAccount',
+          //   name: 'createAccount',
+          //   component: './Account/CreateAccount',
+          //   authority: 'account:createAccount:visit'
+          // },
           {
             path: '/account/lockAccount',
             name: 'lockAccount',

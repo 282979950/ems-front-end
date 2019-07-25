@@ -11,6 +11,7 @@ export default {
 
   'menu.account': '账户管理',
   'menu.account.entryMeter': '表具入库',
+  'menu.account.account': '账户管理',
   'menu.account.createArchive': '用户建档',
   'menu.account.installMeter': '挂表',
   'menu.account.createAccount': '开户',

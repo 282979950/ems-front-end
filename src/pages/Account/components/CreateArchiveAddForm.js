@@ -35,7 +35,7 @@ class CreateArchiveAddForm extends PureComponent{
     const { modalVisible, form } = this.props;
     return (
       <Modal
-        title="新建用户档案"
+        title="建档"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
