@@ -59,3 +59,57 @@ export async function searchReplaceCardHistory(params) {
     },
   });
 }
+
+export async function queryCoupon(params) {
+  return request('/api/coupon/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function addCoupon(params) {
+  return request('/api/coupon/add.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function updateCoupon(params) {
+  return request('/api/coupon/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function deleteCoupon(params) {
+  return request('/api/coupon/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function searchCoupon(params) {
+  return request('/api/coupon/search.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function getCouponPayment(params) {
+  return request('/api/coupon/getCouponPayment.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
