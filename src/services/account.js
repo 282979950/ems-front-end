@@ -163,7 +163,7 @@ export async function queryAccount(params) {
 }
 
 export async function createAccount(params) {
-  return request('/api/account/edit.do', {
+  return request('/api/account/createAccount.do', {
     method: 'POST',
     body: {
       ...params
