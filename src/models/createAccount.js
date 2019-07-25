@@ -2,7 +2,7 @@ import { queryAccount, editCreateAccount, searchCreateAccount, getOrderPayment, 
 import { handleRequestException } from '../utils/request';
 
 export default {
-  namespace: 'account',
+  namespace: 'createAccount',
 
   state: {
     data: []

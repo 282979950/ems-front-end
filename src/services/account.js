@@ -75,16 +75,7 @@ export async function queryCreateArchive(params) {
   });
 }
 
-export async function deleteCreateArchive(params) {
-  return request('/api/createArchive/delete.do', {
-    method: 'POST',
-    body: {
-      ...params
-    },
-  });
-}
-
-export async function addCreateArchive(params) {
+export async function addArchive(params) {
   return request('/api/createArchive/add.do', {
     method: 'POST',
     body: {
@@ -93,7 +84,16 @@ export async function addCreateArchive(params) {
   });
 }
 
-export async function editCreateArchive(params) {
+export async function deleteArchive(params) {
+  return request('/api/createArchive/delete.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function editArchive(params) {
   return request('/api/createArchive/edit.do', {
     method: 'POST',
     body: {
@@ -123,8 +123,17 @@ export async function queryInstallMeter(params) {
   });
 }
 
-export async function editInstallMeter(params) {
+export async function installMeter(params) {
   return request('/api/installMeter/edit.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function editAccount(params) {
+  return request('/api/account/edit.do', {
     method: 'POST',
     body: {
       ...params
@@ -153,7 +162,7 @@ export async function queryAccount(params) {
   });
 }
 
-export async function editCreateAccount(params) {
+export async function createAccount(params) {
   return request('/api/account/edit.do', {
     method: 'POST',
     body: {

@@ -18,6 +18,9 @@ import DictSelect from '../System/components/DictSelect';
 import DistTreeSelect from '../System/components/DistTreeSelect';
 import OCX from '../../components/OCX';
 import CreateAccountForm from './components/CreateAccountForm';
+import CreateArchiveAddForm from './components/CreateArchiveAddForm';
+import InstallMeterEditForm from './components/InstallMeterEditForm';
+import AccountForm from './components/AccountForm';
 
 @connect(({ account, order, loading }) => ({
   account,
@@ -27,6 +30,9 @@ import CreateAccountForm from './components/CreateAccountForm';
 @Form.create()
 class CreateAccount extends PureComponent {
   state = {
+    createAccountModalVisible: false,
+    archiveModalVisible: false,
+    installMeterModalVisible: false,
     editModalVisible: false,
     selectedRows: [],
     formValues: {},
@@ -164,23 +170,42 @@ class CreateAccount extends PureComponent {
     });
   };
 
-  handleEditModalVisible = flag => {
-    this.setState({
-      editModalVisible: !!flag,
+  handleAdd = fields => {
+    this.handleArchiveModalVisible(false);
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    dispatch({
+      type: 'account/add',
+      payload: fields,
+      callback: () => {
+        message.success('新增成功');
+        dispatch({
+          type: 'account/fetch',
+          payload: {
+            pageNum,
+            pageSize
+          }
+        });
+      }
     });
   };
 
-  handleEdit = fields => {
-    this.handleEditModalVisible();
+  handleCreateAccountModalVisible = flag => {
+    this.setState({
+      createAccountModalVisible: !!flag,
+    });
+  };
+
+  handleCreateAccount = fields => {
+    this.handleCreateAccountModalVisible();
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
-      type: 'account/edit',
+      type: 'account/createAccount',
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          console.log('录入开户信息成功');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
           const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
@@ -193,7 +218,6 @@ class CreateAccount extends PureComponent {
               },
               callback: (response2) => {
                 if (response2.status === 0) {
-                  console.log("开户首单充值成功");
                   Modal.info({
                     title: '已开户首单充值成功',
                     content:
@@ -265,6 +289,66 @@ class CreateAccount extends PureComponent {
     return result[2];
   };
 
+  handleArchiveModalVisible = flag => {
+    this.setState({
+      archiveModalVisible: !!flag
+    });
+  };
+
+  handleInstallMeterModalVisible = flag => {
+    this.setState({
+      installMeterModalVisible: !!flag
+    });
+  };
+
+  handleInstallMeter = fields => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    dispatch({
+      type: 'account/installMeter',
+      payload: fields,
+      callback: () => {
+        message.success('挂表成功');
+        this.handleInstallMeterModalVisible(false);
+        dispatch({
+          type: 'account/fetch',
+          payload: {
+            pageNum,
+            pageSize,
+          },
+        });
+      },
+    });
+  };
+
+  handleEditModalVisible = flag => {
+    this.setState({
+      editModalVisible: !!flag,
+    });
+  };
+
+  handleEdit = fields => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    dispatch({
+      type: 'account/edit',
+      payload: fields,
+      callback: () => {
+        message.success('编辑用户信息成功');
+        this.handleEditModalVisible(false);
+        dispatch({
+          type: 'account/fetch',
+          payload: {
+            pageNum,
+            pageSize,
+          },
+        });
+      },
+    });
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -321,7 +405,7 @@ class CreateAccount extends PureComponent {
       account: { data },
       loading,
     } = this.props;
-    const { selectedRows, editModalVisible } = this.state;
+    const { selectedRows, createAccountModalVisible, archiveModalVisible, installMeterModalVisible, editModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="account-createAccount">
         <Card bordered={false}>
@@ -329,19 +413,19 @@ class CreateAccount extends PureComponent {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Authorized authority="account:createArchive:create">
-                <Button icon="file-add" onClick={() => this.handleAddModalVisible(true)}>建档</Button>
+                <Button icon="file-add" onClick={() => this.handleArchiveModalVisible(true)}>建档</Button>
               </Authorized>
               <Authorized authority="account:installMeter:update">
-                <Button icon="dashboard" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>挂表</Button>
+                <Button icon="dashboard" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 1} onClick={() => this.handleInstallMeterModalVisible(true)}>挂表</Button>
               </Authorized>
               <Authorized authority="account:createAccount:update">
-                <Button icon="user-add" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>开户</Button>
+                <Button icon="user-add" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 2} onClick={() => this.handleCreateAccountModalVisible(true)}>开户</Button>
               </Authorized>
               <Authorized authority="account:createArchive:update">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               </Authorized>
               <Authorized authority="account:createArchive:delete">
-                <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
+                <Button icon="delete" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 1} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
               </Authorized>
             </div>
             <StandardTable
@@ -356,13 +440,34 @@ class CreateAccount extends PureComponent {
             <OCX />
           </div>
         </Card>
-        {selectedRows.length === 1 ? (
+        <CreateArchiveAddForm
+          handleAdd={this.handleAdd}
+          handleCancel={this.handleArchiveModalVisible}
+          modalVisible={archiveModalVisible}
+        />
+        {selectedRows.length === 1 && selectedRows[0].userStatus === 1 ? (
+          <InstallMeterEditForm
+            handleEdit={this.handleInstallMeter}
+            handleCancel={this.handleInstallMeterModalVisible}
+            modalVisible={installMeterModalVisible}
+            selectedData={selectedRows[0]}
+          />) : null
+        }
+        {selectedRows.length === 1 && selectedRows[0].userStatus === 2 ? (
           <CreateAccountForm
+            handleEdit={this.handleCreateAccount}
+            handleCancel={this.handleCreateAccountModalVisible}
+            modalVisible={createAccountModalVisible}
+            selectedData={selectedRows[0]}
+            getCardIdentifier={this.getCardIdentifier}
+          />) : null
+        }
+        {selectedRows.length === 1 ? (
+          <AccountForm
             handleEdit={this.handleEdit}
             handleCancel={this.handleEditModalVisible}
             modalVisible={editModalVisible}
             selectedData={selectedRows[0]}
-            getCardIdentifier={this.getCardIdentifier}
           />) : null
         }
       </PageHeaderWrapper>

@@ -57,7 +57,7 @@ class InstallMeterEditForm extends PureComponent{
     const { modalVisible, form } = this.props;
     return (
       <Modal
-        title="编辑用户档案"
+        title="挂表"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
