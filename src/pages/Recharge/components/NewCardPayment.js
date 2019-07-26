@@ -25,9 +25,15 @@ class NewCardPayment extends PureComponent{
 
   onChange = e => {
     console.log('radio checked', e.target.value);
+    const { form } =  this.props;
+    const orderGas = form.getFieldValue("orderGas");
     this.setState({
       radioFlag: e.target.value,
     });
+    const params = {
+      orderGas :e.target.value===1 && orderGas!==undefined?"":orderGas
+    };
+    form.setFieldsValue(params);
   };
 
   handleOK = () => {

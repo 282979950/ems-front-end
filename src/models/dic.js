@@ -106,6 +106,13 @@ export default {
               org_type: data
             },
           };
+        case 'coupon_status':
+          return {
+            ...state,
+            dicData: {
+              coupon_status: data
+            },
+          };
         case 'emp_type':
           return {
             ...state,

@@ -537,7 +537,7 @@ class OrderManagement extends Component {
   }
 
   expandedRowRender = (record) => {
-    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas } = record;
+    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="订单生成员工">{orderCreateEmpName}</Description>
@@ -551,6 +551,7 @@ class OrderManagement extends Component {
         <Description term="发票作废时间">{invoiceCancelTime}</Description>
         <Description term="订单详情">{orderDetail}</Description>
         <Description term="赠送气量或优惠券">{couponGas}</Description>
+        <Description term="优惠券编号">{couponNumber}</Description>
       </DescriptionList>
     );
   };

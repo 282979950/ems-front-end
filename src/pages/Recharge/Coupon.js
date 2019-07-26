@@ -9,6 +9,7 @@ import Authorized from '../../utils/Authorized';
 import CouponAddForm from './components/CouponAddForm';
 import CouponEditForm from './components/CouponEditForm';
 import CouponProcessingForm from './components/CouponProcessingForm';
+import DictSelect from '../System/components/DictSelect';
 
 const { confirm } = Modal;
 @connect(({ coupon, dic, loading }) => ({
@@ -300,6 +301,9 @@ class Coupon extends PureComponent {
             {getFieldDecorator('endDate')(<DatePicker placeholder="终止日期" style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('couponStatus', {})(<DictSelect category="coupon_status" placeholder="优惠券状态" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -329,9 +333,11 @@ class Coupon extends PureComponent {
               <Authorized authority="recharge:coupon:create">
                 <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>新增</Button>
               </Authorized>
+              {/* 暂时屏蔽该功能
               <Authorized authority="recharge:coupon:update">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>修改</Button>
               </Authorized>
+              */}
               <Button icon="form" disabled={selectedRows.length !== 1} onClick={() => this.handleProcessingModalVisible(true)}>处理</Button>
               <Authorized authority="recharge:coupon:delete">
                 <Button icon="close-square" disabled={selectedRows.length !== 1} onClick={() => this.showDeleteConfirm(selectedRows)}>销毁</Button>
