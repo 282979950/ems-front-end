@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag, Select } from 'antd';
+import ExportJsonExcel from 'js-export-excel';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
@@ -503,6 +504,43 @@ class User extends Component {
     });
   }
 
+  showDownload = () => {
+    const { dispatch, form } = this.props;
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim()
+    });
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      this.setState({
+        formValues: fieldsValue
+      });
+      dispatch({
+        type: 'userQuery/exportUserQuery',
+        payload: {
+          ...fieldsValue
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          const option = {
+            fileName: '用户信息查询',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [10, 7, 12, 12, 12, 8],
+                sheetFilter: ['userId', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'createTime'],// 列过滤
+                sheetHeader: ['用户编号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    });
+  }
+
   showModal = () => {
     this.handleReplaceCardHistoryFormVisible(true, 'editHistory')
     this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
@@ -574,6 +612,7 @@ class User extends Component {
             <div className={styles.CommonOperator}>
               <Button icon="audit" disabled={selectedRows.length !== 1} onClick={() => this.showModal()}>基本信息</Button>
               <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showModalUserMeter(selectedRows,true)}>表具信息</Button>
+              <Button icon="download" onClick={() => this.showDownload()}>数据导出</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
