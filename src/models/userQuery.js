@@ -7,6 +7,7 @@ import {
   queryUserRepairHistory,
   queryUserSearch,
   queryHistoryStrikeNucleus,
+  queryExportUser,
   queryUserMeterType
 } from '../services/stats';
 import { handleRequestException } from '../utils/request';
@@ -124,6 +125,14 @@ export default {
           payload: response.data,
         });
         if (callback) callback();
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportUserQuery({ payload, callback }, { call }) {
+      const response = yield call(queryExportUser, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
       } else {
         handleRequestException(response);
       }

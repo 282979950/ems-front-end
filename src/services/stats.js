@@ -107,3 +107,15 @@ export async function queryHistoryStrikeNucleus(params) {
     },
   });
 }
+
+/**
+ * 数据导出
+ */
+export async function queryExportUser(params) {
+  return request('/api/userQuery/ExportUserQuery.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

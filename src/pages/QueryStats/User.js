@@ -1,15 +1,19 @@
 /* eslint-disable react/no-unused-state,no-fallthrough,prefer-destructuring,no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag } from 'antd';
+import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag, Select } from 'antd';
+import ExportJsonExcel from 'js-export-excel';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import styles from '../Common.less';
 import UserMeterTypeModal from './components/UserMeterTypeModal';
 import InputEditForm from '../RepairOrder/components/InputEditForm';
+import DictSelect from '../System/components/DictSelect';
 
 const TabPane = Tabs.TabPane;
-@connect(({ userQuery, loading }) => ({
+const { Option } = Select;
+@connect(({ dic,userQuery, loading }) => ({
+  dic,
   userQuery,
   loading: loading.models.emp,
 }))
@@ -500,6 +504,43 @@ class User extends Component {
     });
   }
 
+  showDownload = () => {
+    const { dispatch, form } = this.props;
+    form.setFieldsValue({
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim()
+    });
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      this.setState({
+        formValues: fieldsValue
+      });
+      dispatch({
+        type: 'userQuery/exportUserQuery',
+        payload: {
+          ...fieldsValue
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          const option = {
+            fileName: '用户信息查询',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [10, 7, 12, 12, 12, 8],
+                sheetFilter: ['userId', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'createTime'],// 列过滤
+                sheetHeader: ['用户编号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    });
+  }
+
   showModal = () => {
     this.handleReplaceCardHistoryFormVisible(true, 'editHistory')
     this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
@@ -540,6 +581,9 @@ class User extends Component {
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userType', {})(<DictSelect category="user_type" placeholder="用户类型" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
               <Button type="primary" icon="search" onClick={this.handleSearch}>
                 查询
@@ -568,6 +612,7 @@ class User extends Component {
             <div className={styles.CommonOperator}>
               <Button icon="audit" disabled={selectedRows.length !== 1} onClick={() => this.showModal()}>基本信息</Button>
               <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showModalUserMeter(selectedRows,true)}>表具信息</Button>
+              <Button icon="download" onClick={() => this.showDownload()}>数据导出</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
