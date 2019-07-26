@@ -220,7 +220,7 @@ class CreateAccount extends PureComponent {
                 if (response2.status === 0) {
                   Modal.info({
                     title: '已开户首单充值成功',
-                    content:
+                    content: (
                       <div>
                         <span>姓名：{fields.userName}</span><br />
                         <span>手机：{fields.userPhone}</span><br />
@@ -228,6 +228,7 @@ class CreateAccount extends PureComponent {
                         <span>本次充值气量：{fields.orderGas}</span><br />
                         <span>本次充值金额：{fields.orderPayment}</span>
                       </div>
+                    )
                   });
                   dispatch({
                     type: 'account/fetch',
