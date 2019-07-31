@@ -34,52 +34,6 @@ class CreateAccountForm extends PureComponent {
     handleCancel();
   };
 
-  // getCardIdentifier = () => {
-  //   const { getCardIdentifier, form } = this.props;
-  //   const fieldsValue = form.getFieldsValue();
-  //   const result = getCardIdentifier();
-  //
-  //   if (result === '读卡失败') {
-  //     message.error("读卡失败，请检查读卡设备和卡片是否正常！");
-  //     form.setFieldsValue({
-  //       "iccardIdentifier": "",
-  //     });
-  //   } else if (result === '只能使用新卡进行开户') {
-  //     message.error(result);
-  //     form.setFieldsValue({
-  //       "iccardIdentifier": "",
-  //     });
-  //   } else {
-  //     form.setFieldsValue({
-  //       ...fieldsValue,
-  //       iccardIdentifier: result,
-  //     });
-  //   }
-  // };
-
-  // getOrderPayment = () => {
-  //   const { form, dispatch } = this.props;
-  //   const userId = form.getFieldValue("userId");
-  //   const orderGas = form.getFieldValue("orderGas");
-  //   if(orderGas === undefined || orderGas ==="")return;
-  //   const fieldsValue = form.getFieldsValue();
-  //   dispatch({
-  //     type: 'account/getOrderPayment',
-  //     payload: {
-  //       userId,
-  //       orderGas
-  //     },
-  //     callback: (response) => {
-  //       const params = {
-  //         ...fieldsValue,
-  //         orderPayment: response.data,
-  //         orderDetail: response.message
-  //       };
-  //       form.setFieldsValue(params);
-  //     }
-  //   });
-  // };
-
   render() {
     const {
       modalVisible,
@@ -135,29 +89,11 @@ class CreateAccountForm extends PureComponent {
         <FormItem {...this.formStyle} label="房产证号">
           {form.getFieldDecorator('userDeed', {})(<Input />)}
         </FormItem>
-        {/*<FormItem {...this.formStyle} label="IC卡识别号">*/}
-        {/*  {form.getFieldDecorator('iccardIdentifier', {*/}
-        {/*    rules: [{*/}
-        {/*      required: true,*/}
-        {/*      message: 'IC卡识别号不能为空！'*/}
-        {/*    }],*/}
-        {/*  })(<Input disabled />)}*/}
-        {/*  <Button type="primary" onClick={this.getCardIdentifier}>识别IC卡</Button>*/}
-        {/*</FormItem>*/}
-        {/*<FormItem {...this.formStyle} label="充值气量">*/}
-        {/*  {form.getFieldDecorator('orderGas', {*/}
-        {/*    rules: [{*/}
-        {/*      pattern: /^[1-9]\d*$/,*/}
-        {/*      message: '充值气量不能小于等于0！',*/}
-        {/*    }],*/}
-        {/*  })(<Input onBlur={this.getOrderPayment} />)}*/}
-        {/*</FormItem>*/}
-        {/*<FormItem {...this.formStyle} label="充值金额">*/}
-        {/*  {form.getFieldDecorator('orderPayment', {})(<Input disabled />)}*/}
-        {/*</FormItem>*/}
-        {/*<FormItem {...this.formStyle} label="订单详情">*/}
-        {/*  {form.getFieldDecorator('orderDetail', {})(<Input disabled />)}*/}
-        {/*</FormItem>*/}
+        <FormItem {...this.formStyle} label="表止码">
+          {form.getFieldDecorator('meterStopCode', {
+            initialValue: 0
+          })(<Input />)}
+        </FormItem>
       </Modal>
     );
   }

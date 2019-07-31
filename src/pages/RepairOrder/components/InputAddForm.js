@@ -18,7 +18,7 @@ class InputAddForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      repairTypeVal: "",
+      repairTypeVal: null,
       startValue: null,
       endValue: null,
       endOpen: false
@@ -32,6 +32,9 @@ class InputAddForm extends PureComponent {
   handleCancel = () => {
     const { form, handleCancel } = this.props;
     form.resetFields();
+    this.setState({
+      repairTypeVal: null
+    });
     handleCancel();
   };
 
@@ -278,7 +281,7 @@ class InputAddForm extends PureComponent {
           <FormItem {...this.formStyle} label="旧安全卡编号">
             {form.getFieldDecorator('oldSafetyCode', {})(<Input />)}
           </FormItem>
-          {repairTypeVal === 0 || this.repairTypeVal === 6 || this.repairTypeVal === 7 ? (
+          {repairTypeVal === 0 || repairTypeVal === 6 || repairTypeVal === 7 ? (
             <div>
               <FormItem {...this.formStyle} style={{ display: 'none' }} label="新表ID">
                 {form.getFieldDecorator('newMeterId', {
@@ -299,7 +302,7 @@ class InputAddForm extends PureComponent {
               })(<DictSelect category="meter_direction" disabled />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表止码">
-                {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} disabled />)}
+                {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新安全卡编号">
                 {form.getFieldDecorator('newSafetyCode', {})(<Input />)}
