@@ -21,6 +21,7 @@ import CreateAccountForm from './components/CreateAccountForm';
 import CreateArchiveAddForm from './components/CreateArchiveAddForm';
 import InstallMeterEditForm from './components/InstallMeterEditForm';
 import AccountForm from './components/AccountForm';
+import BindCardForm from '@/pages/Account/components/BindCardForm';
 
 @connect(({ account, order, loading }) => ({
   account,
@@ -33,6 +34,7 @@ class CreateAccount extends PureComponent {
     createAccountModalVisible: false,
     archiveModalVisible: false,
     installMeterModalVisible: false,
+    bindCardModalVisible: false,
     editModalVisible: false,
     selectedRows: [],
     formValues: {},
@@ -206,45 +208,14 @@ class CreateAccount extends PureComponent {
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          const { data } = response;
-          const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
-          const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
-          if (wResult === '写卡成功') {
-            dispatch({
-              type: 'order/updateOrderStatus',
-              payload: {
-                orderId,
-                orderStatus: 2
-              },
-              callback: (response2) => {
-                if (response2.status === 0) {
-                  Modal.info({
-                    title: '已开户首单充值成功',
-                    content: (
-                      <div>
-                        <span>姓名：{fields.userName}</span><br />
-                        <span>手机：{fields.userPhone}</span><br />
-                        <span>ic卡识别号：{fields.iccardIdentifier}</span><br />
-                        <span>本次充值气量：{fields.orderGas}</span><br />
-                        <span>本次充值金额：{fields.orderPayment}</span>
-                      </div>
-                    )
-                  });
-                  dispatch({
-                    type: 'account/fetch',
-                    payload: {
-                      pageNum,
-                      pageSize
-                    },
-                  });
-                } else {
-                  message.error(response2.message);
-                }
-              }
-            })
-          } else {
-            message.error("充值成功，写卡失败，请前往订单页面写卡");
-          }
+          message.success('开户成功');
+          dispatch({
+            type: 'account/fetch',
+            payload: {
+              pageNum,
+              pageSize
+            }
+          });
         } else {
           message.error(response.message);
         }
@@ -321,6 +292,63 @@ class CreateAccount extends PureComponent {
         });
       },
     });
+  };
+
+  handleBindCardModalVisible = (flag) => {
+    this.setState({
+      bindCardModalVisible: !!flag,
+    });
+  };
+
+  handleBindCard = (fields) => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    const _ = this;
+    dispatch({
+      type: 'account/bindCard',
+      payload: fields,
+      callback: (response) => {
+        _.handleBindCardModalVisible(false);
+        message.success('发卡成功');
+        const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = response.data;
+        const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
+        if (wResult === '写卡成功') {
+          dispatch({
+            type: 'order/updateOrderStatus',
+            payload: {
+              orderId,
+              orderStatus: 2
+            },
+            callback: (response2) => {
+              if (response2.status === 0) {
+                Modal.info({
+                  title: '发卡',
+                  content: (
+                    <div>
+                      <span>姓名：{fields.userName}</span><br />
+                      <span>手机：{fields.userPhone}</span><br />
+                      <span>ic卡识别号：{fields.iccardIdentifier}</span><br />
+                      <span>本次充值气量：{fields.orderGas}</span><br />
+                      <span>本次充值金额：{fields.orderPayment}</span>
+                    </div>
+                  )
+                });
+                dispatch({
+                  type: 'account/fetch',
+                  payload: {
+                    pageNum,
+                    pageSize
+                  },
+                });
+              } else {
+                message.error(response2.message);
+              }
+            }
+          })
+        }
+      }
+    })
   };
 
   handleEditModalVisible = flag => {
@@ -406,7 +434,7 @@ class CreateAccount extends PureComponent {
       account: { data },
       loading,
     } = this.props;
-    const { selectedRows, createAccountModalVisible, archiveModalVisible, installMeterModalVisible, editModalVisible } = this.state;
+    const { selectedRows, createAccountModalVisible, archiveModalVisible, installMeterModalVisible,bindCardModalVisible, editModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="account-createAccount">
         <Card bordered={false}>
@@ -421,6 +449,9 @@ class CreateAccount extends PureComponent {
               </Authorized>
               <Authorized authority="account:createAccount:update">
                 <Button icon="user-add" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 2} onClick={() => this.handleCreateAccountModalVisible(true)}>开户</Button>
+              </Authorized>
+              <Authorized authority="account:createAccount:update">
+                <Button icon="credit-card" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 3} onClick={() => this.handleBindCardModalVisible(true)}>发卡</Button>
               </Authorized>
               <Authorized authority="account:createArchive:update">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
@@ -459,6 +490,15 @@ class CreateAccount extends PureComponent {
             handleEdit={this.handleCreateAccount}
             handleCancel={this.handleCreateAccountModalVisible}
             modalVisible={createAccountModalVisible}
+            selectedData={selectedRows[0]}
+            getCardIdentifier={this.getCardIdentifier}
+          />) : null
+        }
+        {selectedRows.length === 1 && selectedRows[0].userStatus === 3 ? (
+          <BindCardForm
+            handleEdit={this.handleBindCard}
+            handleCancel={this.handleBindCardModalVisible}
+            modalVisible={bindCardModalVisible}
             selectedData={selectedRows[0]}
             getCardIdentifier={this.getCardIdentifier}
           />) : null

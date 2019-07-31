@@ -1,6 +1,7 @@
 import {
   queryAccount,
   createAccount,
+  bindCard,
   getOrderPayment,
   initCard,
   addArchive,
@@ -52,6 +53,14 @@ export default {
     },
     *createAccount({ payload, callback }, { call }) {
       const response = yield call(createAccount, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *bindCard({ payload, callback }, { call }) {
+      const response = yield call(bindCard, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {

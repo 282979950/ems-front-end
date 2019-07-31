@@ -171,6 +171,15 @@ export async function createAccount(params) {
   });
 }
 
+export async function bindCard(params) {
+  return request('/api/account/bindCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function searchCreateAccount(params) {
   return request('/api/account/search.do', {
     method: 'POST',

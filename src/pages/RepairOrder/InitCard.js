@@ -42,7 +42,7 @@ class InitCard extends PureComponent {
     },
     {
       dataIndex: 'cardFillGas',
-      title: '卡内气量(单位:0.1方)'
+      title: '卡内气量(单位:方)'
     }, {
       dataIndex: 'repairNumber',
       title: '维修次数'
