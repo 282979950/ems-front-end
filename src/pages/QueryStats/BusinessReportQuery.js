@@ -29,8 +29,12 @@ class BusinessReportQuery extends PureComponent {
         },{
           dataIndex: 'createTime',
           title: '充值日期',
-          width:'20%',
+          width:'16%',
           render: status => status? status.substring(0,10) : "未知",
+        }, {
+          dataIndex: 'empName',
+          title: '操作人',
+          width:'10%',
         }, {
           dataIndex: 'icCard',
           title: '充值次数',
@@ -155,6 +159,9 @@ class BusinessReportQuery extends PureComponent {
             {getFieldDecorator('empOrgId')(
               <OrgTreeSelect placeholder="所属营业厅" />
             )}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator("empName")(<Input placeholder="操作人" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('startDate')(<DatePicker placeholder="充值开始日期" style={{ "width": "100%" }} />)}

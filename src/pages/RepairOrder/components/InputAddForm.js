@@ -200,17 +200,6 @@ class InputAddForm extends PureComponent {
         onCancel={this.handleCancel}
       >
         <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
-          <FormItem {...this.formStyle} label="维修单编号">
-            {form.getFieldDecorator('repairOrderId', {
-            rules: [{
-              required: true,
-              message: '请输入维修单编号'
-            }, {
-              max: 20,
-              message: '维修员工号不能超过20个字',
-            }],
-          })(<Input />)}
-          </FormItem>
           <FormItem {...this.formStyle} label="户号">
             {form.getFieldDecorator('userId', {
             rules: [{
