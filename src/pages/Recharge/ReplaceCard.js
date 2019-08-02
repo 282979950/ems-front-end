@@ -223,7 +223,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={11}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                  <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>
@@ -297,7 +298,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                  <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>
@@ -371,7 +373,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                  <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>

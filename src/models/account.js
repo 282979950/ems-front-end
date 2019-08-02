@@ -8,6 +8,7 @@ import {
   deleteArchive,
   installMeter,
   editAccount,
+  checkFreeGasFlag
 } from '../services/account';
 import { handleRequestException } from '../utils/request';
 
@@ -85,6 +86,14 @@ export default {
     },
     *initCard({ payload, callback }, { call }) {
       const response = yield call(initCard, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *checkFreeGasFlag({ payload, callback }, { call }) {
+      const response = yield call(checkFreeGasFlag, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {

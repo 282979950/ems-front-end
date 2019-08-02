@@ -222,7 +222,6 @@ class PrePayment extends PureComponent {
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          console.log('充值成功，开始写卡');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, flowNumber, orderId, serviceTimes } = data;
           const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, serviceTimes, flowNumber);
@@ -235,7 +234,6 @@ class PrePayment extends PureComponent {
               },
               callback: (response2) => {
                 if (response2.status === 0) {
-                  console.log("写卡成功");
                   // 创建当前日期
                   const nowDate = new Date();
                   const Y = nowDate.getFullYear();
@@ -253,7 +251,6 @@ class PrePayment extends PureComponent {
                   if((fields.couponGas !== undefined || fields.couponGas !== '') && fields.orderGas> fields.couponGas){
                     Modal.confirm({
                       title: '写卡成功，是否打印发票',
-                      // content: (<p>IC卡号：{selectedRows[0].iccardId}<br />姓名：{selectedRows[0].userName}<br />购气总量：{selectedRows[0].totalOrderGas}<br />地址：{selectedRows[0].userAddress}</p>),
                       content: (
                         <div>
                           <p style={{color:"red"}}>基本信息：</p>
@@ -288,7 +285,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
@@ -327,7 +325,6 @@ class PrePayment extends PureComponent {
                   if((fields.couponGas !== undefined || fields.couponGas !== '') && fields.orderGas === `${fields.couponGas}`){
                     Modal.confirm({
                       title: '写卡成功，是否打印凭证',
-                      // content: (<p>IC卡号：{selectedRows[0].iccardId}<br />姓名：{selectedRows[0].userName}<br />购气总量：{selectedRows[0].totalOrderGas}<br />地址：{selectedRows[0].userAddress}</p>),
                       content: (
                         <div>
                           <p style={{color:"red"}}>基本信息：</p>
@@ -362,7 +359,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
@@ -401,7 +399,6 @@ class PrePayment extends PureComponent {
                   if(fields.couponGas === undefined) {
                     Modal.confirm({
                       title: '写卡成功，是否打印发票',
-                      // content: (<p>IC卡号：{selectedRows[0].iccardId}<br />姓名：{selectedRows[0].userName}<br />购气总量：{selectedRows[0].totalOrderGas}<br />地址：{selectedRows[0].userAddress}</p>),
                       content: (
                         <div>
                           <p style={{color:"red"}}>基本信息：</p>
@@ -436,7 +433,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
@@ -496,7 +494,6 @@ class PrePayment extends PureComponent {
       payload: fields,
       callback: (response) => {
         if (response.status === 0) {
-          console.log('充值成功，开始写卡');
           const { data } = response;
           const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = data;
           const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
@@ -527,7 +524,6 @@ class PrePayment extends PureComponent {
                   if((fields.couponGas !== undefined || fields.couponGas !== '') && fields.orderGas> fields.couponGas){
                     Modal.confirm({
                       title: '写卡成功，是否打印发票',
-                      // content: (<p>IC卡号：{selectedRows[0].iccardId}<br />姓名：{selectedRows[0].userName}<br />购气总量：{selectedRows[0].totalOrderGas}<br />地址：{selectedRows[0].userAddress}</p>),
                       content: (
                         <div>
                           <p style={{color:"red"}}>基本信息：</p>
@@ -562,7 +558,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
@@ -636,7 +633,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
@@ -675,7 +673,6 @@ class PrePayment extends PureComponent {
                   if(fields.couponGas === undefined) {
                     Modal.confirm({
                       title: '写卡成功，是否打印发票',
-                      // content: (<p>IC卡号：{selectedRows[0].iccardId}<br />姓名：{selectedRows[0].userName}<br />购气总量：{selectedRows[0].totalOrderGas}<br />地址：{selectedRows[0].userAddress}</p>),
                       content: (
                         <div>
                           <p style={{color:"red"}}>基本信息：</p>
@@ -710,7 +707,8 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={11}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>

@@ -17,6 +17,7 @@ class ReplaceCardForm extends PureComponent {
     super(props);
     this.state = {
       radioFlag : 1,
+      isLowIncome: false
     };
     this.formStyle = {
       labelCol: { span: 5 },
@@ -25,7 +26,6 @@ class ReplaceCardForm extends PureComponent {
   }
 
   onChange = e => {
-    console.log('radio checked', e.target.value);
     const { form } =  this.props;
     const orderGas = form.getFieldValue("orderGas");
     this.setState({
@@ -49,21 +49,38 @@ class ReplaceCardForm extends PureComponent {
   handleCancel = () => {
     const { form, handleCancel } = this.props;
     form.resetFields();
+    this.setState({
+      radioFlag : 1,
+      isLowIncome: false
+    });
     handleCancel();
   };
 
   getOrderPayment = () => {
-    const { form, dispatch } = this.props;
+    const { form, dispatch } =  this.props;
     const userId = form.getFieldValue("userId");
     const orderGas = form.getFieldValue("orderGas");
     const couponGas = form.getFieldValue("couponGas") ? form.getFieldValue("couponGas") : 0;
-    if(orderGas === undefined || orderGas ==="")return;
+    const isLowIncome = form.getFieldValue('isLowIncome');
+    const useCoupon = form.getFieldValue("useCoupon");
+    if (useCoupon && couponGas > orderGas) {
+      message.info("充值气量不能小于气票量");
+      return;
+    }
+    if (isLowIncome && orderGas < 4) {
+      message.info("充值气量不能小于低保送气量");
+      return;
+    }
+    if(orderGas === undefined || orderGas ==="") return;
     const fieldsValue = form.getFieldsValue();
+    let actualOrderGas = orderGas;
+    actualOrderGas = isLowIncome ? actualOrderGas - form.getFieldValue('freeGas') : actualOrderGas;
+    actualOrderGas  = useCoupon ? actualOrderGas - couponGas: actualOrderGas;
     dispatch({
       type: 'account/getOrderPayment',
       payload: {
         userId,
-        orderGas: orderGas> couponGas? orderGas-couponGas : 0
+        orderGas: actualOrderGas
       },
       callback: (response) => {
         const params = {
@@ -81,7 +98,6 @@ class ReplaceCardForm extends PureComponent {
     const couponNumbers = form.getFieldValue("couponNumber");
     // 方便重置之前查询的气量
     const orderGas = form.getFieldValue("orderGas")? form.getFieldValue("orderGas") : "";
-    console.log(couponNumbers)
     if(couponNumbers === undefined || couponNumbers ==="")return;
     const fieldsValue = form.getFieldsValue();
     dispatch({
@@ -90,7 +106,6 @@ class ReplaceCardForm extends PureComponent {
         couponNumbers,
       },
       callback: (response) => {
-        console.log(response)
         const params = {
           ...fieldsValue,
           couponGas: response.data,
@@ -122,6 +137,36 @@ class ReplaceCardForm extends PureComponent {
     }
   };
 
+  handleLowIncomeChange = e => {
+    const { dispatch, form } =  this.props;
+    const _ = this;
+    const userId = form.getFieldValue("userId");
+    dispatch({
+      type: 'account/checkFreeGasFlag',
+      payload: {
+        userId
+      },
+      callback: response => {
+        const fieldValues = form.getFieldsValue();
+        this.setState({
+          ..._.state,
+          isLowIncome: e.target.value,
+        });
+        if (response.data) {
+          form.setFieldsValue({
+            ...fieldValues,
+            freeGas: 4
+          });
+        } else {
+          form.setFieldsValue({
+            ...fieldValues,
+            freeGas: 0
+          });
+        }
+      }
+    });
+  };
+
   render() {
     const {
       modalVisible,
@@ -129,7 +174,7 @@ class ReplaceCardForm extends PureComponent {
       selectedData
     } = this.props;
     const { userId, iccardId, userName, iccardIdentifier } = selectedData;
-    const { radioFlag } = this.state;
+    const { radioFlag, isLowIncome } = this.state;
     return (
       <Modal
         title="补卡充值"
@@ -174,8 +219,24 @@ class ReplaceCardForm extends PureComponent {
             }],
           })(<DictSelect category='card_cost' />)}
         </FormItem>
+        <FormItem {...this.formStyle} label="是否低保户">
+          {form.getFieldDecorator('isLowIncome', {
+            initialValue: false,
+          })(
+            <Radio.Group onChange={this.handleLowIncomeChange}>
+              <Radio value={false}>否</Radio>
+              <Radio value>是</Radio>
+            </Radio.Group>
+          )}
+        </FormItem>
+        {isLowIncome ? (
+          <FormItem {...this.formStyle} label="低保送气">
+            {form.getFieldDecorator('freeGas', {
+            })(<Input disabled />)}
+          </FormItem>) : null
+        }
         <FormItem {...this.formStyle} label="是否使用劵">
-          <Radio.Group name="radiogroup" onChange={this.onChange} defaultValue={1}>
+          <Radio.Group name="useCoupon" onChange={this.onChange} defaultValue={1}>
             <Radio value={1}>否</Radio>
             <Radio value={2}>是</Radio>
           </Radio.Group>

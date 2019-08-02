@@ -206,3 +206,12 @@ export async function getOrderPayment(params) {
     },
   });
 }
+
+export async function checkFreeGasFlag(params) {
+  return request('/api/account/checkFreeGasFlag.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}

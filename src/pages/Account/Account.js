@@ -302,7 +302,7 @@ class CreateAccount extends PureComponent {
 
   handleBindCard = (fields) => {
     const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
+    const { pageNum, pageSize, selectedRows } = this.state;
     this.handleSelectedRowsReset();
     const _ = this;
     dispatch({
@@ -326,8 +326,8 @@ class CreateAccount extends PureComponent {
                   title: '发卡',
                   content: (
                     <div>
-                      <span>姓名：{fields.userName}</span><br />
-                      <span>手机：{fields.userPhone}</span><br />
+                      <span>姓名：{selectedRows[0].userName}</span><br />
+                      <span>手机：{selectedRows[0].userPhone}</span><br />
                       <span>ic卡识别号：{fields.iccardIdentifier}</span><br />
                       <span>本次充值气量：{fields.orderGas}</span><br />
                       <span>本次充值金额：{fields.orderPayment}</span>
@@ -375,6 +375,48 @@ class CreateAccount extends PureComponent {
           },
         });
       },
+    });
+  };
+
+  showDeleteConfirm = (selectedRows) => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    const _ = this;
+    if(selectedRows.some(ele => ele.userStatus === 2 || ele.userStatus === 3 || ele.userStatus === 5)) {
+      message.warn('已挂表/已开户/已发卡的用户不用删除！');
+      return;
+    }
+    Modal.confirm({
+      title: '删除用户',
+      content: `确认删除选中的${selectedRows.length}个用户档案信息？`,
+      onOk() {
+        const ids = [];
+        selectedRows.forEach(row => {
+          ids.push(row.userId);
+        });
+        dispatch({
+          type: 'account/delete',
+          payload: {
+            ids
+          },
+          callback: (response) => {
+            if (response.status === 0) {
+              message.success(response.message);
+              _.handleSelectedRowsReset();
+              dispatch({
+                type: 'account/fetch',
+                payload: {
+                  pageNum,
+                  pageSize
+                }
+              });
+            } else {
+              message.error(response.message);
+            }
+          }
+        });
+      },
+      onCancel() { },
     });
   };
 
@@ -457,7 +499,7 @@ class CreateAccount extends PureComponent {
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleEditModalVisible(true)}>编辑</Button>
               </Authorized>
               <Authorized authority="account:createArchive:delete">
-                <Button icon="delete" disabled={selectedRows.length !== 1 || selectedRows[0].userStatus !== 1} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
+                <Button icon="delete" disabled={selectedRows.length === 0} onClick={() => this.showDeleteConfirm(selectedRows)}>删除</Button>
               </Authorized>
             </div>
             <StandardTable
