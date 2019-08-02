@@ -71,6 +71,10 @@ class NewCardPayment extends PureComponent{
     let actualOrderGas = orderGas;
     actualOrderGas = isLowIncome ? actualOrderGas - form.getFieldValue('freeGas') : actualOrderGas;
     actualOrderGas  = useCoupon ? actualOrderGas - couponGas: actualOrderGas;
+    if (actualOrderGas < 0) {
+      message.info('充值气量不能小于低保送气量和气票的总和');
+      return;
+    }
     dispatch({
       type: 'account/getOrderPayment',
       payload: {
@@ -188,10 +192,14 @@ class NewCardPayment extends PureComponent{
           </FormItem>) : null
         }
         <FormItem {...this.formStyle} label="是否使用劵">
-          <Radio.Group name="useCoupon" onChange={this.onChange} defaultValue={1}>
-            <Radio value={1}>否</Radio>
-            <Radio value={2}>是</Radio>
-          </Radio.Group>
+          {form.getFieldDecorator('useCoupon', {
+            initialValue: 1,
+          })(
+            <Radio.Group onChange={this.onChange}>
+              <Radio value={1}>否</Radio>
+              <Radio value={2}>是</Radio>
+            </Radio.Group>
+          )}
         </FormItem>
         {radioFlag === 2 ?(
           <FormItem {...this.formStyle} label="购气劵编号">
