@@ -281,6 +281,7 @@ class User extends Component {
       formValues: {},
       pageNum: 1,
       pageSize: 10,
+      key:"1",
       userInfoQueryModalVisible: false,
       userInfoType: '',
       editModalVisible:false,
@@ -567,6 +568,176 @@ class User extends Component {
     });
   }
 
+  changeKey =(key)=> {
+    console.log(key);
+    this.setState({
+      key
+    });
+  }
+
+  // 选项卡数据导出
+  createBarExtraContent = () => {
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    const { key } = this.state;
+    if(key === '1'){
+      dispatch({
+        type: 'userQuery/exportModifyHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '变更信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [10, 7, 12, 12, 12, 8, 8,10,10],
+                sheetFilter: ['userChangeName', 'userChangePhone', 'userChangeIdcard', 'userChangeDeed', 'userOldName', 'userOldPhone','userOldIdcard','userOldDeed','createTime'],// 列过滤
+                sheetHeader: ['用户名称', '用户电话', '用户身份证号码', '用户房产证号码', '旧用户名称', '旧用户电话','旧用户身份证号码','旧用户房产证号码','生成时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+    if(key === '2'){
+      dispatch({
+        type: 'userQuery/exportAddHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '充值信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [7, 7, 7, 9, 8, 8, 8,8,8],
+                sheetFilter: ['userId', 'orderPayment', 'orderGas', 'flowNumber', 'orderSupplement', 'orderStatusName','orderTypeName','accountStateName','createTime'],// 列过滤
+                sheetHeader: ['用户编号', '实付金额', '充值气量', '流水号', '应付金额', '订单状态','订单类型','账务状态','创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+    if(key === '3'){
+      dispatch({
+        type: 'userQuery/exportFillHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '补气信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [7, 7, 7, 9, 8, 8, 8 ,8 ,8 ,8 ,8 ,8],
+                sheetFilter: ['userId', 'fillGasOrderTypeName', 'gasCount', 'stopCodeCount', 'needFillGas', 'fillGas','leftGas','needFillMoney','fillMoney','leftMoney','fillGasOrderStatusName','createTime'],// 列过滤
+                sheetHeader: ['用户编号', '订单类型', '历史购气总量', '历史表止码', '应补气量', '实补气量','剩余气量','应补金额','实补金额','剩余金额','订单状态','创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+    if(key === '4'){
+      dispatch({
+        type: 'userQuery/exportCardHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '卡信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [7, 7, 7, 9, 8, 8],
+                sheetFilter: ['userId', 'cardId', 'usable', 'cardIdentifier', 'cardCost', 'createTime'],// 列过滤
+                sheetHeader: ['用户编号', 'IC卡卡号', '卡片状态', 'IC卡识别号', '补卡工本费用', '创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+    if(key === '5'){
+      dispatch({
+        type: 'userQuery/exportRepairHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '维修信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [7, 7, 7, 9, 8, 8, 7, 9, 8, 8],
+                sheetFilter: ['userId', 'repairOrderId', 'repairTypeName', 'oldMeterId', 'oldMeterStopCode', 'newMeterId','newMeterStopCode','repairFaultTypeName','repairResultTypeName','createTime'],// 列过滤
+                sheetHeader: ['用户编号', '维修单号', '维修类型', '旧表编号', '旧表止码', '新表编号','新表止码','维修故障类型','维修处理结果','创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+    if(key === '6'){
+      dispatch({
+        type: 'userQuery/exportStrikeNucleusHistory',
+        payload: {
+          userId: selectedRows[0].userId
+        },
+        callback: (response) => {
+          const dataList = response.data;
+          if(dataList.length === 0)return;
+          const option = {
+            fileName: '审核冲账信息导出',// 文件名
+            datas: [
+              {
+                sheetData: dataList,
+                sheetName: 'sheet',// 表名
+                columnWidths: [7, 7, 7, 9, 8, 8],
+                sheetFilter: ['orderId', 'userName', 'nucleusStatusName', 'nucleusOpinion', 'nucleusLaunchingPerson', 'createTime'],// 列过滤
+                sheetHeader: ['订单编号', '用户名称', '审核状态', '审核意见', '发起人姓名', '创建时间'],// 第一行标题
+              },
+            ]
+          };
+          const toExcel = new ExportJsonExcel(option);
+          toExcel.saveExcel();
+        }
+      });
+    }
+  }
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -604,6 +775,7 @@ class User extends Component {
       loading,
     } = this.props;
     const { selectedRows, userInfoQueryModalVisible, editModalVisible, handleEditModalVisible } = this.state;
+    const operations = <Button onClick={this.createBarExtraContent}>Excel导出</Button>;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
@@ -641,7 +813,7 @@ class User extends Component {
           width={1400}
         >
           <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" onChange={this.changeKey} tabBarExtraContent={operations}>
               <TabPane tab="变更信息" key="1">
                 <Table
                   dataSource={history}

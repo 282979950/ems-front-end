@@ -137,6 +137,54 @@ export default {
         handleRequestException(response);
       }
     },
+    *exportModifyHistory({ payload, callback }, { call }) {
+      const response = yield call(queryUserModifyHistory, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportAddHistory({ payload, callback }, { call }) {
+      const response = yield call(queryUserAddHistory, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportFillHistory({ payload, callback }, { call }) {
+      const response = yield call(queryUserFillHistory, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportCardHistory({ payload, callback }, { call }) {
+      const response = yield call(queryUserCardHistory, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportRepairHistory({ payload, callback }, { call }) {
+      const response = yield call(queryUserRepairHistory, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
+    *exportStrikeNucleusHistory({ payload, callback }, { call }) {
+      const response = yield call(queryHistoryStrikeNucleus, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
+    },
   },
 
   reducers: {
