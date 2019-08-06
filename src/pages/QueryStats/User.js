@@ -576,7 +576,7 @@ class User extends Component {
   }
 
   // 选项卡数据导出
-  createBarExtraContent = () => {
+  createExcelContent = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
     const { key } = this.state;
@@ -775,7 +775,7 @@ class User extends Component {
       loading,
     } = this.props;
     const { selectedRows, userInfoQueryModalVisible, editModalVisible, handleEditModalVisible } = this.state;
-    const operations = <Button onClick={this.createBarExtraContent}>Excel导出</Button>;
+    const operations = <Button onClick={this.createExcelContent}>Excel导出</Button>;
     return (
       <PageHeaderWrapper className="antd-pro-pages-system-dist">
         <Card bordered={false}>
