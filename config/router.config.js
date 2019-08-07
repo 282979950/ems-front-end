@@ -216,12 +216,12 @@ export default [
         name: 'queryStats',
         authority: 'queryStats:visit',
         routes: [
-          {
-            path: '/queryStats/cardQuery',
-            name: 'cardQuery',
-            component: './QueryStats/CardQuery',
-            authority: 'queryStats:cardQuery:visit'
-          },
+          // {ic卡查询屏蔽
+          //   path: '/queryStats/cardQuery',
+          //   name: 'cardQuery',
+          //   component: './QueryStats/CardQuery',
+          //   authority: 'queryStats:cardQuery:visit'
+          // },
           {
             path: '/queryStats/accountQuery',
             name: 'accountQuery',

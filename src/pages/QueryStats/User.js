@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-state,no-fallthrough,prefer-destructuring,no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag, Select } from 'antd';
+import { Card, Row, Col, Input, Button, Form, Tabs, Table, Modal, Tag, Select, message } from 'antd';
 import ExportJsonExcel from 'js-export-excel';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
@@ -9,6 +9,7 @@ import styles from '../Common.less';
 import UserMeterTypeModal from './components/UserMeterTypeModal';
 import InputEditForm from '../RepairOrder/components/InputEditForm';
 import DictSelect from '../System/components/DictSelect';
+import OCX from '../../components/OCX';
 
 const TabPane = Tabs.TabPane;
 const { Option } = Select;
@@ -37,6 +38,14 @@ class User extends Component {
     {
       title: '用户身份证号',
       dataIndex: 'userIdcard',
+    },
+    {
+      title: '购气次数',
+      dataIndex: 'totalOrderTimes',
+    },
+    {
+      title: '累计购气量',
+      dataIndex: 'totalOrderGas',
     },
     {
       title: '用户地址',
@@ -738,6 +747,28 @@ class User extends Component {
     }
   }
 
+  getCardIdentifier = () => {
+    const { dispatch } = this.props;
+    let result = OCX.readCard();
+    if (result === 'IC卡未插入写卡器.' || result === '卡类型不正确.' || result === '写卡器连接错误.') {
+      message.error(result);
+      return;
+    }
+    if (result[0] === 'S') {
+      dispatch({
+        type: 'userQuery/fetchUserSearch',
+        payload: {
+          cardIdentifier: result[2],
+          cardOrderGas: result[4],
+          pageNum: 1,
+          pageSize: 10,
+        }
+      })
+    } else {
+      message.error(result)
+    }
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -753,6 +784,9 @@ class User extends Component {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userType', {})(<DictSelect category="user_type" placeholder="用户类型" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('meterCode')(<Input placeholder="表具编号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
@@ -785,6 +819,7 @@ class User extends Component {
               <Button icon="audit" disabled={selectedRows.length !== 1} onClick={() => this.showModal()}>基本信息</Button>
               <Button icon="clock-circle" disabled={selectedRows.length !== 1} onClick={() => this.showModalUserMeter(selectedRows,true)}>表具信息</Button>
               <Button icon="download" onClick={() => this.showDownload()}>数据导出</Button>
+              <Button icon="read" onClick={this.getCardIdentifier}>识别IC卡</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -795,6 +830,7 @@ class User extends Component {
               onChange={this.handleStandardTableChange}
               rowKey='userId'
             />
+            <OCX />
           </div>
         </Card>
         {selectedRows.length === 1 ? (
