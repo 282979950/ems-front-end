@@ -252,6 +252,12 @@ export default [
             component: './QueryStats/businessReportQuery',
             authority: 'queryStats:businessReportQuery:visit'
           },
+          {
+            path: '/queryStats/operatorDataQuery',
+            name: 'operatorDataQuery',
+            component: './QueryStats/OperatorDataQuery',
+            authority: 'queryStats:operatorDataQuery:visit'
+          },
         ],
       },
       // 系统管理

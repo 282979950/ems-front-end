@@ -130,3 +130,29 @@ export async function businessReportDataQuerySearch(params) {
     },
   });
 }
+
+/**
+ * 操作员日常数据查询
+ */
+
+export async function operatorDataQuery(params) {
+  return request('/api/operatorDataQuery/listData.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+/**
+ * 操作员日常数据查询
+ */
+
+export async function operatorDataQuerySearch(params) {
+  return request('/api/operatorDataQuery/search.do', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}

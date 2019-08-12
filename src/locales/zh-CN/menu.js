@@ -51,6 +51,7 @@ export default {
   'menu.queryStats.exceptionQuery': '异常用户查询',
   'menu.queryStats.businessDataQuery': '营业数据查询',
   'menu.queryStats.businessReportQuery': '营业报表查询',
+  'menu.queryStats.operatorDataQuery': '操作员日常数据查询',
 
   'menu.exception': '异常页',
   'menu.exception.not-permission': '403',
