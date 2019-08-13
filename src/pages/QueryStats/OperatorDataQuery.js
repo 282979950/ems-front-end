@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, Table, DatePicker } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Table, DatePicker, Select } from 'antd';
+import ExportJsonExcel from 'js-export-excel';
 import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import DescriptionList from '../../components/DescriptionList';
-import ExportJsonExcel from 'js-export-excel';
 
+const { Option } = Select;
 const { Description } = DescriptionList;
 @connect(({ operatorDataQuery, loading }) => ({
   operatorDataQuery,
@@ -182,7 +183,7 @@ class OperatorDataQuery extends PureComponent {
   };
 
   expandedRowRender = (record) => {
-    const { baseOrderPayment, baseOrderGas, launchOrderPayment, launchOrderGas, replacementOrderPayment, replacementOrderGas, cardCost } = record;
+    const { baseOrderPayment, baseOrderGas, launchOrderPayment, launchOrderGas, replacementOrderPayment, replacementOrderGas, cardCost, userId } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="基本金额">{baseOrderPayment}</Description>
@@ -192,6 +193,7 @@ class OperatorDataQuery extends PureComponent {
         <Description term="补卡金额">{replacementOrderPayment}</Description>
         <Description term="补卡气量">{replacementOrderGas}</Description>
         <Description term="补卡工本费">{cardCost}</Description>
+        <Description term="户号">{userId}</Description>
       </DescriptionList>
     );
   };
@@ -214,6 +216,16 @@ class OperatorDataQuery extends PureComponent {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('endDate')(<DatePicker placeholder="截止日期" style={{ "width": "100%" }} />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('operation')
+            (
+              <Select style={{ width: 120 }}>
+                <Option value="baseData">基本数据</Option>
+                <Option value="launchData">预冲账数据</Option>
+                <Option value="replacementData">补卡数据</Option>
+              </Select>
+            )}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
@@ -244,7 +256,7 @@ class OperatorDataQuery extends PureComponent {
             <div className={styles.CommonOperator}>
               <Button icon="download" onClick={() => this.showDownload()}>数据导出</Button>
             </div>
-            <div style={{fontSize:'16px',margin:"10px",color:"blue",fontWeight:"bold"}}>累计基本购气量：{data.countBaseOrderGas?data.countBaseOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计发起预冲账气量：{data.countLaunchOrderGas?data.countLaunchOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计补卡购气量：{data.countReplacementOrderGas?data.countReplacementOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计补卡工本费：{data.countCardCost?data.countCardCost:0}&nbsp;&nbsp;&nbsp;&nbsp;共：{data.rowNumber?data.rowNumber:0} 条记录</div>
+            <div style={{fontSize:'16px',margin:"10px",color:"blue",fontWeight:"bold"}}>累计基本购气量：{data.countBaseOrderGas?data.countBaseOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计发起预冲账气量：{data.countLaunchOrderGas?data.countLaunchOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计补卡购气量：{data.countReplacementOrderGas?data.countReplacementOrderGas:0}&nbsp;&nbsp;&nbsp;&nbsp;累计补卡工本费：{data.countCardCost?data.countCardCost:0}&nbsp;&nbsp;&nbsp;&nbsp;累计补卡次数：{data.countReplacementCard?data.countReplacementCard:0}&nbsp;&nbsp;&nbsp;&nbsp;共：{data.rowNumber?data.rowNumber:0} 条记录</div>
             <Table
               columns={this.columns}
               selectedRows={selectedRows}
