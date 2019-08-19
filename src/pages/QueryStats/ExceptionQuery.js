@@ -235,6 +235,9 @@ class ExceptionQuery extends PureComponent {
             {getFieldDecorator('userAddress')(<Input placeholder="用户地址" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('meterCode')(<Input placeholder="表具编号" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('notBuyDayCount', {
               rules: [{
                 pattern: /^[0-9]+$/,

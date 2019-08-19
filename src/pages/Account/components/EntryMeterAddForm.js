@@ -86,7 +86,7 @@ class EntryMeterAddForm extends PureComponent{
           {form.getFieldDecorator('meterDirection', {
             rules: [{
               required: true,
-              message: '表具型号不能为空！'
+              message: '表向不能为空！'
             }],
           })(<DictSelect category="meter_direction" />)}
         </FormItem>

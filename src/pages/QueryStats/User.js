@@ -538,9 +538,9 @@ class User extends Component {
               {
                 sheetData: dataList,
                 sheetName: 'sheet',// 表名
-                columnWidths: [10, 7, 12, 12, 12, 8],
-                sheetFilter: ['userId', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'createTime'],// 列过滤
-                sheetHeader: ['用户编号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '创建时间'],// 第一行标题
+                columnWidths: [10, 7, 12, 12, 12, 8, 8, 8],
+                sheetFilter: ['userId', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'totalOrderTimes', 'totalOrderGas', 'createTime'],// 列过滤
+                sheetHeader: ['用户编号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '购气次数', '累计购气量', '创建时间'],// 第一行标题
               },
             ]
           };
