@@ -45,7 +45,7 @@ export default {
     *edit({ payload, callback }, { call }) {
       const response = yield call(editFillGas, payload);
       if (response.status === 0) {
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         handleRequestException(response)
       }
