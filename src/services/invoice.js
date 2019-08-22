@@ -24,6 +24,14 @@ export async function queryAddInvoice(params) {
   });
 }
 
+export async function transfer(params) {
+  return request('/api/assign/transfer.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
 
 /**
  * 获取加载的字典项列表(其他页面需用到的数据字典项显示,根据类型)
@@ -63,6 +71,15 @@ export async function querySearchInvoice(params) {
  */
 export async function queryInvoice(params) {
   return request('/api/printCancel/listData.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function getInvoiceInfo(params) {
+  return request('/api/assign/getInvoiceInfo.do', {
     method: 'POST',
     body: {
       ...params

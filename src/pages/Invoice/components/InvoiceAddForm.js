@@ -1,5 +1,7 @@
 import { Form, Input, Modal } from 'antd';
 import React, { PureComponent } from 'react';
+import DistTreeSelect from '@/pages/System/components/DistTreeSelect';
+import OrgTreeSelect from '@/pages/System/components/OrgTreeSelect';
 
 const FormItem = Form.Item;
 
@@ -70,6 +72,14 @@ class InvoiceAddForm extends PureComponent{
               message: '只能为8位数字'
             }],
           })(<Input />)}
+        </FormItem>
+        <FormItem {...this.formStyle} label="所属营业厅">
+          {form.getFieldDecorator('orgId', {
+            rules: [{
+              required: true,
+              message: '所属营业厅不能为空！'
+            }],
+          })(<OrgTreeSelect />)}
         </FormItem>
       </Modal>
     );

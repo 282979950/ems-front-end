@@ -1,5 +1,5 @@
 import React  from 'react';
-import { Layout } from 'antd';
+import { Layout, message, Modal } from 'antd';
 import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
@@ -59,6 +59,32 @@ class BasicLayout extends React.PureComponent {
     } = this.props;
     dispatch({
       type: 'user/fetchCurrent',
+    });
+    dispatch({
+      type: 'invoice/getInvoiceInfo',
+      callback: response => {
+        if (response.status === 0) {
+          const { data } = response;
+          if (data.length === 0) {
+            message.info("你的名下没有发票，请向发票管理员索要发票");
+          } else {
+            Modal.info({
+              title: '发票信息确认',
+              content: (
+                <div>
+                  <p>发票编号：{data[0].invoiceCode}</p>
+                  <p>起始号码：{data[0].invoiceNumber}</p>
+                  <p>结束号码：{data[data.length - 1].invoiceNumber}</p>
+                  <p style={{ color: 'red'}}>*请核实发票编号和发票起止号码</p>
+                </div>
+              ),
+              onOk() {}
+            });
+          }
+        } else {
+          message.info(response);
+        }
+      }
     });
     dispatch({
       type: 'setting/getSetting',
