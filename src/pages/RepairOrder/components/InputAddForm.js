@@ -98,7 +98,7 @@ class InputAddForm extends PureComponent {
       },
       callback: (response) => {
         if (response.data === null) {
-          message.error("表号错误，请重新输入");
+          message.error("表号不存在，请重新输入");
         } else {
           const {
             data: { meterId, meterTypeId, meterDirection, meterStopCode, safetyCode, meterStatus}
@@ -278,16 +278,26 @@ class InputAddForm extends PureComponent {
               </FormItem>
               <FormItem {...this.formStyle} label="新表编号">
                 {form.getFieldDecorator('newMeterCode', {
+                  rules: [{
+                    required: true,
+                    message: '新表编号不能为空！'
+                  }]
               })(<Input onBlur={this.handleGetMeterByMeterCode} />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表类型">
                 {form.getFieldDecorator('newMeterTypeId', {
-                // initialValue: repairOrderUser.newMeterTypeId,
+                  rules: [{
+                    required: true,
+                    message: '新表类型不能为空！'
+                  }]
               })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表表向">
                 {form.getFieldDecorator('newMeterDirection', {
-                // initialValue: repairOrderUser.meterDirectionName,
+                  rules: [{
+                    required: true,
+                    message: '新表表向不能为空！'
+                  }]
               })(<DictSelect category="meter_direction" disabled />)}
               </FormItem>
               <FormItem {...this.formStyle} label="新表止码">
