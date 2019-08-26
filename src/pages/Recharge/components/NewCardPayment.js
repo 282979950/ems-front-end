@@ -58,6 +58,10 @@ class NewCardPayment extends PureComponent{
     const couponGas = form.getFieldValue("couponGas") ? form.getFieldValue("couponGas") : 0;
     const isLowIncome = form.getFieldValue('isLowIncome');
     const useCoupon = form.getFieldValue("useCoupon");
+    if(!/^[0-9]+$/.test(orderGas)){
+      message.info("充值气量须为纯数字");
+      return;
+    }
     if (useCoupon && couponGas > orderGas) {
       message.info("充值气量不能小于气票量");
       return;
@@ -151,7 +155,7 @@ class NewCardPayment extends PureComponent{
       form,
       selectedData
     } = this.props;
-    const { userId, userName, iccardIdentifier } = selectedData;
+    const { userId, userName, iccardIdentifier, userType } = selectedData;
     const { radioFlag, isLowIncome } = this.state;
     return (
       <Modal
@@ -163,6 +167,11 @@ class NewCardPayment extends PureComponent{
         <FormItem {...this.formStyle} style={{display: 'none'}} label="户号">
           {form.getFieldDecorator('userId', {
             initialValue: userId
+          })(<Input disabled />)}
+        </FormItem>
+        <FormItem {...this.formStyle} style={{display: 'none'}} label="用户类型">
+          {form.getFieldDecorator('userType', {
+            initialValue: userType
           })(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label="用户姓名">

@@ -100,6 +100,11 @@ class BindCardForm extends PureComponent {
             initialValue: userId
           })(<Input disabled />)}
         </FormItem>
+        <FormItem {...this.formStyle} style={{display: 'none'}} label="用户类型">
+          {form.getFieldDecorator('userType', {
+            initialValue: selectedData.userType?selectedData.userType:''
+          })(<Input disabled />)}
+        </FormItem>
         <FormItem {...this.formStyle} label="IC卡识别号">
           {form.getFieldDecorator('iccardIdentifier', {
             rules: [{

@@ -214,6 +214,10 @@ class PrePayment extends PureComponent {
 
   handleEdit = fields => {
     this.handlePrePaymentFormVisible();
+    if(!/^[0-9]+$/.test(fields.orderGas)){
+      message.info("提交失败：充值气量须为纯数字");
+      return;
+    }
     const { dispatch } = this.props;
     const { selectedRows, pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
@@ -486,6 +490,10 @@ class PrePayment extends PureComponent {
 
   handleNewCardPaymentEdit = fields => {
     this.handleNewCardPaymentFormVisible();
+    if(!/^[0-9]+$/.test(fields.orderGas)){
+      message.info("提交失败：充值气量须为纯数字");
+      return;
+    }
     const { dispatch } = this.props;
     const { selectedRows, pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();

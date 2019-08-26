@@ -134,22 +134,45 @@ class AccountForm extends PureComponent {
           {form.getFieldDecorator('userAddress', {
           })(<Input />)}
         </FormItem>
-        <FormItem {...this.formStyle} label="用户类型">
-          {form.getFieldDecorator('userType', {
-            rules: [{
-              required: true,
-              message: '用户类型不能为空！'
-            }],
-          })(<DictSelect category="user_type" />)}
-        </FormItem>
-        <FormItem {...this.formStyle} label="用气类型">
-          {form.getFieldDecorator('userGasType', {
-            rules: [{
-              required: true,
-              message: '用户类型不能为空！'
-            }],
-          })(<DictSelect category="user_gas_type" />)}
-        </FormItem>
+        {userStatus === 5?(
+          <div>
+            <FormItem {...this.formStyle} style={{display: 'none'}} label="用户类型">
+              {form.getFieldDecorator('userType', {
+                rules: [{
+                  required: true,
+                  message: '用户类型不能为空！'
+                }],
+              })(<DictSelect category="user_type" />)}
+            </FormItem>
+            <FormItem {...this.formStyle} style={{display: 'none'}} label="用气类型">
+              {form.getFieldDecorator('userGasType', {
+                rules: [{
+                  required: true,
+                  message: '用户类型不能为空！'
+                }],
+              })(<DictSelect category="user_gas_type" />)}
+            </FormItem>
+          </div>
+        ):
+          <div>
+            <FormItem {...this.formStyle} label="用户类型">
+              {form.getFieldDecorator('userType', {
+              rules: [{
+                required: true,
+                message: '用户类型不能为空！'
+              }],
+            })(<DictSelect category="user_type" />)}
+            </FormItem>
+            <FormItem {...this.formStyle} label="用气类型">
+              {form.getFieldDecorator('userGasType', {
+              rules: [{
+                required: true,
+                message: '用户类型不能为空！'
+              }],
+            })(<DictSelect category="user_gas_type" />)}
+            </FormItem>
+          </div>
+        }
       </Modal>
     );
   }

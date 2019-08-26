@@ -537,7 +537,7 @@ class OrderManagement extends Component {
   }
 
   expandedRowRender = (record) => {
-    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber } = record;
+    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="订单生成员工">{orderCreateEmpName}</Description>
@@ -550,8 +550,9 @@ class OrderManagement extends Component {
         <Description term="发票作废员工">{invoiceCancelEmpName}</Description>
         <Description term="发票作废时间">{invoiceCancelTime}</Description>
         <Description term="订单详情">{orderDetail}</Description>
-        <Description term="赠送气量或优惠券">{couponGas}</Description>
+        <Description term="优惠券面额">{couponGas}</Description>
         <Description term="优惠券编号">{couponNumber}</Description>
+        <Description term="低保户赠送气量">{freeGas}</Description>
       </DescriptionList>
     );
   };
@@ -630,7 +631,7 @@ class OrderManagement extends Component {
                 <Button icon="file-text" onClick={() => this.nullInvoice()}>发票作废</Button>
               </Authorized>
               <Authorized authority="recharge:order:cancel">
-                <Button icon="file-text" onClick={() => this.Printings(selectedRows)}>打印凭证</Button>
+                <Button icon="file-text" disabled={selectedRows.length !== 1} onClick={() => this.Printings(selectedRows)}>打印凭证</Button>
               </Authorized>
             </div>
             <Authorized

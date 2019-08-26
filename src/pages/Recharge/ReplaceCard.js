@@ -147,9 +147,25 @@ class ReplaceCard extends PureComponent {
   };
 
   handleEdit = fields => {
-    this.handleReplaceCardFormVisible();
     const { dispatch } = this.props;
     const { selectedRows, pageNum, pageSize } = this.state;
+    const result = OCX.readCard();
+    if (result[0] !== 'S') {
+      message.error("读卡失败");
+      return;
+    }
+    // 学校工业用户，工业用户，金湘源.为商业用户(通过卡标识号码识别该卡为商业卡还是民用卡)
+    if (selectedRows[0].userType === 9 || selectedRows[0].userType === 10 || selectedRows[0].userType === 11) {
+      if (result[2].substring(6, 7) === '0') {
+        message.info('该户为商业用户请分发【商业卡】');
+        return;
+      }
+    }
+    this.handleReplaceCardFormVisible();
+    if(!/^[0-9]+$/.test(fields.orderGas)){
+      message.info("提交失败：充值气量须为纯数字");
+      return;
+    }
     this.handleSelectedRowsReset();
     dispatch({
       type: 'replaceCard/edit',
