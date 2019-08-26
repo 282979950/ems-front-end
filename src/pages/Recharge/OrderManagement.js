@@ -335,7 +335,7 @@ class OrderManagement extends Component {
         }
       }
     })
-  }
+  };
 
   reprintNewInvoice = () => {
     const { selectedRows, pageNum, pageSize } = this.state;
@@ -350,35 +350,47 @@ class OrderManagement extends Component {
       return;
     }
 
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch({
-      type: 'orderManagement/findInvoice',
+      type: 'orderManagement/checkNewInvoicePrint',
       payload: {
         orderId: selectedRows[0].orderId,
-        userId: selectedRows[0].userId,
-        printType: 3
       },
-      callback: (response) => {
-        const { data } = response;
-        if (response.status === 0) {
+      callback: response => {
+        if (response.data) {
           dispatch({
-            type: 'orderManagement/printInvoice',
+            type: 'orderManagement/findInvoice',
             payload: {
               orderId: selectedRows[0].orderId,
-              invoiceCode: data.invoiceCode,
-              invoiceNumber: data.invoiceNumber,
+              userId: selectedRows[0].userId,
+              printType: 3
             },
-            callback: response2 => {
-              if (response2.status === 0) {
-                message.success(response2.message);
-                this.setState({
-                  selectedRows: []
-                });
+            callback: (response2) => {
+              const { data } = response2;
+              if (response.status === 0) {
                 dispatch({
-                  type: 'orderManagement/fetch',
+                  type: 'orderManagement/printInvoice',
                   payload: {
-                    pageNum,
-                    pageSize
+                    orderId: selectedRows[0].orderId,
+                    invoiceCode: data.invoiceCode,
+                    invoiceNumber: data.invoiceNumber,
+                  },
+                  callback: response3 => {
+                    if (response3.status === 0) {
+                      message.success(response3.message);
+                      this.setState({
+                        selectedRows: []
+                      });
+                      dispatch({
+                        type: 'orderManagement/fetch',
+                        payload: {
+                          pageNum,
+                          pageSize
+                        }
+                      });
+                    } else {
+                      message.error(response3.message);
+                    }
                   }
                 });
               } else {
@@ -387,11 +399,11 @@ class OrderManagement extends Component {
             }
           });
         } else {
-          message.error(response.message);
+          message.info(response.message);
         }
       }
-    })
-  }
+    });
+  };
 
   nullInvoice = () => {
     const { selectedRows, pageNum, pageSize } = this.state;

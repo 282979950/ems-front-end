@@ -48,6 +48,15 @@ export async function queryFindInvoice(params) {
   });
 }
 
+export async function checkNewInvoicePrint(params) {
+  return request('/api/order/checkNewInvoicePrint.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 /**
  * 打印发票-改变发票状态
  */

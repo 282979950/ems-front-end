@@ -5,7 +5,8 @@ import {
   queryFindInvoice,
   queryPrintInvoice,
   getRmbBig,
-  queryNullInvoice
+  queryNullInvoice,
+  checkNewInvoicePrint
 } from '../services/orderManagement';
 import { handleRequestException } from '../utils/request';
 
@@ -49,6 +50,14 @@ export default {
     *findInvoice({ payload, callback }, { call }) {
       const response = yield call(queryFindInvoice, payload);
       if (callback) callback(response);
+    },
+    *checkNewInvoicePrint({ payload, callback }, { call }) {
+      const response = yield call(checkNewInvoicePrint, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
     },
     *printInvoice({ payload, callback }, { call }) {
       const response = yield call(queryPrintInvoice, payload);
