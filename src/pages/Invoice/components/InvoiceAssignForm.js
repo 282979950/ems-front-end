@@ -8,9 +8,7 @@ const FormItem = Form.Item;
 class InvoiceAddForm extends PureComponent{
   constructor(props) {
     super(props);
-
     this.state = {
-
     };
     this.formStyle = {
       labelCol: { span: 5 },
@@ -37,7 +35,7 @@ class InvoiceAddForm extends PureComponent{
     const { modalVisible, form } = this.props;
     return (
       <Modal
-        title="分配"
+        title="分配至业务员"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}

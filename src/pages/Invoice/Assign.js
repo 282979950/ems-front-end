@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, message } from 'antd';
+import { Card, Row, Col, Input, Button, Form, message, Tooltip } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
@@ -12,7 +12,6 @@ import InvoiceAssignForm from './components/InvoiceAssignForm';
   loading: loading.models.assign,
 }))
 @Form.create()
-
 class InvoiceAssign extends Component {
 
   columns = [
@@ -36,6 +35,10 @@ class InvoiceAssign extends Component {
       title: '发票生成时间',
       dataIndex: 'invoiceGenerateTime',
     },
+    {
+      title: '所属营业厅',
+      dataIndex: 'orgName'
+    }
   ];
 
   constructor(props) {
@@ -238,7 +241,9 @@ class InvoiceAssign extends Component {
             <div className={styles.CommonForm}>{this.renderForm()}</div>
             <div className={styles.CommonOperator}>
               <Button icon="plus" onClick={() => this.handleAddModalVisible(true)}>发票录入</Button>
-              <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>发票分配</Button>
+              <Tooltip placement="topLeft" title="营业厅只有单人办理充值业务时可以将全部发票分配给业务员，多人时建议按需分配">
+                <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>分配至业务员</Button>
+              </Tooltip>
             </div>
             <StandardTable
               selectedRows={selectedRows}

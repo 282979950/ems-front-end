@@ -3,16 +3,17 @@ import { formatMessage } from 'umi/locale';
 import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import { connect } from 'dva';
-import router from 'umi/router';
 import GlobalHeader from '@/components/GlobalHeader';
 import TopNavHeader from '@/components/TopNavHeader';
 import styles from './Header.less';
+import InvoiceTransferForm from '@/layouts/InvoiceTransferForm';
 
 const { Header } = Layout;
 
 class HeaderView extends PureComponent {
   state = {
     visible: true,
+    modalVisible: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -55,22 +56,11 @@ class HeaderView extends PureComponent {
   };
 
   handleMenuClick = ({ key }) => {
-    const { dispatch } = this.props;
-    if (key === 'userCenter') {
-      router.push('/account/center');
-      return;
-    }
-    if (key === 'triggerError') {
-      router.push('/exception/trigger');
-      return;
-    }
-    if (key === 'userInfo') {
-      router.push('/account/settings/base');
-      return;
-    }
+    const _ = this;
     if (key === 'logout') {
-      dispatch({
-        type: 'login/logout',
+      this.setState({
+        ..._.state,
+        modalVisible: true,
       });
     }
   };
@@ -115,10 +105,44 @@ class HeaderView extends PureComponent {
     }
   };
 
+  handleOK = (params) => {
+    const { dispatch } = this.props;
+    const { type, empId } = params;
+    if (type === 1) {
+      dispatch({
+        type: 'invoice/transfer',
+        payload: {
+          empId
+        },
+        callback: response => {
+          if (response.status === 0) {
+            dispatch({
+              type: 'login/logout',
+            });
+          } else {
+            message.info(response.message);
+          }
+        }
+      });
+    } else {
+      dispatch({
+        type: 'login/logout',
+      });
+    }
+  };
+
+  handleCancel = () => {
+    const _ = this;
+    this.setState({
+      ..._.state,
+      modalVisible: false,
+    });
+  };
+
   render() {
     const { isMobile, handleMenuCollapse, setting } = this.props;
     const { navTheme, layout, fixedHeader } = setting;
-    const { visible } = this.state;
+    const { visible, modalVisible } = this.state;
     const isTop = layout === 'topmenu';
     const width = this.getHeadWidth();
     const HeaderDom = visible ? (
@@ -142,6 +166,12 @@ class HeaderView extends PureComponent {
             {...this.props}
           />
         )}
+        <InvoiceTransferForm
+          handleOK={this.handleOK}
+          handleCancel={this.handleCancel}
+          modalVisible={modalVisible}
+          treeSelectData={null}
+        />
       </Header>
     ) : null;
     return (

@@ -1,4 +1,4 @@
-import { queryAllAssignInvoice, queryAddInvoice, queryAssignInvoice, querySearchInvoice } from '../services/invoice';
+import { queryAllAssignInvoice, queryAddInvoice, queryAssignInvoice, querySearchInvoice, transfer, getInvoiceInfo } from '../services/invoice';
 import { handleRequestException } from '../utils/request';
 
 export default {
@@ -17,7 +17,7 @@ export default {
           type: 'save',
           payload: response.data,
         });
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         handleRequestException(response);
       }
@@ -29,6 +29,18 @@ export default {
     *assign({ payload, callback }, { call }) {
       const response = yield call(queryAssignInvoice, payload);
       if (callback) callback(response);
+    },
+    *transfer({ payload, callback }, { call }) {
+      const response = yield call(transfer, payload);
+      if (callback) callback(response);
+    },
+    *getInvoiceInfo({ payload, callback }, { call }) {
+      const response = yield call(getInvoiceInfo, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response);
+      }
     },
     *search({ payload, callback }, { call, put }) {
       const response = yield call(querySearchInvoice, payload);

@@ -22,8 +22,8 @@ class EmpSelect extends PureComponent{
       empDic : { data },
     } = this.props;
     return (
-      <Select style={{ width: '100%' }} {...this.props} allowClear>
-        {data && data.map((option) => <Option value={option.empId} key={option.empId}>{option.empLoginName}</Option>)}
+      <Select style={{ width: '100%' }} allowClear {...this.props}>
+        {data && data.map((option) => <Option value={option.empId} key={option.empId}>{option.empName}</Option>)}
       </Select>
     );
   }
