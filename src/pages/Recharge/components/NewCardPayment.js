@@ -26,14 +26,16 @@ class NewCardPayment extends PureComponent{
 
   onChange = e => {
     const { form } =  this.props;
-    const orderGas = form.getFieldValue("orderGas");
     this.setState({
       radioFlag: e.target.value,
     });
-    const params = {
-      orderGas :e.target.value===1 && orderGas!==undefined?"":orderGas
-    };
-    form.setFieldsValue(params);
+    const fieldValues = form.getFieldsValue();
+    form.setFieldsValue({
+      ...fieldValues,
+      orderGas: null,
+      orderPayment: null,
+      orderDetail: null
+    });
   };
 
   handleOK = () => {
@@ -137,12 +139,18 @@ class NewCardPayment extends PureComponent{
         if (response.data) {
           form.setFieldsValue({
             ...fieldValues,
-            freeGas: 4
+            freeGas: 4,
+            orderGas: null,
+            orderPayment: null,
+            orderDetail: null
           });
         } else {
           form.setFieldsValue({
             ...fieldValues,
-            freeGas: 0
+            freeGas: 0,
+            orderGas: null,
+            orderPayment: null,
+            orderDetail: null
           });
         }
       }
