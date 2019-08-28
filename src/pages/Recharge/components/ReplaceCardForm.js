@@ -278,8 +278,8 @@ class ReplaceCardForm extends PureComponent {
         <FormItem {...this.formStyle} label="充值气量">
           {form.getFieldDecorator('orderGas', {
             rules: [{
-              required: true,
-              message: '充值气量不能为空！'
+              pattern: /^[1-9]\d*$/,
+              message: '充值气量不能小于等于0！',
             }],
           })(<Input onBlur={this.getOrderPayment} />)}
         </FormItem>

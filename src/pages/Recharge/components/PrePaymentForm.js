@@ -233,7 +233,12 @@ class PrePaymentForm extends PureComponent{
         ):null
         }
         <FormItem {...this.formStyle} label="充值气量">
-          {form.getFieldDecorator('orderGas', {})(<Input onBlur={this.getOrderPayment} />)}
+          {form.getFieldDecorator('orderGas', {
+            rules: [{
+              pattern: /^[1-9]\d*$/,
+              message: '充值气量不能小于等于0！',
+            }],
+          })(<Input onBlur={this.getOrderPayment} />)}
         </FormItem>
         <FormItem {...this.formStyle} label="充值金额">
           {form.getFieldDecorator('orderPayment', {})(<Input disabled />)}

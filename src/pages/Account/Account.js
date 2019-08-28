@@ -308,6 +308,12 @@ class CreateAccount extends PureComponent {
         return;
       }
     }
+    if (selectedRows[0].userType !== 9 && selectedRows[0].userType !== 10 && selectedRows[0].userType !== 11) {
+      if (result[2].substring(6, 7) !== '0') {
+        message.info('该户为民用用户请分发【民用卡】');
+        return;
+      }
+    }
     this.setState({
       bindCardModalVisible: !!flag,
     });
@@ -322,7 +328,7 @@ class CreateAccount extends PureComponent {
       type: 'account/bindCard',
       payload: fields,
       callback: (response) => {
-        _.handleBindCardModalVisible(false);
+        // _.handleBindCardModalVisible(false);此处代码会导致发卡充值时写卡失败
         message.success('发卡成功');
         const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = response.data;
         const wResult = OCX.writePCard(iccardId, iccardPassword, orderGas, serviceTimes, orderGas, flowNumber);
