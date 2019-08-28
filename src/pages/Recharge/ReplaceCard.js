@@ -161,6 +161,12 @@ class ReplaceCard extends PureComponent {
         return;
       }
     }
+    if (selectedRows[0].userType !== 9 && selectedRows[0].userType !== 10 && selectedRows[0].userType !== 11) {
+      if (result[2].substring(6, 7) !== '0') {
+        message.info('该户为民用用户请分发【民用卡】');
+        return;
+      }
+    }
     this.handleReplaceCardFormVisible();
     if(!/^[0-9]+$/.test(fields.orderGas)){
       message.info("提交失败：充值气量须为纯数字");
