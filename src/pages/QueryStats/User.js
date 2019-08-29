@@ -223,12 +223,32 @@ class User extends Component {
       dataIndex: 'repairOrderId',
     },
     {
+      title: '维修单状态',
+      dataIndex: 'repairOrderStatus',
+      render: status => {
+        switch (status) {
+          case 1:
+            return <Tag color='volcano'>待处理</Tag>;
+          case 2:
+            return <Tag color='orange'>处理中</Tag>;
+          case 3:
+            return <Tag color='geekblue'>无需处理</Tag>;
+          case 4:
+            return <Tag color='green'>已处理</Tag>;
+          case 5:
+            return <Tag color='gray'>已撤销</Tag>;
+          default:
+            return <Tag color='gray'>已撤销</Tag>;
+        }
+      },
+    },
+    {
       title: '维修类型',
       dataIndex: 'repairTypeName'
     },
     {
       title: '旧表编号',
-      dataIndex: 'oldMeterId'
+      dataIndex: 'oldMeterCode'
     },
     {
       title: '旧表止码',
@@ -236,7 +256,7 @@ class User extends Component {
     },
     {
       title: '新表编号',
-      dataIndex: 'newMeterId'
+      dataIndex: 'newMeterCode'
     },
     {
       title: '新表止码',
