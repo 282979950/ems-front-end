@@ -729,7 +729,7 @@ class User extends Component {
                 sheetData: dataList,
                 sheetName: 'sheet',// 表名
                 columnWidths: [7, 7, 7, 9, 8, 8, 7, 9, 8, 8],
-                sheetFilter: ['userId', 'repairOrderId', 'repairTypeName', 'oldMeterId', 'oldMeterStopCode', 'newMeterId','newMeterStopCode','repairFaultTypeName','repairResultTypeName','createTime'],// 列过滤
+                sheetFilter: ['userId', 'repairOrderId', 'repairTypeName', 'oldMeterCode', 'oldMeterStopCode', 'newMeterCode','newMeterStopCode','repairFaultTypeName','repairResultTypeName','createTime'],// 列过滤
                 sheetHeader: ['用户编号', '维修单号', '维修类型', '旧表编号', '旧表止码', '新表编号','新表止码','维修故障类型','维修处理结果','创建时间'],// 第一行标题
               },
             ]
