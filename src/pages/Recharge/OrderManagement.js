@@ -227,12 +227,14 @@ class OrderManagement extends Component {
       message.error('请选择一条数据');
       return;
     }
-
+    if(selectedRows[0].orderPayment === 0 || selectedRows[0].orderPayment === undefined){
+      message.error('该充值只需打印凭证');
+      return;
+    }
     if (selectedRows[0].invoiceStatusName !== undefined) {
       message.error('该订单已有打印记录，请选择补打');
       return;
     }
-
     const { dispatch } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
@@ -250,10 +252,87 @@ class OrderManagement extends Component {
               orderId: selectedRows[0].orderId,
               invoiceCode: data.invoiceCode,
               invoiceNumber: data.invoiceNumber,
+              orderPayment:selectedRows[0].orderPayment,
             },
             callback: response2 => {
               if (response2.status === 0) {
-                message.success(response2.message);
+              //  message.success(response2.message);
+                // 创建当前日期
+                const nowDate = new Date();
+                const Y = nowDate.getFullYear();
+                const M = nowDate.getMonth()+1;
+                const D = nowDate.getDate();
+                Modal.confirm({
+                  title: '操作成功，是否打印发票',
+                  content: (
+                    <div>
+                      <p style={{color:"red"}}>基本信息：</p>
+                      <p>IC卡识别号：{selectedRows[0].iccardIdentifier}<br />姓名：{selectedRows[0].userName}<br />本次购气量：{selectedRows[0].orderGas}<br />本次支付金额：{selectedRows[0].orderPayment}<br />详情：{selectedRows[0].orderDetail}<br />地址：{selectedRows[0].userAddress}</p>
+                      <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                      <div id="billDetails">
+                        <div style={{color:"black"}}>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={4}>&nbsp;</Col>
+                            <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                            <Col>用户名称：{selectedRows[0].userName}</Col>
+                          </Row>
+                          <Row>
+                            <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                            <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
+                            <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={2}>&nbsp;</Col>
+                            <Col span={13}>{response2.data.rmbBig?response2.data.rmbBig:""}</Col>
+                            <Col>{selectedRows[0].orderPayment}</Col>
+                          </Row>
+                          <Row>
+                            <Col span={18}>&nbsp;</Col>
+                            <Col>{response2.data.name?response2.data.name:""}</Col>
+                          </Row>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  okText: '打印发票',
+                  onOk: () => {
+                    window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                    window.print();
+                    window.location.reload();
+                  },
+                  cancelText: '取消',
+                  width:560,
+                });
                 this.setState({
                   selectedRows: []
                 });
@@ -311,10 +390,87 @@ class OrderManagement extends Component {
               orderId: selectedRows[0].orderId,
               invoiceCode: data.invoiceCode,
               invoiceNumber: data.invoiceNumber,
+              orderPayment:selectedRows[0].orderPayment,
             },
             callback: response2 => {
               if (response2.status === 0) {
-                message.success(response2.message);
+              //  message.success(response2.message);
+                // 创建当前日期
+                const nowDate = new Date();
+                const Y = nowDate.getFullYear();
+                const M = nowDate.getMonth()+1;
+                const D = nowDate.getDate();
+                Modal.confirm({
+                  title: '操作成功，是否打印发票',
+                  content: (
+                    <div>
+                      <p style={{color:"red"}}>基本信息：</p>
+                      <p>IC卡识别号：{selectedRows[0].iccardIdentifier}<br />姓名：{selectedRows[0].userName}<br />本次购气量：{selectedRows[0].orderGas}<br />本次支付金额：{selectedRows[0].orderPayment}<br />详情：{selectedRows[0].orderDetail}<br />地址：{selectedRows[0].userAddress}</p>
+                      <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                      <div id="billDetails">
+                        <div style={{color:"black"}}>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={4}>&nbsp;</Col>
+                            <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                            <Col>用户名称：{selectedRows[0].userName}</Col>
+                          </Row>
+                          <Row>
+                            <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                            <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
+                            <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
+                          </Row>
+                          <Row>
+                            <Col>&nbsp;</Col>
+                          </Row>
+                          <Row>
+                            <Col span={2}>&nbsp;</Col>
+                            <Col span={13}>{response2.data.rmbBig?response2.data.rmbBig:""}</Col>
+                            <Col>{selectedRows[0].orderPayment}</Col>
+                          </Row>
+                          <Row>
+                            <Col span={18}>&nbsp;</Col>
+                            <Col>{response2.data.name?response2.data.name:""}</Col>
+                          </Row>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  okText: '打印发票',
+                  onOk: () => {
+                    window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                    window.print();
+                    window.location.reload();
+                  },
+                  cancelText: '取消',
+                  width:560,
+                });
                 this.setState({
                   selectedRows: []
                 });
@@ -374,10 +530,87 @@ class OrderManagement extends Component {
                     orderId: selectedRows[0].orderId,
                     invoiceCode: data.invoiceCode,
                     invoiceNumber: data.invoiceNumber,
+                    orderPayment:selectedRows[0].orderPayment,
                   },
                   callback: response3 => {
                     if (response3.status === 0) {
-                      message.success(response3.message);
+                    //  message.success(response3.message);
+                      // 创建当前日期
+                      const nowDate = new Date();
+                      const Y = nowDate.getFullYear();
+                      const M = nowDate.getMonth()+1;
+                      const D = nowDate.getDate();
+                      Modal.confirm({
+                        title: '操作成功，是否打印发票',
+                        content: (
+                          <div>
+                            <p style={{color:"red"}}>基本信息：</p>
+                            <p>IC卡识别号：{selectedRows[0].iccardIdentifier}<br />姓名：{selectedRows[0].userName}<br />本次购气量：{selectedRows[0].orderGas}<br />本次支付金额：{selectedRows[0].orderPayment}<br />详情：{selectedRows[0].orderDetail}<br />地址：{selectedRows[0].userAddress}</p>
+                            <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                            <div id="billDetails">
+                              <div style={{color:"black"}}>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col span={4}>&nbsp;</Col>
+                                  <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                                  <Col>用户名称：{selectedRows[0].userName}</Col>
+                                </Row>
+                                <Row>
+                                  <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                                  <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
+                                  <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
+                                </Row>
+                                <Row>
+                                  <Col span={2}>&nbsp;</Col>
+                                  <Col span={13}>{response3.data.rmbBig?response3.data.rmbBig:""}</Col>
+                                  <Col>{selectedRows[0].orderPayment}</Col>
+                                </Row>
+                                <Row>
+                                  <Col span={18}>&nbsp;</Col>
+                                  <Col>{response3.data.name?response3.data.name:""}</Col>
+                                </Row>
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        okText: '打印发票',
+                        onOk: () => {
+                          window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                          window.print();
+                          window.location.reload();
+                        },
+                        cancelText: '取消',
+                        width:560,
+                      });
                       this.setState({
                         selectedRows: []
                       });
