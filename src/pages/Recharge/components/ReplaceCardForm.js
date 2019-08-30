@@ -73,10 +73,6 @@ class ReplaceCardForm extends PureComponent {
       message.info("充值气量不能小于气票量");
       return;
     }
-    if (isLowIncome && orderGas < 4) {
-      message.info("充值气量不能小于低保送气量");
-      return;
-    }
     if(orderGas === undefined || orderGas ==="") return;
     const fieldsValue = form.getFieldsValue();
     let actualOrderGas = orderGas;

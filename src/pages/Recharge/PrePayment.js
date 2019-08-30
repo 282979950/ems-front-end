@@ -286,6 +286,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -319,7 +320,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas-fields.freeGas}</Col>
@@ -402,6 +403,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -435,7 +437,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
@@ -519,6 +521,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -552,7 +555,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
@@ -857,6 +860,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -890,7 +894,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
@@ -1032,6 +1036,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -1065,7 +1070,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas-fields.freeGas}</Col>
@@ -1148,6 +1153,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -1181,7 +1187,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
@@ -1265,6 +1271,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -1298,7 +1305,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
@@ -1603,6 +1610,7 @@ class PrePayment extends PureComponent {
                                   },
                                   callback: response5 => {
                                     if (response5.status === 0) {
+                                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                                       Modal.confirm({
                                         title: '写卡成功，是否打印发票',
                                         content: (
@@ -1636,7 +1644,7 @@ class PrePayment extends PureComponent {
                                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                 </Row>
                                                 <Row>
-                                                  <Col>&nbsp;</Col>
+                                                  <Col>纳税人识别号：{serialNumber}</Col>
                                                 </Row>
                                                 <Row>
                                                   <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>

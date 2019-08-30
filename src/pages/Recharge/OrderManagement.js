@@ -253,6 +253,7 @@ class OrderManagement extends Component {
               invoiceCode: data.invoiceCode,
               invoiceNumber: data.invoiceNumber,
               orderPayment:selectedRows[0].orderPayment,
+              cardCost:selectedRows[0].cardCost,
             },
             callback: response2 => {
               if (response2.status === 0) {
@@ -262,6 +263,7 @@ class OrderManagement extends Component {
                 const Y = nowDate.getFullYear();
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
+                const serialNumber = prompt("请输入纳税人识别号码：", "");
                 Modal.confirm({
                   title: '操作成功，是否打印发票',
                   content: (
@@ -295,7 +297,7 @@ class OrderManagement extends Component {
                             <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                           </Row>
                           <Row>
-                            <Col>&nbsp;</Col>
+                            <Col>纳税人识别号：{serialNumber}</Col>
                           </Row>
                           <Row>
                             {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
@@ -304,6 +306,7 @@ class OrderManagement extends Component {
                           </Row>
                           <Row>
                             <Col>&nbsp;</Col>
+                            {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                           </Row>
                           <Row>
                             <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -314,7 +317,7 @@ class OrderManagement extends Component {
                           <Row>
                             <Col span={2}>&nbsp;</Col>
                             <Col span={13}>{response2.data.rmbBig?response2.data.rmbBig:""}</Col>
-                            <Col>{selectedRows[0].orderPayment}</Col>
+                            {selectedRows[0].cardCost ?<Col>{selectedRows[0].orderPayment+selectedRows[0].cardCost}</Col>:<Col>{selectedRows[0].orderPayment}</Col>}
                           </Row>
                           <Row>
                             <Col span={18}>&nbsp;</Col>
@@ -391,6 +394,7 @@ class OrderManagement extends Component {
               invoiceCode: data.invoiceCode,
               invoiceNumber: data.invoiceNumber,
               orderPayment:selectedRows[0].orderPayment,
+              cardCost:selectedRows[0].cardCost,
             },
             callback: response2 => {
               if (response2.status === 0) {
@@ -400,6 +404,7 @@ class OrderManagement extends Component {
                 const Y = nowDate.getFullYear();
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
+                const serialNumber = prompt("请输入纳税人识别号码：", "");
                 Modal.confirm({
                   title: '操作成功，是否打印发票',
                   content: (
@@ -433,7 +438,7 @@ class OrderManagement extends Component {
                             <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                           </Row>
                           <Row>
-                            <Col>&nbsp;</Col>
+                            <Col>纳税人识别号：{serialNumber}</Col>
                           </Row>
                           <Row>
                             {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
@@ -442,6 +447,7 @@ class OrderManagement extends Component {
                           </Row>
                           <Row>
                             <Col>&nbsp;</Col>
+                            {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                           </Row>
                           <Row>
                             <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -452,7 +458,7 @@ class OrderManagement extends Component {
                           <Row>
                             <Col span={2}>&nbsp;</Col>
                             <Col span={13}>{response2.data.rmbBig?response2.data.rmbBig:""}</Col>
-                            <Col>{selectedRows[0].orderPayment}</Col>
+                            {selectedRows[0].cardCost ?<Col>{selectedRows[0].orderPayment+selectedRows[0].cardCost}</Col>:<Col>{selectedRows[0].orderPayment}</Col>}
                           </Row>
                           <Row>
                             <Col span={18}>&nbsp;</Col>
@@ -531,6 +537,7 @@ class OrderManagement extends Component {
                     invoiceCode: data.invoiceCode,
                     invoiceNumber: data.invoiceNumber,
                     orderPayment:selectedRows[0].orderPayment,
+                    cardCost:selectedRows[0].cardCost,
                   },
                   callback: response3 => {
                     if (response3.status === 0) {
@@ -540,6 +547,7 @@ class OrderManagement extends Component {
                       const Y = nowDate.getFullYear();
                       const M = nowDate.getMonth()+1;
                       const D = nowDate.getDate();
+                      const serialNumber = prompt("请输入纳税人识别号码：", "");
                       Modal.confirm({
                         title: '操作成功，是否打印发票',
                         content: (
@@ -573,7 +581,7 @@ class OrderManagement extends Component {
                                   <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                 </Row>
                                 <Row>
-                                  <Col>&nbsp;</Col>
+                                  <Col>纳税人识别号：{serialNumber}</Col>
                                 </Row>
                                 <Row>
                                   {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
@@ -582,6 +590,7 @@ class OrderManagement extends Component {
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
+                                  {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -592,7 +601,7 @@ class OrderManagement extends Component {
                                 <Row>
                                   <Col span={2}>&nbsp;</Col>
                                   <Col span={13}>{response3.data.rmbBig?response3.data.rmbBig:""}</Col>
-                                  <Col>{selectedRows[0].orderPayment}</Col>
+                                  {selectedRows[0].cardCost ?<Col>{selectedRows[0].orderPayment+selectedRows[0].cardCost}</Col>:<Col>{selectedRows[0].orderPayment}</Col>}
                                 </Row>
                                 <Row>
                                   <Col span={18}>&nbsp;</Col>
@@ -691,10 +700,10 @@ class OrderManagement extends Component {
     dispatch({
       type: 'orderManagement/getRmbBig',
       payload: {
-        orderGas:selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas
+        orderPayment:selectedRows[0].orderPayment,
+        cardCost:selectedRows[0].cardCost,
       },
       callback: (response) => {
-        const { rmbBig } = response;
         // 创建当前日期
         const nowDate = new Date();
         const Y = nowDate.getFullYear();
@@ -734,11 +743,12 @@ class OrderManagement extends Component {
                     <Col>&nbsp;</Col>
                   </Row>
                   <Row>
-                    <Col span={11}>本次购买气量(单位：方)：{selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas}</Col>
+                    {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
                     <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                   </Row>
                   <Row>
                     <Col>&nbsp;</Col>
+                    {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                   </Row>
                   <Row>
                     <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -748,8 +758,8 @@ class OrderManagement extends Component {
                   </Row>
                   <Row>
                     <Col span={2}>&nbsp;</Col>
-                    <Col span={13}>{rmbBig}</Col>
-                    <Col>{selectedRows[0].couponGas!== undefined ?selectedRows[0].orderGas-selectedRows[0].couponGas:selectedRows[0].orderGas}</Col>
+                    <Col span={13}>{response.data}</Col>
+                    {selectedRows[0].cardCost ?<Col>{selectedRows[0].orderPayment+selectedRows[0].cardCost}</Col>:<Col>{selectedRows[0].orderPayment}</Col>}
                   </Row>
                   <Row>
                     <Col span={18}>&nbsp;</Col>
@@ -782,7 +792,7 @@ class OrderManagement extends Component {
   }
 
   expandedRowRender = (record) => {
-    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas } = record;
+    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas, cardCost } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="订单生成员工">{orderCreateEmpName}</Description>
@@ -798,6 +808,7 @@ class OrderManagement extends Component {
         <Description term="优惠券面额">{couponGas}</Description>
         <Description term="优惠券编号">{couponNumber}</Description>
         <Description term="低保户赠送气量">{freeGas}</Description>
+        <Description term="补卡工本费用">{cardCost}</Description>
       </DescriptionList>
     );
   };

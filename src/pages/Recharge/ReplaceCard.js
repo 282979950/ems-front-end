@@ -9,6 +9,7 @@ import {
   Button,
   message, Modal,
 } from 'antd';
+import router from 'umi/router';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import Authorized from '../../utils/Authorized';
@@ -16,7 +17,6 @@ import styles from '../Common.less';
 import OCX from '../../components/OCX';
 import ReplaceCardForm from './components/ReplaceCardForm';
 import ReplaceCardHistoryForm from './components/ReplaceCardHistoryForm';
-import router from 'umi/router';
 
 @connect(({ replaceCard, orderManagement, loading }) => ({
   replaceCard,
@@ -241,6 +241,7 @@ class ReplaceCard extends PureComponent {
                                     },
                                     callback: response5 => {
                                       if (response5.status === 0) {
+                                        const serialNumber = prompt("请输入纳税人识别号码：", "");
                                         Modal.confirm({
                                           title: '写卡成功，是否打印发票',
                                           content: (
@@ -274,7 +275,7 @@ class ReplaceCard extends PureComponent {
                                                     <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                   </Row>
                                                   <Row>
-                                                    <Col>&nbsp;</Col>
+                                                    <Col>纳税人识别号：{serialNumber}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas-fields.freeGas}</Col>
@@ -283,6 +284,7 @@ class ReplaceCard extends PureComponent {
                                                   </Row>
                                                   <Row>
                                                     <Col>&nbsp;</Col>
+                                                    {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                                   </Row>
                                                   <Row>
                                                     <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -293,7 +295,7 @@ class ReplaceCard extends PureComponent {
                                                   <Row>
                                                     <Col span={2}>&nbsp;</Col>
                                                     <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                                    <Col>{fields.orderPayment}</Col>
+                                                    <Col>{fields.orderPayment+fields.cardCost}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={18}>&nbsp;</Col>
@@ -357,6 +359,7 @@ class ReplaceCard extends PureComponent {
                                     },
                                     callback: response5 => {
                                       if (response5.status === 0) {
+                                        const serialNumber = prompt("请输入纳税人识别号码：", "");
                                         Modal.confirm({
                                           title: '写卡成功，是否打印发票',
                                           content: (
@@ -390,7 +393,7 @@ class ReplaceCard extends PureComponent {
                                                     <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                   </Row>
                                                   <Row>
-                                                    <Col>&nbsp;</Col>
+                                                    <Col>纳税人识别号：{serialNumber}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
@@ -399,6 +402,7 @@ class ReplaceCard extends PureComponent {
                                                   </Row>
                                                   <Row>
                                                     <Col>&nbsp;</Col>
+                                                    {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                                   </Row>
                                                   <Row>
                                                     <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -409,7 +413,7 @@ class ReplaceCard extends PureComponent {
                                                   <Row>
                                                     <Col span={2}>&nbsp;</Col>
                                                     <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                                    <Col>{fields.orderPayment}</Col>
+                                                    <Col>{fields.orderPayment+fields.cardCost}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={18}>&nbsp;</Col>
@@ -474,6 +478,7 @@ class ReplaceCard extends PureComponent {
                                     },
                                     callback: response5 => {
                                       if (response5.status === 0) {
+                                        const serialNumber = prompt("请输入纳税人识别号码：", "");
                                         Modal.confirm({
                                           title: '写卡成功，是否打印发票',
                                           content: (
@@ -507,7 +512,7 @@ class ReplaceCard extends PureComponent {
                                                     <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                   </Row>
                                                   <Row>
-                                                    <Col>&nbsp;</Col>
+                                                    <Col>纳税人识别号：{serialNumber}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
@@ -515,6 +520,7 @@ class ReplaceCard extends PureComponent {
                                                   </Row>
                                                   <Row>
                                                     <Col>&nbsp;</Col>
+                                                    {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                                   </Row>
                                                   <Row>
                                                     <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -525,7 +531,7 @@ class ReplaceCard extends PureComponent {
                                                   <Row>
                                                     <Col span={2}>&nbsp;</Col>
                                                     <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                                    <Col>{fields.orderPayment}</Col>
+                                                    <Col>{fields.orderPayment+fields.cardCost}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={18}>&nbsp;</Col>
@@ -604,6 +610,7 @@ class ReplaceCard extends PureComponent {
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
+                                  {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -614,7 +621,7 @@ class ReplaceCard extends PureComponent {
                                 <Row>
                                   <Col span={2}>&nbsp;</Col>
                                   <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                  <Col>{fields.orderPayment}</Col>
+                                  <Col>{fields.orderPayment+fields.cardCost}</Col>
                                 </Row>
                                 <Row>
                                   <Col span={18}>&nbsp;</Col>
@@ -679,6 +686,7 @@ class ReplaceCard extends PureComponent {
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
+                                  {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -689,7 +697,7 @@ class ReplaceCard extends PureComponent {
                                 <Row>
                                   <Col span={2}>&nbsp;</Col>
                                   <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                  <Col>{fields.orderPayment}</Col>
+                                  <Col>{fields.orderPayment+fields.cardCost}</Col>
                                 </Row>
                                 <Row>
                                   <Col span={18}>&nbsp;</Col>
@@ -753,6 +761,7 @@ class ReplaceCard extends PureComponent {
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
+                                  {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -763,7 +772,7 @@ class ReplaceCard extends PureComponent {
                                 <Row>
                                   <Col span={2}>&nbsp;</Col>
                                   <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                  <Col>{fields.orderPayment}</Col>
+                                  <Col>{fields.orderPayment+fields.cardCost}</Col>
                                 </Row>
                                 <Row>
                                   <Col span={18}>&nbsp;</Col>
@@ -812,6 +821,7 @@ class ReplaceCard extends PureComponent {
                                     },
                                     callback: response5 => {
                                       if (response5.status === 0) {
+                                        const serialNumber = prompt("请输入纳税人识别号码：", "");
                                         Modal.confirm({
                                           title: '写卡成功，是否打印发票',
                                           content: (
@@ -845,7 +855,7 @@ class ReplaceCard extends PureComponent {
                                                     <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
                                                   </Row>
                                                   <Row>
-                                                    <Col>&nbsp;</Col>
+                                                    <Col>纳税人识别号：{serialNumber}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
@@ -853,6 +863,7 @@ class ReplaceCard extends PureComponent {
                                                   </Row>
                                                   <Row>
                                                     <Col>&nbsp;</Col>
+                                                    {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
                                                   </Row>
                                                   <Row>
                                                     <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -863,7 +874,7 @@ class ReplaceCard extends PureComponent {
                                                   <Row>
                                                     <Col span={2}>&nbsp;</Col>
                                                     <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
-                                                    <Col>{fields.orderPayment}</Col>
+                                                    <Col>{fields.orderPayment+fields.cardCost}</Col>
                                                   </Row>
                                                   <Row>
                                                     <Col span={18}>&nbsp;</Col>
