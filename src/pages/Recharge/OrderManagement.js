@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, message, DatePicker, Modal } from 'antd';
+import { Card, Row, Col, Input, Button, Form, message, DatePicker, Modal, Tag } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
@@ -23,6 +23,24 @@ class OrderManagement extends Component {
     {
       title: '订单编号',
       dataIndex: 'orderId',
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'orderStatus',
+      render: flag => {
+        switch (flag) {
+          case 1:
+            return <Tag color='volcano'>已充值待写卡</Tag>;
+          case 2:
+            return <Tag color='orange'>已写卡</Tag>;
+          case 3:
+            return <Tag color='geekblue'>待支付</Tag>;
+          case 4:
+            return <Tag color='green'>已撤销</Tag>;
+          default:
+            return <Tag color='gray'>已撤销</Tag>;
+        }
+      }
     },
     {
       title: '用户编号',
