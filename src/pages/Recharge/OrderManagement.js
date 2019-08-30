@@ -32,11 +32,11 @@ class OrderManagement extends Component {
           case 1:
             return <Tag color='volcano'>已充值待写卡</Tag>;
           case 2:
-            return <Tag color='orange'>已写卡</Tag>;
+            return <Tag color='green'>已写卡</Tag>;
           case 3:
             return <Tag color='geekblue'>待支付</Tag>;
           case 4:
-            return <Tag color='green'>已撤销</Tag>;
+            return <Tag color='gray'>已撤销</Tag>;
           default:
             return <Tag color='gray'>已撤销</Tag>;
         }

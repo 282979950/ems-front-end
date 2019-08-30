@@ -14,7 +14,7 @@ class ReplaceCardHistoryForm extends PureComponent{
     },
     {
       title: '补卡工本费',
-      dataIndex: 'castCost'
+      dataIndex: 'cardCost'
     },
     {
       title: '充值气量',
