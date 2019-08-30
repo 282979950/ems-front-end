@@ -73,7 +73,7 @@ class AccountForm extends PureComponent {
     const { userStatus } = selectedData;
     return (
       <Modal
-        title="账户开户"
+        title="编辑"
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
@@ -82,7 +82,7 @@ class AccountForm extends PureComponent {
           {form.getFieldDecorator('userId', {})(<Input disabled />)}
         </FormItem>
         {
-          userStatus === 2 || userStatus === 3 ? (
+          userStatus === 3 || userStatus === 5 ? (
             <div>
               <FormItem {...this.formStyle} label="账户姓名">
                 {form.getFieldDecorator('userName', {
@@ -134,7 +134,7 @@ class AccountForm extends PureComponent {
           {form.getFieldDecorator('userAddress', {
           })(<Input />)}
         </FormItem>
-        {userStatus === 5?(
+        {userStatus === 2?(
           <div>
             <FormItem {...this.formStyle} style={{display: 'none'}} label="用户类型">
               {form.getFieldDecorator('userType', {
