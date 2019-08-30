@@ -355,74 +355,82 @@ class FillGas extends PureComponent {
                         },
                         callback: response5 => {
                           if (response5.status === 0) {
-                            Modal.confirm({
-                              title: '操作成功，是否打印发票',
-                              content: (
-                                <div>
-                                  <p style={{color:"red"}}>处理补缴单成功,打印后可前往预付费充值页面做【发卡充值】</p>
-                                  <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
-                                  <div id="billDetails">
-                                    <div style={{color:"black"}}>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={4}>&nbsp;</Col>
-                                        <Col>{`${Y  }-${ M  }-${  D}`}</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={11}>用户编号：{response.data.data.userId?response.data.data.userId:""}</Col>
-                                        <Col>用户名称：{response.data.data.userName?response.data.data.userName:""}</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={6}>用户地址：{response.data.data.userAddress?response.data.data.userAddress:""}</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={8}>实补气量(单位：方)：{response.data.data.fillGas?response.data.data.fillGas:""}</Col>
-                                        <Col>实补金额(单位：元)：{response.data.data.fillMoney?response.data.data.fillMoney:""}</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>发票类别：超用补缴</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={2}>&nbsp;</Col>
-                                        <Col span={13}>{response.data.rmbBig?response.data.rmbBig:""}</Col>
-                                        <Col>{response.data.data.fillMoney?response.data.data.fillMoney:""}</Col>
-                                      </Row>
-                                      <Row>
-                                        <Col span={18}>&nbsp;</Col>
-                                        <Col>{response.data.name?response.data.name:""}</Col>
-                                      </Row>
-                                    </div>
-                                  </div>
-                                </div>
-                              ),
-                              okText: '打印发票',
+                            const modal = Modal.info();
+                            modal.update({
+                              title: "请输入纳税人识别号码",
+                              content: <input name="number" />,
                               onOk: () => {
-                                window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
-                                window.print();
-                                window.location.reload();
-                              },
-                              cancelText: '取消',
-                              width:560,
+                                const serialNumber = document.getElementsByName("number")[0].value;
+                                Modal.info({
+                                  title: '操作成功，请打印发票',
+                                  content: (
+                                    <div>
+                                      <p style={{color:"red"}}>处理补缴单成功,打印后可前往预付费充值页面做【发卡充值】</p>
+                                      <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                                      <div id="billDetails">
+                                        <div style={{color:"black"}}>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={4}>&nbsp;</Col>
+                                            <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={11}>用户编号：{response.data.data.userId?response.data.data.userId:""}</Col>
+                                            <Col>用户名称：{response.data.data.userName?response.data.data.userName:""}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={6}>用户地址：{response.data.data.userAddress?response.data.data.userAddress:""}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>纳税人识别号：{serialNumber}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={8}>实补气量(单位：方)：{response.data.data.fillGas?response.data.data.fillGas:""}</Col>
+                                            <Col>实补金额(单位：元)：{response.data.data.fillMoney?response.data.data.fillMoney:""}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>发票类别：超用补缴</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={2}>&nbsp;</Col>
+                                            <Col span={13}>{response.data.rmbBig?response.data.rmbBig:""}</Col>
+                                            <Col>{response.data.data.fillMoney?response.data.data.fillMoney:""}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col span={18}>&nbsp;</Col>
+                                            <Col>{response.data.name?response.data.name:""}</Col>
+                                          </Row>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ),
+                                  okText: '打印发票',
+                                  onOk: () => {
+                                    window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                                    window.print();
+                                    window.location.reload();
+                                  },
+                                  cancelText: '取消',
+                                  width:560,
+                                });
+                              }
                             });
                           } else {
                             message.error(response5.message);
