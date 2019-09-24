@@ -110,13 +110,6 @@ class CreateAccount extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'account/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   }
-    // });
   }
 
   handleFormReset = () => {
@@ -174,16 +167,20 @@ class CreateAccount extends PureComponent {
 
   handleAdd = fields => {
     this.handleArchiveModalVisible(false);
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
       type: 'account/add',
       payload: fields,
-      callback: () => {
+      callback: (response) => {
         message.success('新增成功');
+        form.setFieldsValue({
+          'userId': response.data
+        });
         dispatch({
           type: 'account/fetch',
           payload: {
+            userId: response.data,
             pageNum,
             pageSize
           }
@@ -200,7 +197,7 @@ class CreateAccount extends PureComponent {
 
   handleCreateAccount = fields => {
     this.handleCreateAccountModalVisible();
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
@@ -212,6 +209,7 @@ class CreateAccount extends PureComponent {
           dispatch({
             type: 'account/fetch',
             payload: {
+              userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
               pageNum,
               pageSize
             }
@@ -274,7 +272,7 @@ class CreateAccount extends PureComponent {
   };
 
   handleInstallMeter = fields => {
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
@@ -283,13 +281,14 @@ class CreateAccount extends PureComponent {
       callback: () => {
         message.success('挂表成功');
         this.handleInstallMeterModalVisible(false);
-        // dispatch({
-        //   type: 'account/fetch',
-        //   payload: {
-        //     pageNum,
-        //     pageSize,
-        //   },
-        // });
+        dispatch({
+          type: 'account/fetch',
+          payload: {
+            userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+            pageNum,
+            pageSize,
+          },
+        });
       },
     });
   };
@@ -316,7 +315,7 @@ class CreateAccount extends PureComponent {
   };
 
   handleBindCard = (fields) => {
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const { pageNum, pageSize, selectedRows } = this.state;
     this.handleSelectedRowsReset();
     const _ = this;
@@ -349,13 +348,14 @@ class CreateAccount extends PureComponent {
                     </div>
                   )
                 });
-                // dispatch({
-                //   type: 'account/fetch',
-                //   payload: {
-                //     pageNum,
-                //     pageSize
-                //   },
-                // });
+                dispatch({
+                  type: 'account/fetch',
+                  payload: {
+                    userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+                    pageNum,
+                    pageSize
+                  },
+                });
               } else {
                 message.error(response2.message);
               }
