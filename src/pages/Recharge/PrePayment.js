@@ -19,6 +19,7 @@ import styles from '../Common.less';
 import OCX from '../../components/OCX';
 import PrePaymentForm from './components/PrePaymentForm';
 import NewCardPayment from './components/NewCardPayment';
+import AddGasPaymentForm from './components/AddGasPaymentForm';
 
 @connect(({ prePayment, orderManagement, loading }) => ({
   prePayment,
@@ -30,6 +31,7 @@ class PrePayment extends PureComponent {
   state = {
     prePaymentModalVisible: false,
     newCardPaymentModalVisible: false,
+    addGasPaymentModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -1761,6 +1763,234 @@ class PrePayment extends PureComponent {
     });
   };
 
+  // 加购验证
+  handleAddGasFormVisible = flag => {
+    if (flag) {
+      const { selectedRows } = this.state;
+      const result = OCX.readCard();
+      if (result[0] !== 'S') {
+        message.error("读卡失败");
+        return;
+      }
+      if (result[1] !== '1') {
+        message.info('请使用密码传递卡');
+        return;
+      }
+      if (result[2] !== selectedRows[0].iccardIdentifier) {
+        message.info("该卡不是与该用户绑定的卡");
+        return;
+      }
+      if (result[4] !== 0) {
+        Modal.confirm({
+          title: '是否继续充值',
+          content: '卡内已有未圈存的气量,确认加购充值吗？',
+          okText: '继续充值',
+          onOk: () => {
+            this.setState({
+              addGasPaymentModalVisible: !!flag,
+            });
+          },
+          cancelText: '取消',
+        });
+      } else {
+        this.setState({
+          addGasPaymentModalVisible: !!flag,
+        });
+      }
+    } else {
+      this.setState({
+        addGasPaymentModalVisible: !!flag,
+      });
+    }
+  };
+
+  // 加购回调
+  handleAddGasEdit = fields => {
+    this.handleAddGasFormVisible();
+    if(!/^[0-9]+$/.test(fields.orderGas)){
+      message.info("提交失败：充值气量须为纯数字");
+      return;
+    }
+    const { dispatch } = this.props;
+    const { selectedRows, pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    const result = OCX.readCard();
+    if (result[0] !== 'S') {
+      message.error("读卡失败");
+      return;
+    }
+    // 获取卡内气量
+    const cardGas = result[4]
+      dispatch({
+        type: 'prePayment/addGas',
+        payload: fields,
+        callback: (response) => {
+          if (response.status === 0) {
+            const { data } = response;
+            const { iccardId, iccardPassword, orderGas, flowNumber, orderId, serviceTimes } = data;
+            const initResult = OCX.initCard(iccardPassword)
+            if (initResult === 'S') {
+              const writePCardResult = OCX.writePCard(iccardId, iccardPassword, Number(fields.orderGas)+Number(cardGas), serviceTimes, Number(fields.orderGas)+Number(cardGas), flowNumber);
+              if (writePCardResult === '写卡成功') {
+                dispatch({
+                  type: 'order/updateOrderStatus',
+                  payload: {
+                    orderId,
+                    orderStatus: 2
+                  },
+                  callback: (response2) => {
+                    if (response2.status === 0) {
+                      // 创建当前日期
+                      const nowDate = new Date();
+                      const Y = nowDate.getFullYear();
+                      const M = nowDate.getMonth()+1;
+                      const D = nowDate.getDate();
+                      dispatch({
+                        type: 'prePayment/search',
+                        payload: {
+                          iccardIdentifier: selectedRows[0].iccardIdentifier,
+                          pageNum,
+                          pageSize
+                        },
+                      });
+                      const modal = Modal.info();
+                        // 使用发票打印时需要验证发票信息
+                        dispatch({
+                          type: 'orderManagement/checkNewInvoicePrint',
+                          payload: {
+                            orderId: selectedRows[0].orderId,
+                          },
+                          callback: response3 => {
+                            if (response3.data) {
+                              dispatch({
+                                type: 'orderManagement/findInvoice',
+                                payload: {
+                                  orderId: data.orderId,
+                                  userId: selectedRows[0].userId,
+                                  printType: 1
+                                },
+                                callback: (response4) => {
+                                  if (response4.status === 0) {
+                                    dispatch({
+                                      type: 'orderManagement/printInvoice',
+                                      payload: {
+                                        orderId: data.orderId,
+                                        invoiceCode: response4.data.invoiceCode,
+                                        invoiceNumber: response4.data.invoiceNumber,
+                                        orderPayment:fields.orderPayment,
+                                      },
+                                      callback: response5 => {
+                                        if (response5.status === 0) {
+                                          //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                                          modal.update({
+                                            title: "请输入纳税人识别号码",
+                                            content: <input name="number" />,
+                                            onOk: () => {
+                                              const serialNumber = document.getElementsByName("number")[0].value;
+                                              Modal.info({
+                                                title: '写卡成功，请打印发票',
+                                                content: (
+                                                  <div>
+                                                    <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                                                    <div id="billDetails">
+                                                      <div style={{color:"black"}}>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={4}>&nbsp;</Col>
+                                                          <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                                                          <Col>用户名称：{selectedRows[0].userName}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>纳税人识别号：{serialNumber}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={8}>本次购买气量(单位：方)：{Number(fields.orderGas)+Number(cardGas)}</Col>
+                                                          <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>详&nbsp;情：{fields.orderDetail}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col>&nbsp;</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={2}>&nbsp;</Col>
+                                                          <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
+                                                          <Col>{fields.orderPayment}</Col>
+                                                        </Row>
+                                                        <Row>
+                                                          <Col span={18}>&nbsp;</Col>
+                                                          <Col>{data.name?data.name:""}</Col>
+                                                        </Row>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                ),
+                                                okText: '打印发票',
+                                                onOk: () => {
+                                                  window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                                                  window.print();
+                                                  router.push('/recharge/prePayment');
+                                                },
+                                                cancelText: '取消',
+                                                width:560,
+                                              });
+                                            }
+                                          });
+                                        } else {
+                                          message.error(response5.message);
+
+                                        }
+                                      }
+                                    });
+                                  } else {
+                                    message.error(response4.message);
+                                  }
+                                }
+                              });
+                            } else {
+                              message.info(response3.message);
+                            }
+                          }
+                        });
+                    } else {
+                      message.error(response2.message);
+                    }
+                  }
+                })
+              } else {
+                message.error("充值成功，写卡失败，请前往订单管理页面重新写卡");
+              }
+            }else{
+              message.error("初始化失败");
+            }
+          } else {
+            message.error(response.message);
+          }
+        },
+      });
+  };
+
   handleSelectedRowsReset = () => {
     this.setState({
       selectedRows: []
@@ -1843,7 +2073,7 @@ class PrePayment extends PureComponent {
       prePayment: { data },
       loading,
     } = this.props;
-    const { selectedRows, prePaymentModalVisible, newCardPaymentModalVisible } = this.state;
+    const { selectedRows, prePaymentModalVisible, newCardPaymentModalVisible, addGasPaymentModalVisible } = this.state;
     return (
       <PageHeaderWrapper className="recharge-prePayment">
         <Card bordered={false}>
@@ -1859,6 +2089,7 @@ class PrePayment extends PureComponent {
               <Authorized authority="recharge:pre:new">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleNewCardPaymentFormVisible(true)}>发卡充值</Button>
               </Authorized>
+              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleAddGasFormVisible(true)}>补气加购充值</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -1885,6 +2116,14 @@ class PrePayment extends PureComponent {
             handleEdit={this.handleNewCardPaymentEdit}
             handleCancel={this.handleNewCardPaymentFormVisible}
             modalVisible={newCardPaymentModalVisible}
+            selectedData={selectedRows[0]}
+          />) : null
+        }
+        {selectedRows.length === 1 ? (
+          <AddGasPaymentForm
+            handleEdit={this.handleAddGasEdit}
+            handleCancel={this.handleAddGasFormVisible}
+            modalVisible={addGasPaymentModalVisible}
             selectedData={selectedRows[0]}
           />) : null
         }

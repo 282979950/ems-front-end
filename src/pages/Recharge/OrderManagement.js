@@ -787,10 +787,10 @@ class OrderManagement extends Component {
                     {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: <Col>&nbsp;</Col>}
                   </Row>
                   <Row>
-                    <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
+                    <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas}</Col>
                   </Row>
                   <Row>
-                    <Col>&nbsp;</Col>
+                    <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
                   </Row>
                   <Row>
                     <Col span={2}>&nbsp;</Col>
