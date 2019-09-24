@@ -82,15 +82,7 @@ class Inputs extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'input/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    })
+
   }
 
   handleSelectedRowsReset = () => {
@@ -107,13 +99,13 @@ class Inputs extends PureComponent {
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'input/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
-    });
+    // dispatch({
+    //   type: 'input/fetch',
+    //   payload: {
+    //     pageNum: 1,
+    //     pageSize: 10
+    //   },
+    // });
   };
 
   handleSearch = () => {
@@ -247,13 +239,13 @@ class Inputs extends PureComponent {
         this.handleEditModalVisible();
         this.handleSelectedRowsReset();
         form.resetFields();
-        dispatch({
-          type: 'input/fetch',
-          payload: {
-            pageNum,
-            pageSize
-          },
-        });
+        // dispatch({
+        //   type: 'input/fetch',
+        //   payload: {
+        //     pageNum,
+        //     pageSize
+        //   },
+        // });
       }
     });
   };
@@ -276,13 +268,13 @@ class Inputs extends PureComponent {
               message.success(response.message);
               _.handleSelectedRowsReset();
               form.resetFields();
-              dispatch({
-                type: 'input/fetch',
-                payload: {
-                  pageNum,
-                  pageSize
-                },
-              });
+              // dispatch({
+              //   type: 'input/fetch',
+              //   payload: {
+              //     pageNum,
+              //     pageSize
+              //   },
+              // });
             }
           });
         },
@@ -311,13 +303,13 @@ class Inputs extends PureComponent {
             _.handleCardModalVisible();
             _.handleSelectedRowsReset();
             form.resetFields();
-            dispatch({
-              type: 'input/fetch',
-              payload: {
-                pageNum,
-                pageSize
-              },
-            });
+            // dispatch({
+            //   type: 'input/fetch',
+            //   payload: {
+            //     pageNum,
+            //     pageSize
+            //   },
+            // });
           }
         });
       },

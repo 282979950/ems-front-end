@@ -103,13 +103,13 @@ class PrePayment extends PureComponent {
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'prePayment/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
-    });
+    // dispatch({
+    //   type: 'prePayment/fetch',
+    //   payload: {
+    //     pageNum: 1,
+    //     pageSize: 10
+    //   },
+    // });
   };
 
   handleSelectRows = rows => {
@@ -160,10 +160,10 @@ class PrePayment extends PureComponent {
         message.info('该卡为密码传递卡，不能充值');
         return;
       }
-      if (result[2] !== selectedRows[0].iccardIdentifier) {
-        message.info("该卡不是与该用户绑定的卡");
-        return;
-      }
+      // if (result[2] !== selectedRows[0].iccardIdentifier) {
+      //   message.info("该卡不是与该用户绑定的卡");
+      //   return;
+      // }
       if (result[4] !== 0) {
         Modal.confirm({
           title: '是否继续充值',
@@ -200,10 +200,10 @@ class PrePayment extends PureComponent {
         message.info('只能对新卡进行发卡充值');
         return;
       }
-      if (result[2] !== selectedRows[0].iccardIdentifier) {
-        message.info("该卡不是与该用户绑定的卡");
-        return;
-      }
+      // if (result[2] !== selectedRows[0].iccardIdentifier) {
+      //   message.info("该卡不是与该用户绑定的卡");
+      //   return;
+      // }
       this.setState({
         newCardPaymentModalVisible: !!flag,
       });
@@ -1782,10 +1782,10 @@ class PrePayment extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize
     });
-    dispatch({
-      type: 'account/fetch',
-      payload: params,
-    });
+    // dispatch({
+    //   type: 'account/fetch',
+    //   payload: params,
+    // });
   };
 
   identifyCard = () => {

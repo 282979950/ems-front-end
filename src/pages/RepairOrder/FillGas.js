@@ -79,13 +79,13 @@ class FillGas extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'fillGas/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    })
+    // dispatch({
+    //   type: 'fillGas/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // })
   }
 
   handleSelectRows = rows => {
@@ -129,13 +129,13 @@ class FillGas extends PureComponent {
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'fillGas/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
-    });
+    // dispatch({
+    //   type: 'fillGas/fetch',
+    //   payload: {
+    //     pageNum: 1,
+    //     pageSize: 10
+    //   },
+    // });
   };
 
   handleSearch = () => {
@@ -448,13 +448,13 @@ class FillGas extends PureComponent {
             }
           });
         }
-        dispatch({
-          type: 'fillGas/fetch',
-          payload: {
-            pageNum,
-            pageSize
-          }
-        });
+        // dispatch({
+        //   type: 'fillGas/fetch',
+        //   payload: {
+        //     pageNum,
+        //     pageSize
+        //   }
+        // });
       }
     });
   };

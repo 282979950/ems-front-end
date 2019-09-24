@@ -167,13 +167,13 @@ class OrderManagement extends Component {
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'orderManagement/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-      }
-    });
+    // dispatch({
+    //   type: 'orderManagement/fetch',
+    //   payload: {
+    //     pageNum: 1,
+    //     pageSize: 10,
+    //   }
+    // });
   }
 
   identifyCard = () => {
@@ -511,13 +511,13 @@ class OrderManagement extends Component {
                 this.setState({
                   selectedRows: []
                 });
-                dispatch({
-                  type: 'orderManagement/fetch',
-                  payload: {
-                    pageNum,
-                    pageSize
-                  }
-                });
+                // dispatch({
+                //   type: 'orderManagement/fetch',
+                //   payload: {
+                //     pageNum,
+                //     pageSize
+                //   }
+                // });
               } else {
                 message.error(response2.message);
               }
@@ -660,13 +660,13 @@ class OrderManagement extends Component {
                       this.setState({
                         selectedRows: []
                       });
-                      dispatch({
-                        type: 'orderManagement/fetch',
-                        payload: {
-                          pageNum,
-                          pageSize
-                        }
-                      });
+                      // dispatch({
+                      //   type: 'orderManagement/fetch',
+                      //   payload: {
+                      //     pageNum,
+                      //     pageSize
+                      //   }
+                      // });
                     } else {
                       message.error(response3.message);
                     }
@@ -717,13 +717,13 @@ class OrderManagement extends Component {
           this.setState({
             selectedRows: []
           });
-          dispatch({
-            type: 'orderManagement/fetch',
-            payload: {
-              pageNum,
-              pageSize,
-            }
-          });
+          // dispatch({
+          //   type: 'orderManagement/fetch',
+          //   payload: {
+          //     pageNum,
+          //     pageSize,
+          //   }
+          // });
         } else {
           message.error(response.message);
         }
@@ -817,13 +817,13 @@ class OrderManagement extends Component {
       },
     });
 
-    dispatch({
-      type: 'orderManagement/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      },
-    });
+    // dispatch({
+    //   type: 'orderManagement/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   },
+    // });
 
   }
 

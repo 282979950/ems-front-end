@@ -127,13 +127,13 @@ class CreateAccount extends PureComponent {
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'account/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
-    });
+    // dispatch({
+    //   type: 'account/fetch',
+    //   payload: {
+    //     pageNum: 1,
+    //     pageSize: 10
+    //   },
+    // });
   };
 
   handleSelectRows = rows => {
@@ -283,13 +283,13 @@ class CreateAccount extends PureComponent {
       callback: () => {
         message.success('挂表成功');
         this.handleInstallMeterModalVisible(false);
-        dispatch({
-          type: 'account/fetch',
-          payload: {
-            pageNum,
-            pageSize,
-          },
-        });
+        // dispatch({
+        //   type: 'account/fetch',
+        //   payload: {
+        //     pageNum,
+        //     pageSize,
+        //   },
+        // });
       },
     });
   };
@@ -349,13 +349,13 @@ class CreateAccount extends PureComponent {
                     </div>
                   )
                 });
-                dispatch({
-                  type: 'account/fetch',
-                  payload: {
-                    pageNum,
-                    pageSize
-                  },
-                });
+                // dispatch({
+                //   type: 'account/fetch',
+                //   payload: {
+                //     pageNum,
+                //     pageSize
+                //   },
+                // });
               } else {
                 message.error(response2.message);
               }
@@ -382,13 +382,13 @@ class CreateAccount extends PureComponent {
       callback: () => {
         message.success('编辑用户信息成功');
         this.handleEditModalVisible(false);
-        dispatch({
-          type: 'account/fetch',
-          payload: {
-            pageNum,
-            pageSize,
-          },
-        });
+        // dispatch({
+        //   type: 'account/fetch',
+        //   payload: {
+        //     pageNum,
+        //     pageSize,
+        //   },
+        // });
       },
     });
   };
@@ -418,13 +418,13 @@ class CreateAccount extends PureComponent {
             if (response.status === 0) {
               message.success(response.message);
               _.handleSelectedRowsReset();
-              dispatch({
-                type: 'account/fetch',
-                payload: {
-                  pageNum,
-                  pageSize
-                }
-              });
+              // dispatch({
+              //   type: 'account/fetch',
+              //   payload: {
+              //     pageNum,
+              //     pageSize
+              //   }
+              // });
             } else {
               message.error(response.message);
             }
