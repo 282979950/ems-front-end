@@ -319,15 +319,81 @@ class FillGas extends PureComponent {
       type: 'fillGas/edit',
       payload: selectedRows[0],
       callback: (response) => {
+        // 创建当前日期
+        const nowDate = new Date();
+        const Y = nowDate.getFullYear();
+        const M = nowDate.getMonth()+1;
+        const D = nowDate.getDate();
         if(selectedRows[0].fillGasOrderType === 1){
-          message.success('处理补气单成功');
+          // message.success('处理补气单成功');
+          Modal.info({
+            title: '处理补气单成功，请打印凭证',
+            content: (
+              <div>
+                <p style={{color:"red"}}>处理补气单成功</p>
+                <br /><br /><p style={{color:"red"}}>补气打印信息：</p>
+                <div id="billDetails">
+                  <div style={{color:"black"}}>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col span={4}>&nbsp;</Col>
+                      <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col span={11}>用户编号：{selectedRows[0].userId?selectedRows[0].userId:""}</Col>
+                      <Col>用户名称：{selectedRows[0].userName?selectedRows[0].userName:""}</Col>
+                    </Row>
+                    <Row>
+                      <Col span={6}>用户地址：{selectedRows[0].userAddress?selectedRows[0].userAddress:""}</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col span={8}>补气量(单位：方)：{selectedRows[0].fillGas?selectedRows[0].fillGas:""}</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col span={2}>&nbsp;</Col>
+                    </Row>
+                    <Row>
+                      <Col span={18}>&nbsp;</Col>
+                      {response.data.loginName?response.data.loginName:""}
+                    </Row>
+                  </div>
+                </div>
+              </div>
+            ),
+            okText: '打印凭证',
+            onOk: () => {
+              window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+              window.print();
+              window.location.reload();
+            },
+            cancelText: '取消',
+            width:560,
+          });
         }
         if(selectedRows[0].fillGasOrderType !== 1){
-          // 创建当前日期
-          const nowDate = new Date();
-          const Y = nowDate.getFullYear();
-          const M = nowDate.getMonth()+1;
-          const D = nowDate.getDate();
           // 使用发票打印时需要验证发票信息
           dispatch({
             type: 'orderManagement/checkNewInvoicePrint',

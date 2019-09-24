@@ -22,6 +22,29 @@ export async function searchPrePayment(params) {
 }
 
 /**
+ * 补气加购充值调用
+ * @param params
+ * @returns {Promise<Object>}
+ */
+
+export async function addGasPayment(params) {
+  return request('/api/prePayment/addGas.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
+export async function readCardFillGas(params) {
+  return request('/api/account/readCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+/**
  * 预付费充值
  */
 export async function queryReplaceCard(params) {
