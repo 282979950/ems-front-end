@@ -75,13 +75,13 @@ class EntryMeter extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'entryMeter/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      }
-    });
+    // dispatch({
+    //   type: 'entryMeter/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   }
+    // });
   }
 
   handleFormReset = () => {

@@ -86,13 +86,13 @@ class PrePayment extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'prePayment/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    })
+    // dispatch({
+    //   type: 'prePayment/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // })
   }
 
   handleFormReset = () => {
@@ -330,7 +330,6 @@ class PrePayment extends PureComponent {
                                                     </Row>
                                                     <Row>
                                                       <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas-fields.freeGas}</Col>
-                                                      {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                                     </Row>
                                                     <Row>
@@ -454,7 +453,6 @@ class PrePayment extends PureComponent {
                                                     </Row>
                                                     <Row>
                                                       <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
-                                                      {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                                     </Row>
                                                     <Row>
@@ -669,11 +667,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -744,11 +741,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -818,11 +814,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas - fields.freeGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -1109,7 +1104,6 @@ class PrePayment extends PureComponent {
                                                     </Row>
                                                     <Row>
                                                       <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas-fields.freeGas}</Col>
-                                                      {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                                     </Row>
                                                     <Row>
@@ -1233,7 +1227,6 @@ class PrePayment extends PureComponent {
                                                     </Row>
                                                     <Row>
                                                       <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
-                                                      {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                                     </Row>
                                                     <Row>
@@ -1448,11 +1441,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -1523,11 +1515,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.freeGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -1597,11 +1588,10 @@ class PrePayment extends PureComponent {
                               </Row>
                               <Row>
                                 <Col span={8}>本次购买气量(单位：方)：{fields.orderGas-fields.couponGas - fields.freeGas}</Col>
-                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: null}
                                 <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{fields.orderDetail}</Col>

@@ -320,13 +320,13 @@ class User extends Component {
   componentDidMount() {
     const { dispatch } = this.props;  // this.props里面就含有dispatch
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'userQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      }
-    });
+    // dispatch({
+    //   type: 'userQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   }
+    // });
   }
 
   handleEditModalVisible = flag => {

@@ -85,13 +85,13 @@ class OrderManagement extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state
-    dispatch({
-      type: 'orderManagement/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      }
-    });
+    // dispatch({
+    //   type: 'orderManagement/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   }
+    // });
   }
 
   handleSelectRows = rows => {
@@ -325,11 +325,9 @@ class OrderManagement extends Component {
                               </Row>
                               <Row>
                                 {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
-                                <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
                                 {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                               </Row>
                               <Row>
@@ -437,6 +435,7 @@ class OrderManagement extends Component {
                   content: <input name="number" />,
                   onOk: () => {
                     const serialNumber = document.getElementsByName("number")[0].value;
+                    // @ts-ignore
                     Modal.info({
                       title: '操作成功，请打印发票',
                       content: (
@@ -474,11 +473,9 @@ class OrderManagement extends Component {
                               </Row>
                               <Row>
                                 {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
-                                <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
                                 {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
                               </Row>
                               <Row>
@@ -625,12 +622,10 @@ class OrderManagement extends Component {
                                     </Row>
                                     <Row>
                                       {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
-                                      <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas?selectedRows[0].freeGas:""}</Col>
                                       <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                      {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
+                                      {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: <Col>&nbsp;</Col>}
                                     </Row>
                                     <Row>
                                       <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -789,8 +784,7 @@ class OrderManagement extends Component {
                     <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                   </Row>
                   <Row>
-                    <Col>&nbsp;</Col>
-                    {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
+                    {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: <Col>&nbsp;</Col>}
                   </Row>
                   <Row>
                     <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>

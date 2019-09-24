@@ -91,13 +91,13 @@ class UserChange extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize, userMoney } = this.state;
-    dispatch({
-      type: 'userChange/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      }
-    });
+    // dispatch({
+    //   type: 'userChange/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   }
+    // });
   }
 
   handleStandardTableChange = (pagination) => {

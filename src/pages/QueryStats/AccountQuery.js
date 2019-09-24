@@ -61,13 +61,13 @@ class AccountQuery extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'accountQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    });
+    // dispatch({
+    //   type: 'accountQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // });
   };
 
   handleFormReset = () => {
