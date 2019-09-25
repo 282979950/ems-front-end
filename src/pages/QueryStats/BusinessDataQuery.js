@@ -40,13 +40,13 @@ class BusinessDataQuery extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'businessDataQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    });
+    // dispatch({
+    //   type: 'businessDataQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // });
   }
 
   handleFormReset = () => {
