@@ -55,13 +55,13 @@ class BusinessReportQuery extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'businessReportQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize
-      },
-    });
+    // dispatch({
+    //   type: 'businessReportQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize
+    //   },
+    // });
   }
 
   handleStandardTableChange = (pagination) => {

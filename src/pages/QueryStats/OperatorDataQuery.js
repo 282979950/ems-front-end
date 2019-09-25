@@ -49,13 +49,13 @@ class OperatorDataQuery extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'operatorDataQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    });
+    // dispatch({
+    //   type: 'operatorDataQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // });
   }
 
   handleStandardTableChange = (pagination) => {

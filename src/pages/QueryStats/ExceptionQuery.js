@@ -50,13 +50,13 @@ class ExceptionQuery extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'exceptionQuery/fetch',
-      payload: {
-        pageNum,
-        pageSize,
-      },
-    });
+    // dispatch({
+    //   type: 'exceptionQuery/fetch',
+    //   payload: {
+    //     pageNum,
+    //     pageSize,
+    //   },
+    // });
   }
 
   handleFormReset = () => {
