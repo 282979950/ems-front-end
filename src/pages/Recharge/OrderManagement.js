@@ -86,7 +86,7 @@ class OrderManagement extends Component {
     const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state
     // dispatch({
-    //   type: 'orderManagement/fetch',
+    //   type: 'orderManagement/search',
     //   payload: {
     //     pageNum,
     //     pageSize
@@ -168,7 +168,7 @@ class OrderManagement extends Component {
       pageSize: 10
     });
     // dispatch({
-    //   type: 'orderManagement/fetch',
+    //   type: 'orderManagement/search',
     //   payload: {
     //     pageNum: 1,
     //     pageSize: 10,
@@ -207,7 +207,7 @@ class OrderManagement extends Component {
 
     const { iccardId, iccardPassword, orderGas, serviceTimes, flowNumber, orderId } = selectedRows[0];
     const wResult = OCX.writeUCard(iccardId, iccardPassword, orderGas, serviceTimes, flowNumber);
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     if (wResult === '写卡成功') {
       dispatch({
         type: 'orderManagement/updateOrderStatus',
@@ -222,10 +222,11 @@ class OrderManagement extends Component {
               selectedRows: []
             });
             dispatch({
-              type: 'orderManagement/fetch',
+              type: 'orderManagement/search',
               payload: {
+                iccardId,
                 pageNum,
-                pageSize
+                pageSize,
               },
             });
           } else {
@@ -253,7 +254,7 @@ class OrderManagement extends Component {
       message.error('该订单已有打印记录，请选择补打');
       return;
     }
-    const { dispatch } = this.props
+    const { dispatch, form } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
       payload: {
@@ -364,8 +365,9 @@ class OrderManagement extends Component {
                   selectedRows: []
                 });
                 dispatch({
-                  type: 'orderManagement/fetch',
+                  type: 'orderManagement/search',
                   payload: {
+                    ...form.getFieldsValue(),
                     pageNum,
                     pageSize
                   }
@@ -400,7 +402,7 @@ class OrderManagement extends Component {
       return;
     }
 
-    const { dispatch } = this.props
+    const { dispatch, form } = this.props
     dispatch({
       type: 'orderManagement/findInvoice',
       payload: {
@@ -511,13 +513,14 @@ class OrderManagement extends Component {
                 this.setState({
                   selectedRows: []
                 });
-                // dispatch({
-                //   type: 'orderManagement/fetch',
-                //   payload: {
-                //     pageNum,
-                //     pageSize
-                //   }
-                // });
+                dispatch({
+                  type: 'orderManagement/search',
+                  payload: {
+                    ...form.getFieldsValue(),
+                    pageNum,
+                    pageSize
+                  }
+                });
               } else {
                 message.error(response2.message);
               }
@@ -661,7 +664,7 @@ class OrderManagement extends Component {
                         selectedRows: []
                       });
                       // dispatch({
-                      //   type: 'orderManagement/fetch',
+                      //   type: 'orderManagement/search',
                       //   payload: {
                       //     pageNum,
                       //     pageSize
@@ -702,7 +705,7 @@ class OrderManagement extends Component {
       return;
     }
 
-    const { dispatch } = this.props
+    const { dispatch, form } = this.props
     dispatch({
       type: 'orderManagement/invalidate',
       payload: {
@@ -717,13 +720,14 @@ class OrderManagement extends Component {
           this.setState({
             selectedRows: []
           });
-          // dispatch({
-          //   type: 'orderManagement/fetch',
-          //   payload: {
-          //     pageNum,
-          //     pageSize,
-          //   }
-          // });
+          dispatch({
+            type: 'orderManagement/search',
+            payload: {
+              ...form.getFieldsValue(),
+              pageNum,
+              pageSize,
+            }
+          });
         } else {
           message.error(response.message);
         }
@@ -732,7 +736,7 @@ class OrderManagement extends Component {
   }
 
   Printings = (selectedRows) =>{
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const { pageNum, pageSize } = this.state;
     dispatch({
       type: 'orderManagement/getRmbBig',
@@ -817,13 +821,14 @@ class OrderManagement extends Component {
       },
     });
 
-    // dispatch({
-    //   type: 'orderManagement/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   },
-    // });
+    dispatch({
+      type: 'orderManagement/search',
+      payload: {
+        ...form.getFieldsValue(),
+        pageNum,
+        pageSize
+      },
+    });
 
   }
 

@@ -20,7 +20,7 @@ class LoginPage extends Component {
 
   componentDidMount() {
     if (getLoginStatus() === 0) {
-      router.push('/system/dist');
+      router.push('/recharge/prePayment');
     }
   }
 
