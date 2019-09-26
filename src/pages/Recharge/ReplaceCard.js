@@ -566,7 +566,7 @@ class ReplaceCard extends PureComponent {
                                               }else{
                                                 window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
                                                 window.print();
-                                                router.push('/recharge/prePayment');
+                                                window.location.reload();
 
                                               }
                                             }
@@ -730,7 +730,7 @@ class ReplaceCard extends PureComponent {
                         onOk: () => {
                           window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
                           window.print();
-                          router.push('/recharge/prePayment');
+                          window.location.reload();
                         },
                         cancelText: '取消',
                         width:560,
@@ -803,7 +803,7 @@ class ReplaceCard extends PureComponent {
                         onOk: () => {
                           window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
                           window.print();
-                          router.push('/recharge/prePayment');
+                          window.location.reload();
                         },
                         cancelText: '取消',
                         width:560,
@@ -911,7 +911,7 @@ class ReplaceCard extends PureComponent {
                                               }else {
                                                 window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
                                                 window.print();
-                                                router.push('/recharge/prePayment');
+                                                window.location.reload();
                                               }
                                             }
                                           });
