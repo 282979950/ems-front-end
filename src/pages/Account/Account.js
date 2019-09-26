@@ -197,7 +197,7 @@ class CreateAccount extends PureComponent {
 
   handleCreateAccount = fields => {
     this.handleCreateAccountModalVisible();
-    const { dispatch, form } = this.props;
+    const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
@@ -209,7 +209,7 @@ class CreateAccount extends PureComponent {
           dispatch({
             type: 'account/fetch',
             payload: {
-              userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+              userId: fields.userId,
               pageNum,
               pageSize
             }
@@ -272,7 +272,7 @@ class CreateAccount extends PureComponent {
   };
 
   handleInstallMeter = fields => {
-    const { dispatch, form } = this.props;
+    const { dispatch } = this.props;
     const { pageNum, pageSize } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
@@ -281,10 +281,13 @@ class CreateAccount extends PureComponent {
       callback: () => {
         message.success('挂表成功');
         this.handleInstallMeterModalVisible(false);
+        this.setState({
+          selectedRows: []
+        });
         dispatch({
-          type: 'account/fetch',
+          type: 'account/search',
           payload: {
-            userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+            userId: fields.userId,
             pageNum,
             pageSize,
           },
@@ -315,7 +318,7 @@ class CreateAccount extends PureComponent {
   };
 
   handleBindCard = (fields) => {
-    const { dispatch, form } = this.props;
+    const { dispatch } = this.props;
     const { pageNum, pageSize, selectedRows } = this.state;
     this.handleSelectedRowsReset();
     const _ = this;
@@ -351,7 +354,7 @@ class CreateAccount extends PureComponent {
                 dispatch({
                   type: 'account/fetch',
                   payload: {
-                    userId: form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+                    userId: fields.userId,
                     pageNum,
                     pageSize
                   },
@@ -454,6 +457,9 @@ class CreateAccount extends PureComponent {
             })(<Input placeholder="户号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
@@ -467,9 +473,6 @@ class CreateAccount extends PureComponent {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('meterCode')(<Input placeholder="表号" />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('cardIdentifier')(<Input placeholder="IC卡识别号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>

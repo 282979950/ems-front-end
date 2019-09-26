@@ -73,31 +73,16 @@ class EntryMeter extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'entryMeter/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   }
-    // });
+
   }
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
-    });
-    dispatch({
-      type: 'entryMeter/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10
-      },
     });
   };
 
@@ -153,10 +138,11 @@ class EntryMeter extends PureComponent {
         if (response.status === 0) {
           message.success('新增成功');
           dispatch({
-            type: 'entryMeter/fetch',
+            type: 'entryMeter/search',
             payload: {
               pageNum,
-              pageSize
+              pageSize,
+              meterCode: fields.meterCode
             }
           });
         } else {
@@ -178,10 +164,11 @@ class EntryMeter extends PureComponent {
         if (response.status === 0) {
           message.success('编辑成功');
           dispatch({
-            type: 'entryMeter/fetch',
+            type: 'entryMeter/search',
             payload: {
               pageNum,
               pageSize,
+              meterCode: fields.meterCode
             },
           });
         } else {
@@ -253,13 +240,13 @@ class EntryMeter extends PureComponent {
             if (response.status === 0) {
               message.success(response.message);
               _.handleSelectedRowsReset();
-              dispatch({
-                type: 'entryMeter/fetch',
-                payload: {
-                  pageNum,
-                  pageSize
-                }
-              });
+              // dispatch({
+              //   type: 'entryMeter/search',
+              //   payload: {
+              //     pageNum,
+              //     pageSize
+              //   }
+              // });
             } else {
               message.error(response.message);
             }

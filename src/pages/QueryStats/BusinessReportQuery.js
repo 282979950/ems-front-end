@@ -27,16 +27,11 @@ class BusinessReportQuery extends PureComponent {
           width:'6%',
           render:(text,record,index)=>`${index+1}`
         },{
-          dataIndex: 'createTime',
+          dataIndex: 'orderDate',
           title: '充值日期',
           width:'16%',
-          render: status => status? status.substring(0,10) : "未知",
         }, {
-          dataIndex: 'empName',
-          title: '操作人',
-          width:'10%',
-        }, {
-          dataIndex: 'icCard',
+          dataIndex: 'orderTimes',
           title: '充值次数',
           width:'10%',
         }, {

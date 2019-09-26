@@ -66,7 +66,7 @@ class CardQuery extends PureComponent {
 					let list = {
 						list: response.data,
 						total: response.data.length,
-					}
+					};
 					this.setState({
 						data: list,
 					})

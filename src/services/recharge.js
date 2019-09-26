@@ -36,6 +36,15 @@ export async function addGasPayment(params) {
   });
 }
 
+export async function syncCard(params) {
+  return request('/api/prePayment/syncCard.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function readCardFillGas(params) {
   return request('/api/account/readCard.do', {
     method: 'POST',

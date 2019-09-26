@@ -22,6 +22,7 @@ class DistTreeSelect extends PureComponent{
     } = this.props;
     return (
       <TreeSelect
+        showSearch
         style={{ width: '100%' }}
         treeData={treeData}
         treeDataSimpleMode

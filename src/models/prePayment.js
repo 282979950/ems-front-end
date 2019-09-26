@@ -1,4 +1,4 @@
-import { searchPrePayment, editCreateAccount, addGasPayment, readCardFillGas } from '../services/recharge';
+import { searchPrePayment, editCreateAccount, addGasPayment, readCardFillGas, syncCard } from '../services/recharge';
 import { handleRequestException } from '../utils/request';
 
 export default {
@@ -39,6 +39,10 @@ export default {
     },
     *addGas({ payload, callback }, { call }) {
       const response = yield call(addGasPayment, payload);
+      if (callback) callback(response);
+    },
+    *syncCard({ payload, callback }, { call }) {
+      const response = yield call(syncCard, payload);
       if (callback) callback(response);
     },
     *readCard({ payload, callback }, { call }) {

@@ -1110,7 +1110,7 @@ class PrePayment extends PureComponent {
                           ),
                           okText: '打印发票',
                           onOk: () => {
-                            //验证发票信息开始
+                            // 验证发票信息开始
                             dispatch({
                               type: 'orderManagement/checkNewInvoicePrint',
                               payload: {
@@ -1139,7 +1139,7 @@ class PrePayment extends PureComponent {
                                             if (response5.status !== 0) {
                                               message.error(response5.message);
                                             }else{
-                                              //验证发票信息结束
+                                              // 验证发票信息结束
                                               window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
                                               window.print();
                                               window.location.reload();
@@ -1235,7 +1235,7 @@ class PrePayment extends PureComponent {
                           ),
                           okText: '打印发票',
                           onOk: () => {
-                            //验证发票信息开始
+                            // 验证发票信息开始
                             dispatch({
                               type: 'orderManagement/checkNewInvoicePrint',
                               payload: {
@@ -1282,7 +1282,7 @@ class PrePayment extends PureComponent {
                                 }
                               }
                             });
-                            //验证发票信息结束
+                            // 验证发票信息结束
                           },
                           cancelText: '取消',
                           width:560,
@@ -1361,7 +1361,7 @@ class PrePayment extends PureComponent {
                           ),
                           okText: '打印发票',
                           onOk: () => {
-                            //验证发票开始
+                            // 验证发票开始
                             dispatch({
                               type: 'orderManagement/checkNewInvoicePrint',
                               payload: {
@@ -1406,7 +1406,7 @@ class PrePayment extends PureComponent {
                                 }
                               }
                             });
-                            //验证发票结束
+                            // 验证发票结束
                           },
                           cancelText: '取消',
                           width:560,
@@ -1705,7 +1705,7 @@ class PrePayment extends PureComponent {
                           ),
                           okText: '打印发票',
                           onOk: () => {
-                            //发票验证开始
+                            // 发票验证开始
                             dispatch({
                               type: 'orderManagement/checkNewInvoicePrint',
                               payload: {
@@ -1750,7 +1750,7 @@ class PrePayment extends PureComponent {
                                 }
                               }
                             });
-                            //发票验证结束
+                            // 发票验证结束
                           },
                           cancelText: '取消',
                           width:560,
@@ -1930,7 +1930,7 @@ class PrePayment extends PureComponent {
                               ),
                               okText: '打印发票',
                               onOk: () => {
-                                //验证发票开始
+                                // 验证发票开始
                                 // 使用发票打印时需要验证发票信息
                                 dispatch({
                                   type: 'orderManagement/checkNewInvoicePrint',
@@ -2048,6 +2048,29 @@ class PrePayment extends PureComponent {
     return '';
   };
 
+  syncCard = () => {
+    const { dispatch } = this.props;
+    const result = OCX.readCard();
+    if (result[0] !== 'S') {
+      message.error("读卡失败");
+    } else {
+      dispatch({
+        type: 'prePayment/syncCard',
+        payload: {
+          iccardIdentifier: result[2],
+          iccardId: result[3],
+        },
+        callback: (response) => {
+          if(response.status === 0) {
+            message.success(response.message);
+          } else {
+            message.info(response.message);
+          }
+        }
+      });
+    }
+  };
+
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -2094,6 +2117,7 @@ class PrePayment extends PureComponent {
               <Authorized authority="recharge:pre:record">
                 <Button icon="scan" onClick={() => this.identifyCard()}>识别IC卡</Button>
               </Authorized>
+              <Button icon="sync" onClick={() => this.syncCard()}>同步IC卡识别号</Button>
               <Authorized authority="recharge:pre:update">
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handlePrePaymentFormVisible(true)}>预付费充值</Button>
               </Authorized>
