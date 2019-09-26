@@ -144,7 +144,8 @@ class FillGas extends PureComponent {
 
     form.setFieldsValue({
       'repairOrderId': form.getFieldValue('repairOrderId') && form.getFieldValue('repairOrderId').trim(),
-      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim()
+      'userId': form.getFieldValue('userId') && form.getFieldValue('userId').trim(),
+      'userName': form.getFieldValue('userName') && form.getFieldValue('userName').trim(),
     });
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -536,6 +537,9 @@ class FillGas extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('repairOrderId')(<Input placeholder="维修单编号" />)}
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userId')(<Input placeholder="户号" />)}

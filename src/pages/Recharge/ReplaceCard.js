@@ -285,6 +285,7 @@ class ReplaceCard extends PureComponent {
                             okText: '打印发票',
                             onOk: () => {
                               //验证发票信息开始
+                              const temp = window.document.getElementById('billDetails').innerHTML;
                               dispatch({
                                 type: 'orderManagement/checkNewInvoicePrint',
                                 payload: {
@@ -313,7 +314,7 @@ class ReplaceCard extends PureComponent {
                                               if (response5.status !== 0) {
                                                 message.error(response5.message);
                                               }else{
-                                                window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                                                window.document.body.innerHTML = temp;
                                                 window.print();
                                                 window.location.reload();
                                               }
@@ -410,6 +411,7 @@ class ReplaceCard extends PureComponent {
                             okText: '打印发票',
                             onOk: () => {
                               //验证发票开始
+                              const temp = window.document.getElementById('billDetails').innerHTML;
                               dispatch({
                                 type: 'orderManagement/checkNewInvoicePrint',
                                 payload: {
@@ -438,11 +440,9 @@ class ReplaceCard extends PureComponent {
                                               if (response5.status !== 0) {
                                                 message.error(response5.message);
                                               }else{
-                                                const temp = window.document.body.innerHTML;
-                                                window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
-                                                window.print();
                                                 window.document.body.innerHTML = temp;
-
+                                                window.print();
+                                                window.location.reload();
                                               }
                                             }
                                           });
@@ -536,6 +536,7 @@ class ReplaceCard extends PureComponent {
                             okText: '打印发票',
                             onOk: () => {
                               //验证发票信息开始
+                              const temp = window.document.getElementById('billDetails').innerHTML;
                               dispatch({
                                 type: 'orderManagement/checkNewInvoicePrint',
                                 payload: {
@@ -564,7 +565,7 @@ class ReplaceCard extends PureComponent {
                                               if (response5.status !== 0) {
                                                 message.error(response5.message);
                                               }else{
-                                                window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                                                window.document.body.innerHTML = temp;
                                                 window.print();
                                                 window.location.reload();
 
@@ -881,6 +882,7 @@ class ReplaceCard extends PureComponent {
                             okText: '打印发票',
                             onOk: () => {
                               // 检查发票开始
+                              const temp = window.document.getElementById('billDetails').innerHTML;
                               dispatch({
                                 type: 'orderManagement/checkNewInvoicePrint',
                                 payload: {
@@ -909,7 +911,7 @@ class ReplaceCard extends PureComponent {
                                               if (response5.status !== 0) {
                                                 message.error(response5.message);
                                               }else {
-                                                window.document.body.innerHTML = window.document.getElementById('billDetails').innerHTML;
+                                                window.document.body.innerHTML = temp;
                                                 window.print();
                                                 window.location.reload();
                                               }
