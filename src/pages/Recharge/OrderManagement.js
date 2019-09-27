@@ -282,7 +282,7 @@ class OrderManagement extends Component {
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
                 const modal = Modal.info();
-                //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                // const serialNumber = prompt("请输入纳税人识别号码：", "");
                 modal.update({
                   title: "请输入纳税人识别号码",
                   content: <input name="number" />,
@@ -429,7 +429,7 @@ class OrderManagement extends Component {
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
                 const modal = Modal.info();
-                //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                // const serialNumber = prompt("请输入纳税人识别号码：", "");
                 modal.update({
                   title: "请输入纳税人识别号码",
                   content: <input name="number" />,
@@ -452,7 +452,7 @@ class OrderManagement extends Component {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col span={4}>&nbsp;</Col>
+                                <Col span={3}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
                               </Row>
                               <Row>
@@ -578,7 +578,7 @@ class OrderManagement extends Component {
                       const Y = nowDate.getFullYear();
                       const M = nowDate.getMonth()+1;
                       const D = nowDate.getDate();
-                      //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                      // const serialNumber = prompt("请输入纳税人识别号码：", "");
                       const modal = Modal.info();
                       modal.update({
                         title: "请输入纳税人识别号码",

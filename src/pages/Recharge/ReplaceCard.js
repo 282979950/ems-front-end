@@ -363,11 +363,11 @@ class ReplaceCard extends PureComponent {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={4}>&nbsp;</Col>
-                                      <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
+                                      <Col span={4}>&nbsp;</Col>
+                                      <Col>{`${Y  }-${ M  }-${  D}`}</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -396,7 +396,8 @@ class ReplaceCard extends PureComponent {
                                       {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: <Col>&nbsp;</Col>}
                                     </Row>
                                     <Row>
-                                      <Col span={2}>&nbsp;</Col>
+                                      <p style={{height:2}} />
+                                      <Col span={3}>&nbsp;</Col>
                                       <Col span={13}>{data.rmbBig?data.rmbBig:""}</Col>
                                       <Col>{fields.orderPayment+fields.cardCost}</Col>
                                     </Row>

@@ -87,6 +87,14 @@ export async function getInvoiceInfo(params) {
   });
 }
 
+export async function deleteInvoice(params) {
+  return request('/api/assign/deleteInvoiceInfo.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
 /**
  * 发票管理-发票查询-特定的已分配的发票
  */
