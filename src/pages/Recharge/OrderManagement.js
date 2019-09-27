@@ -43,20 +43,36 @@ class OrderManagement extends Component {
       }
     },
     {
-      title: '用户编号',
-      dataIndex: 'userId',
-    },
-    {
-      title: '用户名',
-      dataIndex: 'userName',
+      title: '订单类型',
+      dataIndex: 'orderType',
+      render: flag => {
+        switch (flag) {
+          case 1:
+            return '开户订单';
+          case 2:
+            return '普通订单';
+          case 3:
+            return '补卡订单';
+          case 4:
+            return '超用补缴订单';
+          case 5:
+            return '微信订单';
+          case 6:
+            return '销户订单';
+          case 7:
+            return '补气加购订单';
+          default:
+            return '其他';
+        }
+      }
     },
     {
       title: 'IC卡号',
       dataIndex: 'iccardId',
     },
     {
-      title: 'IC卡识别号',
-      dataIndex: 'iccardIdentifier',
+      title: '用户名',
+      dataIndex: 'userName',
     },
     {
       title: '购气量',
@@ -69,6 +85,10 @@ class OrderManagement extends Component {
     {
       title: '订单时间',
       dataIndex: 'orderCreateTime',
+    },
+    {
+      title: '订单生成员工',
+      dataIndex: 'orderCreateEmpName',
     },
   ];
 
@@ -837,11 +857,11 @@ class OrderManagement extends Component {
   }
 
   expandedRowRender = (record) => {
-    const { flowNumber, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas, cardCost, userAddress } = record;
+    const { flowNumber, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, iccardIdentifier, orderDetail, couponGas, couponNumber, freeGas, cardCost, userAddress } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
-        <Description term="订单生成员工">{orderCreateEmpName}</Description>
         <Description term="订单流水号">{flowNumber}</Description>
+        <Description term="IC卡识别号">{iccardIdentifier}</Description>
         <Description term="发票代码">{invoiceCode}</Description>
         <Description term="发票号码">{invoiceNumber}</Description>
         <Description term="发票状态">{invoiceStatusName}</Description>
