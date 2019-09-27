@@ -1,4 +1,4 @@
-import { queryAllAssignInvoice, queryAddInvoice, queryAssignInvoice, querySearchInvoice, transfer, getInvoiceInfo } from '../services/invoice';
+import { queryAllAssignInvoice, queryAddInvoice, queryAssignInvoice, querySearchInvoice, transfer, getInvoiceInfo, deleteInvoice } from '../services/invoice';
 import { handleRequestException } from '../utils/request';
 
 export default {
@@ -49,6 +49,10 @@ export default {
         payload: response.data,
       });
       if (callback) callback();
+    },
+    *delete({ payload, callback }, { call }) {
+      const response = yield call(deleteInvoice, payload);
+      if (callback) callback(response);
     },
   },
 

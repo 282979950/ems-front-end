@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, Form, message, Tooltip } from 'antd';
+import { Card, Row, Col, Input, Button, Form, message, Tooltip, Modal } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../Common.less';
 import InvoiceAddForm from './components/InvoiceAddForm';
 import InvoiceAssignForm from './components/InvoiceAssignForm';
 
+const { confirm } = Modal;
 @connect(({ invoice, loading }) => ({
   invoice,
   loading: loading.models.assign,
@@ -158,6 +159,40 @@ class InvoiceAssign extends Component {
     });
   }
 
+  deleteConfirm = (selectedRows) => {
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state
+    const _ = this;
+    confirm({
+      title: '票号销毁',
+      content: `确认销毁选中的票号？`,
+      onOk() {
+        dispatch({
+          type: 'invoice/delete',
+          payload: {
+            invoiceId:selectedRows[0].invoiceId
+          },
+          callback: (response) => {
+            if (response.status === 0) {
+              message.success(response.message);
+              _.handleSelectedRowsReset();
+              dispatch({
+                type: 'invoice/fetch',
+                payload: {
+                  pageNum,
+                  pageSize
+                }
+              });
+            } else {
+              message.error(response.message);
+            }
+          }
+        });
+      },
+      onCancel() { },
+    });
+  };
+
   handleSearch = () => {
     const { dispatch, form } = this.props;
 
@@ -244,6 +279,7 @@ class InvoiceAssign extends Component {
               <Tooltip placement="topLeft" title="营业厅只有单人办理充值业务时可以将全部发票分配给业务员，多人时建议按需分配">
                 <Button icon="file-text" onClick={() => this.handleAssignModalVisible(true)}>分配至业务员</Button>
               </Tooltip>
+              <Button icon="delete" disabled={selectedRows.length !== 1} onClick={() => this.deleteConfirm(selectedRows)}>票号销毁</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}

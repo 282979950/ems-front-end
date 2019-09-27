@@ -307,7 +307,7 @@ class OrderManagement extends Component {
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
                 const modal = Modal.info();
-                //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                // const serialNumber = prompt("请输入纳税人识别号码：", "");
                 modal.update({
                   title: "请输入纳税人识别号码",
                   content: <input name="number" />,
@@ -329,11 +329,11 @@ class OrderManagement extends Component {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -343,7 +343,7 @@ class OrderManagement extends Component {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>纳税人识别号：{serialNumber}</Col>
@@ -353,7 +353,7 @@ class OrderManagement extends Component {
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
-                                {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
+                                {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -455,7 +455,7 @@ class OrderManagement extends Component {
                 const M = nowDate.getMonth()+1;
                 const D = nowDate.getDate();
                 const modal = Modal.info();
-                //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                // const serialNumber = prompt("请输入纳税人识别号码：", "");
                 modal.update({
                   title: "请输入纳税人识别号码",
                   content: <input name="number" />,
@@ -478,11 +478,11 @@ class OrderManagement extends Component {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
+                                <Col span={3}>&nbsp;</Col>
+                                <Col>{`${Y  }-${ M  }-${  D}`}</Col>
                               </Row>
                               <Row>
-                                <Col span={4}>&nbsp;</Col>
-                                <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -492,7 +492,7 @@ class OrderManagement extends Component {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>纳税人识别号：{serialNumber}</Col>
@@ -502,7 +502,7 @@ class OrderManagement extends Component {
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
-                                {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: null}
+                                {selectedRows[0].cardCost ? <Col span={8}>本次补卡费用：{selectedRows[0].cardCost}</Col>: <Col>&nbsp;</Col>}
                               </Row>
                               <Row>
                                 <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
@@ -605,7 +605,7 @@ class OrderManagement extends Component {
                       const Y = nowDate.getFullYear();
                       const M = nowDate.getMonth()+1;
                       const D = nowDate.getDate();
-                      //const serialNumber = prompt("请输入纳税人识别号码：", "");
+                      // const serialNumber = prompt("请输入纳税人识别号码：", "");
                       const modal = Modal.info();
                       modal.update({
                         title: "请输入纳税人识别号码",
@@ -628,11 +628,11 @@ class OrderManagement extends Component {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                    </Row>
-                                    <Row>
                                       <Col span={4}>&nbsp;</Col>
                                       <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -642,7 +642,7 @@ class OrderManagement extends Component {
                                       <Col>用户名称：{selectedRows[0].userName}</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                      <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                     </Row>
                                     <Row>
                                       <Col>纳税人识别号：{serialNumber}</Col>
@@ -788,11 +788,11 @@ class OrderManagement extends Component {
                     <Col>&nbsp;</Col>
                   </Row>
                   <Row>
-                    <Col>&nbsp;</Col>
-                  </Row>
-                  <Row>
                     <Col span={4}>&nbsp;</Col>
                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                  </Row>
+                  <Row>
+                    <Col>&nbsp;</Col>
                   </Row>
                   <Row>
                     <Col>&nbsp;</Col>
@@ -802,7 +802,7 @@ class OrderManagement extends Component {
                     <Col>用户名称：{selectedRows[0].userName}</Col>
                   </Row>
                   <Row>
-                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                   </Row>
                   <Row>
                     <Col>&nbsp;</Col>

@@ -272,11 +272,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -286,7 +286,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -397,11 +397,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -411,7 +411,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -522,11 +522,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -536,7 +536,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -642,11 +642,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -656,7 +656,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -716,11 +716,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -730,7 +730,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -789,11 +789,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -803,7 +803,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -868,11 +868,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -882,7 +882,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -1054,11 +1054,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -1068,7 +1068,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -1180,11 +1180,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -1194,7 +1194,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -1305,11 +1305,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -1319,7 +1319,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -1424,11 +1424,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1438,7 +1438,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1498,11 +1498,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1512,7 +1512,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1571,11 +1571,11 @@ class PrePayment extends PureComponent {
                                 <Col>&nbsp;</Col>
                               </Row>
                               <Row>
-                                <Col>&nbsp;</Col>
-                              </Row>
-                              <Row>
                                 <Col span={4}>&nbsp;</Col>
                                 <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                              </Row>
+                              <Row>
+                                <Col>&nbsp;</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1585,7 +1585,7 @@ class PrePayment extends PureComponent {
                                 <Col>用户名称：{selectedRows[0].userName}</Col>
                               </Row>
                               <Row>
-                                <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                               </Row>
                               <Row>
                                 <Col>&nbsp;</Col>
@@ -1650,11 +1650,11 @@ class PrePayment extends PureComponent {
                                     <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
-                                    <Col>&nbsp;</Col>
-                                  </Row>
-                                  <Row>
                                     <Col span={4}>&nbsp;</Col>
                                     <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                  </Row>
+                                  <Row>
+                                    <Col>&nbsp;</Col>
                                   </Row>
                                   <Row>
                                     <Col>&nbsp;</Col>
@@ -1664,7 +1664,7 @@ class PrePayment extends PureComponent {
                                     <Col>用户名称：{selectedRows[0].userName}</Col>
                                   </Row>
                                   <Row>
-                                    <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                    <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                   </Row>
                                   <Row>
                                     <Col>纳税人识别号：{serialNumber}</Col>
@@ -1876,11 +1876,11 @@ class PrePayment extends PureComponent {
                                         <Col>&nbsp;</Col>
                                       </Row>
                                       <Row>
-                                        <Col>&nbsp;</Col>
-                                      </Row>
-                                      <Row>
                                         <Col span={4}>&nbsp;</Col>
                                         <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                      </Row>
+                                      <Row>
+                                        <Col>&nbsp;</Col>
                                       </Row>
                                       <Row>
                                         <Col>&nbsp;</Col>
@@ -1890,7 +1890,7 @@ class PrePayment extends PureComponent {
                                         <Col>用户名称：{selectedRows[0].userName}</Col>
                                       </Row>
                                       <Row>
-                                        <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                        <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                       </Row>
                                       <Row>
                                         <Col>纳税人识别号：{serialNumber}</Col>
