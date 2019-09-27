@@ -37,7 +37,7 @@ class LockAccount extends PureComponent {
 
   columns = [
     {
-      title: '户号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -49,7 +49,7 @@ class LockAccount extends PureComponent {
       dataIndex: 'distName',
     },
     {
-      title: 'IC卡编号',
+      title: 'IC卡号',
       dataIndex: 'iccardId'
     },
     {
@@ -239,18 +239,18 @@ class LockAccount extends PureComponent {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
-          </Col>
-          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('iccardId', {
               rules: [{
                 pattern: /^[0-9]+$/,
-                message: 'IC卡编号只能为整数',
+                message: 'IC卡号只能为整数',
               }, {
                 max: 10,
-                message: 'IC卡编号不能超过10个数字',
+                message: 'IC卡号不能超过10个数字',
               }]
-            })(<Input placeholder="IC卡编号" />)}
+            })(<Input placeholder="IC卡号" />)}
+          </Col>
+          <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>

@@ -29,7 +29,7 @@ class FillGas extends PureComponent {
     },
     {
       dataIndex: 'userId',
-      title: '户号'
+      title: 'IC卡号'
     },
     {
       dataIndex: 'fillGasOrderStatus',
@@ -536,13 +536,13 @@ class FillGas extends PureComponent {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('repairOrderId')(<Input placeholder="维修单编号" />)}
+            {getFieldDecorator('userId')(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户姓名" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userId')(<Input placeholder="户号" />)}
+            {getFieldDecorator('repairOrderId')(<Input placeholder="维修单编号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('fillGasOrderType')(<DictSelect placeholder="补气单类型" category="fill_gas_order_type" />)}

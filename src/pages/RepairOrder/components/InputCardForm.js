@@ -71,7 +71,7 @@ const InputCardForm = Form.create({
       <FormItem {...formStyle} label='userCardId' style={{ 'display': 'none' }}>
         {form.getFieldDecorator('userCardId', {})(<Input disabled />)}
       </FormItem>
-      <FormItem {...formStyle} label='户号'>
+      <FormItem {...formStyle} label='IC卡号'>
         {form.getFieldDecorator('userId', {})(<Input disabled />)}
       </FormItem>
       <FormItem {...formStyle} label='IC卡号'>

@@ -13,7 +13,7 @@ class RepairOrderCardHistory extends PureComponent {
       render:(text,record,index)=>`${index+1}`
     },
     {
-      title: '用户号',
+      title: '用IC卡号',
       dataIndex: 'userId',
       width: '20%',
     },

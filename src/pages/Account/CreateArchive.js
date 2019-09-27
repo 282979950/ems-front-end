@@ -38,7 +38,7 @@ class CreateArchive extends PureComponent {
 
   columns = [
     {
-      title: '户号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -258,7 +258,7 @@ class CreateArchive extends PureComponent {
 
   handleValidation = (rule, value, callback) => {
     if (Number(value) > 2147483647) {
-      callback('户号太大，请重新输入')
+      callback('IC卡号太大，请重新输入')
     }
 
     // Note: 必须总是返回一个 callback，否则 validateFieldsAndScroll 无法响应
@@ -276,14 +276,14 @@ class CreateArchive extends PureComponent {
             {getFieldDecorator('userId', {
               rules: [{
                 pattern: /^[0-9]+$/,
-                message: '户号只能为整数',
+                message: 'IC卡号只能为整数',
               }, {
                 max: 10,
-                message: '户号不能超过10个数字',
+                message: 'IC卡号不能超过10个数字',
               }, {
                 validator: this.handleValidation
               }]
-            })(<Input placeholder="户号" />)}
+            })(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}

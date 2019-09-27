@@ -77,7 +77,7 @@ class InputAddForm extends PureComponent {
             'oldMeterDirection': meterDirection,
           });
         } else {
-          message.error("户号错误，请重新输入");
+          message.error("IC卡号错误，请重新输入");
         }
       }
     });
@@ -200,14 +200,14 @@ class InputAddForm extends PureComponent {
         onCancel={this.handleCancel}
       >
         <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
-          <FormItem {...this.formStyle} label="户号">
+          <FormItem {...this.formStyle} label="IC卡号">
             {form.getFieldDecorator('userId', {
             rules: [{
               required: true,
-              message: '户号不能为空'
+              message: 'IC卡号不能为空'
             }, {
               max: 10,
-              message: '户号不能超过10个字',
+              message: 'IC卡号不能超过10个字',
             }]
           })(<Input onBlur={this.handleGetRepairOrderUser} />)}
           </FormItem>

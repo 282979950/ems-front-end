@@ -38,7 +38,7 @@ class InitCard extends PureComponent {
     },
     {
       dataIndex: 'cardId',
-      title: 'IC卡编号'
+      title: 'IC卡号'
     },
     {
       dataIndex: 'cardFillGas',

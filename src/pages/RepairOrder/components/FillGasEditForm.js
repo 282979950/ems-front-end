@@ -96,7 +96,7 @@ class FillGasEditForm extends PureComponent {
         onCancel={this.handleCancel0}
       >
         <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
-          <FormItem {...this.formStyle} label='户号'>
+          <FormItem {...this.formStyle} label='IC卡号'>
             {form.getFieldDecorator('userId', {})(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label='用户名称'>

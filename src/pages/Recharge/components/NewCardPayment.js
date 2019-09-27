@@ -168,7 +168,7 @@ class NewCardPayment extends PureComponent{
         onOk={this.handleOK}
         onCancel={this.handleCancel}
       >
-        <FormItem {...this.formStyle} style={{display: 'none'}} label="户号">
+        <FormItem {...this.formStyle} style={{display: 'none'}} label="IC卡号">
           {form.getFieldDecorator('userId', {
             initialValue: userId
           })(<Input disabled />)}

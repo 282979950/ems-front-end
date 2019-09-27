@@ -237,11 +237,11 @@ class InputEditForm extends PureComponent {
               }],
             })(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} label='户号'>
+          <FormItem {...this.formStyle} label='IC卡号'>
             {form.getFieldDecorator('userId', {
               rules: [{
                 required: true,
-                message: '户号不能为空'
+                message: 'IC卡号不能为空'
               }]
             })(<Input readOnly />)}
           </FormItem>

@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 class ReplaceCardHistoryForm extends PureComponent{
   columns = [
     {
-      title: '户号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {

@@ -47,7 +47,7 @@ class UserChange extends PureComponent {
 
   columns = [
     {
-      title: '户号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {

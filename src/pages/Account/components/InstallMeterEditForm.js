@@ -62,7 +62,7 @@ class InstallMeterEditForm extends PureComponent{
         onOk={this.handleOK}
         onCancel={this.handleCancel}
       >
-        <FormItem {...this.formStyle} label="户号">
+        <FormItem {...this.formStyle} label="IC卡号">
           {form.getFieldDecorator('userId', {})(<Input disabled />)}
         </FormItem>
         <FormItem {...this.formStyle} label="用户区域">

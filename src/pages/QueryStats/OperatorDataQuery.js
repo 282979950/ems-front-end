@@ -153,7 +153,7 @@ class OperatorDataQuery extends PureComponent {
                 sheetName: 'sheet',// 表名
                 columnWidths: [10, 7, 12, 12, 12, 8, 8, 8, 8, 10, 10, 8, 8, 10, 10],
                 sheetFilter: ['empId', 'empName', 'createTime', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'baseOrderPayment', 'baseOrderGas', 'launchOrderPayment', 'launchOrderGas', 'replacementOrderPayment', 'replacementOrderGas', 'cardCost', 'userId'],// 列过滤
-                sheetHeader: ['操作员编号', '操作员名称', '创建时间', '用户名称', '用户电话', '用户身份证号码', '用户住址', '基本金额', '基本气量', '发起预冲账金额', '发起预冲账气量', '补卡金额', '补卡气量', '补卡工本费', '户号'],// 第一行标题
+                sheetHeader: ['操作员编号', '操作员名称', '创建时间', '用户名称', '用户电话', '用户身份证号码', '用户住址', '基本金额', '基本气量', '发起预冲账金额', '发起预冲账气量', '补卡金额', '补卡气量', '补卡工本费', 'IC卡号'],// 第一行标题
               },
             ]
           };
@@ -193,7 +193,7 @@ class OperatorDataQuery extends PureComponent {
         <Description term="补卡金额">{replacementOrderPayment}</Description>
         <Description term="补卡气量">{replacementOrderGas}</Description>
         <Description term="补卡工本费">{cardCost}</Description>
-        <Description term="户号">{userId}</Description>
+        <Description term="IC卡号">{userId}</Description>
       </DescriptionList>
     );
   };

@@ -51,7 +51,7 @@ class OrderManagement extends Component {
       dataIndex: 'userName',
     },
     {
-      title: 'IC卡编号',
+      title: 'IC卡号',
       dataIndex: 'iccardId',
     },
     {
@@ -867,10 +867,10 @@ class OrderManagement extends Component {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
+            {getFieldDecorator('iccardId')(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('iccardId')(<Input placeholder="IC卡编号" />)}
+            {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('iccardIdentifier')(<Input placeholder="IC卡识别号" />)}
