@@ -237,11 +237,11 @@ class ReplaceCard extends PureComponent {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                    </Row>
-                                    <Row>
                                       <Col span={4}>&nbsp;</Col>
                                       <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -251,7 +251,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>用户名称：{selectedRows[0].userName}</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                      <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                     </Row>
                                     <Row>
                                       <Col>纳税人识别号：{serialNumber}</Col>
@@ -363,11 +363,11 @@ class ReplaceCard extends PureComponent {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                    </Row>
-                                    <Row>
                                       <Col span={4}>&nbsp;</Col>
                                       <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -377,7 +377,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>用户名称：{selectedRows[0].userName}</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                      <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                     </Row>
                                     <Row>
                                       <Col>纳税人识别号：{serialNumber}</Col>
@@ -488,11 +488,11 @@ class ReplaceCard extends PureComponent {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                    </Row>
-                                    <Row>
                                       <Col span={4}>&nbsp;</Col>
                                       <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -502,7 +502,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>用户名称：{selectedRows[0].userName}</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                      <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                     </Row>
                                     <Row>
                                       <Col>纳税人识别号：{serialNumber}</Col>
@@ -512,7 +512,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                     </Row>
                                     <Row>
-                                      {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
+                                      {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: <Col>&nbsp;</Col>}
                                     </Row>
                                     <Row>
                                       <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -608,11 +608,11 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col>&nbsp;</Col>
-                                </Row>
-                                <Row>
                                   <Col span={4}>&nbsp;</Col>
                                   <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -622,7 +622,7 @@ class ReplaceCard extends PureComponent {
                                   <Col>用户名称：{selectedRows[0].userName}</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                  <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -682,11 +682,11 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col>&nbsp;</Col>
-                                </Row>
-                                <Row>
                                   <Col span={4}>&nbsp;</Col>
                                   <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -696,7 +696,7 @@ class ReplaceCard extends PureComponent {
                                   <Col>用户名称：{selectedRows[0].userName}</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                  <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -755,11 +755,11 @@ class ReplaceCard extends PureComponent {
                                   <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
-                                  <Col>&nbsp;</Col>
-                                </Row>
-                                <Row>
                                   <Col span={4}>&nbsp;</Col>
                                   <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                </Row>
+                                <Row>
+                                  <Col>&nbsp;</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -769,7 +769,7 @@ class ReplaceCard extends PureComponent {
                                   <Col>用户名称：{selectedRows[0].userName}</Col>
                                 </Row>
                                 <Row>
-                                  <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                  <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                 </Row>
                                 <Row>
                                   <Col>&nbsp;</Col>
@@ -834,11 +834,11 @@ class ReplaceCard extends PureComponent {
                                       <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
-                                      <Col>&nbsp;</Col>
-                                    </Row>
-                                    <Row>
                                       <Col span={4}>&nbsp;</Col>
                                       <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                    </Row>
+                                    <Row>
+                                      <Col>&nbsp;</Col>
                                     </Row>
                                     <Row>
                                       <Col>&nbsp;</Col>
@@ -848,7 +848,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>用户名称：{selectedRows[0].userName}</Col>
                                     </Row>
                                     <Row>
-                                      <Col span={6}>用户地址：{selectedRows[0].userAddress}</Col>
+                                      <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
                                     </Row>
                                     <Row>
                                       <Col>纳税人识别号：{serialNumber}</Col>
@@ -858,7 +858,7 @@ class ReplaceCard extends PureComponent {
                                       <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                     </Row>
                                     <Row>
-                                      {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: null}
+                                      {fields.cardCost ? <Col span={8}>本次补卡费用：{fields.cardCost}</Col>: <Col>&nbsp;</Col>}
                                     </Row>
                                     <Row>
                                       <Col>详&nbsp;情：{fields.orderDetail}</Col>

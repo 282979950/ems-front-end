@@ -443,11 +443,11 @@ class FillGas extends PureComponent {
                                             <Col>&nbsp;</Col>
                                           </Row>
                                           <Row>
-                                            <Col>&nbsp;</Col>
-                                          </Row>
-                                          <Row>
                                             <Col span={4}>&nbsp;</Col>
                                             <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>&nbsp;</Col>
                                           </Row>
                                           <Row>
                                             <Col>&nbsp;</Col>
@@ -457,7 +457,7 @@ class FillGas extends PureComponent {
                                             <Col>用户名称：{response.data.data.userName?response.data.data.userName:""}</Col>
                                           </Row>
                                           <Row>
-                                            <Col span={6}>用户地址：{response.data.data.userAddress?response.data.data.userAddress:""}</Col>
+                                            <Col span={11}>用户地址：{response.data.data.userAddress?response.data.data.userAddress:""}</Col>
                                           </Row>
                                           <Row>
                                             <Col>纳税人识别号：{serialNumber}</Col>
