@@ -285,7 +285,7 @@ class CreateAccount extends PureComponent {
           selectedRows: []
         });
         dispatch({
-          type: 'account/search',
+          type: 'account/fetch',
           payload: {
             userId: fields.userId,
             pageNum,

@@ -86,15 +86,6 @@ class PrePayment extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'prePayment/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize,
-    //   },
-    // })
   }
 
   handleFormReset = () => {
@@ -105,13 +96,6 @@ class PrePayment extends PureComponent {
       pageNum: 1,
       pageSize: 10
     });
-    // dispatch({
-    //   type: 'prePayment/fetch',
-    //   payload: {
-    //     pageNum: 1,
-    //     pageSize: 10
-    //   },
-    // });
   };
 
   handleSelectRows = rows => {
@@ -135,6 +119,10 @@ class PrePayment extends PureComponent {
         pageNum: 1,
         pageSize: 10
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'prePayment/search',
         payload: {
@@ -2029,10 +2017,14 @@ class PrePayment extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize
     });
-    // dispatch({
-    //   type: 'account/fetch',
-    //   payload: params,
-    // });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
+    dispatch({
+      type: 'prePayment/search',
+      payload: params,
+    });
   };
 
   identifyCard = () => {

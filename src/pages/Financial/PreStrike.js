@@ -143,6 +143,10 @@ class PreStrike extends PureComponent {
       this.setState({
         formValues: fieldsValue,
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'preStrike/search',
         payload: {
@@ -182,8 +186,9 @@ class PreStrike extends PureComponent {
               message.success(response.message);
               _.handleSelectedRowsReset();
               dispatch({
-                type: 'preStrike/fetch',
+                type: 'preStrike/search',
                 payload: {
+                  userName: selectedRows[0].userName,
                   pageNum,
                   pageSize
                 }

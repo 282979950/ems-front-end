@@ -67,8 +67,8 @@ class OrderManagement extends Component {
       dataIndex: 'orderPayment',
     },
     {
-      title: '流水号',
-      dataIndex: 'flowNumber',
+      title: '订单时间',
+      dataIndex: 'orderCreateTime',
     },
   ];
 
@@ -123,6 +123,10 @@ class OrderManagement extends Component {
       pageNum: pagination.current,
       pageSize: pagination.pageSize
     });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
     dispatch({
       type: 'orderManagement/search',
       payload: params,
@@ -833,11 +837,11 @@ class OrderManagement extends Component {
   }
 
   expandedRowRender = (record) => {
-    const { orderCreateTime, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas, cardCost, userAddress } = record;
+    const { flowNumber, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, orderCreateEmpName, orderDetail, couponGas, couponNumber, freeGas, cardCost, userAddress } = record;
     return (
       <DescriptionList size="small" title={null} col={3}>
         <Description term="订单生成员工">{orderCreateEmpName}</Description>
-        <Description term="订单生成时间">{orderCreateTime}</Description>
+        <Description term="订单流水号">{flowNumber}</Description>
         <Description term="发票代码">{invoiceCode}</Description>
         <Description term="发票号码">{invoiceNumber}</Description>
         <Description term="发票状态">{invoiceStatusName}</Description>
