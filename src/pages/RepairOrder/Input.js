@@ -122,6 +122,10 @@ class Inputs extends PureComponent {
       this.setState({
         formValues: fieldsValue,
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'input/search',
         payload: {
@@ -216,8 +220,9 @@ class Inputs extends PureComponent {
       callback: (response) => {
         message.success(response.message);
         dispatch({
-          type: 'input/fetch',
+          type: 'input/search',
           payload: {
+            userId: fields.userId,
             pageNum,
             pageSize
           },
@@ -228,31 +233,10 @@ class Inputs extends PureComponent {
     });
   };
 
-  handleEdit = (fields, form) => {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    dispatch({
-      type: 'input/edit',
-      payload: fields,
-      callback: (response) => {
-        message.success(response.message);
-        this.handleEditModalVisible();
-        this.handleSelectedRowsReset();
-        form.resetFields();
-        // dispatch({
-        //   type: 'input/fetch',
-        //   payload: {
-        //     pageNum,
-        //     pageSize
-        //   },
-        // });
-      }
-    });
-  };
-
   handleCancel = () => {
     const { dispatch, form } = this.props;
     const { selectedRows, pageNum, pageSize } = this.state;
+    const fieldsValue = form.getFieldsValue();
     const _ = this;
     if (new Date() - new Date(selectedRows[0].createTime) > 24 * 60 * 60 * 1000) {
       message.info('只能撤销当天的维修单');
@@ -268,13 +252,14 @@ class Inputs extends PureComponent {
               message.success(response.message);
               _.handleSelectedRowsReset();
               form.resetFields();
-              // dispatch({
-              //   type: 'input/fetch',
-              //   payload: {
-              //     pageNum,
-              //     pageSize
-              //   },
-              // });
+              dispatch({
+                type: 'input/search',
+                payload: {
+                  userId: selectedRows[0].userId,
+                  pageNum,
+                  pageSize
+                },
+              });
             }
           });
         },
