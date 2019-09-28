@@ -160,13 +160,17 @@ class AccountQuery extends PureComponent {
 
   handleExport = () => {
     const { dispatch } = this.props;
-    const { choice, pageNum, pageSize } = this.state;
+    const { choice, pageNum, pageSize,formValues } = this.state;
 
     this.setState({
       visible: false
     });
     let type = 'accountQuery/export';
-    let payload = {};
+    let payload = {
+      ...formValues,
+      startDate:formValues.startDate.format('YYYY-MM-DD'),
+      endDate:formValues.endDate.format('YYYY-MM-DD')
+    };
 
     if (choice === 1) {
       type = 'accountQuery/exportWithPageInfo'
