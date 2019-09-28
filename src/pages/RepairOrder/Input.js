@@ -92,20 +92,13 @@ class Inputs extends PureComponent {
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
     });
-    // dispatch({
-    //   type: 'input/fetch',
-    //   payload: {
-    //     pageNum: 1,
-    //     pageSize: 10
-    //   },
-    // });
   };
 
   handleSearch = () => {

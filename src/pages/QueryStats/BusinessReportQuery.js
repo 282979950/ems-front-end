@@ -5,6 +5,7 @@ import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import OrgTreeSelect from '../System/components/OrgTreeSelect';
+import EmpSelect from '../Invoice/components/EmpSelect';
 
 
 @connect(({ businessReportQuery, loading }) => ({
@@ -20,7 +21,7 @@ class BusinessReportQuery extends PureComponent {
   };
 
   columns = [{
-    title: '营业月报表',
+    title: '营业报表（不包含补卡费用）',
     children: [
         {
           title: '序号',
@@ -29,6 +30,10 @@ class BusinessReportQuery extends PureComponent {
         },{
           dataIndex: 'orderDate',
           title: '充值日期',
+          width:'16%',
+        },{
+          dataIndex: 'empName',
+          title: '员工姓名',
           width:'16%',
         }, {
           dataIndex: 'orderTimes',
@@ -48,15 +53,6 @@ class BusinessReportQuery extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'businessReportQuery/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   },
-    // });
   }
 
   handleStandardTableChange = (pagination) => {
@@ -151,12 +147,12 @@ class BusinessReportQuery extends PureComponent {
           style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}
         >
           <Col md={4} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('empOrgId')(
+            {getFieldDecorator('orgId')(
               <OrgTreeSelect placeholder="所属营业厅" />
             )}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator("empName")(<Input placeholder="操作人" />)}
+            {getFieldDecorator("empId")(<EmpSelect placeholder="员工姓名" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('startDate')(<DatePicker placeholder="充值开始日期" style={{ "width": "100%" }} />)}
