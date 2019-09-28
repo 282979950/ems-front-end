@@ -123,10 +123,10 @@ class BindCardForm extends PureComponent {
           })(<Input onBlur={this.getOrderPayment} />)}
         </FormItem>
         <FormItem {...this.formStyle} label="充值金额">
-          {form.getFieldDecorator('orderPayment', {})(<Input disabled />)}
+          {form.getFieldDecorator('orderPayment', {})(<Input readOnly />)}
         </FormItem>
         <FormItem {...this.formStyle} label="订单详情">
-          {form.getFieldDecorator('orderDetail', {})(<Input disabled />)}
+          {form.getFieldDecorator('orderDetail', {})(<Input readOnly />)}
         </FormItem>
       </Modal>
     );

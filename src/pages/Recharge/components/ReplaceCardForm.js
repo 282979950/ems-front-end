@@ -293,10 +293,10 @@ class ReplaceCardForm extends PureComponent {
               required: true,
               message: '充值金额不能为空！'
             }],
-          })(<Input disabled />)}
+          })(<Input readOnly />)}
         </FormItem>
         <FormItem {...this.formStyle} label="订单详情">
-          {form.getFieldDecorator('orderDetail', {})(<Input disabled />)}
+          {form.getFieldDecorator('orderDetail', {})(<Input readOnly />)}
         </FormItem>
       </Modal>
     );
