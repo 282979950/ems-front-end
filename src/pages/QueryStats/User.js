@@ -24,7 +24,7 @@ class User extends Component {
 
   columns = [
     {
-      title: '用户编号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -32,15 +32,15 @@ class User extends Component {
       dataIndex: 'userName',
     },
     {
-      title: '用户手机号码',
-      dataIndex: 'userPhone',
+      title: '表号',
+      dataIndex: 'meterCode',
     },
     {
-      title: '用户身份证号',
-      dataIndex: 'userIdcard',
+      title: '当前表购气总量',
+      dataIndex: 'currentTotalOrderGas',
     },
     {
-      title: '购气次数',
+      title: '累计购气次数',
       dataIndex: 'totalOrderTimes',
     },
     {
@@ -97,7 +97,7 @@ class User extends Component {
 
   userRechargeColumns = [
     {
-      title: '用户编号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -136,7 +136,7 @@ class User extends Component {
 
   fillGasColumns = [
     {
-      title: '用户编号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -191,7 +191,7 @@ class User extends Component {
       dataIndex: 'userId',
     },
     {
-      title: 'IC卡卡号',
+      title: 'IC卡号',
       dataIndex: 'cardId',
     },
     {
@@ -215,7 +215,7 @@ class User extends Component {
 
   userRepairColumns = [
     {
-      title: '用户编号',
+      title: 'IC卡号',
       dataIndex: 'userId',
     },
     {
@@ -523,6 +523,10 @@ class User extends Component {
         pageNum: 1,
         pageSize: 10
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'userQuery/fetchUserSearch',
         payload: {
@@ -532,7 +536,7 @@ class User extends Component {
         },
       });
     });
-  }
+  };
 
   showDownload = () => {
     const { dispatch, form } = this.props;
@@ -560,7 +564,7 @@ class User extends Component {
                 sheetName: 'sheet',// 表名
                 columnWidths: [10, 7, 12, 12, 12, 8, 8, 8],
                 sheetFilter: ['userId', 'userName', 'userPhone', 'userIdcard', 'userAddress', 'totalOrderTimes', 'totalOrderGas', 'createTime'],// 列过滤
-                sheetHeader: ['用户编号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '购气次数', '累计购气量', '创建时间'],// 第一行标题
+                sheetHeader: ['IC卡号', '用户名称', '用户手机号码', '用户身份证号', '用户地址', '购气次数', '累计购气量', '创建时间'],// 第一行标题
               },
             ]
           };
@@ -652,7 +656,7 @@ class User extends Component {
                 sheetName: 'sheet',// 表名
                 columnWidths: [7, 7, 7, 9, 8, 8, 8,8,8],
                 sheetFilter: ['userId', 'orderPayment', 'orderGas', 'flowNumber', 'orderSupplement', 'orderStatusName','orderTypeName','accountStateName','createTime'],// 列过滤
-                sheetHeader: ['用户编号', '实付金额', '充值气量', '流水号', '应付金额', '订单状态','订单类型','账务状态','创建时间'],// 第一行标题
+                sheetHeader: ['IC卡号', '实付金额', '充值气量', '流水号', '应付金额', '订单状态','订单类型','账务状态','创建时间'],// 第一行标题
               },
             ]
           };
@@ -678,7 +682,7 @@ class User extends Component {
                 sheetName: 'sheet',// 表名
                 columnWidths: [7, 7, 7, 9, 8, 8, 8 ,8 ,8 ,8 ,8 ,8],
                 sheetFilter: ['userId', 'fillGasOrderTypeName', 'gasCount', 'stopCodeCount', 'needFillGas', 'fillGas','leftGas','needFillMoney','fillMoney','leftMoney','fillGasOrderStatusName','createTime'],// 列过滤
-                sheetHeader: ['用户编号', '订单类型', '历史购气总量', '历史表止码', '应补气量', '实补气量','剩余气量','应补金额','实补金额','剩余金额','订单状态','创建时间'],// 第一行标题
+                sheetHeader: ['IC卡号', '订单类型', '历史购气总量', '历史表止码', '应补气量', '实补气量','剩余气量','应补金额','实补金额','剩余金额','订单状态','创建时间'],// 第一行标题
               },
             ]
           };
@@ -730,7 +734,7 @@ class User extends Component {
                 sheetName: 'sheet',// 表名
                 columnWidths: [7, 7, 7, 9, 8, 8, 7, 9, 8, 8],
                 sheetFilter: ['userId', 'repairOrderId', 'repairTypeName', 'oldMeterCode', 'oldMeterStopCode', 'newMeterCode','newMeterStopCode','repairFaultTypeName','repairResultTypeName','createTime'],// 列过滤
-                sheetHeader: ['用户编号', '维修单号', '维修类型', '旧表编号', '旧表止码', '新表编号','新表止码','维修故障类型','维修处理结果','创建时间'],// 第一行标题
+                sheetHeader: ['IC卡号', '维修单号', '维修类型', '旧表编号', '旧表止码', '新表编号','新表止码','维修故障类型','维修处理结果','创建时间'],// 第一行标题
               },
             ]
           };
@@ -797,7 +801,7 @@ class User extends Component {
       <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} style={{ marginLeft: 0, marginRight: 0, marginBottom: 8 }}>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('userId')(<Input placeholder="用户编号" />)}
+            {getFieldDecorator('userId')(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userName')(<Input placeholder="用户名称" />)}
