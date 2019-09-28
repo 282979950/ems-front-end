@@ -6,11 +6,8 @@ import DistTreeSelect from '../System/components/DistTreeSelect';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
 import ExportJsonExcel from 'js-export-excel'
-import DescriptionList from '../../components/DescriptionList';
-import Authorized from '../../utils/Authorized';
 
 const RadioGroup = Radio.Group;
-const { Description } = DescriptionList;
 @connect(({ exceptionQuery, dic, loading }) => ({
   exceptionQuery,
   dic,
@@ -20,7 +17,7 @@ const { Description } = DescriptionList;
 class ExceptionQuery extends PureComponent {
   state = {
     selectedRows: [],
-    formValues: [],
+    formValues: {},
     pageNum: 1,
     pageSize: 10,
     visible: false,
@@ -29,50 +26,49 @@ class ExceptionQuery extends PureComponent {
 
   columns = [{
     dataIndex: 'userId',
-    title: '用户编号'
+    title: 'IC卡号'
   }, {
     dataIndex: 'userName',
     title: '用户名'
   }, {
-    dataIndex: 'iccardId',
-    title: 'IC卡卡号'
-  }, {
-    dataIndex: 'iccardIdentifier',
-    title: 'IC卡识别号'
-  }, {
     dataIndex: 'userPhone',
     title: '用户手机号'
   }, {
-    dataIndex: 'userDistName',
-    title: '用户区域'
+    dataIndex: 'meterCode',
+    title: '表号'
+  }, {
+    dataIndex: 'userAddress',
+    title: '用户地址'
+  }, {
+    dataIndex: 'currentTotalOrderGas',
+    title: '当前表购气总量'
+  }, {
+    dataIndex: 'totalOrderGas',
+    title: '购气总量'
+  }, {
+    dataIndex: 'monthAveGas',
+    title: '月均购气量'
+  }, {
+    dataIndex: 'notBuyDayCount',
+    title: '未购气天数'
+  }, {
+    dataIndex: 'startBuyDay',
+    title: '初次购气日期'
+  }, {
+    dataIndex: 'endBuyDay',
+    title: '最后购气日期'
   }];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'exceptionQuery/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize,
-    //   },
-    // });
   }
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10,
-    });
-    dispatch({
-      type: 'exceptionQuery/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-      },
     });
   };
 
@@ -91,6 +87,10 @@ class ExceptionQuery extends PureComponent {
       this.setState({
         formValues: fieldsValue,
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'exceptionQuery/fetch',
         payload: {
@@ -130,6 +130,10 @@ class ExceptionQuery extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
     });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
     dispatch({
       type: 'exceptionQuery/fetch',
       payload: params,
@@ -150,17 +154,20 @@ class ExceptionQuery extends PureComponent {
 
   handleExport = () => {
     const { dispatch } = this.props;
-    const { choice, pageNum, pageSize } = this.state;
+    const { choice, pageNum, pageSize, formValues } = this.state;
 
     this.setState({
       visible: false
     });
     let type = 'exceptionQuery/export';
-    let payload = {};
+    let payload = {
+      ...formValues
+    };
 
     if (choice === 1) {
       type = 'exceptionQuery/exportWithPageInfo';
       payload = {
+        ...formValues,
         pageNum,
         pageSize
       }
@@ -181,8 +188,8 @@ class ExceptionQuery extends PureComponent {
               sheetData: dataList,
               sheetName: 'sheet',// 表名
               columnWidths: [10, 5, 5, 8, 8, 8],
-              sheetFilter: ['userId', 'userName', 'iccardId', 'iccardIdentifier', 'userPhone', 'userDistName'],// 列过滤
-              sheetHeader: ['用户编号', '用户名', 'IC卡卡号', 'IC卡识别号', '用户手机号', '用户区域'],// 第一行标题
+              sheetFilter: ['userId', 'userName', 'userPhone', 'meterCode', 'userAddress','currentTotalOrderGas', 'totalOrderGas', 'monthAveGas', 'notBuyDayCount', 'startBuyDay', 'endBuyDay', '', '', '', '', '', ''],// 列过滤
+              sheetHeader: ['IC卡号', '用户名', '用户手机号', '表号', '用户地址', '当前表购气总量','购气总量', '月均购气量', '未购气天数', '初次购气日期', '最后购气日期'],// 第一行标题
             },
           ]
         };
@@ -199,22 +206,6 @@ class ExceptionQuery extends PureComponent {
     });
   };
 
-  expandedRowRender = (record) => {
-    const { totalOrderGas, totalOrderPayment, startBuyDay, endBuyDay, notBuyDayCount, monthAveGas, monthAvePayment, userAddress } = record;
-    return (
-      <DescriptionList size="small" title={null} col={3}>
-        <Description term="购气总量">{totalOrderGas}</Description>
-        <Description term="购气总额">{totalOrderPayment}</Description>
-        <Description term="初次购气日期">{startBuyDay}</Description>
-        <Description term="最后购气日期">{endBuyDay}</Description>
-        <Description term="未购气天数">{notBuyDayCount}</Description>
-        <Description term="月均购气量">{monthAveGas}</Description>
-        <Description term="月均购气金额">{monthAvePayment}</Description>
-        <Description term="用户地址">{userAddress}</Description>
-      </DescriptionList>
-    );
-  };
-
   renderForm() {
     const {
       form: { getFieldDecorator },
@@ -227,6 +218,9 @@ class ExceptionQuery extends PureComponent {
         >
           <Col md={1} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <Button shape="circle" icon="download" onClick={this.handleExportShow} />
+          </Col>
+          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
+            {getFieldDecorator('userId')(<Input placeholder="IC卡号" />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('userDistId')(<DistTreeSelect placeholder="用户区域" />)}
@@ -247,9 +241,6 @@ class ExceptionQuery extends PureComponent {
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             {getFieldDecorator('monthAveGas')(<InputNumber placeholder="月均购气量(立方)" min={0} style={{ "width": "100%" }} />)}
-          </Col>
-          <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
-            {getFieldDecorator('monthAvePayment')(<InputNumber placeholder="月均购气金额(元)" min={0} style={{ "width": "100%" }} />)}
           </Col>
           <Col md={3} sm={12} style={{ paddingLeft: 0, paddingRight: 8 }}>
             <span className={styles.submitButtons}>
@@ -277,31 +268,15 @@ class ExceptionQuery extends PureComponent {
         <Card bordered={false}>
           <div className={styles.Common}>
             <div className={styles.CommonForm}>{this.renderForm()}</div>
-            <Authorized
-              authority="sys:emp:detail"
-              noMatch={
-                <StandardTable
-                  selectedRows={selectedRows}
-                  loading={loading}
-                  data={data}
-                  columns={this.columns}
-                  onSelectRow={this.handleSelectRows}
-                  onChage={this.handleStandardTableChange}
-                  rowKey="userId"
-                />
-              }
-            >
-              <StandardTable
-                selectedRows={selectedRows}
-                loading={loading}
-                data={data}
-                columns={this.columns}
-                onSelectRow={this.handleSelectRows}
-                onChage={this.handleStandardTableChange}
-                rowKey="userId"
-                expandedRowRender={this.expandedRowRender}
-              />
-            </Authorized>
+            <StandardTable
+              selectedRows={selectedRows}
+              loading={loading}
+              data={data}
+              columns={this.columns}
+              onSelectRow={this.handleSelectRows}
+              onChange={this.handleStandardTableChange}
+              rowKey="userId"
+            />
           </div>
         </Card>
         <Modal title='下载' visible={visible} onOk={this.handleExport} onCancel={this.handleCancel}>
