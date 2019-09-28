@@ -1908,7 +1908,7 @@ class PrePayment extends PureComponent {
                                         <Col>纳税人识别号：{serialNumber}</Col>
                                       </Row>
                                       <Row>
-                                        <Col span={8}>本次购买气量(单位：方)：{Number(fields.orderGas)+Number(cardGas)}</Col>
+                                        <Col span={8}>本次购买气量(单位：方)：{fields.orderGas}</Col>
                                         <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                       </Row>
                                       <Row>
