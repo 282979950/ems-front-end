@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, message, DatePicker } from 'antd';
+import { Row, Col, Card, Form, Button, message, DatePicker } from 'antd';
 import styles from '../Common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import StandardTable from '../../components/StandardTable';
@@ -30,10 +30,6 @@ class BusinessReportQuery extends PureComponent {
         },{
           dataIndex: 'orderDate',
           title: '充值日期',
-          width:'16%',
-        },{
-          dataIndex: 'empName',
-          title: '员工姓名',
           width:'16%',
         }, {
           dataIndex: 'orderTimes',
@@ -79,18 +75,11 @@ class BusinessReportQuery extends PureComponent {
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       pageNum: 1,
       pageSize: 10,
-    });
-    dispatch({
-      type: 'businessReportQuery/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-      },
     });
   };
 
