@@ -2008,7 +2008,7 @@ class PrePayment extends PureComponent {
       return;
     }
     const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
+    const { pageNum, pageSize, selectedRows } = this.state;
     this.handleSelectedRowsReset();
     dispatch({
       type: 'prePayment/messageMeterPayment',
@@ -2024,7 +2024,135 @@ class PrePayment extends PureComponent {
               pageSize
             }
           });
-          message.success(response.message);
+          const nowDate = new Date();
+          const Y = nowDate.getFullYear();
+          const M = nowDate.getMonth()+1;
+          const D = nowDate.getDate();
+          // 短信表票据打印开始
+          const modal = Modal.info();
+          modal.update({
+            title: "请输入纳税人识别号码",
+            content: <input name="number" />,
+            onOk: () => {
+              const serialNumber = document.getElementsByName("number")[0].value;
+              Modal.confirm({
+                title: '短信表充值成功，请打印发票',
+                content: (
+                  <div>
+                    <p style={{color:"red"}}>基本信息：</p>
+                    <p>IC卡识别号：{fields.iccardIdentifier}<br />姓名：{fields.userName}<br />本次支付金额：{fields.orderPayment}<br />地址：{selectedRows[0].userAddress}</p>
+                    <br /><br /><p style={{color:"red"}}>发票打印信息：</p>
+                    <div id="billDetails">
+                      <div style={{color:"black"}}>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col span={4}>&nbsp;</Col>
+                          <Col>{`${Y  }-${ M  }-${  D}`}</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col span={11}>用户编号：{selectedRows[0].userId}</Col>
+                          <Col>用户名称：{selectedRows[0].userName}</Col>
+                        </Row>
+                        <Row>
+                          <Col span={18}>用户地址：{selectedRows[0].userAddress}</Col>
+                        </Row>
+                        <Row>
+                          <Col>纳税人识别号：{serialNumber}</Col>
+                        </Row>
+                        <Row>
+                          <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col>&nbsp;</Col>
+                        </Row>
+                        <Row>
+                          <Col span={2}>&nbsp;</Col>
+                          <Col span={13}>{response.data.rmbBig?response.data.rmbBig:""}</Col>
+                          <Col>{fields.orderPayment}</Col>
+                        </Row>
+                        <Row>
+                          <Col span={18}>&nbsp;</Col>
+                          <Col>{response.data.name?response.data.name:""}</Col>
+                        </Row>
+                      </div>
+                    </div>
+                  </div>
+                ),
+                okText: '打印发票',
+                onOk: () => {
+                  // 验证发票信息开始
+                  const temp = window.document.getElementById('billDetails').innerHTML;
+                  dispatch({
+                    type: 'orderManagement/checkNewInvoicePrint',
+                    payload: {
+                      orderId: response.data.orderId,
+                    },
+                    callback: response3 => {
+                      if (response3.data) {
+                        dispatch({
+                          type: 'orderManagement/findInvoice',
+                          payload: {
+                            orderId: response.data.orderId,
+                            userId: selectedRows[0].userId,
+                            printType: 1
+                          },
+                          callback: (response4) => {
+                            if (response4.status === 0) {
+                              dispatch({
+                                type: 'orderManagement/printInvoice',
+                                payload: {
+                                  orderId: response.data.orderId,
+                                  invoiceCode: response4.data.invoiceCode,
+                                  invoiceNumber: response4.data.invoiceNumber,
+                                  orderPayment:fields.orderPayment,
+                                },
+                                callback: response5 => {
+                                  if (response5.status !== 0) {
+                                    message.error(response5.message);
+                                  }else{
+                                    // 验证发票信息结束
+                                    window.document.body.innerHTML = temp;
+                                    window.print();
+                                    window.location.reload();
+
+                                  }
+                                }
+                              });
+                            } else {
+                              message.error(response4.message);
+                            }
+                          }
+                        });
+                      } else {
+                        message.info(response3.message);
+                      }
+                    }
+                  });
+                },
+                cancelText: '取消',
+                width:560,
+              });
+            }
+          });
+          // 短信表票据打印结束
+          //message.success(response.message);
         } else {
           message.error(response.message);
         }
