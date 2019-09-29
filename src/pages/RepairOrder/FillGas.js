@@ -77,15 +77,6 @@ class FillGas extends PureComponent {
     }];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'fillGas/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize,
-    //   },
-    // })
   }
 
   handleSelectRows = rows => {
@@ -115,6 +106,10 @@ class FillGas extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize
     });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
     dispatch({
       type: 'fillGas/search',
       payload: params,
@@ -122,20 +117,13 @@ class FillGas extends PureComponent {
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
     });
-    // dispatch({
-    //   type: 'fillGas/fetch',
-    //   payload: {
-    //     pageNum: 1,
-    //     pageSize: 10
-    //   },
-    // });
   };
 
   handleSearch = () => {
@@ -151,7 +139,13 @@ class FillGas extends PureComponent {
       if (err) return;
       this.setState({
         formValues: fieldsValue,
+        pageNum,
+        pageSize
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'fillGas/search',
         payload: {
@@ -515,13 +509,14 @@ class FillGas extends PureComponent {
             }
           });
         }
-        // dispatch({
-        //   type: 'fillGas/fetch',
-        //   payload: {
-        //     pageNum,
-        //     pageSize
-        //   }
-        // });
+        dispatch({
+          type: 'fillGas/search',
+          payload: {
+            id: selectedRows[0].id,
+            pageNum,
+            pageSize
+          }
+        });
       }
     });
   };

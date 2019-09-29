@@ -45,6 +45,15 @@ export async function syncCard(params) {
   });
 }
 
+export async function messageMeterPayment(params) {
+  return request('/api/prePayment/messageMeterPayment.do', {
+    method: 'POST',
+    body: {
+      ...params
+    },
+  });
+}
+
 export async function readCardFillGas(params) {
   return request('/api/account/readCard.do', {
     method: 'POST',

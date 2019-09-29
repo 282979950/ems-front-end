@@ -121,7 +121,6 @@ class ExceptionQuery extends PureComponent {
     if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
       this.handleSelectedRowsReset();
     }
-
     const params = {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
@@ -131,14 +130,15 @@ class ExceptionQuery extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
     });
-    if (JSON.stringify(formValues) === "{}") {
-      message.info('请输入搜索条件');
-      return;
+    const {userId, userDistId, userAddress, meterCode} = formValues;
+    if (userId || userDistId || userAddress || meterCode) {
+      dispatch({
+        type: 'exceptionQuery/fetch',
+        payload: params,
+      });
+    } else {
+      message.info('请输入IC卡号、用户区域、用户地址、表具地址其中一个搜索条件');
     }
-    dispatch({
-      type: 'exceptionQuery/fetch',
-      payload: params,
-    });
   };
 
   handleExportShow = () => {

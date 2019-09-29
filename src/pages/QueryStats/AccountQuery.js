@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, Modal, DatePicker, Radio } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, DatePicker, Radio, message } from 'antd';
 import ExportJsonExcel from 'js-export-excel'
 import styles from '../Common.less';
 import DistTreeSelect from '../System/components/DistTreeSelect';
@@ -59,31 +59,15 @@ class AccountQuery extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'accountQuery/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize,
-    //   },
-    // });
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10,
-    });
-    dispatch({
-      type: 'accountQuery/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-      },
     });
   };
 
@@ -97,6 +81,10 @@ class AccountQuery extends PureComponent {
       this.setState({
         formValues: fieldsValue,
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'accountQuery/fetch',
         payload: {
@@ -128,7 +116,6 @@ class AccountQuery extends PureComponent {
     if (pageNum !== pagination.current || pageSize !== pagination.pageSize) {
       this.handleSelectedRowsReset();
     }
-
     const params = {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
@@ -140,6 +127,10 @@ class AccountQuery extends PureComponent {
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
     });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
     dispatch({
       type: 'accountQuery/fetch',
       payload: params,

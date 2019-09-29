@@ -108,25 +108,16 @@ class CreateAccount extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
   }
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
     });
-    // dispatch({
-    //   type: 'account/fetch',
-    //   payload: {
-    //     pageNum: 1,
-    //     pageSize: 10
-    //   },
-    // });
   };
 
   handleSelectRows = rows => {
@@ -154,6 +145,10 @@ class CreateAccount extends PureComponent {
         pageNum: 1,
         pageSize: 10
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'account/fetch',
         payload: {
@@ -385,20 +380,20 @@ class CreateAccount extends PureComponent {
       callback: () => {
         message.success('编辑用户信息成功');
         this.handleEditModalVisible(false);
-        // dispatch({
-        //   type: 'account/fetch',
-        //   payload: {
-        //     pageNum,
-        //     pageSize,
-        //   },
-        // });
+        dispatch({
+          type: 'account/fetch',
+          payload: {
+            userId: fields.userId,
+            pageNum,
+            pageSize,
+          },
+        });
       },
     });
   };
 
   showDeleteConfirm = (selectedRows) => {
     const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state;
     const _ = this;
     if(selectedRows.some(ele => ele.userStatus === 2 || ele.userStatus === 3 || ele.userStatus === 5)) {
       message.warn('已挂表/已开户/已发卡的用户不用删除！');
@@ -421,13 +416,6 @@ class CreateAccount extends PureComponent {
             if (response.status === 0) {
               message.success(response.message);
               _.handleSelectedRowsReset();
-              // dispatch({
-              //   type: 'account/fetch',
-              //   payload: {
-              //     pageNum,
-              //     pageSize
-              //   }
-              // });
             } else {
               message.error(response.message);
             }

@@ -1,4 +1,4 @@
-import { searchPrePayment, editCreateAccount, addGasPayment, readCardFillGas, syncCard } from '../services/recharge';
+import { searchPrePayment, editCreateAccount, addGasPayment, readCardFillGas, syncCard, messageMeterPayment } from '../services/recharge';
 import { handleRequestException } from '../utils/request';
 
 export default {
@@ -47,6 +47,14 @@ export default {
     },
     *readCard({ payload, callback }, { call }) {
       const response = yield call(readCardFillGas, payload);
+      if (response.status === 0) {
+        if (callback) callback(response);
+      } else {
+        handleRequestException(response)
+      }
+    },
+    *messageMeterPayment({ payload, callback }, { call }) {
+      const response = yield call(messageMeterPayment, payload);
       if (response.status === 0) {
         if (callback) callback(response);
       } else {

@@ -20,6 +20,7 @@ import OCX from '../../components/OCX';
 import PrePaymentForm from './components/PrePaymentForm';
 import NewCardPayment from './components/NewCardPayment';
 import AddGasPaymentForm from './components/AddGasPaymentForm';
+import MessageMeterPaymentForm from './components/MessageMeterPaymentForm';
 
 @connect(({ prePayment, orderManagement, loading }) => ({
   prePayment,
@@ -32,6 +33,7 @@ class PrePayment extends PureComponent {
     prePaymentModalVisible: false,
     newCardPaymentModalVisible: false,
     addGasPaymentModalVisible: false,
+    messageMeterPaymentModalVisible: false,
     selectedRows: [],
     formValues: {},
     pageNum: 1,
@@ -1996,6 +1998,53 @@ class PrePayment extends PureComponent {
       });
   };
 
+  /**
+   * 短信表充值
+   * @param fields
+   */
+  handleMessageMeterPaymentEdit  = fields  => {
+    if(!/^[0-9]+$/.test(fields.orderPayment)){
+      message.info("提交失败：充值金额须为纯数字");
+      return;
+    }
+    const { dispatch } = this.props;
+    const { pageNum, pageSize } = this.state;
+    this.handleSelectedRowsReset();
+    dispatch({
+      type: 'prePayment/messageMeterPayment',
+      payload: fields,
+      callback: response => {
+        if (response.status === 0) {
+          this.handleMessageMeterPaymentVisible(false);
+          dispatch({
+            type: 'prePayment/search',
+            payload: {
+              iccardId: fields.userId,
+              pageNum,
+              pageSize
+            }
+          });
+          message.success(response.message);
+        } else {
+          message.error(response.message);
+        }
+      }
+    });
+  };
+
+  handleMessageMeterPaymentVisible = flag => {
+    if (flag) {
+      const { selectedRows } = this.state;
+      if (selectedRows[0].userType !== 8) {
+        message.info('短信表充值只针对短信表用户');
+        return;
+      }
+    }
+    this.setState({
+      messageMeterPaymentModalVisible: !!flag,
+    });
+  };
+
   handleSelectedRowsReset = () => {
     this.setState({
       selectedRows: []
@@ -2105,7 +2154,13 @@ class PrePayment extends PureComponent {
       prePayment: { data },
       loading,
     } = this.props;
-    const { selectedRows, prePaymentModalVisible, newCardPaymentModalVisible, addGasPaymentModalVisible } = this.state;
+    const {
+      selectedRows,
+      prePaymentModalVisible,
+      newCardPaymentModalVisible,
+      addGasPaymentModalVisible,
+      messageMeterPaymentModalVisible
+    } = this.state;
     return (
       <PageHeaderWrapper className="recharge-prePayment">
         <Card bordered={false}>
@@ -2123,6 +2178,7 @@ class PrePayment extends PureComponent {
                 <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleNewCardPaymentFormVisible(true)}>发卡充值</Button>
               </Authorized>
               <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleAddGasFormVisible(true)}>补气加购充值</Button>
+              <Button icon="edit" disabled={selectedRows.length !== 1} onClick={() => this.handleMessageMeterPaymentVisible(true)}>短信表充值</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -2160,7 +2216,14 @@ class PrePayment extends PureComponent {
             selectedData={selectedRows[0]}
           />) : null
         }
-
+        {selectedRows.length === 1 ? (
+          <MessageMeterPaymentForm
+            handleOK={this.handleMessageMeterPaymentEdit}
+            handleCancel={this.handleMessageMeterPaymentVisible}
+            modalVisible={messageMeterPaymentModalVisible}
+            selectedData={selectedRows[0]}
+          />) : null
+        }
       </PageHeaderWrapper>
     );
   }

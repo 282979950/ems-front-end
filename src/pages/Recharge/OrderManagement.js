@@ -103,15 +103,6 @@ class OrderManagement extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    const { pageNum, pageSize } = this.state
-    // dispatch({
-    //   type: 'orderManagement/search',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   }
-    // });
   }
 
   handleSelectRows = rows => {
@@ -170,6 +161,10 @@ class OrderManagement extends Component {
         pageNum: 1,
         pageSize: 10,
       });
+      if (JSON.stringify(fieldsValue) === "{}") {
+        message.info('请输入搜索条件');
+        return;
+      }
       dispatch({
         type: 'orderManagement/search',
         payload: {
@@ -184,21 +179,14 @@ class OrderManagement extends Component {
   }
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
     });
-    // dispatch({
-    //   type: 'orderManagement/search',
-    //   payload: {
-    //     pageNum: 1,
-    //     pageSize: 10,
-    //   }
-    // });
-  }
+  };
 
   identifyCard = () => {
     const { dispatch } = this.props;
@@ -221,11 +209,11 @@ class OrderManagement extends Component {
   writeCard = () => {
     const { selectedRows, pageNum, pageSize } = this.state;
     if (selectedRows.length === 0 || selectedRows.length >= 2) {
-      message.error('请选择一条数据')
+      message.error('请选择一条数据');
       return;
     }
     if (selectedRows[0].orderStatus === 2) {
-      message.error('该订单已写卡成功，不能补写')
+      message.error('该订单已写卡成功，不能补写');
       return;
     }
 
@@ -426,7 +414,7 @@ class OrderManagement extends Component {
       return;
     }
 
-    const { dispatch, form } = this.props
+    const { dispatch, form } = this.props;
     dispatch({
       type: 'orderManagement/findInvoice',
       payload: {
@@ -570,7 +558,7 @@ class OrderManagement extends Component {
       return;
     }
 
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     dispatch({
       type: 'orderManagement/checkNewInvoicePrint',
       payload: {
@@ -687,13 +675,14 @@ class OrderManagement extends Component {
                       this.setState({
                         selectedRows: []
                       });
-                      // dispatch({
-                      //   type: 'orderManagement/search',
-                      //   payload: {
-                      //     pageNum,
-                      //     pageSize
-                      //   }
-                      // });
+                      dispatch({
+                        type: 'orderManagement/search',
+                        payload: {
+                          ...form.getFieldsValue(),
+                          pageNum,
+                          pageSize
+                        }
+                      });
                     } else {
                       message.error(response3.message);
                     }
@@ -844,7 +833,6 @@ class OrderManagement extends Component {
         });
       },
     });
-
     dispatch({
       type: 'orderManagement/search',
       payload: {
@@ -854,7 +842,7 @@ class OrderManagement extends Component {
       },
     });
 
-  }
+  };
 
   expandedRowRender = (record) => {
     const { flowNumber, invoiceCode, invoiceNumber, invoiceStatusName, invoicePrintEmpName, invoicePrintTime, invoiceCancelEmpName, invoiceCancelTime, iccardIdentifier, orderDetail, couponGas, couponNumber, freeGas, cardCost, userAddress } = record;

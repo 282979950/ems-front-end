@@ -318,15 +318,6 @@ class User extends Component {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;  // this.props里面就含有dispatch
-    const { pageNum, pageSize } = this.state;
-    // dispatch({
-    //   type: 'userQuery/fetch',
-    //   payload: {
-    //     pageNum,
-    //     pageSize
-    //   }
-    // });
   }
 
   handleEditModalVisible = flag => {
@@ -362,6 +353,10 @@ class User extends Component {
       pageNum: pagination.current,
       pageSize: pagination.pageSize
     });
+    if (JSON.stringify(formValues) === "{}") {
+      message.info('请输入搜索条件');
+      return;
+    }
     dispatch({
       type: 'userQuery/fetchUserSearch',
       payload: params,
@@ -573,40 +568,32 @@ class User extends Component {
         }
       });
     });
-  }
+  };
 
   showModal = () => {
-    this.handleReplaceCardHistoryFormVisible(true, 'editHistory')
-    this.handleReplaceCardHistoryFormVisible(true, 'addHistory')
-    this.handleReplaceCardHistoryFormVisible(true, 'fillHistory')
-    this.handleReplaceCardHistoryFormVisible(true, 'cardHistory')
-    this.handleReplaceCardHistoryFormVisible(true, 'repairHistory')
-    this.handleReplaceCardHistoryFormVisible(true, 'strikeNucleusHistory')
+    this.handleReplaceCardHistoryFormVisible(true, 'editHistory');
+    this.handleReplaceCardHistoryFormVisible(true, 'addHistory');
+    this.handleReplaceCardHistoryFormVisible(true, 'fillHistory');
+    this.handleReplaceCardHistoryFormVisible(true, 'cardHistory');
+    this.handleReplaceCardHistoryFormVisible(true, 'repairHistory');
+    this.handleReplaceCardHistoryFormVisible(true, 'strikeNucleusHistory');
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
       pageNum: 1,
       pageSize: 10
     });
-    dispatch({
-      type: 'userQuery/fetch',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-      },
-    });
-  }
+  };
 
   changeKey =(key)=> {
-    console.log(key);
     this.setState({
       key
     });
-  }
+  };
 
   // 选项卡数据导出
   createExcelContent = () => {
