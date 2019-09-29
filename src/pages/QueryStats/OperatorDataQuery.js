@@ -224,6 +224,7 @@ class OperatorDataQuery extends PureComponent {
                 <Option value="baseData">基本数据</Option>
                 <Option value="launchData">预冲账数据</Option>
                 <Option value="replacementData">补卡数据</Option>
+                <Option value="cancelRecharge">冲账数据</Option>
               </Select>
             )}
           </Col>

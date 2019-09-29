@@ -198,9 +198,10 @@ class InputAddForm extends PureComponent {
         visible={modalVisible}
         onOk={this.handleOK}
         onCancel={this.handleCancel}
+        width={900}
       >
-        <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden' }}>
-          <FormItem {...this.formStyle} label="IC卡号">
+        <div style={{ overflow:"scroll", height:"400px", overflowX:'hidden','text-align':"center" }}>
+          <FormItem {...this.formStyle} label="IC卡号" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('userId', {
             rules: [{
               required: true,
@@ -211,31 +212,35 @@ class InputAddForm extends PureComponent {
             }]
           })(<Input onBlur={this.handleGetRepairOrderUser} />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="用户名称">
+          <FormItem {...this.formStyle} label="用户名称" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('userName', {
-          })(<Input readOnly />)}
-          </FormItem>
-          <FormItem {...this.formStyle} label="用户手机">
-            {form.getFieldDecorator('userPhone', {
           })(<Input readOnly />)}
           </FormItem>
           <FormItem {...this.formStyle} label="用户地址">
             {form.getFieldDecorator('userAddress', {
-            rules: [{
-              required: true,
-              message: '用户地址不能为空！'
-            }],
+              rules: [{
+                required: true,
+                message: '用户地址不能为空！'
+              }],
+            })(<Input readOnly />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label="用户手机" style={{'display':"inline-block",'width':"48%"}}>
+            {form.getFieldDecorator('userPhone', {
           })(<Input readOnly />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修类型">
-            {form.getFieldDecorator('repairType', {
-            rules: [{
-              required: true,
-              message: '维修类型不能为空！'
-            }]
-          })(<DictSelect onChange={this.handleRepairTypeChange} category="repair_type" />)}
+          <FormItem {...this.formStyle} label="旧表编号" style={{'display':"inline-block",'width':"48%"}}>
+            {form.getFieldDecorator('oldMeterCode', {
+            })(<Input readOnly />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="燃气设备类型">
+          <FormItem {...this.formStyle} label="旧表类型" style={{'display':"inline-block",'width':"48%"}}>
+            {form.getFieldDecorator('oldMeterTypeId', {
+            })(<MeterTypeSelect readOnly style={{ "width": "100%" }} placeholder={null} />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label="旧表表向" style={{'display':"inline-block",'width':"48%"}}>
+            {form.getFieldDecorator('oldMeterDirection', {
+            })(<DictSelect category="meter_direction" readOnly />)}
+          </FormItem>
+          <FormItem {...this.formStyle} label="燃气设备类型" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('gasEquipmentType', {
             rules: [{
               required: true,
@@ -243,23 +248,19 @@ class InputAddForm extends PureComponent {
             }]
           })(<DictSelect category="gas_equipment_type" />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="旧表编号">
-            {form.getFieldDecorator('oldMeterCode', {
-          })(<Input readOnly />)}
+          <FormItem {...this.formStyle} label="维修类型" style={{'display':"inline-block",'width':"48%"}}>
+            {form.getFieldDecorator('repairType', {
+              rules: [{
+                required: true,
+                message: '维修类型不能为空！'
+              }]
+            })(<DictSelect onChange={this.handleRepairTypeChange} category="repair_type" />)}
           </FormItem>
           <FormItem {...this.formStyle} style={{ display: 'none' }} label="旧表编号表具ID">
             {form.getFieldDecorator('oldMeterId', {
           })(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="旧表类型">
-            {form.getFieldDecorator('oldMeterTypeId', {
-            })(<MeterTypeSelect readOnly style={{ "width": "100%" }} placeholder={null} />)}
-          </FormItem>
-          <FormItem {...this.formStyle} label="旧表表向">
-            {form.getFieldDecorator('oldMeterDirection', {
-          })(<DictSelect category="meter_direction" readOnly />)}
-          </FormItem>
-          <FormItem {...this.formStyle} label="旧表止码">
+          <FormItem {...this.formStyle} label="旧表止码" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('oldMeterStopCode', {
             rules: [{
               required: true,
@@ -267,7 +268,7 @@ class InputAddForm extends PureComponent {
             }]
           })(<InputNumber style={{ "width": "100%" }} />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="旧安全卡编号">
+          <FormItem {...this.formStyle} label="旧安全卡编号" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('oldSafetyCode', {})(<Input />)}
           </FormItem>
           {repairTypeVal === 0 || repairTypeVal === 6 || repairTypeVal === 7 ? (
@@ -276,7 +277,7 @@ class InputAddForm extends PureComponent {
                 {form.getFieldDecorator('newMeterId', {
                 })(<Input />)}
               </FormItem>
-              <FormItem {...this.formStyle} label="新表编号">
+              <FormItem {...this.formStyle} label="新表编号" style={{'display':"inline-block",'width':"48%"}}>
                 {form.getFieldDecorator('newMeterCode', {
                   rules: [{
                     required: true,
@@ -284,7 +285,7 @@ class InputAddForm extends PureComponent {
                   }]
               })(<Input onBlur={this.handleGetMeterByMeterCode} />)}
               </FormItem>
-              <FormItem {...this.formStyle} label="新表类型">
+              <FormItem {...this.formStyle} label="新表类型" style={{'display':"inline-block",'width':"48%"}}>
                 {form.getFieldDecorator('newMeterTypeId', {
                   rules: [{
                     required: true,
@@ -292,7 +293,7 @@ class InputAddForm extends PureComponent {
                   }]
               })(<MeterTypeSelect disabled style={{ "width": "100%" }} placeholder={null} />)}
               </FormItem>
-              <FormItem {...this.formStyle} label="新表表向">
+              <FormItem {...this.formStyle} label="新表表向" style={{'display':"inline-block",'width':"48%"}}>
                 {form.getFieldDecorator('newMeterDirection', {
                   rules: [{
                     required: true,
@@ -300,15 +301,15 @@ class InputAddForm extends PureComponent {
                   }]
               })(<DictSelect category="meter_direction" disabled />)}
               </FormItem>
-              <FormItem {...this.formStyle} label="新表止码">
+              <FormItem {...this.formStyle} label="新表止码" style={{'display':"inline-block",'width':"48%"}}>
                 {form.getFieldDecorator('newMeterStopCode', {})(<InputNumber style={{ "width": "100%" }} />)}
               </FormItem>
-              <FormItem {...this.formStyle} label="新安全卡编号">
+              <FormItem {...this.formStyle} label="新安全卡编号" style={{'display':"inline-block",'width':"48%"}}>
                 {form.getFieldDecorator('newSafetyCode', {})(<Input />)}
               </FormItem>
             </div>
         ) : null}
-          <FormItem {...this.formStyle} label="维修故障类型">
+          <FormItem {...this.formStyle} label="维修故障类型" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('repairFaultType', {
             rules: [{
               required: true,
@@ -316,7 +317,7 @@ class InputAddForm extends PureComponent {
             }]
           })(<DictSelect category="repair_fault_type" />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修结果">
+          <FormItem {...this.formStyle} label="维修结果" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('repairResultType', {
             rules: [{
               required: true,
@@ -324,7 +325,7 @@ class InputAddForm extends PureComponent {
             }]
           })(<DictSelect category="repair_result_type" />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修员工号">
+          <FormItem {...this.formStyle} label="维修员工号" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('empNumber', {
             rules: [{
               required: true,
@@ -337,7 +338,7 @@ class InputAddForm extends PureComponent {
             initialValue: empList ? empList.empId : '',
           })(<Input />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修员姓名">
+          <FormItem {...this.formStyle} label="维修员姓名" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('empName', {
             rules: [{
               required: true,
@@ -346,7 +347,7 @@ class InputAddForm extends PureComponent {
             initialValue: empList ? empList.empName : '',
           })(<Input readOnly />)}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修开始时间">
+          <FormItem {...this.formStyle} label="维修开始时间" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('repairStartTime', {
             rules: [{
               required: true,
@@ -363,7 +364,7 @@ class InputAddForm extends PureComponent {
             />
           )}
           </FormItem>
-          <FormItem {...this.formStyle} label="维修结束时间">
+          <FormItem {...this.formStyle} label="维修结束时间" style={{'display':"inline-block",'width':"48%"}}>
             {form.getFieldDecorator('repairEndTime', {
             rules: [{
               required: true,
