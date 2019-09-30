@@ -625,7 +625,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>
-                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col span={8}>&nbsp;</Col>}
+                                  {fields.couponGas ? <Col>优惠券(单位：方)：{fields.couponGas}</Col>: <Col>&nbsp;</Col>}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -699,7 +700,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>
-                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col span={8}>&nbsp;</Col>}
+                                  {fields.couponGas ? <Col>优惠券(单位：方)：{fields.couponGas}</Col>: <Col>&nbsp;</Col>}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>
@@ -772,7 +774,8 @@ class ReplaceCard extends PureComponent {
                                   <Col>本次充值金额(单位：元)：{fields.orderPayment}</Col>
                                 </Row>
                                 <Row>
-                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col>&nbsp;</Col>}
+                                  {fields.isLowIncome ? <Col span={8}>低保赠送气量(单位：方)：{fields.freeGas}</Col>: <Col span={8}>&nbsp;</Col>}
+                                  {fields.couponGas ? <Col>优惠券(单位：方)：{fields.couponGas}</Col>: <Col>&nbsp;</Col>}
                                 </Row>
                                 <Row>
                                   <Col>详&nbsp;情：{fields.orderDetail}</Col>

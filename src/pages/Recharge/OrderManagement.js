@@ -337,7 +337,7 @@ class OrderManagement extends Component {
                                 <Col>纳税人识别号：{serialNumber}</Col>
                               </Row>
                               <Row>
-                                {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                                {selectedRows[0].couponGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas - selectedRows[0].couponGas}</Col> : (selectedRows[0].orderGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas}</Col> :null)}
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
@@ -486,7 +486,7 @@ class OrderManagement extends Component {
                                 <Col>纳税人识别号：{serialNumber}</Col>
                               </Row>
                               <Row>
-                                {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                                {selectedRows[0].couponGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas - selectedRows[0].couponGas}</Col> : (selectedRows[0].orderGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas}</Col> :null)}
                                 <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                               </Row>
                               <Row>
@@ -636,7 +636,7 @@ class OrderManagement extends Component {
                                       <Col>纳税人识别号：{serialNumber}</Col>
                                     </Row>
                                     <Row>
-                                      {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                                      {selectedRows[0].couponGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas - selectedRows[0].couponGas}</Col> : (selectedRows[0].orderGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas}</Col> :null)}
                                       <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                                     </Row>
                                     <Row>
@@ -797,7 +797,7 @@ class OrderManagement extends Component {
                     <Col>&nbsp;</Col>
                   </Row>
                   <Row>
-                    {selectedRows[0].couponGas?<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas-selectedRows[0].couponGas}</Col>:<Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas-selectedRows[0].freeGas}</Col>}
+                    {selectedRows[0].couponGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas - selectedRows[0].couponGas}</Col> : (selectedRows[0].orderGas ? <Col span={8}>本次购买气量(单位：方)：{selectedRows[0].orderGas - selectedRows[0].freeGas}</Col> :null)}
                     <Col>本次充值金额(单位：元)：{selectedRows[0].orderPayment}</Col>
                   </Row>
                   <Row>
@@ -805,6 +805,7 @@ class OrderManagement extends Component {
                   </Row>
                   <Row>
                     <Col span={8}>低保赠送气量(单位：方)：{selectedRows[0].freeGas}</Col>
+                    {selectedRows[0].couponGas ? <Col>优惠券(单位：方)：{selectedRows[0].couponGas}</Col>: <Col>&nbsp;</Col>}
                   </Row>
                   <Row>
                     <Col>详&nbsp;情：{selectedRows[0].orderDetail}</Col>
